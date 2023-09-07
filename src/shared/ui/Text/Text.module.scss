@@ -1,0 +1,55 @@
+.Text {
+    transition: color var(--transition);
+}
+
+.size_s {
+    font: var(--font-s);
+}
+
+.size_m {
+    font: var(--font-m);
+}
+
+.size_xl {
+    font: var(--font-xl);
+}
+
+.size_xxl {
+    font: var(--font-xxl);
+}
+
+.regular {
+    font-weight: 400;
+}
+
+.medium {
+    font-weight: 500;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.superbold {
+    font-weight: 700;
+}
+
+.primary {
+    color: var(--primary-color);
+}
+
+.secondary {
+    color: var(--secondary-color);
+}
+
+.tertiary {
+    color: var(--tertiary-color);
+}
+
+.quatinary {
+    color: var(--quatinary-color);
+}
+
+.quinary {
+    color: var(--quinary-color);
+}

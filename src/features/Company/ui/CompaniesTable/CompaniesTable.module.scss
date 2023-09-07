@@ -1,0 +1,32 @@
+.tableWrapper {
+    // sidebar width - gap between sidebar and page
+    width: calc(100vw - var(--sidebar-width) - 2rem);
+    height: 600px;
+    overflow-x: scroll;
+}
+
+.CompaniesTable {
+    width: max-content;
+    border-collapse: collapse;
+}
+
+.headerTitle {
+    text-align: left;
+    color: var(--quatinary-color);
+    font: var(--font-s);
+    font-weight: 500;
+}
+
+.headerTitle,
+.bodyValue {
+    padding: 0.6rem 1.5rem 0.6rem 0.5rem;
+}
+
+.bodyValue {
+    font: var(--font-s);
+}
+
+.header {
+    border-top: 1px solid var(--stroke-color);
+    border-bottom: 1px solid var(--stroke-color);
+}

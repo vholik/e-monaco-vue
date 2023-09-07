@@ -1,0 +1,50 @@
+@import './global.scss';
+@import './animation.scss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    letter-spacing: var(--letter-spacing);
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--primary-color);
+    font: var(--font-m);
+    overflow: hidden;
+    background: var(--bg-color);
+    font-family: var(--font-family);
+}
+
+#app {
+    display: flex;
+    gap: 2rem;
+}
+
+::-webkit-scrollbar {
+    max-width: 349px;
+    height: 6px;
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background: #e0e0eb;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #e0e0eb transparent;
+}
+
+/* Thumb */
+*::-webkit-scrollbar-thumb {
+    border-radius: 14px;
+    background: #e0e0eb;
+}

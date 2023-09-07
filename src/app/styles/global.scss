@@ -1,0 +1,70 @@
+:root {
+    --font-family: 'Inter', sans-serif;
+    --letter-spacing: -0.03em;
+    --font-size-mini: 12px;
+    --font-line-mini: 17px;
+    --font-mini: var(--font-size-mini) / var(--font-line-mini)
+        var(--font-family);
+    --font-size-s: 14px;
+    --font-line-s: 21px;
+    --font-s: var(--font-size-s) / var(--font-line-s) var(--font-family);
+    --font-size-m: 16px;
+    --font-line-m: 24px;
+    --font-m: var(--font-size-m) / var(--font-line-m) var(--font-family);
+    --font-size-l: 20px;
+    --font-line-l: 28px;
+    --font-l: var(--font-size-l) / var(--font-line-l) var(--font-family);
+    --font-size-xl: 24px;
+    --font-line-xl: 32px;
+    --font-xl: var(--font-size-xl) / var(--font-line-xl) var(--font-family);
+    --font-size-xxl: 32px;
+    --font-line-xxl: 41px;
+    --font-xxl: var(--font-size-xxl) / var(--font-line-xxl) var(--font-family);
+
+    // Primary colors
+    --primary-color: #272727;
+    --primary-variant-color: #6b46fe;
+    --primary-variant-bg-color: rgba(107, 70, 254, 0.1);
+    --primary-variant-bg-hover-color: rgba(107, 70, 254, 0.2);
+    --primary-variant-hover-color: #6443e9;
+    --secondary-color: #969696;
+    --tertiary-color: #3c3c49;
+    --quatinary-color: #6a6a81;
+    --quinary-color: #bcbcc8;
+    --light-grey-color: #f8f8f8;
+    --bg-color: #f3f3f7;
+    --red-color: #e12121;
+    --primary-invert-color: #ffffff;
+
+    // Aditional colors
+    --stroke-color: #e8e8e8;
+
+    // Errors
+    --error-color-dark: #c50000;
+    --error-color-bg: rgba(238, 0, 0, 0.1);
+    --error-color-border: #e00;
+
+    // Aditional parameters
+    --box-shadow: 0px 1.5px 4px -1px rgba(10, 9, 11, 0.07);
+    --default-border-radius: 8px;
+    --transition: 0.2s linear;
+    --sidebar-width: 300px;
+    --modal-backdrop: rgba(10, 9, 11, 0.3);
+
+    // Role colors
+    --superadmin-color: #00008c;
+    --admin-color: #800020;
+    --user-color: #5ac585;
+
+    // Status colors
+    --status-green-color: #016626;
+    --status-green-bg-color: #e1faea;
+    --status-orange-color: #f25219;
+    --status-orange-bg-color: #ffebe4;
+    --status-red-color: #e12121;
+    --status-red-bg-color: #ffe0e0;
+    --status-blue-color: #1751d0;
+    --status-blue-bg-color: #dee9ff;
+    --status-grey-color: #4f4d55;
+    --status-grey-bg-color: #ebe5ff;
+}

@@ -1,0 +1,35 @@
+.Modal {
+    background-color: var(--primary-invert-color);
+    padding: 1.5rem 2rem;
+    border-radius: var(--default-border-radius);
+    min-width: 35%;
+    max-height: 60%;
+    overflow-y: auto;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--modal-backdrop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font: var(--font-xl);
+    font-weight: 700;
+}
+
+.description {
+    font: var(--font-m);
+    margin-top: 0.5rem;
+    color: var(--quatinary-color);
+}
+
+.inner {
+    margin-top: 1.2rem;
+}

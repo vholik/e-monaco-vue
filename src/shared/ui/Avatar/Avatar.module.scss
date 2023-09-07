@@ -1,0 +1,24 @@
+.Avatar {
+    height: 24px;
+    width: 24px;
+    background-color: var(--primary-variant-color);
+    border-radius: 50%;
+    font: var(--font-s);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-invert-color);
+    font-weight: 500;
+}
+
+.superadmin {
+    background-color: var(--superadmin-color);
+}
+
+.admin {
+    background-color: var(--admin-color);
+}
+
+.user {
+    background-color: var(--user-color);
+}

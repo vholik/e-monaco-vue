@@ -1,0 +1,43 @@
+.Select {
+    position: relative;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: var(--font-s);
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--default-border-radius);
+    padding: 0.35rem 0.5rem;
+}
+
+.optionsWrapper {
+    position: absolute;
+    top: 120%;
+    background-color: white;
+    z-index: 5;
+    list-style: none;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    font: var(--font-s);
+    font-weight: 500;
+    min-width: 12.5rem;
+    border: 1px solid var(--stroke-color);
+    color: var(--primary-color);
+}
+
+.option {
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background var(--transition);
+    border-radius: 0.5rem;
+
+    &:hover {
+        background-color: var(--light-grey-color);
+    }
+}
