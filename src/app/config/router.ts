@@ -8,7 +8,7 @@ export enum AppRoutes {
     LOGIN = 'login',
 }
 
-export const getRouteMain = () => '/'
+export const getRouteMain = () => '/dashboard'
 export const getRouteLogin = () => '/login'
 
 const routes = [

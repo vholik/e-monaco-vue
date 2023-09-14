@@ -24,6 +24,8 @@ interface Props {
      * @note do not work with `hasColor`
      */
     multiple?: boolean
+    asInput?: boolean
+    label?: string
 }
 
 const emit = defineEmits(['update:modelValue'])
@@ -38,7 +40,17 @@ function change(value: SelectOption) {
 </script>
 
 <template>
-    <div :class="cls.Select">
+    <Flex
+        :class="cls.Select"
+        direction="column"
+        gap="4"
+    >
+        <label
+            v-if="label"
+            :class="cls.label"
+        >
+            {{ label }}
+        </label>
         <Listbox
             @update:model-value="change"
             :multiple="multiple"
@@ -55,24 +67,29 @@ function change(value: SelectOption) {
                         [cls[
                             !Array.isArray(modelValue) ? modelValue.color! : ''
                         ]]: hasColor,
+                        [cls.input]: asInput,
                     },
                 ]"
             >
-                <Avatar
-                    v-if="withAvatar && !Array.isArray(modelValue)"
-                    :name="modelValue.name"
-                />
-                <Text
-                    size="size_s"
-                    v-if="Array.isArray(modelValue) && !modelValue.length"
-                    color="quatinary"
-                    >Wybierz</Text
-                >
-                {{
-                    Array.isArray(modelValue)
-                        ? modelValue.map((it) => it.name).join(', ')
-                        : modelValue.name
-                }}
+                <Flex gap="4">
+                    <Avatar
+                        v-if="withAvatar && !Array.isArray(modelValue)"
+                        :name="modelValue.name"
+                    />
+                    <Text
+                        size="size_s"
+                        weight="medium"
+                        v-if="Array.isArray(modelValue) && !modelValue.length"
+                        color="quatinary"
+                        >Wybierz</Text
+                    >
+                    {{
+                        Array.isArray(modelValue)
+                            ? modelValue.map((it) => it.name).join(', ')
+                            : modelValue.name
+                    }}
+                </Flex>
+
                 <Icon
                     v-if="!Array.isArray(modelValue) && !modelValue.color"
                     :icon="SelectIcon"
@@ -118,5 +135,5 @@ function change(value: SelectOption) {
                 </ListboxOptions>
             </transition>
         </Listbox>
-    </div>
+    </Flex>
 </template>

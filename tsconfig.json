@@ -1,15 +1,22 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        },
+        {
+            "path": "./tsconfig.app.json"
+        }
+    ],
+    "compilerOptions": {
+        "target": "ESNext",
+        "types": ["vite/client"],
+        "module": "ESNext"
     },
-    {
-      "path": "./tsconfig.app.json"
-    }
-  ],
-  "compilerOptions": {
-    "target": "ESNext",
-    "types": ["vite/client"]
-  }
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "node_modules/vue/types/*.d.ts",
+        "node_modules/vuex/types/*.d.ts"
+    ]
 }

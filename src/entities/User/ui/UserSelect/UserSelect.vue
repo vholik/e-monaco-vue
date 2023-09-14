@@ -9,18 +9,27 @@ const options: SelectOption[] = [
     { id: '2', name: 'Dawid Polański' },
 ]
 
+interface Props {
+    asInput?: boolean
+    label?: string
+}
+
+defineProps<Props>()
+
 let currentOption = ref(options[0])
 </script>
 
 <template>
     <div
-        :class="cls.StatusSelect"
+        :class="cls.UserSelect"
         :name="currentOption.id"
     >
         <Select
             v-model="currentOption"
             :options="options"
             :withAvatar="true"
+            :asInput="asInput"
+            :label="label"
         />
     </div>
 </template>

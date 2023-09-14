@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import cls from './Modal.module.scss'
-import { ref, toRefs } from 'vue'
+import { toRefs } from 'vue'
+import Button from '@/shared/ui/Button/Button.vue'
 import {
     Dialog,
     DialogPanel,
@@ -31,15 +32,21 @@ function setIsOpen(value: boolean) {
     >
         <div :class="cls.backdrop">
             <DialogPanel :class="cls.Modal">
-                <DialogTitle :class="cls.title">{{ title }}</DialogTitle>
-                <DialogDescription
-                    :class="cls.description"
-                    v-if="description"
-                >
-                    {{ description }}
-                </DialogDescription>
+                <div :class="cls.header">
+                    <DialogTitle :class="cls.title">{{ title }}</DialogTitle>
+                    <DialogDescription
+                        :class="cls.description"
+                        v-if="description"
+                    >
+                        {{ description }}
+                    </DialogDescription>
+                </div>
+
                 <div :class="cls.inner">
                     <slot></slot>
+                </div>
+                <div :class="cls.footer">
+                    <Button :class="cls.button">Dodaj</Button>
                 </div>
             </DialogPanel>
             <DialogPanel> </DialogPanel>

@@ -1,8 +1,9 @@
 export interface AuthData {
-  email: string
-  password: string
+    email: string
+    password: string
 }
 
 export interface AuthReponse {
-  accessToken: string
+    accessToken: string
+    refreshToken: string
 }

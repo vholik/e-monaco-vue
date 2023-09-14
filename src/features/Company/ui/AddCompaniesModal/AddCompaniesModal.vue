@@ -3,7 +3,9 @@ import cls from './AddCompaniesModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Input from '@/shared/ui/Input/Input.vue'
-import Button from '@/shared/ui/Button/Button.vue'
+import { UserSelect } from '@/entities/User'
+import { ContactPersonSelect } from '@/entities/ContactPerson'
+import { StatusSelect } from '@/entities/Status'
 
 interface Props {
     isModalOpen: boolean
@@ -27,13 +29,16 @@ function setIsModalOpen(value: boolean) {
             <Flex
                 gap="8"
                 direction="column"
-                align="end"
+                align="start"
             >
                 <Input
                     name="name"
                     label="Następna data kontaktu"
                 />
-                <!-- TODO: add owners select -->
+                <UserSelect
+                    asInput
+                    label="Owners"
+                />
                 <Input
                     name="comment"
                     label="Komentarz"
@@ -46,7 +51,10 @@ function setIsModalOpen(value: boolean) {
                     name="comment"
                     label="Imię"
                 />
-                <!-- TODO: add status select -->
+                <StatusSelect
+                    label="Status"
+                    asInput
+                />
                 <!-- TODO: add gmina select -->
                 <Input
                     name="comment"
@@ -60,8 +68,10 @@ function setIsModalOpen(value: boolean) {
                     name="comment"
                     label="DEKLARACJA"
                 />
-                <!-- TODO: add contact person selects -->
-                <Button :class="cls.button">Dodaj</Button>
+                <ContactPersonSelect
+                    asInput
+                    label="Contact persons"
+                />
             </Flex>
         </Modal>
     </div>

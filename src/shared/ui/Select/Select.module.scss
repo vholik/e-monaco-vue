@@ -1,10 +1,12 @@
 .Select {
     position: relative;
+    width: 100%;
 }
 
 .button {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.5rem;
     font: var(--font-s);
     font-weight: 500;
@@ -13,11 +15,12 @@
     cursor: pointer;
     border-radius: var(--default-border-radius);
     padding: 0.35rem 0.5rem;
+    width: 100%;
 }
 
 .optionsWrapper {
     position: absolute;
-    top: 120%;
+    top: 110%;
     background-color: white;
     z-index: 5;
     list-style: none;
@@ -25,6 +28,7 @@
     border-radius: 0.75rem;
     font: var(--font-s);
     font-weight: 500;
+    left: 0;
     min-width: 12.5rem;
     border: 1px solid var(--stroke-color);
     color: var(--primary-color);
@@ -40,4 +44,23 @@
     &:hover {
         background-color: var(--light-grey-color);
     }
+}
+
+.input {
+    padding: 0.5em 0.75em;
+    border-radius: var(--default-border-radius);
+    border: 1px solid var(--stroke-color);
+    background-color: var(--light-grey-color);
+    width: 100%;
+}
+
+.label {
+    color: var(--secondary-color);
+    font: var(--font-mini);
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    width: 100%;
 }

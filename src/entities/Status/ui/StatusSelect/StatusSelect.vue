@@ -4,6 +4,13 @@ import cls from './StatusSelect.module.scss'
 import Select from '@/shared/ui/Select/Select.vue'
 import { ref } from 'vue'
 
+interface Props {
+    asInput?: boolean
+    label?: string
+}
+
+defineProps<Props>()
+
 const options: SelectOption[] = [
     {
         id: 'asfsdf',
@@ -23,13 +30,10 @@ let currentOption = ref(options[0])
 </script>
 
 <template>
-    <div
-        :class="cls.StatusSelect"
-        :name="currentOption.id"
-    >
-        <Select
-            v-model="currentOption"
-            :options="options"
-        />
-    </div>
+    <Select
+        v-model="currentOption"
+        :options="options"
+        :asInput="asInput"
+        :label="label"
+    />
 </template>
