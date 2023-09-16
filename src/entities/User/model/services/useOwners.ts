@@ -4,7 +4,7 @@ import type { User } from '../types/user'
 
 export const useOwners = () => {
     return useQuery(['users'], async () => {
-        const response = await $api.post<User[]>('users')
+        const response = await $api.get<User[]>('users')
         return response.data
     })
 }

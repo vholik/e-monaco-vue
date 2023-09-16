@@ -3,7 +3,7 @@ import { useMutation } from 'vue-query'
 import type { AuthData, AuthReponse } from '../types/auth'
 import {
     USER_REFRESH_LOCALSTORAGE_KEY,
-    USER_LOCALSTORAGE_KEY,
+    USER_ACCESS_LOCALSTORAGE_KEY,
 } from '@/shared/const/localStorage'
 import { useUserStore } from '@/entities/User'
 import { useRouter } from 'vue-router'
@@ -23,7 +23,10 @@ export const useLogin = () => {
         },
         {
             onSuccess: (data) => {
-                localStorage.setItem(USER_LOCALSTORAGE_KEY, data.accessToken)
+                localStorage.setItem(
+                    USER_ACCESS_LOCALSTORAGE_KEY,
+                    data.accessToken,
+                )
                 localStorage.setItem(
                     USER_REFRESH_LOCALSTORAGE_KEY,
                     data.refreshToken,

@@ -6,7 +6,7 @@ import Button from '@/shared/ui/Button/Button.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import { loginValidationSchema } from '../model/lib/authLogin'
-import { useLogin } from '../model/services/userApi'
+import { useLogin } from '../model/services/useLogin'
 import Note from '@/shared/ui/Note/Note.vue'
 
 const { isLoading, isError, mutate, isSuccess } = useLogin()
@@ -75,3 +75,4 @@ const onSubmit = (values: Record<string, unknown>) => {
         </Form>
     </section>
 </template>
+../model/services/userLogin
