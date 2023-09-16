@@ -6,6 +6,10 @@ import Input from '@/shared/ui/Input/Input.vue'
 import { UserSelect } from '@/entities/User'
 import { ContactPersonSelect } from '@/entities/ContactPerson'
 import { StatusSelect } from '@/entities/Status'
+import { MunicipalitySelect } from '@/entities/Municipality'
+import { Form } from 'vee-validate'
+import { addCompanyValidationSchema } from '../../model/lib/addCompanySchema'
+import Button from '@/shared/ui/Button/Button.vue'
 
 interface Props {
     isModalOpen: boolean
@@ -17,6 +21,10 @@ const emit = defineEmits(['update:isModalOpen'])
 function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
+
+const onSubmit = (values: unknown) => {
+    console.log(values)
+}
 </script>
 
 <template>
@@ -26,53 +34,81 @@ function setIsModalOpen(value: boolean) {
             title="Dodanie firmy"
             @update:isOpen="setIsModalOpen"
         >
-            <Flex
-                gap="8"
-                direction="column"
-                align="start"
+            <Form
+                @submit="onSubmit"
+                :validation-schema="addCompanyValidationSchema"
             >
-                <Input
-                    name="name"
-                    label="Następna data kontaktu"
-                />
-                <UserSelect
-                    asInput
-                    label="Owners"
-                />
-                <Input
-                    name="comment"
-                    label="Komentarz"
-                />
-                <Input
-                    name="comment"
-                    label="nip"
-                />
-                <Input
-                    name="comment"
-                    label="Imię"
-                />
-                <StatusSelect
-                    label="Status"
-                    asInput
-                />
-                <!-- TODO: add gmina select -->
-                <Input
-                    name="comment"
-                    label="AKTYWACJA"
-                />
-                <Input
-                    name="comment"
-                    label="CZYNSZ"
-                />
-                <Input
-                    name="comment"
-                    label="DEKLARACJA"
-                />
-                <ContactPersonSelect
-                    asInput
-                    label="Contact persons"
-                />
-            </Flex>
+                <Flex
+                    gap="8"
+                    direction="column"
+                    align="start"
+                    :class="cls.wrapper"
+                >
+                    <Input
+                        name="nextContactDate"
+                        label="Następna data kontaktu"
+                    />
+                    <UserSelect
+                        asInput
+                        name="ownerIds"
+                        label="Owners"
+                    />
+                    <Input
+                        name="comment"
+                        label="Komentarz"
+                    />
+                    <Input
+                        name="nip"
+                        label="nip"
+                    />
+                    <Input
+                        name="name"
+                        label="Imię"
+                    />
+                    <Input
+                        name="tractorAmount"
+                        label="Tractor amount"
+                    />
+                    <Input
+                        name="trailerAmount"
+                        label="Trailer amount"
+                    />
+                    <Input
+                        name="otherAmount"
+                        label="Inne amount"
+                    />
+                    <StatusSelect
+                        label="Status"
+                        asInput
+                        name="status"
+                    />
+                    <MunicipalitySelect
+                        label="Gmina"
+                        asInput
+                        name="municipalityId"
+                    />
+                    <Input
+                        name="activation"
+                        label="AKTYWACJA"
+                    />
+                    <Input
+                        name="rentalFee"
+                        label="CZYNSZ"
+                    />
+                    <Input
+                        name="declaration"
+                        label="statement"
+                    />
+                    <ContactPersonSelect
+                        asInput
+                        label="Contact persons"
+                        name="contactPersonsIds"
+                    />
+                </Flex>
+                <div :class="cls.footer">
+                    <Button :class="cls.button">Dodaj</Button>
+                </div>
+            </Form>
         </Modal>
     </div>
 </template>

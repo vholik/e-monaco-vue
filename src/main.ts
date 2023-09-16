@@ -4,7 +4,8 @@ import '@/app/styles/index.scss'
 import { router } from '@/app/config/router'
 import { VueQueryPlugin } from 'vue-query'
 import { createPinia } from 'pinia'
-import { useUserStore } from '@/entities/User'
+import Toast from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
 
 const app = createApp(App)
 
@@ -13,6 +14,8 @@ const pinia = createPinia()
 app.use(router)
 app.use(pinia)
 app.use(VueQueryPlugin)
+
+app.use(Toast)
 
 // Ensure that user is authenticated if not - redirect to login
 // router.beforeEach(async (to, from) => {

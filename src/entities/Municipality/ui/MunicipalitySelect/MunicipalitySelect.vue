@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import cls from './ContactPersonSelect.module.scss'
 import Select from '@/shared/ui/Select/Select.vue'
 
 let value = ref([])
@@ -28,7 +27,6 @@ const options = [
     <Select
         v-model="value"
         :options="options"
-        multiple
         :asInput="asInput"
         :label="label"
     />

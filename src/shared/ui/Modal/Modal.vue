@@ -45,9 +45,6 @@ function setIsOpen(value: boolean) {
                 <div :class="cls.inner">
                     <slot></slot>
                 </div>
-                <div :class="cls.footer">
-                    <Button :class="cls.button">Dodaj</Button>
-                </div>
             </DialogPanel>
             <DialogPanel> </DialogPanel>
         </div>
