@@ -8,7 +8,7 @@ export const addCompanyValidationSchema = yup.object().shape({
             if (!value) return true
             return isValidDateFormat(value as string)
         }),
-    ownerIds: yup.array().of(yup.string().required()).nullable(),
+    ownerId: yup.string().nullable(),
     comment: yup.string(),
     nip: yup
         .string()

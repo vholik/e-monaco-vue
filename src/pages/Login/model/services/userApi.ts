@@ -2,7 +2,7 @@ import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import type { AuthData, AuthReponse } from '../types/auth'
 import {
-    REFRESH_USER_LOCALSTORAGE_KEY,
+    USER_REFRESH_LOCALSTORAGE_KEY,
     USER_LOCALSTORAGE_KEY,
 } from '@/shared/const/localStorage'
 import { useUserStore } from '@/entities/User'
@@ -25,7 +25,7 @@ export const useLogin = () => {
             onSuccess: (data) => {
                 localStorage.setItem(USER_LOCALSTORAGE_KEY, data.accessToken)
                 localStorage.setItem(
-                    REFRESH_USER_LOCALSTORAGE_KEY,
+                    USER_REFRESH_LOCALSTORAGE_KEY,
                     data.refreshToken,
                 )
                 userStore.setIsLoggedIn(true)

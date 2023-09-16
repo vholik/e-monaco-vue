@@ -1,5 +1,5 @@
 export interface SelectOption {
-    id: string | number
+    id: string
     name: string
     color?: string
     bgColor?: string

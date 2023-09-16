@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import cls from './Select.module.scss'
-import { toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 import {
     Listbox,
     ListboxButton,
@@ -15,9 +15,12 @@ import CheckIcon from '@/shared/assets/icons/Check.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 
+type ConditionalModelValue<T extends boolean> = T extends true
+    ? string[]
+    : string
+
 interface Props {
-    modelValue: SelectOption[] | SelectOption
-    options?: SelectOption[]
+    options: SelectOption[]
     withAvatar?: boolean
     hasColor?: boolean
     /**
@@ -26,17 +29,38 @@ interface Props {
     multiple?: boolean
     asInput?: boolean
     label?: string
+    type?: string
+    name: string
+    errorMessage?: string
+    modelValue: string | string[]
 }
+
+const props = withDefaults(defineProps<Props>(), {
+    errorMessage: '',
+})
+
+const { withAvatar, hasColor, options, modelValue: value } = toRefs(props)
 
 const emit = defineEmits(['update:modelValue'])
 
-const props = defineProps<Props>()
-
-const { modelValue, withAvatar, hasColor, options } = toRefs(props)
-
-function change(value: SelectOption) {
-    emit('update:modelValue', value)
+function change(value: SelectOption | SelectOption[]) {
+    if (Array.isArray(value)) {
+        emit(
+            'update:modelValue',
+            value.map((it) => it.id),
+        )
+    } else {
+        emit('update:modelValue', value.id)
+    }
 }
+
+const currentOption = computed(() => {
+    if (Array.isArray(value.value)) {
+        return options.value.filter((option) => value.value.includes(option.id))
+    }
+
+    return options.value.find((option) => option.id === value.value)!
+})
 </script>
 
 <template>
@@ -57,15 +81,17 @@ function change(value: SelectOption) {
         >
             <ListboxButton
                 :style="{
-                    color: !Array.isArray(modelValue) && modelValue.color,
+                    color: !Array.isArray(currentOption) && currentOption.color,
                     backgroundColor:
-                        !Array.isArray(modelValue) && modelValue.bgColor,
+                        !Array.isArray(currentOption) && currentOption.bgColor,
                 }"
                 :class="[
                     cls.button,
                     {
                         [cls[
-                            !Array.isArray(modelValue) ? modelValue.color! : ''
+                            !Array.isArray(currentOption)
+                                ? currentOption.color!
+                                : ''
                         ]]: hasColor,
                         [cls.input]: asInput,
                     },
@@ -73,32 +99,37 @@ function change(value: SelectOption) {
             >
                 <Flex gap="4">
                     <Avatar
-                        v-if="withAvatar && !Array.isArray(modelValue)"
-                        :name="modelValue.name"
+                        v-if="withAvatar && !Array.isArray(currentOption)"
+                        :name="currentOption.name"
                     />
                     <Text
                         size="size_s"
                         weight="medium"
-                        v-if="Array.isArray(modelValue) && !modelValue.length"
+                        v-if="
+                            Array.isArray(currentOption) &&
+                            !currentOption.length
+                        "
                         color="quatinary"
                         >Wybierz</Text
                     >
                     {{
-                        Array.isArray(modelValue)
-                            ? modelValue.map((it) => it.name).join(', ')
-                            : modelValue.name
+                        Array.isArray(currentOption)
+                            ? currentOption.map((it) => it.name).join(', ')
+                            : currentOption.name
                     }}
                 </Flex>
 
                 <Icon
-                    v-if="!Array.isArray(modelValue) && !modelValue.color"
+                    v-if="!Array.isArray(currentOption) && !currentOption.color"
                     :icon="SelectIcon"
                     color="secondary"
                 />
                 <SelectIcon
                     v-else
                     :style="{
-                        fill: !Array.isArray(modelValue) && modelValue.color,
+                        fill:
+                            !Array.isArray(currentOption) &&
+                            currentOption.color,
                     }"
                 />
             </ListboxButton>
@@ -136,4 +167,5 @@ function change(value: SelectOption) {
             </transition>
         </Listbox>
     </Flex>
+    {{ errorMessage }}
 </template>

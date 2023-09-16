@@ -50,7 +50,7 @@ const onSubmit = (values: unknown) => {
                     />
                     <UserSelect
                         asInput
-                        name="ownerIds"
+                        name="ownerId"
                         label="Owners"
                     />
                     <Input
