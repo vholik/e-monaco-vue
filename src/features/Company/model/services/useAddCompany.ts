@@ -1,8 +1,11 @@
 import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
+import { useCompanies } from './useCompanies'
 
 export const useAddCompany = (setIsModalOpen: (value: boolean) => void) => {
+    const { refetch } = useCompanies()
+
     const toast = useToast()
     return useMutation(
         ['add-company'],
@@ -14,6 +17,7 @@ export const useAddCompany = (setIsModalOpen: (value: boolean) => void) => {
             onSuccess: () => {
                 toast.success('Pomyślnie dodano firmę')
                 setIsModalOpen(false)
+                refetch()
             },
         },
     )

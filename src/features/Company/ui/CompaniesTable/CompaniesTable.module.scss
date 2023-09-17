@@ -1,6 +1,7 @@
 .tableWrapper {
     // sidebar width - gap between sidebar and page
     width: calc(100vw - var(--sidebar-width) - 2rem);
+    height: 600px;
     overflow-x: scroll;
 }
 

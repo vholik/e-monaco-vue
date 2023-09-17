@@ -12,13 +12,24 @@ interface Props {
     label?: string
     name: string
     placeholder?: string
+    width?: string
+    onChangeFn?: (date: string) => void
+    defaultValue?: string
 }
 
 const props = defineProps<Props>()
 
-const { name } = toRefs(props)
+const emit = defineEmits(['onChange'])
 
-const { errorMessage, value } = useField<string>(name, undefined)
+const { name, onChangeFn, defaultValue } = toRefs(props)
+
+const { errorMessage, value } = useField<string>(name, undefined, {
+    initialValue: defaultValue?.value,
+})
+
+function onUpdate(value: string) {
+    onChangeFn?.value?.(value)
+}
 </script>
 
 <template>
@@ -34,6 +45,8 @@ const { errorMessage, value } = useField<string>(name, undefined)
             >{{ label }}</label
         >
         <VueDatePicker
+            position="left"
+            @update:model-value="onUpdate"
             locale="pl-PL"
             select-text="Wybierz"
             cancel-text="Anuluj"
@@ -45,6 +58,7 @@ const { errorMessage, value } = useField<string>(name, undefined)
                 '--dp-border-radius': 'var(--default-border-radius)',
                 '--dp-background-color': 'var(--light-grey-color)',
                 '--dp-border-color-hover': 'var(--stroke-color)',
+                width: width,
                 '--dp-border-color': 'var(--stroke-color)',
                 '--dp-primary-color': 'var(--primary-variant-color)',
             }"

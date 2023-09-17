@@ -74,7 +74,7 @@ const onSubmit = (values: unknown) => {
                     />
                     <Input
                         name="name"
-                        label="Imię*"
+                        label="Nazwa firmy*"
                         placeholder="Firma XYZ Sp. z o.o."
                     />
                     <Input

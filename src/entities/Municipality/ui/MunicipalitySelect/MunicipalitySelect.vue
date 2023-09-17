@@ -13,13 +13,21 @@ interface Props {
     type?: string
     name: string
     errorMessage?: string
+    onChangeFn?: (value: string) => void
+    defaultValue?: string
 }
 
 const props = defineProps<Props>()
 
-const { name } = toRefs(props)
+const { name, defaultValue, onChangeFn } = toRefs(props)
 
-const { errorMessage, value } = useField<string>(name, undefined)
+const { errorMessage, value } = useField<string>(name, undefined, {
+    initialValue: defaultValue?.value,
+})
+
+function onUpdate(value: string) {
+    onChangeFn?.value?.(value)
+}
 </script>
 
 <template>
@@ -35,5 +43,6 @@ const { errorMessage, value } = useField<string>(name, undefined)
         :label="label"
         v-bind="$props"
         :errorMessage="errorMessage"
+        @update:modelValue="onUpdate"
     />
 </template>

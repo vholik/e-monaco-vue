@@ -1,23 +1,26 @@
 <script setup lang="ts">
 import Input from '@/shared/ui/Input/Input.vue'
-import cls from './PriceInput.module.scss'
+import cls from './CommentInput.module.scss'
 import { onMounted, ref, toRefs } from 'vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import CrossIcon from '@/shared/assets/icons/Cross.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
+import { useToast } from 'vue-toastification'
 
-let inputValue = ref(0)
+let inputValue = ref('')
 let isSelected = ref(false)
+const toast = useToast()
 
 interface Props {
-    defaultValue?: number
-    onChangeFn: (value: number | null) => void
+    defaultValue?: string
+    onChangeFn: (value: string | null) => void
+    validateFn?: (value: string) => boolean
 }
 
 const props = defineProps<Props>()
 
-const { defaultValue, onChangeFn } = toRefs(props)
+const { defaultValue, onChangeFn, validateFn } = toRefs(props)
 
 onMounted(() => {
     if (defaultValue?.value) {
@@ -27,11 +30,15 @@ onMounted(() => {
 })
 
 function submit() {
+    if (validateFn?.value && !validateFn.value(inputValue.value)) {
+        return
+    }
+
     onChangeFn.value(inputValue.value)
     isSelected.value = true
 }
 
-function removePrice() {
+function removeText() {
     onChangeFn.value(null)
     isSelected.value = false
 }
@@ -40,11 +47,10 @@ function removePrice() {
 <template>
     <Input
         v-if="!isSelected"
-        :class="cls.PriceInput"
+        :class="cls.CommentInput"
         name="price"
         size="size_s"
-        placeholder="Wpisz cenę"
-        type="number"
+        placeholder="..."
         v-model="inputValue"
         @onEnter="submit"
     />
@@ -57,7 +63,7 @@ function removePrice() {
             :class="cls.cancel"
             :icon="CrossIcon"
             color="quatinary"
-            @click="removePrice"
+            @click="removeText"
         />
     </Flex>
 </template>

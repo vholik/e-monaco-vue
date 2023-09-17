@@ -15,22 +15,41 @@ import { ContactPersonSelect } from '@/entities/ContactPerson'
 import { useCompanies } from '../../model/services/useCompanies'
 import type { Company } from '@/entities/Company'
 import { watch } from 'vue'
+import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
+import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
+import { useCompanyActions } from '../../model/lib/useCompanyActions'
+import { MunicipalitySelect } from '@/entities/Municipality'
+import { validateNip } from '@/shared/lib/nip'
+import { toastInjectionKey, useToast } from 'vue-toastification'
 
 const { data } = useCompanies()
+const toast = useToast()
 const companiesData = ref({ count: 0, companies: [] as Company[] })
+const { onDataChange } = useCompanyActions()
 
 const columnHelper = createColumnHelper<Company>()
 const columns = [
     columnHelper.accessor((row) => row.nextContactDate, {
         id: 'nextContactDate',
-        cell: (info) => info.getValue(),
+        // cell: (info) => info.getValue(),
+        cell: (info) =>
+            h(Datepicker, {
+                name: 'nextContactDate',
+                width: '160px',
+                placeholder: 'Wybierz datę',
+                onChangeFn: onDataChange(
+                    info.row.original.id,
+                    'nextContactDate',
+                ),
+                defaultValue: info.getValue(),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.contactHistories, {
-        id: 'comment',
-        cell: (info) => h(UserSelect),
+        id: 'contactHistories',
+        cell: (info) => 'TODO',
         header: () => {
             return h(SortHeader, {
                 name: 'Historia kóntaktów',
@@ -40,120 +59,206 @@ const columns = [
         },
     }),
     columnHelper.accessor((row) => row.owner, {
-        id: 'status',
-        cell: (info) => h(StatusSelect),
+        id: 'owner',
+        cell: (info) =>
+            h(UserSelect, {
+                name: 'owner',
+                defaultValue: info.getValue().id,
+                onChangeFn: onDataChange(info.row.original.id, 'owner'),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Właściciel', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.comment, {
-        id: 'status',
-        cell: (info) => h(PriceInput),
+        id: 'comment',
+        cell: (info) =>
+            h(CommentInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'comment'),
+                defaultValue: info.getValue(),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Komentarz', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.nip, {
-        id: 'status',
-        cell: (info) => h(ContactPersonSelect),
+        id: 'nip',
+        cell: (info) =>
+            h(CommentInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'nip'),
+                defaultValue: info.getValue(),
+                validateFn: (value: string) => {
+                    const isValid = validateNip(value)
+                    if (!isValid) {
+                        toast.error('Nie poprawny NIP')
+                        return isValid
+                    }
+
+                    return isValid
+                },
+            }),
         header: () => {
             return h(SortHeader, { name: 'NIP', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.name, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'name',
+        cell: (info) =>
+            h(CommentInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'name'),
+                defaultValue: info.getValue(),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Naszwa firmy', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.status, {
         id: 'status',
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+            return h(StatusSelect, {
+                name: 'status',
+                defaultValue: info.row.original.status,
+                onChangeFn: onDataChange(info.row.original.id, 'status'),
+            })
+        },
         header: () => {
             return h(SortHeader, { name: 'Status', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.municipality, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'manicipality',
+        cell: (info) =>
+            h(MunicipalitySelect, {
+                name: 'municipality',
+                defaultValue: info.getValue().id,
+                onChangeFn: onDataChange(info.row.original.id, 'municipality'),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Gmina', value: 'cool' })
         },
     }),
-    columnHelper.accessor((row) => row.rentalFee, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+    columnHelper.accessor((row) => row, {
+        id: 'taxIncrease',
+        cell: (info) => info.row.original.municipality.taxIncrease,
         header: () => {
             return h(SortHeader, { name: 'Wzrost podatku', value: 'cool' })
         },
     }),
-    columnHelper.accessor((row) => row.tractorAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+    columnHelper.accessor((row) => row, {
+        id: 'kitRate',
+        cell: (info) => info.row.original.municipality.kitRate,
         header: () => {
             return h(SortHeader, { name: 'Zestaw', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'supply',
+        cell: (info) =>
+            info.row.original.municipality.tractorRate +
+            info.row.original.municipality.trailerRate +
+            info.row.original.municipality.otherRate,
         header: () => {
             return h(SortHeader, { name: 'Tabor', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'tractorRate',
+        cell: (info) => info.row.original.municipality.tractorRate,
         header: () => {
             return h(SortHeader, { name: 'Stawka ciągnik', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'trailerRate',
+        cell: (info) => info.row.original.municipality.trailerRate,
         header: () => {
             return h(SortHeader, { name: 'Stawka naczepa', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'theirsTaxes',
+        // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
+        cell: (info) =>
+            info.row.original.tractorAmount *
+                info.row.original.municipality.tractorRate +
+            info.row.original.trailerAmount *
+                info.row.original.municipality.trailerRate +
+            1800 * info.row.original.otherAmount,
         header: () => {
             return h(SortHeader, { name: 'Podatek u nich', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'ourTaxes',
+        // 1457 x CIAGNIKI + 972 x NACZEPY + 1000 x INNE
+        cell: (info) =>
+            // TODO: change values to api
+            1457 * info.row.original.tractorAmount +
+            972 * info.row.original.trailerAmount +
+            1000 * info.row.original.otherAmount,
         header: () => {
             return h(SortHeader, { name: 'Podatek u nas', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'frugality',
+        cell: (info) =>
+            info.row.original.tractorAmount *
+                info.row.original.municipality.tractorRate +
+            info.row.original.trailerAmount *
+                info.row.original.municipality.trailerRate +
+            1800 * info.row.original.otherAmount -
+            (1457 * info.row.original.tractorAmount +
+                972 * info.row.original.trailerAmount +
+                1000 * info.row.original.otherAmount),
         header: () => {
             return h(SortHeader, { name: 'Oszczędność', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'activation',
+        cell: (info) =>
+            h(PriceInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'activation'),
+                defaultValue: info.getValue(),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Aktywacja', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'status',
-        cell: (info) => info.getValue(),
+        id: 'rent',
+        cell: (info) =>
+            h(PriceInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'rent'),
+                defaultValue: info.getValue(),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Czyńsz', value: 'cool' })
         },
     }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'declaration',
+        cell: (info) =>
+            h(PriceInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'declaration'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Deklaracja', value: 'cool' })
+        },
+    }),
     columnHelper.accessor((row) => row.contactPersons, {
-        id: 'status',
-        cell: (info) => info.getValue().join(', '),
+        id: 'contactPersons',
+        cell: (info) =>
+            h(ContactPersonSelect, {
+                name: 'contactPersons',
+                defaultValue: info.getValue().map((it) => it.id),
+                onChangeFn: onDataChange(
+                    info.row.original.id,
+                    'contactPersons',
+                ),
+            }),
         header: () => {
             return h(SortHeader, { name: 'Osoby kontaktowe', value: 'cool' })
         },
@@ -211,3 +316,4 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
         </table>
     </div>
 </template>
+../../model/lib/useCompanyActions

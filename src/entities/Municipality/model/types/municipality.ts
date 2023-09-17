@@ -1,3 +1,5 @@
+import type { Company } from '@/entities/Company'
+
 export interface Municipality {
     id: string
     name: string
@@ -5,6 +7,6 @@ export interface Municipality {
     tractorRate: number
     trailerRate: number
     otherRate: number
-    // TODO change type
-    companies: unknown[]
+    companies: Company[]
+    kitRate: number
 }

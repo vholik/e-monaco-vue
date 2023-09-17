@@ -4,6 +4,7 @@ import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 import { toRefs } from 'vue'
 import { options } from '../../model/consts/status'
+import type { CompanyStatus } from '../..'
 
 interface Props {
     asInput?: boolean
@@ -11,15 +12,21 @@ interface Props {
     type?: string
     name: string
     errorMessage?: string
+    onChangeFn?: (value: string) => void
+    defaultValue?: string
 }
 
 const props = defineProps<Props>()
 
-const { name } = toRefs(props)
+const { name, onChangeFn, defaultValue } = toRefs(props)
 
 const { errorMessage, value } = useField(name, undefined, {
-    initialValue: options[0].id,
+    initialValue: defaultValue?.value || options[0].id,
 })
+
+function onUpdate(value: string) {
+    onChangeFn?.value?.(value)
+}
 </script>
 
 <template>
@@ -28,5 +35,6 @@ const { errorMessage, value } = useField(name, undefined, {
         v-bind="$props"
         v-model="value"
         :errorMessage="errorMessage"
+        @update:modelValue="onUpdate"
     />
 </template>

@@ -13,13 +13,21 @@ interface Props {
     asInput?: boolean
     label?: string
     name: string
+    defaultValue?: string
+    onChangeFn?: (value: string) => void
 }
 
 const props = defineProps<Props>()
 
-const { name } = toRefs(props)
+const { name, defaultValue, onChangeFn } = toRefs(props)
 
-const { errorMessage, value } = useField<string>(name, undefined, {})
+const { errorMessage, value } = useField<string>(name, undefined, {
+    initialValue: defaultValue?.value,
+})
+
+function onUpdate(value: string) {
+    onChangeFn?.value?.(value)
+}
 </script>
 
 <template>
@@ -32,6 +40,7 @@ const { errorMessage, value } = useField<string>(name, undefined, {})
                     name: [it.firstName, it.lastName || ''].join(' '),
                 }))
             "
+            @update:modelValue="onUpdate"
             :withAvatar="true"
             :asInput="asInput"
             :label="label"

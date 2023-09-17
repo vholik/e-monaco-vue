@@ -6,7 +6,7 @@ import type { User } from '@/entities/User'
 
 export interface Company {
     id: string
-    nextContactDate: Date
+    nextContactDate: string
     contactHistories: ContactHistory[]
     owner: User
     comment?: string
