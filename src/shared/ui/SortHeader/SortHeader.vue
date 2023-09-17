@@ -21,7 +21,7 @@ withDefaults(defineProps<Props>(), {
 <template>
     <Flex gap="4">
         <Text
-            :class="[cls.SortHeader, { [cls.disabled]: canSort }]"
+            :class="[cls.SortHeader, { [cls.disabled]: !canSort }]"
             color="quatinary"
             weight="medium"
         >

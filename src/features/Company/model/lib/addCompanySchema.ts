@@ -1,19 +1,19 @@
 import { isValidDateFormat } from '@/shared/lib/date'
+import { validateNip } from '@/shared/lib/nip'
 import * as yup from 'yup'
 
+yup.addMethod(yup.string, 'nip', function (errorMessage) {
+    return this.test(`nip`, errorMessage, function (value) {
+        return value ? validateNip(value) : true
+    })
+})
+
 export const addCompanyValidationSchema = yup.object().shape({
-    nextContactDate: yup
-        .mixed()
-        .test('isValidDate', 'Data jest nieprawidłowa', (value) => {
-            if (!value) return true
-            return isValidDateFormat(value as string)
-        }),
+    nextContactDate: yup.date(),
     ownerId: yup.string().nullable(),
     comment: yup.string(),
-    nip: yup
-        .string()
-        .matches(/^\d{10}$/i, 'NIP musi mieć 10 cyfr')
-        .nullable(),
+    // @ts-ignore
+    nip: yup.string().nip('NIP musi mieć format XXX-XXX-XX-XX').nullable(),
     name: yup.string().required('Pole jest obowiązkowe'),
     status: yup.string().nullable(),
     municipalityId: yup.string().required('Pole jest obowiązkowe'),

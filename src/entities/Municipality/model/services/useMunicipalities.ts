@@ -1,12 +1,11 @@
 import { $api } from '@/shared/api/api'
 import { useQuery } from 'vue-query'
-import type { User } from '../types/user'
 
-export const useOwners = () => {
+export const useMunicipalities = () => {
     return useQuery(
-        ['users'],
+        ['municipalities'],
         async () => {
-            const response = await $api.get<User[]>('users')
+            const response = await $api.get('municipalities')
 
             return response.data
         },

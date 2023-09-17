@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
+import { toRefs } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
+import { useMunicipalities } from '../../model/services/useMunicipalities'
+import type { Municipality } from '../../model/types/municipality'
+
+const { data } = useMunicipalities()
 
 interface Props {
     asInput?: boolean
@@ -15,26 +19,18 @@ const props = defineProps<Props>()
 
 const { name } = toRefs(props)
 
-const options = [
-    {
-        id: '1',
-        name: 'siema',
-    },
-    {
-        id: '2',
-        name: 'wow',
-    },
-]
-
-const { errorMessage, value } = useField(name, undefined, {
-    initialValue: options[0].id,
-})
+const { errorMessage, value } = useField<string>(name, undefined)
 </script>
 
 <template>
     <Select
         v-model="value"
-        :options="options"
+        :options="
+            data.map((it: Municipality) => ({
+                id: it.id,
+                name: it.name,
+            }))
+        "
         :asInput="asInput"
         :label="label"
         v-bind="$props"

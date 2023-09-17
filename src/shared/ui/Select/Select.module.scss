@@ -26,12 +26,15 @@
     list-style: none;
     padding: 0.5rem;
     border-radius: 0.75rem;
+    max-height: 15rem;
+    overflow-y: auto;
     font: var(--font-s);
     font-weight: 500;
     left: 0;
     min-width: 12.5rem;
     border: 1px solid var(--stroke-color);
     color: var(--primary-color);
+    width: max-content;
 }
 
 .option {

@@ -2,16 +2,12 @@
 import type { SelectOption } from '@/shared/ui/Select/types'
 import cls from './UserSelect.module.scss'
 import Select from '@/shared/ui/Select/Select.vue'
-import { toRefs } from 'vue'
-import { useField } from 'vee-validate'
+import { computed, toRef, toRefs, watchEffect } from 'vue'
+import { useField, useForm } from 'vee-validate'
 import { useOwners } from '../../model/services/useOwners'
+import type { User } from '../../model/types/user'
 
-const options: SelectOption[] = [
-    { id: '1', name: 'Viktor Holik' },
-    { id: '2', name: 'Dawid Polański' },
-]
-
-const { isLoading, data: users } = useOwners()
+const { data } = useOwners()
 
 interface Props {
     asInput?: boolean
@@ -23,16 +19,19 @@ const props = defineProps<Props>()
 
 const { name } = toRefs(props)
 
-const { errorMessage, value } = useField(name, undefined, {
-    initialValue: options[0].id,
-})
+const { errorMessage, value } = useField<string>(name, undefined, {})
 </script>
 
 <template>
     <div :class="cls.UserSelect">
         <Select
             v-model="value"
-            :options="options"
+            :options="
+                data.map((it: User) => ({
+                    id: it.id,
+                    name: [it.firstName, it.lastName || ''].join(' '),
+                }))
+            "
             :withAvatar="true"
             :asInput="asInput"
             :label="label"
@@ -41,4 +40,3 @@ const { errorMessage, value } = useField(name, undefined, {
         />
     </div>
 </template>
-../../model/services/users

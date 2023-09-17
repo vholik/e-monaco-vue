@@ -10,20 +10,25 @@ import { MunicipalitySelect } from '@/entities/Municipality'
 import { Form } from 'vee-validate'
 import { addCompanyValidationSchema } from '../../model/lib/addCompanySchema'
 import Button from '@/shared/ui/Button/Button.vue'
+import { useAddCompany } from '../../model/services/useAddCompany'
+import Note from '@/shared/ui/Note/Note.vue'
+import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
 
 interface Props {
     isModalOpen: boolean
 }
 
-defineProps<Props>()
-const emit = defineEmits(['update:isModalOpen'])
-
 function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
 
+const { mutate, isLoading, isError } = useAddCompany(setIsModalOpen)
+
+defineProps<Props>()
+const emit = defineEmits(['update:isModalOpen'])
+
 const onSubmit = (values: unknown) => {
-    console.log(values)
+    mutate(values)
 }
 </script>
 
@@ -44,9 +49,13 @@ const onSubmit = (values: unknown) => {
                     align="start"
                     :class="cls.wrapper"
                 >
-                    <Input
+                    <Note v-if="isError">
+                        Nie udało nam się dodać firmę. Spróbuj ponownie później
+                    </Note>
+                    <Datepicker
                         name="nextContactDate"
                         label="Następna data kontaktu"
+                        placeholder="15/09/2023, 14:00"
                     />
                     <UserSelect
                         asInput
@@ -56,26 +65,32 @@ const onSubmit = (values: unknown) => {
                     <Input
                         name="comment"
                         label="Komentarz"
+                        placeholder="Pole tekstowe do 500 znaków"
                     />
                     <Input
                         name="nip"
                         label="nip"
+                        placeholder="123-456-78-90"
                     />
                     <Input
                         name="name"
                         label="Imię"
+                        placeholder="Firma XYZ Sp. z o.o."
                     />
                     <Input
                         name="tractorAmount"
-                        label="Tractor amount"
+                        label="Ciągniki"
+                        placeholder="Wartość liczbowa całkowita"
                     />
                     <Input
                         name="trailerAmount"
-                        label="Trailer amount"
+                        label="Naczepy"
+                        placeholder="Wartość liczbowa całkowita"
                     />
                     <Input
                         name="otherAmount"
-                        label="Inne amount"
+                        label="Inne"
+                        placeholder="Wartość liczbowa całkowita"
                     />
                     <StatusSelect
                         label="Status"
@@ -89,15 +104,18 @@ const onSubmit = (values: unknown) => {
                     />
                     <Input
                         name="activation"
-                        label="AKTYWACJA"
+                        label="Aktywacja"
+                        placeholder="Kwota w PLN"
                     />
                     <Input
                         name="rentalFee"
-                        label="CZYNSZ"
+                        label="Czynsz"
+                        placeholder="Kwota w PLN"
                     />
                     <Input
                         name="declaration"
-                        label="statement"
+                        label="Deklaracja"
+                        placeholder="Kwota w PLN"
                     />
                     <ContactPersonSelect
                         asInput
@@ -106,7 +124,11 @@ const onSubmit = (values: unknown) => {
                     />
                 </Flex>
                 <div :class="cls.footer">
-                    <Button :class="cls.button">Dodaj</Button>
+                    <Button
+                        :class="cls.button"
+                        :disabled="isLoading || isError"
+                        >Dodaj</Button
+                    >
                 </div>
             </Form>
         </Modal>

@@ -5,6 +5,7 @@ import { useField } from 'vee-validate'
 import SearchIcon from '@/shared/assets/icons/Search.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
+import Error from '@/shared/ui/Error/Error.vue'
 
 interface Props {
     size?: 'size_s' | 'size_m'
@@ -92,12 +93,10 @@ function onEnter() {
                 @keyup.enter="onEnter"
             />
         </Flex>
-        <p
+        <Error
             v-if="errorMessage"
-            :class="cls.error"
-        >
-            {{ errorMessage }}
-        </p>
+            :value="errorMessage"
+        />
     </label>
 </template>
 

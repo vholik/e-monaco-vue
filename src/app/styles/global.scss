@@ -51,7 +51,7 @@
     --sidebar-width: 300px;
     --modal-backdrop: rgba(10, 9, 11, 0.3);
     --modal-z-index: 1;
-    --modal-padding: 1.5rem 2rem;
+    --modal-padding: 1rem 2rem 1.5rem 2rem;
 
     // Role colors
     --superadmin-color: #00008c;
@@ -69,4 +69,16 @@
     --status-blue-bg-color: #dee9ff;
     --status-grey-color: #4f4d55;
     --status-grey-bg-color: #ebe5ff;
+}
+
+.dp__theme_light {
+    --dp-primary-color: var(--primary-variant-color) !important;
+}
+
+.dp__input {
+    &::placeholder {
+        color: var(--secondary-color);
+        opacity: 1 !important;
+        font-weight: 500;
+    }
 }

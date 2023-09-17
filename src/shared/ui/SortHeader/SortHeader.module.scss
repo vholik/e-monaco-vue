@@ -1,9 +1,9 @@
-.disabled {
-    cursor: default;
-}
-
 .SortHeader {
     cursor: pointer;
     font: var(--font-s);
     font-weight: 500;
+}
+
+.disabled {
+    cursor: unset;
 }

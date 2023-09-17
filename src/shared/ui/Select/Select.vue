@@ -14,10 +14,7 @@ import { type SelectOption } from './types'
 import CheckIcon from '@/shared/assets/icons/Check.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
-
-type ConditionalModelValue<T extends boolean> = T extends true
-    ? string[]
-    : string
+import Error from '@/shared/ui/Error/Error.vue'
 
 interface Props {
     options: SelectOption[]
@@ -59,7 +56,7 @@ const currentOption = computed(() => {
         return options.value.filter((option) => value.value.includes(option.id))
     }
 
-    return options.value.find((option) => option.id === value.value)!
+    return options.value.find((option) => option.id === value.value)
 })
 </script>
 
@@ -67,6 +64,7 @@ const currentOption = computed(() => {
     <Flex
         :class="cls.Select"
         direction="column"
+        align="start"
         gap="4"
     >
         <label
@@ -81,16 +79,17 @@ const currentOption = computed(() => {
         >
             <ListboxButton
                 :style="{
-                    color: !Array.isArray(currentOption) && currentOption.color,
+                    color:
+                        !Array.isArray(currentOption) && currentOption?.color,
                     backgroundColor:
-                        !Array.isArray(currentOption) && currentOption.bgColor,
+                        !Array.isArray(currentOption) && currentOption?.bgColor,
                 }"
                 :class="[
                     cls.button,
                     {
                         [cls[
                             !Array.isArray(currentOption)
-                                ? currentOption.color!
+                                ? currentOption?.color!
                                 : ''
                         ]]: hasColor,
                         [cls.input]: asInput,
@@ -99,28 +98,35 @@ const currentOption = computed(() => {
             >
                 <Flex gap="4">
                     <Avatar
-                        v-if="withAvatar && !Array.isArray(currentOption)"
+                        v-if="
+                            withAvatar &&
+                            !Array.isArray(currentOption) &&
+                            currentOption
+                        "
                         :name="currentOption.name"
                     />
                     <Text
                         size="size_s"
                         weight="medium"
                         v-if="
-                            Array.isArray(currentOption) &&
-                            !currentOption.length
+                            (Array.isArray(currentOption) &&
+                                !currentOption.length) ||
+                            !currentOption
                         "
-                        color="quatinary"
+                        color="secondary"
                         >Wybierz</Text
                     >
                     {{
                         Array.isArray(currentOption)
                             ? currentOption.map((it) => it.name).join(', ')
-                            : currentOption.name
+                            : currentOption?.name
                     }}
                 </Flex>
 
                 <Icon
-                    v-if="!Array.isArray(currentOption) && !currentOption.color"
+                    v-if="
+                        !Array.isArray(currentOption) && !currentOption?.color
+                    "
                     :icon="SelectIcon"
                     color="secondary"
                 />
@@ -129,7 +135,7 @@ const currentOption = computed(() => {
                     :style="{
                         fill:
                             !Array.isArray(currentOption) &&
-                            currentOption.color,
+                            currentOption?.color,
                     }"
                 />
             </ListboxButton>
@@ -166,6 +172,9 @@ const currentOption = computed(() => {
                 </ListboxOptions>
             </transition>
         </Listbox>
+        <Error
+            v-if="errorMessage"
+            :value="errorMessage"
+        />
     </Flex>
-    {{ errorMessage }}
 </template>
