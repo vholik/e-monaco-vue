@@ -74,22 +74,25 @@ const onSubmit = (values: unknown) => {
                     />
                     <Input
                         name="name"
-                        label="Imię"
+                        label="Imię*"
                         placeholder="Firma XYZ Sp. z o.o."
                     />
                     <Input
                         name="tractorAmount"
                         label="Ciągniki"
+                        type="number"
                         placeholder="Wartość liczbowa całkowita"
                     />
                     <Input
                         name="trailerAmount"
                         label="Naczepy"
+                        type="number"
                         placeholder="Wartość liczbowa całkowita"
                     />
                     <Input
                         name="otherAmount"
                         label="Inne"
+                        type="number"
                         placeholder="Wartość liczbowa całkowita"
                     />
                     <StatusSelect
@@ -98,7 +101,7 @@ const onSubmit = (values: unknown) => {
                         name="status"
                     />
                     <MunicipalitySelect
-                        label="Gmina"
+                        label="Gmina*"
                         asInput
                         name="municipalityId"
                     />
@@ -106,16 +109,19 @@ const onSubmit = (values: unknown) => {
                         name="activation"
                         label="Aktywacja"
                         placeholder="Kwota w PLN"
+                        type="number"
                     />
                     <Input
                         name="rentalFee"
                         label="Czynsz"
+                        type="number"
                         placeholder="Kwota w PLN"
                     />
                     <Input
                         name="declaration"
                         label="Deklaracja"
                         placeholder="Kwota w PLN"
+                        type="number"
                     />
                     <ContactPersonSelect
                         asInput

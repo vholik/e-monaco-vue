@@ -9,19 +9,35 @@ yup.addMethod(yup.string, 'nip', function (errorMessage) {
 })
 
 export const addCompanyValidationSchema = yup.object().shape({
-    nextContactDate: yup.date(),
+    nextContactDate: yup.date().nullable(),
     ownerId: yup.string().nullable(),
-    comment: yup.string(),
+    comment: yup.string().max(500, 'Pole musi mieć poniżej 500 znaków'),
     // @ts-ignore
     nip: yup.string().nip('NIP musi mieć format XXX-XXX-XX-XX').nullable(),
     name: yup.string().required('Pole jest obowiązkowe'),
     status: yup.string().nullable(),
     municipalityId: yup.string().required('Pole jest obowiązkowe'),
-    tractorAmount: yup.number().integer().min(0).nullable(),
-    trailerAmount: yup.number().integer().min(0).nullable(),
-    otherAmount: yup.number().integer().min(0).nullable(),
-    activation: yup.number().integer().min(0).nullable(),
-    rentalFee: yup.number().min(0).nullable(),
-    statement: yup.number().min(0).nullable(),
+    tractorAmount: yup
+        .number()
+        .integer()
+        .min(0, 'Pole musi być powyżej 0')
+        .nullable(),
+    trailerAmount: yup
+        .number()
+        .integer()
+        .min(0, 'Pole musi być powyżej 0')
+        .nullable(),
+    otherAmount: yup
+        .number()
+        .integer()
+        .min(0, 'Pole musi być powyżej 0')
+        .nullable(),
+    activation: yup
+        .number()
+        .integer()
+        .min(0, 'Pole musi być powyżej 0')
+        .nullable(),
+    rentalFee: yup.number().min(0, 'Pole musi być powyżej 0').nullable(),
+    statement: yup.number().min(0, 'Pole musi być powyżej 0').nullable(),
     contactPersonsIds: yup.array().of(yup.string()).nullable(),
 })

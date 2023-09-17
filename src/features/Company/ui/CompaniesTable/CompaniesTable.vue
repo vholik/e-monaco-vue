@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
-import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { h, ref } from 'vue'
+import {
+    FlexRender,
+    getPaginationRowModel,
+    useVueTable,
+} from '@tanstack/vue-table'
+import { computed, h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
-import { data as apiData, firstData } from '../../model/consts/data'
 import { StatusSelect } from '@/entities/Status'
 import { UserSelect } from '@/entities/User'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import { ContactPersonSelect } from '@/entities/ContactPerson'
+import { useCompanies } from '../../model/services/useCompanies'
+import type { Company } from '@/entities/Company'
+import { watch } from 'vue'
 
-const columnHelper = createColumnHelper<typeof firstData>()
+const { data } = useCompanies()
+const companiesData = ref({ count: 0, companies: [] as Company[] })
+
+const columnHelper = createColumnHelper<Company>()
 const columns = [
     columnHelper.accessor((row) => row.nextContactDate, {
         id: 'nextContactDate',
@@ -30,7 +39,7 @@ const columns = [
             })
         },
     }),
-    columnHelper.accessor((row) => row.owners, {
+    columnHelper.accessor((row) => row.owner, {
         id: 'status',
         cell: (info) => h(StatusSelect),
         header: () => {
@@ -151,11 +160,17 @@ const columns = [
     }),
 ]
 
-const data = ref(apiData)
 const table = useVueTable({
     columns,
-    data: data.value,
+    get data() {
+        return companiesData.value.companies
+    },
     getCoreRowModel: getCoreRowModel(),
+})
+
+watch(data, (newData: { count: number; companies: Company[] }) => {
+    companiesData.value = newData
+    table.setPageSize(newData.count)
 })
 </script>
 

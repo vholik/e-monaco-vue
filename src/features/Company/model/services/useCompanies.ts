@@ -1,7 +1,7 @@
 import { $api } from '@/shared/api/api'
 import { useQuery } from 'vue-query'
 
-export const useMunicipalities = () => {
+export const useCompanies = () => {
     return useQuery(
         ['companies'],
         async () => {
@@ -10,7 +10,10 @@ export const useMunicipalities = () => {
             return response.data
         },
         {
-            initialData: [],
+            initialData: {
+                companies: [],
+                count: 0,
+            },
         },
     )
 }
