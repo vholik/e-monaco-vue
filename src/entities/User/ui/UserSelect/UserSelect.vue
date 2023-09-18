@@ -38,6 +38,7 @@ function onUpdate(value: string) {
                 data.map((it: User) => ({
                     id: it.id,
                     name: [it.firstName, it.lastName || ''].join(' '),
+                    role: it.role,
                 }))
             "
             @update:modelValue="onUpdate"

@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<Props>(), {
     role: 'admin',
 })
 
-const { name } = toRefs(props)
+const { name, role } = toRefs(props)
 
 let currentName = computed(() =>
     name.value

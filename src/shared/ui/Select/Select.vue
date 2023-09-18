@@ -76,6 +76,7 @@ const currentOption = computed(() => {
         <Listbox
             @update:model-value="change"
             :multiple="multiple"
+            :model-value="currentOption"
         >
             <ListboxButton
                 :style="{
@@ -103,6 +104,7 @@ const currentOption = computed(() => {
                             !Array.isArray(currentOption) &&
                             currentOption
                         "
+                        :role="currentOption.role"
                         :name="currentOption.name"
                     />
                     <Text
@@ -162,6 +164,7 @@ const currentOption = computed(() => {
                                 <Avatar
                                     v-if="withAvatar"
                                     :name="option.name"
+                                    :role="option.role"
                                 />
                                 {{ option.name }}
                             </Flex>

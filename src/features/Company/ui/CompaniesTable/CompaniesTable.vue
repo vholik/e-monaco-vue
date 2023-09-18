@@ -64,7 +64,7 @@ const columns = [
             h(UserSelect, {
                 name: 'owner',
                 defaultValue: info.getValue().id,
-                onChangeFn: onDataChange(info.row.original.id, 'owner'),
+                onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
             }),
         header: () => {
             return h(SortHeader, { name: 'Właściciel', value: 'cool' })
@@ -256,7 +256,7 @@ const columns = [
                 defaultValue: info.getValue().map((it) => it.id),
                 onChangeFn: onDataChange(
                     info.row.original.id,
-                    'contactPersons',
+                    'contactPersonsIds',
                 ),
             }),
         header: () => {
