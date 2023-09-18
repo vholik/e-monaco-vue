@@ -227,7 +227,7 @@ const columns = [
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'rent',
+        id: 'rentalFee',
         cell: (info) =>
             h(PriceInput, {
                 onChangeFn: onDataChange(info.row.original.id, 'rent'),
@@ -238,7 +238,7 @@ const columns = [
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
-        id: 'declaration',
+        id: 'statement',
         cell: (info) =>
             h(PriceInput, {
                 onChangeFn: onDataChange(info.row.original.id, 'declaration'),
