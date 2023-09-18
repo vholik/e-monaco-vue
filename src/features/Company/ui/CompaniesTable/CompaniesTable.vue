@@ -131,7 +131,10 @@ const columns = [
             h(MunicipalitySelect, {
                 name: 'municipality',
                 defaultValue: info.getValue().id,
-                onChangeFn: onDataChange(info.row.original.id, 'municipality'),
+                onChangeFn: onDataChange(
+                    info.row.original.id,
+                    'municipalityId',
+                ),
             }),
         header: () => {
             return h(SortHeader, { name: 'Gmina', value: 'cool' })

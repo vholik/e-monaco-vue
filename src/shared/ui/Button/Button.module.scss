@@ -13,6 +13,7 @@
 
     &:disabled {
         background-color: var(--stroke-color) !important;
+        cursor: not-allowed !important;
     }
 }
 
