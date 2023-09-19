@@ -1,6 +1,6 @@
 import { $api } from '@/shared/api/api'
 import { useQuery } from 'vue-query'
-import type { User } from '../../../Status/types/user'
+import type { User } from '../types/user'
 
 export const useOwners = () => {
     return useQuery(

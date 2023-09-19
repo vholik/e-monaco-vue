@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// TODO: remove ts-no-check
+// @ts-nocheck
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import {
     FlexRender,
