@@ -2,11 +2,7 @@
 // TODO: remove ts-no-check
 // @ts-nocheck
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
-import {
-    FlexRender,
-    getPaginationRowModel,
-    useVueTable,
-} from '@tanstack/vue-table'
+import { FlexRender, useVueTable } from '@tanstack/vue-table'
 import { computed, h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
@@ -22,7 +18,7 @@ import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
 import { useCompanyActions } from '../../model/lib/useCompanyActions'
 import { MunicipalitySelect } from '@/entities/Municipality'
 import { validateNip } from '@/shared/lib/nip'
-import { toastInjectionKey, useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 
 const { data } = useCompanies()
 const toast = useToast()
