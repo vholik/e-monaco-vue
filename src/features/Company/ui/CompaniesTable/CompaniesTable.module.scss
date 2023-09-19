@@ -30,3 +30,11 @@
     border-top: 1px solid var(--stroke-color);
     border-bottom: 1px solid var(--stroke-color);
 }
+
+.row {
+    border-bottom: 1px solid var(--stroke-color);
+}
+
+.marked {
+    background-color: var(--marked-row-bg-color);
+}

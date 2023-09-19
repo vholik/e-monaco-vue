@@ -1,9 +1,7 @@
 <script setup lang="ts">
-// TODO: remove ts-no-check
-// @ts-nocheck
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { computed, h, ref } from 'vue'
+import { h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { StatusSelect } from '@/entities/Status'
@@ -19,6 +17,8 @@ import { useCompanyActions } from '../../model/lib/useCompanyActions'
 import { MunicipalitySelect } from '@/entities/Municipality'
 import { validateNip } from '@/shared/lib/nip'
 import { useToast } from 'vue-toastification'
+import ActionLink from '@/shared/ui/ActionLink/ActionLink.vue'
+import CompanyHistoriesModal from '../CompanyHistoriesModal/CompanyHistoriesModal.vue'
 
 const { data } = useCompanies()
 const toast = useToast()
@@ -29,7 +29,6 @@ const columnHelper = createColumnHelper<Company>()
 const columns = [
     columnHelper.accessor((row) => row.nextContactDate, {
         id: 'nextContactDate',
-        // cell: (info) => info.getValue(),
         cell: (info) =>
             h(Datepicker, {
                 name: 'nextContactDate',
@@ -47,7 +46,10 @@ const columns = [
     }),
     columnHelper.accessor((row) => row.contactHistories, {
         id: 'contactHistories',
-        cell: (info) => 'TODO',
+        cell: (info) =>
+            h(ActionLink, null, {
+                default: () => 'Kliknij aby zobaczyć',
+            }),
         header: () => {
             return h(SortHeader, {
                 name: 'Historia kóntaktów',
@@ -278,10 +280,12 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
     companiesData.value = newData
     table.setPageSize(newData.count)
 })
+const isModalOpen = ref(true)
 </script>
 
 <template>
     <div :class="cls.tableWrapper">
+        <CompanyHistoriesModal v-model:isModalOpen="isModalOpen" />
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
                 <tr>
@@ -299,8 +303,9 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
             </thead>
             <tbody>
                 <tr
-                    v-for="row in table.getRowModel().rows"
+                    v-for="(row, index) in table.getRowModel().rows"
                     :key="row.id"
+                    :class="[cls.row, { [cls.marked]: index % 2 === 0 }]"
                 >
                     <td
                         v-for="cell in row.getVisibleCells()"
@@ -317,4 +322,3 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
         </table>
     </div>
 </template>
-../../model/lib/useCompanyActions
