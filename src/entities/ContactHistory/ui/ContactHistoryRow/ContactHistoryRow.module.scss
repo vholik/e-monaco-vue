@@ -1,0 +1,13 @@
+.ContactHistoryRow {
+    width: 100%;
+    border-bottom: 1px solid var(--stroke-color);
+    padding: 1rem 0;
+}
+
+.comment {
+    width: 100%;
+    background-color: var(--light-grey-color);
+    padding: 0.5rem 0.625rem;
+    border-radius: var(--default-border-radius);
+    font: var(--font-s);
+}

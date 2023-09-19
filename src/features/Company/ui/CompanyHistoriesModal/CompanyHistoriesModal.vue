@@ -9,9 +9,13 @@ import Button from '@/shared/ui/Button/Button.vue'
 import { useAddCompany } from '../../model/services/useAddCompany'
 
 import Tabs from '@/shared/ui/Tabs/Tabs.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ContactHistoryFeed } from '@/entities/ContactHistory'
 import { AddContactHistory } from '@/features/ContactHistory'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
 
 interface Props {
     isModalOpen: boolean
@@ -30,6 +34,10 @@ const onSubmit = (values: unknown) => {
     mutate(values)
 }
 const tabIndex = ref(0)
+
+onMounted(() => {
+    console.log(route.query.id)
+})
 </script>
 
 <template>
@@ -44,7 +52,6 @@ const tabIndex = ref(0)
                 @submit="onSubmit"
             >
                 <Flex
-                    gap="8"
                     direction="column"
                     align="start"
                     :class="cls.wrapper"
