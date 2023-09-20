@@ -35,8 +35,8 @@ function setIsOpen(value: boolean) {
                 <div :class="cls.header">
                     <DialogTitle :class="cls.title">{{ title }}</DialogTitle>
                     <DialogDescription
-                        :class="cls.description"
                         v-if="description"
+                        :class="cls.description"
                     >
                         {{ description }}
                     </DialogDescription>

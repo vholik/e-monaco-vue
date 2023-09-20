@@ -40,14 +40,15 @@ function onUpdate(value: string) {
         max
     >
         <label
-            :class="cls.label"
             v-if="label"
+            :class="cls.label"
             >{{ label }}</label
         >
         <VueDatePicker
+            teleport="body"
             position="left"
-            @update:model-value="onUpdate"
             locale="pl-PL"
+            v-model="value"
             select-text="Wybierz"
             cancel-text="Anuluj"
             :placeholder="placeholder"
@@ -62,8 +63,8 @@ function onUpdate(value: string) {
                 '--dp-border-color': 'var(--stroke-color)',
                 '--dp-primary-color': 'var(--primary-variant-color)',
             }"
-            v-model="value"
             hide-input-icon
+            @update:model-value="onUpdate"
         ></VueDatePicker>
         <Error
             v-if="errorMessage"

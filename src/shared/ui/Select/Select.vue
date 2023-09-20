@@ -15,6 +15,7 @@ import CheckIcon from '@/shared/assets/icons/Check.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Error from '@/shared/ui/Error/Error.vue'
+import { ref } from 'yup'
 
 interface Props {
     options: SelectOption[]
@@ -58,6 +59,8 @@ const currentOption = computed(() => {
 
     return options.value.find((option) => option.id === value.value)
 })
+
+const inputElement = ref('inputElement')
 </script>
 
 <template>
@@ -74,11 +77,12 @@ const currentOption = computed(() => {
             {{ label }}
         </label>
         <Listbox
-            @update:model-value="change"
             :multiple="multiple"
             :model-value="currentOption"
+            @update:model-value="change"
         >
             <ListboxButton
+                ref="inputElement"
                 :style="{
                     color:
                         !Array.isArray(currentOption) && currentOption?.color,
@@ -108,13 +112,13 @@ const currentOption = computed(() => {
                         :name="currentOption.name"
                     />
                     <Text
-                        size="size_s"
-                        weight="medium"
                         v-if="
                             (Array.isArray(currentOption) &&
                                 !currentOption.length) ||
                             !currentOption
                         "
+                        size="size_s"
+                        weight="medium"
                         color="secondary"
                         >Wybierz</Text
                     >
@@ -147,10 +151,10 @@ const currentOption = computed(() => {
             >
                 <ListboxOptions :class="cls.optionsWrapper">
                     <ListboxOption
-                        v-slot="{ selected }"
-                        :class="cls.option"
                         v-for="option in options"
+                        v-slot="{ selected }"
                         :key="option.id"
+                        :class="cls.option"
                         :value="option"
                     >
                         <Flex

@@ -5,8 +5,8 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 
 import { Form } from 'vee-validate'
 import { addCompanyValidationSchema } from '../../model/lib/addCompanySchema'
-import Button from '@/shared/ui/Button/Button.vue'
 import { useAddCompany } from '../../model/services/useAddCompany'
+import { h } from 'vue'
 
 import Tabs from '@/shared/ui/Tabs/Tabs.vue'
 import { onMounted, ref } from 'vue'
@@ -36,7 +36,7 @@ const onSubmit = (values: unknown) => {
 const tabIndex = ref(0)
 
 onMounted(() => {
-    console.log(route.query.id)
+    // console.log(route.query.id)
 })
 </script>
 
@@ -57,20 +57,17 @@ onMounted(() => {
                     :class="cls.wrapper"
                 >
                     <Tabs
-                        :tab-panels="[ContactHistoryFeed, AddContactHistory]"
+                        :tab-panels="[
+                            ContactHistoryFeed,
+                            h(AddContactHistory, {
+                                onSubmit: (value) => console.log(value),
+                            }),
+                        ]"
                         :tab-options="['Wszystkie', 'Dodać historię']"
                     >
                         {{ tabIndex }}
                     </Tabs>
                 </Flex>
-                <div :class="cls.footer">
-                    <Button
-                        :class="cls.button"
-                        variant="secondary"
-                        :disabled="isLoading || isError"
-                        >Anuluj</Button
-                    >
-                </div>
             </Form>
         </Modal>
     </div>

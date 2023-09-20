@@ -1,11 +1,8 @@
 <script setup lang="ts">
+import { contactResultOptions } from '../../model/consts/contactHistory'
 import { toRefs } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
-import { useMunicipalities } from '../../model/services/useMunicipalities'
-import type { Municipality } from '../../model/types/municipality'
-
-const { data } = useMunicipalities()
 
 interface Props {
     asInput?: boolean
@@ -18,30 +15,20 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { name, defaultValue, onChangeFn } = toRefs(props)
+const { name, defaultValue } = toRefs(props)
 
 const { errorMessage, value } = useField<string>(name, undefined, {
-    initialValue: defaultValue?.value,
+    initialValue: contactResultOptions[0].id,
 })
-
-function onUpdate(value: string) {
-    onChangeFn?.value?.(value)
-}
 </script>
 
 <template>
     <Select
         v-model="value"
-        :options="
-            data.map((it: Municipality) => ({
-                id: it.id,
-                name: it.name,
-            }))
-        "
+        :options="contactResultOptions"
         :as-input="asInput"
         :label="label"
         v-bind="$props"
         :error-message="errorMessage"
-        @update:modelValue="onUpdate"
     />
 </template>

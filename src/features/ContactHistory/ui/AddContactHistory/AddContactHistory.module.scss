@@ -1,2 +1,16 @@
 .AddContactHistory {
+    margin-top: 1rem;
+}
+
+.footer {
+    margin-top: 1.5rem;
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--primary-invert-color);
+    z-index: var(--modal-z-index);
+    display: flex;
+    justify-content: flex-end;
 }
