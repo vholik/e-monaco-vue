@@ -14,7 +14,7 @@ let currentPath = router.currentRoute.value.path
         <Flex
             direction="column"
             gap="8"
-            :align="'start'"
+            align="start"
         >
             <Flex gap="4">
                 <div :class="cls.userIcon">VH</div>
