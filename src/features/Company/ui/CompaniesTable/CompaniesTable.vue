@@ -332,7 +332,7 @@ const columns = [
 const table = useVueTable({
     columns,
     get data() {
-        return companiesData.value.companies
+        return companiesData.value.companies || []
     },
     getCoreRowModel: getCoreRowModel(),
 })
