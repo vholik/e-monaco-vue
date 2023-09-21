@@ -19,11 +19,36 @@ import { validateNip } from '@/shared/lib/nip'
 import { useToast } from 'vue-toastification'
 import ActionLink from '@/shared/ui/ActionLink/ActionLink.vue'
 import CompanyHistoriesModal from '../CompanyHistoriesModal/CompanyHistoriesModal.vue'
+import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 
-const { data } = useCompanies()
+const { data, isLoading } = useCompanies()
 const toast = useToast()
 const companiesData = ref({ count: 0, companies: [] as Company[] })
 const { onDataChange } = useCompanyActions()
+const isCompanyHistoriesModalOpen = ref(false)
+const currentCompanyId = ref('')
+
+function onContactHistoriesClick(companyId: string) {
+    isCompanyHistoriesModalOpen.value = true
+    currentCompanyId.value = companyId
+}
+
+function calculatePairArguments(...args: (number | undefined)[]) {
+    for (let arg of args) {
+        if (!arg) {
+            return 'N/A'
+        }
+    }
+
+    let count = 0
+    let i = 0
+
+    while (i < args.length - 1) {
+        count += args[i]! * args[i + 1]!
+        i += 2
+    }
+    return count
+}
 
 const columnHelper = createColumnHelper<Company>()
 const columns = [
@@ -47,9 +72,16 @@ const columns = [
     columnHelper.accessor((row) => row.contactHistories, {
         id: 'contactHistories',
         cell: (info) =>
-            h(ActionLink, null, {
-                default: () => 'Kliknij aby zobaczyć',
-            }),
+            h(
+                ActionLink,
+                {
+                    onClickFn: () =>
+                        onContactHistoriesClick(info.row.original.id),
+                },
+                {
+                    default: () => 'Kliknij aby zobaczyć',
+                },
+            ),
         header: () => {
             return h(SortHeader, {
                 name: 'Historia kóntaktów',
@@ -178,15 +210,19 @@ const columns = [
             return h(SortHeader, { name: 'Stawka naczepa', value: 'cool' })
         },
     }),
+
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'theirsTaxes',
         // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
         cell: (info) =>
-            info.row.original.tractorAmount *
-                info.row.original.municipality.tractorRate +
-            info.row.original.trailerAmount *
-                info.row.original.municipality.trailerRate +
-            1800 * info.row.original.otherAmount,
+            calculatePairArguments(
+                info.row.original.tractorAmount,
+                info.row.original.municipality.tractorRate,
+                info.row.original.trailerAmount,
+                info.row.original.municipality.trailerRate,
+                1800,
+                info.row.original.otherAmount,
+            ),
         header: () => {
             return h(SortHeader, { name: 'Podatek u nich', value: 'cool' })
         },
@@ -195,25 +231,50 @@ const columns = [
         id: 'ourTaxes',
         // 1457 x CIAGNIKI + 972 x NACZEPY + 1000 x INNE
         cell: (info) =>
-            // TODO: change values to api
-            1457 * info.row.original.tractorAmount +
-            972 * info.row.original.trailerAmount +
-            1000 * info.row.original.otherAmount,
+            calculatePairArguments(
+                1457,
+                info.row.original.tractorAmount,
+                972,
+                info.row.original.trailerAmount,
+                1000,
+                info.row.original.otherAmount,
+            ),
         header: () => {
             return h(SortHeader, { name: 'Podatek u nas', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'frugality',
-        cell: (info) =>
-            info.row.original.tractorAmount *
-                info.row.original.municipality.tractorRate +
-            info.row.original.trailerAmount *
-                info.row.original.municipality.trailerRate +
-            1800 * info.row.original.otherAmount -
-            (1457 * info.row.original.tractorAmount +
-                972 * info.row.original.trailerAmount +
-                1000 * info.row.original.otherAmount),
+        cell: (info) => {
+            const arg1 = calculatePairArguments(
+                info.row.original.tractorAmount,
+                info.row.original.municipality.tractorRate,
+                info.row.original.trailerAmount,
+                info.row.original.municipality.trailerRate,
+            )
+            const arg2 = calculatePairArguments(
+                1800,
+                info.row.original.otherAmount,
+            )
+            const arg3 = calculatePairArguments(
+                1457,
+                info.row.original.tractorAmount,
+                972,
+                info.row.original.trailerAmount,
+                1000,
+                info.row.original.otherAmount,
+            )
+
+            if (
+                typeof arg1 === 'number' &&
+                typeof arg2 === 'number' &&
+                typeof arg3 === 'number'
+            ) {
+                return arg1 + arg2 - arg3
+            }
+
+            return 'N/A'
+        },
         header: () => {
             return h(SortHeader, { name: 'Oszczędność', value: 'cool' })
         },
@@ -280,12 +341,14 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
     companiesData.value = newData
     table.setPageSize(newData.count)
 })
-const isModalOpen = ref(true)
 </script>
 
 <template>
     <div :class="cls.tableWrapper">
-        <CompanyHistoriesModal v-model:isModalOpen="isModalOpen" />
+        <CompanyHistoriesModal
+            v-model:isModalOpen="isCompanyHistoriesModalOpen"
+            :current-company-id="currentCompanyId"
+        />
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
                 <tr>
@@ -301,6 +364,7 @@ const isModalOpen = ref(true)
                     </th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr
                     v-for="(row, index) in table.getRowModel().rows"
@@ -320,5 +384,6 @@ const isModalOpen = ref(true)
                 </tr>
             </tbody>
         </table>
+        <LoaderContainer :is-loading="isLoading"></LoaderContainer>
     </div>
 </template>

@@ -13,3 +13,48 @@ export const isValidDateFormat = (dateString: string) => {
 
     return true
 }
+
+export function formatDateLikeFacebook(date: Date): string | undefined {
+    const now = new Date()
+    // @ts-ignore
+    const diffInMilliseconds = now - date
+    const seconds = Math.floor(diffInMilliseconds / 1000)
+    const minutes = Math.floor(seconds / 60)
+    const hours = Math.floor(minutes / 60)
+    const days = Math.floor(hours / 24)
+
+    if (days >= 7) {
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        }
+
+        // @ts-ignore
+        return date.toLocaleDateString('pl-PL', options)
+    } else if (days >= 2) {
+        return `${days} dni temu`
+    } else if (days === 1) {
+        const hoursAgo = hours % 24
+        if (hoursAgo === 0) {
+            return `Wczoraj`
+        } else {
+            return `Wczoraj o ${date.toLocaleTimeString('pl-PL', {
+                hour: '2-digit',
+                minute: '2-digit',
+            })}`
+        }
+    } else if (hours >= 2) {
+        return `${hours} godzin temu`
+    } else if (hours === 1) {
+        return `Godzinę temu`
+    } else if (minutes >= 4) {
+        return `${minutes} minut temu`
+    } else if (minutes === 1) {
+        return `Minutę temu`
+    } else {
+        return `Właśnie teraz`
+    }
+}

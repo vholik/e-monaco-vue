@@ -8,9 +8,12 @@ import { addCompanyHistorySchema } from '../../model/lib/addContactHistorySchema
 import Button from '@/shared/ui/Button/Button.vue'
 import { Form } from 'vee-validate'
 import { toRefs } from 'vue'
+import Note from '@/shared/ui/Note/Note.vue'
 
 interface Props {
     onSubmit: (values: Record<string, string>) => void
+    isLoading: boolean
+    error?: boolean
 }
 
 const props = defineProps<Props>()
@@ -32,13 +35,16 @@ function submit(values: Record<string, string>) {
                 gap="4"
                 direction="column"
             >
+                <Note v-if="error"
+                    >Wystąpił błąd. Spróbuj ponownie później</Note
+                >
                 <Datepicker
                     name="contactDate"
                     label="Datowanie"
                     placeholder="15/09/2023, 14:00"
                 />
                 <ContactHistorySelect
-                    name="result"
+                    name="contactResult"
                     as-input
                     label="Rezultat"
                 />
@@ -52,6 +58,7 @@ function submit(values: Record<string, string>) {
                 <Button
                     :class="cls.button"
                     variant="primary"
+                    :disabled="isLoading || error"
                     >Dodaj</Button
                 >
             </div>

@@ -1,11 +1,8 @@
-.ContactHistoryFeed {
+.LoaderContainer {
     width: 100%;
     min-height: 20rem;
-}
-
-.noData {
-    height: 20rem;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    transform: scale(0.8);
 }

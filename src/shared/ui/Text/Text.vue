@@ -5,6 +5,7 @@ import cls from './Text.module.scss'
 interface Props {
     size?: 'size_s' | 'size_m' | 'size_xl' | 'size_xxl'
     isTitle?: boolean
+    alignCenter?: boolean
     weight?: 'regular' | 'medium' | 'bold' | 'superbold'
     color?: 'primary' | 'secondary' | 'tertiary' | 'quatinary' | 'quinary'
 }
@@ -15,26 +16,27 @@ const props = withDefaults(defineProps<Props>(), {
     color: 'primary',
 })
 
-const { size, weight, color } = toRefs(props)
+const { size, weight, color, alignCenter } = toRefs(props)
 
 const classObject = reactive([
     [cls.Text],
     [cls[size.value]],
     [cls[weight.value]],
     [cls[color.value]],
+    { [cls.alignCenter]: alignCenter },
 ])
 </script>
 
 <template>
     <h2
-        :class="classObject"
         v-if="isTitle"
+        :class="classObject"
     >
         <slot></slot>
     </h2>
     <p
-        :class="classObject"
         v-else
+        :class="classObject"
     >
         <slot></slot>
     </p>

@@ -2,11 +2,11 @@
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import cls from './ContactHistoryRow.module.scss'
 import Text from '@/shared/ui/Text/Text.vue'
+import { formatDateLikeFacebook } from '@/shared/lib/date'
 
 interface Props {
     id: string
     contactDate: string
-    // TODO: change
     contactResult: string
     comment: string
 }
@@ -37,7 +37,8 @@ defineProps<Props>()
                 <Text
                     size="size_s"
                     color="quinary"
-                    >2 dni temu o 14:35</Text
+                >
+                    {{ formatDateLikeFacebook(new Date(contactDate)) }}</Text
                 >
             </Flex>
 

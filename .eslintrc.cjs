@@ -14,7 +14,6 @@ module.exports = {
     ],
     rules: {
         'vue/multi-word-component-names': 'off',
-        'simple-import-sort/sort': 'error',
         'import/no-unused-modules': ['error', { unusedExports: true }],
     },
     parserOptions: {

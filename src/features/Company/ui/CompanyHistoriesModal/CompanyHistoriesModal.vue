@@ -5,39 +5,38 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 
 import { Form } from 'vee-validate'
 import { addCompanyValidationSchema } from '../../model/lib/addCompanySchema'
-import { useAddCompany } from '../../model/services/useAddCompany'
-import { h } from 'vue'
+import { h, toRefs, watch } from 'vue'
 
 import Tabs from '@/shared/ui/Tabs/Tabs.vue'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { ContactHistoryFeed } from '@/entities/ContactHistory'
 import { AddContactHistory } from '@/features/ContactHistory'
-import { useRoute, useRouter } from 'vue-router'
-
-const route = useRoute()
-const router = useRouter()
+import { useAddCompanyHistory } from '../../model/services/useAddCompanyHistory'
 
 interface Props {
     isModalOpen: boolean
+    currentCompanyId: string
 }
 
 function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
 
-const { mutate, isLoading, isError } = useAddCompany(setIsModalOpen)
+const props = defineProps<Props>()
 
-defineProps<Props>()
+const { currentCompanyId } = toRefs(props)
+
+const { mutate, isLoading, isError } = useAddCompanyHistory(
+    setIsModalOpen,
+    currentCompanyId,
+)
+
 const emit = defineEmits(['update:isModalOpen'])
 
-const onSubmit = (values: unknown) => {
+const onSubmit = (values: Record<string, string>) => {
     mutate(values)
 }
 const tabIndex = ref(0)
-
-onMounted(() => {
-    // console.log(route.query.id)
-})
 </script>
 
 <template>
@@ -58,12 +57,16 @@ onMounted(() => {
                 >
                     <Tabs
                         :tab-panels="[
-                            ContactHistoryFeed,
+                            h(ContactHistoryFeed, {
+                                companyId: currentCompanyId,
+                            }),
                             h(AddContactHistory, {
-                                onSubmit: (value) => console.log(value),
+                                onSubmit: onSubmit,
+                                isLoading,
+                                isError,
                             }),
                         ]"
-                        :tab-options="['Wszystkie', 'Dodać historię']"
+                        :tab-options="['Wszystkie', 'Dodaj historię']"
                     >
                         {{ tabIndex }}
                     </Tabs>
