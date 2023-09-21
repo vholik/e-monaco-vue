@@ -45,10 +45,10 @@ function onUpdate(value: string) {
             >{{ label }}</label
         >
         <VueDatePicker
-            teleport="body"
+            v-model="value"
+            teleport
             position="left"
             locale="pl-PL"
-            v-model="value"
             select-text="Wybierz"
             cancel-text="Anuluj"
             :placeholder="placeholder"
