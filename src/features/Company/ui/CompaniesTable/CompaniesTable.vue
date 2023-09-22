@@ -69,109 +69,109 @@ const columns = [
             return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
         },
     }),
-    // columnHelper.accessor((row) => row.contactHistories, {
-    //     id: 'contactHistories',
-    //     cell: (info) =>
-    //         h(
-    //             ActionLink,
-    //             {
-    //                 onClickFn: () =>
-    //                     onContactHistoriesClick(info.row.original.id),
-    //             },
-    //             {
-    //                 default: () => 'Kliknij aby zobaczyć',
-    //             },
-    //         ),
-    //     header: () => {
-    //         return h(SortHeader, {
-    //             name: 'Historia kóntaktów',
-    //             value: 'cool',
-    //             canSort: false,
-    //         })
-    //     },
-    // }),
-    columnHelper.accessor((row) => row.owner, {
-        id: 'owner',
+    columnHelper.accessor((row) => row.contactHistories, {
+        id: 'contactHistories',
         cell: (info) =>
-            h(UserSelect, {
-                name: 'owner',
-                defaultValue: info.getValue().id,
-                onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
-            }),
-        header: () => {
-            return h(SortHeader, { name: 'Właściciel', value: 'cool' })
-        },
-    }),
-    columnHelper.accessor((row) => row.comment, {
-        id: 'comment',
-        cell: (info) =>
-            h(CommentInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'comment'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => {
-            return h(SortHeader, { name: 'Komentarz', value: 'cool' })
-        },
-    }),
-    columnHelper.accessor((row) => row.nip, {
-        id: 'nip',
-        cell: (info) =>
-            h(CommentInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'nip'),
-                defaultValue: info.getValue(),
-                validateFn: (value: string) => {
-                    const isValid = validateNip(value)
-                    if (!isValid) {
-                        toast.error('Nie poprawny NIP')
-                        return isValid
-                    }
-
-                    return isValid
+            h(
+                ActionLink,
+                {
+                    onClickFn: () =>
+                        onContactHistoriesClick(info.row.original.id),
                 },
-            }),
+                {
+                    default: () => 'Kliknij aby zobaczyć',
+                },
+            ),
         header: () => {
-            return h(SortHeader, { name: 'NIP', value: 'cool' })
-        },
-    }),
-    columnHelper.accessor((row) => row.name, {
-        id: 'name',
-        cell: (info) =>
-            h(CommentInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'name'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => {
-            return h(SortHeader, { name: 'Naszwa firmy', value: 'cool' })
-        },
-    }),
-    columnHelper.accessor((row) => row.status, {
-        id: 'status',
-        cell: (info) => {
-            return h(StatusSelect, {
-                name: 'status',
-                defaultValue: info.row.original.status,
-                onChangeFn: onDataChange(info.row.original.id, 'status'),
+            return h(SortHeader, {
+                name: 'Historia kóntaktów',
+                value: 'cool',
+                canSort: false,
             })
         },
-        header: () => {
-            return h(SortHeader, { name: 'Status', value: 'cool' })
-        },
     }),
-    columnHelper.accessor((row) => row.municipality, {
-        id: 'manicipality',
-        cell: (info) =>
-            h(MunicipalitySelect, {
-                name: 'municipality',
-                defaultValue: info.getValue().id,
-                onChangeFn: onDataChange(
-                    info.row.original.id,
-                    'municipalityId',
-                ),
-            }),
-        header: () => {
-            return h(SortHeader, { name: 'Gmina', value: 'cool' })
-        },
-    }),
+    // columnHelper.accessor((row) => row.owner, {
+    //     id: 'owner',
+    //     cell: (info) =>
+    //         h(UserSelect, {
+    //             name: 'owner',
+    //             defaultValue: info.getValue().id,
+    //             onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
+    //         }),
+    //     header: () => {
+    //         return h(SortHeader, { name: 'Właściciel', value: 'cool' })
+    //     },
+    // }),
+    // columnHelper.accessor((row) => row.comment, {
+    //     id: 'comment',
+    //     cell: (info) =>
+    //         h(CommentInput, {
+    //             onChangeFn: onDataChange(info.row.original.id, 'comment'),
+    //             defaultValue: info.getValue(),
+    //         }),
+    //     header: () => {
+    //         return h(SortHeader, { name: 'Komentarz', value: 'cool' })
+    //     },
+    // }),
+    // columnHelper.accessor((row) => row.nip, {
+    //     id: 'nip',
+    //     cell: (info) =>
+    //         h(CommentInput, {
+    //             onChangeFn: onDataChange(info.row.original.id, 'nip'),
+    //             defaultValue: info.getValue(),
+    //             validateFn: (value: string) => {
+    //                 const isValid = validateNip(value)
+    //                 if (!isValid) {
+    //                     toast.error('Nie poprawny NIP')
+    //                     return isValid
+    //                 }
+
+    //                 return isValid
+    //             },
+    //         }),
+    //     header: () => {
+    //         return h(SortHeader, { name: 'NIP', value: 'cool' })
+    //     },
+    // }),
+    // columnHelper.accessor((row) => row.name, {
+    //     id: 'name',
+    //     cell: (info) =>
+    //         h(CommentInput, {
+    //             onChangeFn: onDataChange(info.row.original.id, 'name'),
+    //             defaultValue: info.getValue(),
+    //         }),
+    //     header: () => {
+    //         return h(SortHeader, { name: 'Naszwa firmy', value: 'cool' })
+    //     },
+    // }),
+    // columnHelper.accessor((row) => row.status, {
+    //     id: 'status',
+    //     cell: (info) => {
+    //         return h(StatusSelect, {
+    //             name: 'status',
+    //             defaultValue: info.row.original.status,
+    //             onChangeFn: onDataChange(info.row.original.id, 'status'),
+    //         })
+    //     },
+    //     header: () => {
+    //         return h(SortHeader, { name: 'Status', value: 'cool' })
+    //     },
+    // }),
+    // columnHelper.accessor((row) => row.municipality, {
+    //     id: 'manicipality',
+    //     cell: (info) =>
+    //         h(MunicipalitySelect, {
+    //             name: 'municipality',
+    //             defaultValue: info.getValue().id,
+    //             onChangeFn: onDataChange(
+    //                 info.row.original.id,
+    //                 'municipalityId',
+    //             ),
+    //         }),
+    //     header: () => {
+    //         return h(SortHeader, { name: 'Gmina', value: 'cool' })
+    //     },
+    // }),
     columnHelper.accessor((row) => row, {
         id: 'taxIncrease',
         cell: (info) => info.row.original.municipality.taxIncrease,
