@@ -69,27 +69,27 @@ const columns: any[] = [
             return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
         },
     }),
-    columnHelper.accessor((row) => row.contactHistories, {
-        id: 'contactHistories',
-        cell: (info) =>
-            h(
-                ActionLink,
-                {
-                    onClickFn: () =>
-                        onContactHistoriesClick(info.row.original.id),
-                },
-                {
-                    default: () => 'Kliknij aby zobaczyć',
-                },
-            ),
-        header: () => {
-            return h(SortHeader, {
-                name: 'Historia kóntaktów',
-                value: 'cool',
-                canSort: false,
-            })
-        },
-    }),
+    // columnHelper.accessor((row) => row.contactHistories, {
+    //     id: 'contactHistories',
+    //     cell: (info) =>
+    //         h(
+    //             ActionLink,
+    //             {
+    //                 onClickFn: () =>
+    //                     onContactHistoriesClick(info.row.original.id),
+    //             },
+    //             {
+    //                 default: () => 'Kliknij aby zobaczyć',
+    //             },
+    //         ),
+    //     header: () => {
+    //         return h(SortHeader, {
+    //             name: 'Historia kóntaktów',
+    //             value: 'cool',
+    //             canSort: false,
+    //         })
+    //     },
+    // }),
     columnHelper.accessor((row) => row.owner, {
         id: 'owner',
         cell: (info) =>
