@@ -31,7 +31,7 @@ function onUpdate(value: string) {
 
 <template>
     <div :class="cls.UserSelect">
-        <Select
+        <!-- <Select
             v-model="value"
             :options="
                 data?.map((it: User) => ({
@@ -46,6 +46,6 @@ function onUpdate(value: string) {
             v-bind="$props"
             :error-message="errorMessage"
             @update="onUpdate"
-        />
+        /> -->
     </div>
 </template>
