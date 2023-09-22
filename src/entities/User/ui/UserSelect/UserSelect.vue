@@ -41,12 +41,12 @@ function onUpdate(value: string) {
                     role: it.role,
                 }))
             "
-            @update:modelValue="onUpdate"
-            :withAvatar="true"
-            :asInput="asInput"
+            :with-avatar="true"
+            :as-input="asInput"
             :label="label"
             v-bind="$props"
-            :errorMessage="errorMessage"
+            :error-message="errorMessage"
+            @update="onUpdate"
         />
     </div>
 </template>
