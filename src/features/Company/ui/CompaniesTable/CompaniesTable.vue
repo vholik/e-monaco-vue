@@ -345,10 +345,10 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
 
 <template>
     <div :class="cls.tableWrapper">
-        <!-- <CompanyHistoriesModal
+        <CompanyHistoriesModal
             v-model:isModalOpen="isCompanyHistoriesModalOpen"
             :current-company-id="currentCompanyId"
-        /> -->
+        />
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
                 <tr>
@@ -365,7 +365,7 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
                 </tr>
             </thead>
 
-            <tbody>
+            <!-- <tbody>
                 <tr
                     v-for="(row, index) in table.getRowModel().rows"
                     :key="row.id"
@@ -382,7 +382,7 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
                         />
                     </td>
                 </tr>
-            </tbody>
+            </tbody> -->
         </table>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
     </div>
