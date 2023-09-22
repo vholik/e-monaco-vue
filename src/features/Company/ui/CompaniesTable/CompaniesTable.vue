@@ -214,15 +214,15 @@ const columns = [
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'theirsTaxes',
         // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
-        cell: (info) =>
-            calculatePairArguments(
-                info.row.original.tractorAmount,
-                info.row.original.municipality.tractorRate,
-                info.row.original.trailerAmount,
-                info.row.original.municipality.trailerRate,
-                1800,
-                info.row.original.otherAmount,
-            ),
+        // cell: (info) =>
+        //     calculatePairArguments(
+        //         info.row.original.tractorAmount,
+        //         info.row.original.municipality.tractorRate,
+        //         info.row.original.trailerAmount,
+        //         info.row.original.municipality.trailerRate,
+        //         1800,
+        //         info.row.original.otherAmount,
+        //     ),
         header: () => {
             return h(SortHeader, { name: 'Podatek u nich', value: 'cool' })
         },
@@ -230,51 +230,51 @@ const columns = [
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'ourTaxes',
         // 1457 x CIAGNIKI + 972 x NACZEPY + 1000 x INNE
-        cell: (info) =>
-            calculatePairArguments(
-                1457,
-                info.row.original.tractorAmount,
-                972,
-                info.row.original.trailerAmount,
-                1000,
-                info.row.original.otherAmount,
-            ),
+        // cell: (info) =>
+        //     calculatePairArguments(
+        //         1457,
+        //         info.row.original.tractorAmount,
+        //         972,
+        //         info.row.original.trailerAmount,
+        //         1000,
+        //         info.row.original.otherAmount,
+        //     ),
         header: () => {
             return h(SortHeader, { name: 'Podatek u nas', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'frugality',
-        cell: (info) => {
-            const arg1 = calculatePairArguments(
-                info.row.original.tractorAmount,
-                info.row.original.municipality.tractorRate,
-                info.row.original.trailerAmount,
-                info.row.original.municipality.trailerRate,
-            )
-            const arg2 = calculatePairArguments(
-                1800,
-                info.row.original.otherAmount,
-            )
-            const arg3 = calculatePairArguments(
-                1457,
-                info.row.original.tractorAmount,
-                972,
-                info.row.original.trailerAmount,
-                1000,
-                info.row.original.otherAmount,
-            )
+        // cell: (info) => {
+        //     const arg1 = calculatePairArguments(
+        //         info.row.original.tractorAmount,
+        //         info.row.original.municipality.tractorRate,
+        //         info.row.original.trailerAmount,
+        //         info.row.original.municipality.trailerRate,
+        //     )
+        //     const arg2 = calculatePairArguments(
+        //         1800,
+        //         info.row.original.otherAmount,
+        //     )
+        //     const arg3 = calculatePairArguments(
+        //         1457,
+        //         info.row.original.tractorAmount,
+        //         972,
+        //         info.row.original.trailerAmount,
+        //         1000,
+        //         info.row.original.otherAmount,
+        //     )
 
-            if (
-                typeof arg1 === 'number' &&
-                typeof arg2 === 'number' &&
-                typeof arg3 === 'number'
-            ) {
-                return arg1 + arg2 - arg3
-            }
+        //     if (
+        //         typeof arg1 === 'number' &&
+        //         typeof arg2 === 'number' &&
+        //         typeof arg3 === 'number'
+        //     ) {
+        //         return arg1 + arg2 - arg3
+        //     }
 
-            return 'N/A'
-        },
+        //     return 'N/A'
+        // },
         header: () => {
             return h(SortHeader, { name: 'Oszczędność', value: 'cool' })
         },
@@ -365,7 +365,7 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
                 </tr>
             </thead>
 
-            <!-- <tbody>
+            <tbody>
                 <tr
                     v-for="(row, index) in table.getRowModel().rows"
                     :key="row.id"
@@ -382,7 +382,7 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
                         />
                     </td>
                 </tr>
-            </tbody> -->
+            </tbody>
         </table>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
     </div>
