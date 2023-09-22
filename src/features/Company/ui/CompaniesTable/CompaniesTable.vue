@@ -69,69 +69,69 @@ const columns: any[] = [
             return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
         },
     }),
-    // columnHelper.accessor((row) => row.contactHistories, {
-    //     id: 'contactHistories',
-    //     cell: (info) =>
-    //         h(
-    //             ActionLink,
-    //             {
-    //                 onClickFn: () =>
-    //                     onContactHistoriesClick(info.row.original.id),
-    //             },
-    //             {
-    //                 default: () => 'Kliknij aby zobaczyć',
-    //             },
-    //         ),
-    //     header: () => {
-    //         return h(SortHeader, {
-    //             name: 'Historia kóntaktów',
-    //             value: 'cool',
-    //             canSort: false,
-    //         })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.owner, {
-    //     id: 'owner',
-    //     cell: (info) =>
-    //         h(UserSelect, {
-    //             name: 'owner',
-    //             defaultValue: info.getValue().id,
-    //             onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Właściciel', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.comment, {
-    //     id: 'comment',
-    //     cell: (info) =>
-    //         h(CommentInput, {
-    //             onChangeFn: onDataChange(info.row.original.id, 'comment'),
-    //             defaultValue: info.getValue(),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Komentarz', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.nip, {
-    //     id: 'nip',
-    //     cell: (info) =>
-    //         h(CommentInput, {
-    //             onChangeFn: onDataChange(info.row.original.id, 'nip'),
-    //             defaultValue: info.getValue(),
-    //             validateFn: (value: string) => {
-    //                 const isValid = validateNip(value)
-    //                 if (!isValid) {
-    //                     toast.error('Nie poprawny NIP')
-    //                     return isValid
-    //                 }
-    //                 return isValid
-    //             },
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'NIP', value: 'cool' })
-    //     },
-    // }),
+    columnHelper.accessor((row) => row.contactHistories, {
+        id: 'contactHistories',
+        cell: (info) =>
+            h(
+                ActionLink,
+                {
+                    onClickFn: () =>
+                        onContactHistoriesClick(info.row.original.id),
+                },
+                {
+                    default: () => 'Kliknij aby zobaczyć',
+                },
+            ),
+        header: () => {
+            return h(SortHeader, {
+                name: 'Historia kóntaktów',
+                value: 'cool',
+                canSort: false,
+            })
+        },
+    }),
+    columnHelper.accessor((row) => row.owner, {
+        id: 'owner',
+        cell: (info) =>
+            h(UserSelect, {
+                name: 'owner',
+                defaultValue: info.getValue().id,
+                onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Właściciel', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.comment, {
+        id: 'comment',
+        cell: (info) =>
+            h(CommentInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'comment'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Komentarz', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.nip, {
+        id: 'nip',
+        cell: (info) =>
+            h(CommentInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'nip'),
+                defaultValue: info.getValue(),
+                validateFn: (value: string) => {
+                    const isValid = validateNip(value)
+                    if (!isValid) {
+                        toast.error('Nie poprawny NIP')
+                        return isValid
+                    }
+                    return isValid
+                },
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'NIP', value: 'cool' })
+        },
+    }),
     // columnHelper.accessor((row) => row.name, {
     //     id: 'name',
     //     cell: (info) =>
