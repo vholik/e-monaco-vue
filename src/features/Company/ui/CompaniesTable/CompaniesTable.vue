@@ -345,10 +345,10 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
 
 <template>
     <div :class="cls.tableWrapper">
-        <CompanyHistoriesModal
+        <!-- <CompanyHistoriesModal
             v-model:isModalOpen="isCompanyHistoriesModalOpen"
             :current-company-id="currentCompanyId"
-        />
+        /> -->
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
                 <tr>
