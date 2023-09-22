@@ -90,18 +90,18 @@ const columns: any[] = [
     //         })
     //     },
     // }),
-    columnHelper.accessor((row) => row.owner, {
-        id: 'owner',
-        cell: (info) =>
-            h(UserSelect, {
-                name: 'owner',
-                defaultValue: info.getValue().id,
-                onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
-            }),
-        header: () => {
-            return h(SortHeader, { name: 'Właściciel', value: 'cool' })
-        },
-    }),
+    // columnHelper.accessor((row) => row.owner, {
+    //     id: 'owner',
+    //     cell: (info) =>
+    //         h(UserSelect, {
+    //             name: 'owner',
+    //             defaultValue: info.getValue().id,
+    //             onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
+    //         }),
+    //     header: () => {
+    //         return h(SortHeader, { name: 'Właściciel', value: 'cool' })
+    //     },
+    // }),
     columnHelper.accessor((row) => row.comment, {
         id: 'comment',
         cell: (info) =>
