@@ -82,8 +82,8 @@ const inputElement = ref('inputElement')
             {{ label }}
         </label>
         <Listbox
+            v-model:model-value="currentOption"
             :multiple="multiple"
-            :model-value="currentOption"
             @update:model-value="change"
         >
             <ListboxButton
