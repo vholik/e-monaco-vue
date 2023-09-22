@@ -52,44 +52,44 @@ function calculatePairArguments(...args: (number | undefined)[]) {
 
 const columnHelper = createColumnHelper<Company>()
 const columns = [
-    // columnHelper.accessor((row) => row.nextContactDate, {
-    //     id: 'nextContactDate',
-    //     cell: (info) =>
-    //         h(Datepicker, {
-    //             name: 'nextContactDate',
-    //             width: '160px',
-    //             placeholder: 'Wybierz datę',
-    //             onChangeFn: onDataChange(
-    //                 info.row.original.id,
-    //                 'nextContactDate',
-    //             ),
-    //             defaultValue: info.getValue(),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
-    //     },
-    // }),
-    columnHelper.accessor((row) => row.contactHistories, {
-        id: 'contactHistories',
+    columnHelper.accessor((row) => row.nextContactDate, {
+        id: 'nextContactDate',
         cell: (info) =>
-            h(
-                ActionLink,
-                {
-                    onClickFn: () =>
-                        onContactHistoriesClick(info.row.original.id),
-                },
-                {
-                    default: () => 'Kliknij aby zobaczyć',
-                },
-            ),
+            h(Datepicker, {
+                name: 'nextContactDate',
+                width: '160px',
+                placeholder: 'Wybierz datę',
+                onChangeFn: onDataChange(
+                    info.row.original.id,
+                    'nextContactDate',
+                ),
+                defaultValue: info.getValue(),
+            }),
         header: () => {
-            return h(SortHeader, {
-                name: 'Historia kóntaktów',
-                value: 'cool',
-                canSort: false,
-            })
+            return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
         },
     }),
+    // columnHelper.accessor((row) => row.contactHistories, {
+    //     id: 'contactHistories',
+    //     cell: (info) =>
+    //         h(
+    //             ActionLink,
+    //             {
+    //                 onClickFn: () =>
+    //                     onContactHistoriesClick(info.row.original.id),
+    //             },
+    //             {
+    //                 default: () => 'Kliknij aby zobaczyć',
+    //             },
+    //         ),
+    //     header: () => {
+    //         return h(SortHeader, {
+    //             name: 'Historia kóntaktów',
+    //             value: 'cool',
+    //             canSort: false,
+    //         })
+    //     },
+    // }),
     columnHelper.accessor((row) => row.owner, {
         id: 'owner',
         cell: (info) =>
