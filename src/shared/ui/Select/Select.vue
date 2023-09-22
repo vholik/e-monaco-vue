@@ -167,7 +167,6 @@ const inputElement = ref('inputElement')
                                 (val) => emit('update:inputValue', val)
                             " />
                         <Flex
-                            v-if="options"
                             direction="column"
                             max
                         >
