@@ -52,23 +52,23 @@ function calculatePairArguments(...args: (number | undefined)[]) {
 
 const columnHelper = createColumnHelper<Company>()
 const columns = [
-    columnHelper.accessor((row) => row.nextContactDate, {
-        id: 'nextContactDate',
-        cell: (info) =>
-            h(Datepicker, {
-                name: 'nextContactDate',
-                width: '160px',
-                placeholder: 'Wybierz datę',
-                onChangeFn: onDataChange(
-                    info.row.original.id,
-                    'nextContactDate',
-                ),
-                defaultValue: info.getValue(),
-            }),
-        header: () => {
-            return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
-        },
-    }),
+    // columnHelper.accessor((row) => row.nextContactDate, {
+    //     id: 'nextContactDate',
+    //     cell: (info) =>
+    //         h(Datepicker, {
+    //             name: 'nextContactDate',
+    //             width: '160px',
+    //             placeholder: 'Wybierz datę',
+    //             onChangeFn: onDataChange(
+    //                 info.row.original.id,
+    //                 'nextContactDate',
+    //             ),
+    //             defaultValue: info.getValue(),
+    //         }),
+    //     header: () => {
+    //         return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
+    //     },
+    // }),
     columnHelper.accessor((row) => row.contactHistories, {
         id: 'contactHistories',
         cell: (info) =>
@@ -210,19 +210,18 @@ const columns = [
             return h(SortHeader, { name: 'Stawka naczepa', value: 'cool' })
         },
     }),
-
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'theirsTaxes',
         // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
-        // cell: (info) =>
-        //     calculatePairArguments(
-        //         info.row.original.tractorAmount,
-        //         info.row.original.municipality.tractorRate,
-        //         info.row.original.trailerAmount,
-        //         info.row.original.municipality.trailerRate,
-        //         1800,
-        //         info.row.original.otherAmount,
-        //     ),
+        cell: (info) =>
+            calculatePairArguments(
+                info.row.original.tractorAmount,
+                info.row.original.municipality.tractorRate,
+                info.row.original.trailerAmount,
+                info.row.original.municipality.trailerRate,
+                1800,
+                info.row.original.otherAmount,
+            ),
         header: () => {
             return h(SortHeader, { name: 'Podatek u nich', value: 'cool' })
         },
@@ -230,51 +229,51 @@ const columns = [
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'ourTaxes',
         // 1457 x CIAGNIKI + 972 x NACZEPY + 1000 x INNE
-        // cell: (info) =>
-        //     calculatePairArguments(
-        //         1457,
-        //         info.row.original.tractorAmount,
-        //         972,
-        //         info.row.original.trailerAmount,
-        //         1000,
-        //         info.row.original.otherAmount,
-        //     ),
+        cell: (info) =>
+            calculatePairArguments(
+                1457,
+                info.row.original.tractorAmount,
+                972,
+                info.row.original.trailerAmount,
+                1000,
+                info.row.original.otherAmount,
+            ),
         header: () => {
             return h(SortHeader, { name: 'Podatek u nas', value: 'cool' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'frugality',
-        // cell: (info) => {
-        //     const arg1 = calculatePairArguments(
-        //         info.row.original.tractorAmount,
-        //         info.row.original.municipality.tractorRate,
-        //         info.row.original.trailerAmount,
-        //         info.row.original.municipality.trailerRate,
-        //     )
-        //     const arg2 = calculatePairArguments(
-        //         1800,
-        //         info.row.original.otherAmount,
-        //     )
-        //     const arg3 = calculatePairArguments(
-        //         1457,
-        //         info.row.original.tractorAmount,
-        //         972,
-        //         info.row.original.trailerAmount,
-        //         1000,
-        //         info.row.original.otherAmount,
-        //     )
+        cell: (info) => {
+            const arg1 = calculatePairArguments(
+                info.row.original.tractorAmount,
+                info.row.original.municipality.tractorRate,
+                info.row.original.trailerAmount,
+                info.row.original.municipality.trailerRate,
+            )
+            const arg2 = calculatePairArguments(
+                1800,
+                info.row.original.otherAmount,
+            )
+            const arg3 = calculatePairArguments(
+                1457,
+                info.row.original.tractorAmount,
+                972,
+                info.row.original.trailerAmount,
+                1000,
+                info.row.original.otherAmount,
+            )
 
-        //     if (
-        //         typeof arg1 === 'number' &&
-        //         typeof arg2 === 'number' &&
-        //         typeof arg3 === 'number'
-        //     ) {
-        //         return arg1 + arg2 - arg3
-        //     }
+            if (
+                typeof arg1 === 'number' &&
+                typeof arg2 === 'number' &&
+                typeof arg3 === 'number'
+            ) {
+                return arg1 + arg2 - arg3
+            }
 
-        //     return 'N/A'
-        // },
+            return 'N/A'
+        },
         header: () => {
             return h(SortHeader, { name: 'Oszczędność', value: 'cool' })
         },
