@@ -52,23 +52,23 @@ function calculatePairArguments(...args: (number | undefined)[]) {
 
 const columnHelper = createColumnHelper<Company>()
 const columns: any[] = [
-    // columnHelper.accessor((row) => row.nextContactDate, {
-    //     id: 'nextContactDate',
-    //     cell: (info) =>
-    //         h(Datepicker, {
-    //             name: 'nextContactDate',
-    //             width: '160px',
-    //             placeholder: 'Wybierz datę',
-    //             onChangeFn: onDataChange(
-    //                 info.row.original.id,
-    //                 'nextContactDate',
-    //             ),
-    //             defaultValue: info.getValue(),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
-    //     },
-    // }),
+    columnHelper.accessor((row) => row.nextContactDate, {
+        id: 'nextContactDate',
+        cell: (info) =>
+            h(Datepicker, {
+                name: 'nextContactDate',
+                width: '160px',
+                placeholder: 'Wybierz datę',
+                onChangeFn: onDataChange(
+                    info.row.original.id,
+                    'nextContactDate',
+                ),
+                defaultValue: info.getValue(),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
+        },
+    }),
     // columnHelper.accessor((row) => row.contactHistories, {
     //     id: 'contactHistories',
     //     cell: (info) =>
