@@ -36,9 +36,7 @@ interface Props {
     inputValue?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    errorMessage: '',
-})
+const props = defineProps<Props>()
 
 const { withAvatar, hasColor, options, modelValue: value } = toRefs(props)
 
@@ -82,7 +80,7 @@ const inputElement = ref('inputElement')
             {{ label }}
         </label>
         <Listbox
-            v-model:model-value="currentOption"
+            :model-value="currentOption"
             :multiple="multiple"
             @update:model-value="change"
         >

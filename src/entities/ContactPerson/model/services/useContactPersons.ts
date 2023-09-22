@@ -8,7 +8,7 @@ export const useContactPersons = (
     selectedRef: Ref<string[]>,
 ) => {
     return useQuery(
-        ['contact-persons', refValue, selectedRef],
+        ['contact-persons', refValue],
         async () => {
             const response = await $api.get(`persons`, {
                 params: { q: refValue.value, selected: selectedRef.value },
