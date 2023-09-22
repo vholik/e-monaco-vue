@@ -57,10 +57,12 @@ function change(value: SelectOption | SelectOption[]) {
 
 const currentOption = computed(() => {
     if (Array.isArray(value.value)) {
-        return options.value.filter((option) => value.value.includes(option.id))
+        return options?.value?.filter((option) =>
+            value.value.includes(option.id),
+        )
     }
 
-    return options.value.find((option) => option.id === value.value)
+    return options?.value?.find((option) => option.id === value.value)
 })
 
 const inputElement = ref('inputElement')

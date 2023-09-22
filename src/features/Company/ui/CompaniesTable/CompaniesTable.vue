@@ -69,27 +69,27 @@ const columns: any[] = [
             return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
         },
     }),
-    // columnHelper.accessor((row) => row.contactHistories, {
-    //     id: 'contactHistories',
-    //     cell: (info) =>
-    //         h(
-    //             ActionLink,
-    //             {
-    //                 onClickFn: () =>
-    //                     onContactHistoriesClick(info.row.original.id),
-    //             },
-    //             {
-    //                 default: () => 'Kliknij aby zobaczyć',
-    //             },
-    //         ),
-    //     header: () => {
-    //         return h(SortHeader, {
-    //             name: 'Historia kóntaktów',
-    //             value: 'cool',
-    //             canSort: false,
-    //         })
-    //     },
-    // }),
+    columnHelper.accessor((row) => row.contactHistories, {
+        id: 'contactHistories',
+        cell: (info) =>
+            h(
+                ActionLink,
+                {
+                    onClickFn: () =>
+                        onContactHistoriesClick(info.row.original.id),
+                },
+                {
+                    default: () => 'Kliknij aby zobaczyć',
+                },
+            ),
+        header: () => {
+            return h(SortHeader, {
+                name: 'Historia kóntaktów',
+                value: 'cool',
+                canSort: false,
+            })
+        },
+    }),
     columnHelper.accessor((row) => row.owner, {
         id: 'owner',
         cell: (info) =>
@@ -132,197 +132,197 @@ const columns: any[] = [
             return h(SortHeader, { name: 'NIP', value: 'cool' })
         },
     }),
-    // columnHelper.accessor((row) => row.name, {
-    //     id: 'name',
-    //     cell: (info) =>
-    //         h(CommentInput, {
-    //             onChangeFn: onDataChange(info.row.original.id, 'name'),
-    //             defaultValue: info.getValue(),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Naszwa firmy', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.status, {
-    //     id: 'status',
-    //     cell: (info) => {
-    //         return h(StatusSelect, {
-    //             name: 'status',
-    //             defaultValue: info.row.original.status,
-    //             onChangeFn: onDataChange(info.row.original.id, 'status'),
-    //         })
-    //     },
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Status', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.municipality, {
-    //     id: 'manicipality',
-    //     cell: (info) =>
-    //         h(MunicipalitySelect, {
-    //             name: 'municipality',
-    //             defaultValue: info.getValue().id,
-    //             onChangeFn: onDataChange(
-    //                 info.row.original.id,
-    //                 'municipalityId',
-    //             ),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Gmina', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row, {
-    //     id: 'taxIncrease',
-    //     cell: (info) => info.row.original.municipality.taxIncrease,
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Wzrost podatku', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row, {
-    //     id: 'kitRate',
-    //     cell: (info) => info.row.original.municipality.kitRate,
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Zestaw', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'supply',
-    //     cell: (info) =>
-    //         info.row.original.municipality.tractorRate +
-    //         info.row.original.municipality.trailerRate +
-    //         info.row.original.municipality.otherRate,
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Tabor', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'tractorRate',
-    //     cell: (info) => info.row.original.municipality.tractorRate,
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Stawka ciągnik', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'trailerRate',
-    //     cell: (info) => info.row.original.municipality.trailerRate,
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Stawka naczepa', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'theirsTaxes',
-    //     // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
-    //     cell: (info) =>
-    //         calculatePairArguments(
-    //             info.row.original.tractorAmount,
-    //             info.row.original.municipality.tractorRate,
-    //             info.row.original.trailerAmount,
-    //             info.row.original.municipality.trailerRate,
-    //             1800,
-    //             info.row.original.otherAmount,
-    //         ),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Podatek u nich', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'ourTaxes',
-    //     // 1457 x CIAGNIKI + 972 x NACZEPY + 1000 x INNE
-    //     cell: (info) =>
-    //         calculatePairArguments(
-    //             1457,
-    //             info.row.original.tractorAmount,
-    //             972,
-    //             info.row.original.trailerAmount,
-    //             1000,
-    //             info.row.original.otherAmount,
-    //         ),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Podatek u nas', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'frugality',
-    //     cell: (info) => {
-    //         const arg1 = calculatePairArguments(
-    //             info.row.original.tractorAmount,
-    //             info.row.original.municipality.tractorRate,
-    //             info.row.original.trailerAmount,
-    //             info.row.original.municipality.trailerRate,
-    //         )
-    //         const arg2 = calculatePairArguments(
-    //             1800,
-    //             info.row.original.otherAmount,
-    //         )
-    //         const arg3 = calculatePairArguments(
-    //             1457,
-    //             info.row.original.tractorAmount,
-    //             972,
-    //             info.row.original.trailerAmount,
-    //             1000,
-    //             info.row.original.otherAmount,
-    //         )
-    //         if (
-    //             typeof arg1 === 'number' &&
-    //             typeof arg2 === 'number' &&
-    //             typeof arg3 === 'number'
-    //         ) {
-    //             return arg1 + arg2 - arg3
-    //         }
-    //         return 'N/A'
-    //     },
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Oszczędność', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'activation',
-    //     cell: (info) =>
-    //         h(PriceInput, {
-    //             onChangeFn: onDataChange(info.row.original.id, 'activation'),
-    //             defaultValue: info.getValue(),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Aktywacja', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'rentalFee',
-    //     cell: (info) =>
-    //         h(PriceInput, {
-    //             onChangeFn: onDataChange(info.row.original.id, 'rent'),
-    //             defaultValue: info.getValue(),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Czyńsz', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.trailerAmount, {
-    //     id: 'statement',
-    //     cell: (info) =>
-    //         h(PriceInput, {
-    //             onChangeFn: onDataChange(info.row.original.id, 'declaration'),
-    //             defaultValue: info.getValue(),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Deklaracja', value: 'cool' })
-    //     },
-    // }),
-    // columnHelper.accessor((row) => row.contactPersons, {
-    //     id: 'contactPersons',
-    //     cell: (info) =>
-    //         h(ContactPersonSelect, {
-    //             name: 'contactPersons',
-    //             defaultValue: info.getValue().map((it) => it.id),
-    //             onChangeFn: onDataChange(
-    //                 info.row.original.id,
-    //                 'contactPersonsIds',
-    //             ),
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, { name: 'Osoby kontaktowe', value: 'cool' })
-    //     },
-    // }),
+    columnHelper.accessor((row) => row.name, {
+        id: 'name',
+        cell: (info) =>
+            h(CommentInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'name'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Naszwa firmy', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.status, {
+        id: 'status',
+        cell: (info) => {
+            return h(StatusSelect, {
+                name: 'status',
+                defaultValue: info.row.original.status,
+                onChangeFn: onDataChange(info.row.original.id, 'status'),
+            })
+        },
+        header: () => {
+            return h(SortHeader, { name: 'Status', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.municipality, {
+        id: 'manicipality',
+        cell: (info) =>
+            h(MunicipalitySelect, {
+                name: 'municipality',
+                defaultValue: info.getValue().id,
+                onChangeFn: onDataChange(
+                    info.row.original.id,
+                    'municipalityId',
+                ),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Gmina', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row, {
+        id: 'taxIncrease',
+        cell: (info) => info.row.original.municipality.taxIncrease,
+        header: () => {
+            return h(SortHeader, { name: 'Wzrost podatku', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row, {
+        id: 'kitRate',
+        cell: (info) => info.row.original.municipality.kitRate,
+        header: () => {
+            return h(SortHeader, { name: 'Zestaw', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'supply',
+        cell: (info) =>
+            info.row.original.municipality.tractorRate +
+            info.row.original.municipality.trailerRate +
+            info.row.original.municipality.otherRate,
+        header: () => {
+            return h(SortHeader, { name: 'Tabor', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'tractorRate',
+        cell: (info) => info.row.original.municipality.tractorRate,
+        header: () => {
+            return h(SortHeader, { name: 'Stawka ciągnik', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'trailerRate',
+        cell: (info) => info.row.original.municipality.trailerRate,
+        header: () => {
+            return h(SortHeader, { name: 'Stawka naczepa', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'theirsTaxes',
+        // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
+        cell: (info) =>
+            calculatePairArguments(
+                info.row.original.tractorAmount,
+                info.row.original.municipality.tractorRate,
+                info.row.original.trailerAmount,
+                info.row.original.municipality.trailerRate,
+                1800,
+                info.row.original.otherAmount,
+            ),
+        header: () => {
+            return h(SortHeader, { name: 'Podatek u nich', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'ourTaxes',
+        // 1457 x CIAGNIKI + 972 x NACZEPY + 1000 x INNE
+        cell: (info) =>
+            calculatePairArguments(
+                1457,
+                info.row.original.tractorAmount,
+                972,
+                info.row.original.trailerAmount,
+                1000,
+                info.row.original.otherAmount,
+            ),
+        header: () => {
+            return h(SortHeader, { name: 'Podatek u nas', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'frugality',
+        cell: (info) => {
+            const arg1 = calculatePairArguments(
+                info.row.original.tractorAmount,
+                info.row.original.municipality.tractorRate,
+                info.row.original.trailerAmount,
+                info.row.original.municipality.trailerRate,
+            )
+            const arg2 = calculatePairArguments(
+                1800,
+                info.row.original.otherAmount,
+            )
+            const arg3 = calculatePairArguments(
+                1457,
+                info.row.original.tractorAmount,
+                972,
+                info.row.original.trailerAmount,
+                1000,
+                info.row.original.otherAmount,
+            )
+            if (
+                typeof arg1 === 'number' &&
+                typeof arg2 === 'number' &&
+                typeof arg3 === 'number'
+            ) {
+                return arg1 + arg2 - arg3
+            }
+            return 'N/A'
+        },
+        header: () => {
+            return h(SortHeader, { name: 'Oszczędność', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'activation',
+        cell: (info) =>
+            h(PriceInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'activation'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Aktywacja', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'rentalFee',
+        cell: (info) =>
+            h(PriceInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'rent'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Czyńsz', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'statement',
+        cell: (info) =>
+            h(PriceInput, {
+                onChangeFn: onDataChange(info.row.original.id, 'declaration'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Deklaracja', value: 'cool' })
+        },
+    }),
+    columnHelper.accessor((row) => row.contactPersons, {
+        id: 'contactPersons',
+        cell: (info) =>
+            h(ContactPersonSelect, {
+                name: 'contactPersons',
+                defaultValue: info.getValue().map((it) => it.id),
+                onChangeFn: onDataChange(
+                    info.row.original.id,
+                    'contactPersonsIds',
+                ),
+            }),
+        header: () => {
+            return h(SortHeader, { name: 'Osoby kontaktowe', value: 'cool' })
+        },
+    }),
 ]
 
 const table = useVueTable({
