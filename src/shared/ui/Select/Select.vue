@@ -16,6 +16,7 @@ import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Error from '@/shared/ui/Error/Error.vue'
 import { ref } from 'yup'
+import Input from '@/shared/ui/Input/Input.vue'
 
 interface Props {
     options: SelectOption[]
@@ -31,6 +32,8 @@ interface Props {
     name: string
     errorMessage?: string
     modelValue: string | string[]
+    withInput?: boolean
+    inputValue?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -39,7 +42,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { withAvatar, hasColor, options, modelValue: value } = toRefs(props)
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'update:inputValue'])
 
 function change(value: SelectOption | SelectOption[]) {
     if (Array.isArray(value)) {
@@ -150,32 +153,50 @@ const inputElement = ref('inputElement')
                 mode="out-in"
             >
                 <ListboxOptions :class="cls.optionsWrapper">
-                    <ListboxOption
-                        v-for="option in options"
-                        v-slot="{ selected }"
-                        :key="option.id"
-                        :class="cls.option"
-                        :value="option"
+                    <Flex
+                        direction="column"
+                        align="start"
+                        gap="2"
                     >
+                        <Input
+                            v-if="withInput"
+                            size="size_s"
+                            placeholder="Wpisz imię"
+                            name="name"
+                            @update:model-value="
+                                (val) => emit('update:inputValue', val)
+                            " />
                         <Flex
-                            align="center"
-                            justify="between"
+                            direction="column"
+                            max
                         >
-                            <Flex
-                                align="center"
-                                gap="2"
+                            <ListboxOption
+                                v-for="option in options"
+                                v-slot="{ selected }"
+                                :key="option.id"
+                                :class="cls.option"
+                                :value="option"
                             >
-                                <Avatar
-                                    v-if="withAvatar"
-                                    :name="option.name"
-                                    :role="option.role"
-                                />
-                                {{ option.name }}
-                            </Flex>
+                                <Flex
+                                    align="center"
+                                    justify="between"
+                                >
+                                    <Flex
+                                        align="center"
+                                        gap="2"
+                                    >
+                                        <Avatar
+                                            v-if="withAvatar"
+                                            :name="option.name"
+                                            :role="option.role"
+                                        />
+                                        {{ option.name }}
+                                    </Flex>
 
-                            <CheckIcon v-show="selected" />
-                        </Flex>
-                    </ListboxOption>
+                                    <CheckIcon v-show="selected" />
+                                </Flex>
+                            </ListboxOption> </Flex
+                    ></Flex>
                 </ListboxOptions>
             </transition>
         </Listbox>
