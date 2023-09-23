@@ -190,6 +190,7 @@ const debouncedInputChange = debounce((value) => {
                                 <Flex
                                     align="center"
                                     justify="between"
+                                    gap="4"
                                 >
                                     <Flex
                                         align="center"

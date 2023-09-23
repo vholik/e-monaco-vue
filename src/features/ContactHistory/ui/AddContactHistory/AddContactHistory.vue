@@ -33,7 +33,7 @@ function submit(values: Record<string, string>) {
             @submit="submit"
         >
             <Flex
-                gap="4"
+                gap="8"
                 direction="column"
             >
                 <Note v-if="error"

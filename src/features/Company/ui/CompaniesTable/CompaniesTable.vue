@@ -35,7 +35,7 @@ function onContactHistoriesClick(companyId: string) {
 
 function calculatePairArguments(...args: (number | undefined)[]) {
     for (let arg of args) {
-        if (!arg) {
+        if (arg === undefined) {
             return 'N/A'
         }
     }

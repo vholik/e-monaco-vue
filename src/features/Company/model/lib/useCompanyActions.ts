@@ -7,7 +7,7 @@ export function useCompanyActions() {
     const onDataChange = (id: string, key: string) =>
         debounce((value: unknown) => {
             mutate({ [key]: value, id })
-        }, 1000)
+        }, 200)
 
     return { onDataChange }
 }
