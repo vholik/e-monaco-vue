@@ -79,7 +79,11 @@ const inputElement = ref('inputElement')
         >
             {{ label }}
         </label>
-        <Listbox>
+        <Listbox
+            :model-value="currentOption"
+            :multiple="multiple"
+            @update:model-value="change"
+        >
             <ListboxButton
                 ref="inputElement"
                 :style="{
@@ -144,7 +148,7 @@ const inputElement = ref('inputElement')
                     }"
                 />
             </ListboxButton>
-            <transition
+            <!-- <transition
                 name="fade"
                 mode="out-in"
             >
@@ -194,7 +198,7 @@ const inputElement = ref('inputElement')
                             </ListboxOption> </Flex
                     ></Flex>
                 </ListboxOptions>
-            </transition>
+            </transition> -->
         </Listbox>
         <Error
             v-if="errorMessage"
