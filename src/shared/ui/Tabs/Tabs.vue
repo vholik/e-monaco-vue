@@ -24,14 +24,16 @@ defineProps<Props>()
                 </button>
             </Tab>
         </TabList>
-        <TabPanel
+        <keep-alive
             v-for="(_, index) in tabOptions"
             :key="index"
-            :class="cls.tabPanel"
         >
-            <keep-alive>
+            <TabPanel
+                :class="cls.tabPanel"
+                :unmount="false"
+            >
                 <component :is="tabPanels[index]" />
-            </keep-alive>
-        </TabPanel>
+            </TabPanel>
+        </keep-alive>
     </TabGroup>
 </template>
