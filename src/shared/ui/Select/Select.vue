@@ -67,7 +67,7 @@ const inputElement = ref('inputElement')
 </script>
 
 <template>
-    <Flex
+    <!-- <Flex
         :class="cls.Select"
         direction="column"
         align="start"
@@ -204,5 +204,6 @@ const inputElement = ref('inputElement')
             v-if="errorMessage"
             :value="errorMessage"
         />
-    </Flex>
+    </Flex> -->
+    <div></div>
 </template>

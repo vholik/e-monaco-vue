@@ -46,7 +46,7 @@ function onUpdate(value: string) {
         >
         <VueDatePicker
             v-model="value"
-            teleport
+            teleport="body"
             position="left"
             locale="pl-PL"
             select-text="Wybierz"

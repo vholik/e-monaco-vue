@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import cls from './Tabs.module.scss'
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+import { TabGroup, TabList, Tab, TabPanel } from '@headlessui/vue'
 
 interface Props {
     tabOptions: string[]
@@ -29,7 +29,9 @@ defineProps<Props>()
             :key="index"
             :class="cls.tabPanel"
         >
-            <component :is="tabPanels[index]" />
+            <keep-alive>
+                <component :is="tabPanels[index]" />
+            </keep-alive>
         </TabPanel>
     </TabGroup>
 </template>
