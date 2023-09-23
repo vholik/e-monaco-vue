@@ -84,7 +84,7 @@ const inputElement = ref('inputElement')
             :multiple="multiple"
             @update:model-value="change"
         >
-            <ListboxButton
+            <!-- <ListboxButton
                 ref="inputElement"
                 :style="{
                     color:
@@ -147,7 +147,7 @@ const inputElement = ref('inputElement')
                             currentOption?.color,
                     }"
                 />
-            </ListboxButton>
+            </ListboxButton> -->
             <!-- <transition
                 name="fade"
                 mode="out-in"
