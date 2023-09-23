@@ -62,8 +62,6 @@ const currentOption = computed(() => {
 
     return options?.value?.find((option) => option.id === value.value)
 })
-
-const inputElement = ref('inputElement')
 </script>
 
 <template>
