@@ -67,7 +67,7 @@ const inputElement = ref('inputElement')
 </script>
 
 <template>
-    <!-- <Flex
+    <Flex
         :class="cls.Select"
         direction="column"
         align="start"
@@ -81,7 +81,6 @@ const inputElement = ref('inputElement')
         </label>
         <Listbox
             :model-value="currentOption"
-            :multiple="multiple"
             @update:model-value="change"
         >
             <ListboxButton
@@ -204,6 +203,5 @@ const inputElement = ref('inputElement')
             v-if="errorMessage"
             :value="errorMessage"
         />
-    </Flex> -->
-    <div></div>
+    </Flex>
 </template>
