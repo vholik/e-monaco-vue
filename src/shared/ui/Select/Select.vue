@@ -167,9 +167,7 @@ const currentOption = computed(() => {
                             v-if="withInput"
                             size="size_s"
                             placeholder="Wpisz imię"
-                            name="name"
-                            role="option"
-                            aria-required
+                            name="input-select"
                             @update:model-value="
                                 (val) => emit('update:inputValue', val)
                             " />
