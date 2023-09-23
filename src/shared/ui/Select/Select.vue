@@ -168,6 +168,8 @@ const currentOption = computed(() => {
                             size="size_s"
                             placeholder="Wpisz imię"
                             name="name"
+                            role="option"
+                            aria-required
                             @update:model-value="
                                 (val) => emit('update:inputValue', val)
                             " />

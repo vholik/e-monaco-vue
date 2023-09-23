@@ -18,6 +18,7 @@ export const useContactPersons = (
         },
         {
             initialData: [],
+            keepPreviousData: true,
         },
     )
 }

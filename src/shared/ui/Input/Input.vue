@@ -76,17 +76,18 @@ function onEnter() {
             gap="6"
         >
             <Icon
+                v-if="withSearchIcon"
                 :icon="SearchIcon"
                 color="quatinary"
-                v-if="withSearchIcon"
             />
             <input
+                :id="name"
                 :class="cls.Input"
                 :placeholder="placeholder"
                 :name="name"
-                :id="name"
                 :type="type"
                 :value="inputValue"
+                @keydown="(e) => e.stopPropagation()"
                 @input="updateInput"
                 @blur="onBlur"
                 @focus="onFocus"
