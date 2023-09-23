@@ -19,8 +19,8 @@ const onSubmit = (values: Record<string, unknown>) => {
 <template>
     <section :class="cls.LoginPage">
         <Form
-            @submit="onSubmit"
             :validation-schema="loginValidationSchema"
+            @submit="onSubmit"
         >
             <Flex
                 direction="column"
@@ -41,7 +41,7 @@ const onSubmit = (values: Record<string, unknown>) => {
                         gap="4"
                     >
                         <Text
-                            :isTitle="true"
+                            :is-title="true"
                             size="size_xxl"
                             weight="superbold"
                             >Witamy spowrotem</Text
@@ -66,6 +66,7 @@ const onSubmit = (values: Record<string, unknown>) => {
                         <Input
                             label="Hasło"
                             placeholder="Podaj swoje hasło"
+                            type="password"
                             name="password"
                         />
                     </Flex>
