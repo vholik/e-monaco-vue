@@ -29,9 +29,11 @@ const { data, isLoading } = useContactHistories(companyId.value)
                 :comment="contact.comment"
             />
 
-            <div :class="cls.noData">
+            <div
+                v-if="!isLoading && !data?.length"
+                :class="cls.noData"
+            >
                 <Text
-                    v-if="!isLoading && !data?.length"
                     size="size_s"
                     color="quatinary"
                     align-center

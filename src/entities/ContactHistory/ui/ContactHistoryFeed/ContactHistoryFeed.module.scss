@@ -1,10 +1,11 @@
 .ContactHistoryFeed {
     width: 100%;
-    min-height: 20rem;
+    min-height: 19rem;
+    max-height: 19rem;
 }
 
 .noData {
-    height: 20rem;
+    height: 19rem;
     display: flex;
     align-items: center;
     justify-content: center;

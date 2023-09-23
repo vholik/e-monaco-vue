@@ -15,7 +15,7 @@ import CheckIcon from '@/shared/assets/icons/Check.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Error from '@/shared/ui/Error/Error.vue'
-import { ref } from 'yup'
+import { Float } from '@headlessui-float/vue'
 import Input from '@/shared/ui/Input/Input.vue'
 
 interface Props {
@@ -82,78 +82,86 @@ const currentOption = computed(() => {
             :multiple="multiple"
             @update:model-value="change"
         >
-            <ListboxButton
-                :style="{
-                    color:
-                        !Array.isArray(currentOption) && currentOption?.color,
-                    backgroundColor:
-                        !Array.isArray(currentOption) && currentOption?.bgColor,
-                }"
-                :class="[
-                    cls.button,
-                    {
-                        [cls[
-                            !Array.isArray(currentOption)
-                                ? currentOption?.color!
-                                : ''
-                        ]]: hasColor,
-                        [cls.input]: asInput,
-                    },
-                ]"
+            <Float
+                transition-name="fade"
+                placement="bottom-start"
+                :offset="4"
+                portal
+                origin-class="body"
             >
-                <Flex gap="4">
-                    <Avatar
-                        v-if="
-                            withAvatar &&
-                            !Array.isArray(currentOption) &&
-                            currentOption
-                        "
-                        :role="currentOption.role"
-                        :name="currentOption.name"
-                    />
-                    <Text
-                        v-if="
-                            (Array.isArray(currentOption) &&
-                                !currentOption.length) ||
-                            !currentOption
-                        "
-                        size="size_s"
-                        weight="medium"
-                        color="secondary"
-                        >Wybierz</Text
-                    >
-                    {{
-                        Array.isArray(currentOption)
-                            ? currentOption.map((it) => it.name).join(', ')
-                            : currentOption?.name
-                    }}
-                </Flex>
-
-                <Icon
-                    v-if="
-                        !Array.isArray(currentOption) && !currentOption?.color
-                    "
-                    :icon="SelectIcon"
-                    color="secondary"
-                />
-                <SelectIcon
-                    v-else
+                <ListboxButton
                     :style="{
-                        fill:
+                        color:
                             !Array.isArray(currentOption) &&
                             currentOption?.color,
+                        backgroundColor:
+                            !Array.isArray(currentOption) &&
+                            currentOption?.bgColor,
                     }"
-                />
-            </ListboxButton>
-            <transition
-                name="fade"
-                mode="out-in"
-            >
+                    :class="[
+                        cls.button,
+                        {
+                            [cls[
+                                !Array.isArray(currentOption)
+                                    ? currentOption?.color!
+                                    : ''
+                            ]]: hasColor,
+                            [cls.input]: asInput,
+                        },
+                    ]"
+                >
+                    <Flex gap="4">
+                        <Avatar
+                            v-if="
+                                withAvatar &&
+                                !Array.isArray(currentOption) &&
+                                currentOption
+                            "
+                            :role="currentOption.role"
+                            :name="currentOption.name"
+                        />
+                        <Text
+                            v-if="
+                                (Array.isArray(currentOption) &&
+                                    !currentOption.length) ||
+                                !currentOption
+                            "
+                            size="size_s"
+                            weight="medium"
+                            color="secondary"
+                            >Wybierz</Text
+                        >
+                        {{
+                            Array.isArray(currentOption)
+                                ? currentOption.map((it) => it.name).join(', ')
+                                : currentOption?.name
+                        }}
+                    </Flex>
+
+                    <Icon
+                        v-if="
+                            !Array.isArray(currentOption) &&
+                            !currentOption?.color
+                        "
+                        :icon="SelectIcon"
+                        color="secondary"
+                    />
+                    <SelectIcon
+                        v-else
+                        :style="{
+                            fill:
+                                !Array.isArray(currentOption) &&
+                                currentOption?.color,
+                        }"
+                    />
+                </ListboxButton>
+
                 <ListboxOptions :class="cls.optionsWrapper">
                     <Flex
                         direction="column"
                         align="start"
                         gap="2"
+                        @click="(e) => e.stopPropagation"
                     >
                         <Input
                             v-if="withInput"
@@ -195,7 +203,7 @@ const currentOption = computed(() => {
                             </ListboxOption> </Flex
                     ></Flex>
                 </ListboxOptions>
-            </transition>
+            </Float>
         </Listbox>
         <Error
             v-if="errorMessage"

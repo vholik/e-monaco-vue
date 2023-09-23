@@ -1,5 +1,4 @@
 .Select {
-    position: relative;
     width: 100%;
 }
 
@@ -19,8 +18,6 @@
 }
 
 .optionsWrapper {
-    position: absolute;
-    top: 110%;
     background-color: white;
     z-index: 5;
     list-style: none;

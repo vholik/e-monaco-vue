@@ -9,6 +9,7 @@ import Button from '@/shared/ui/Button/Button.vue'
 import { Form } from 'vee-validate'
 import { toRefs } from 'vue'
 import Note from '@/shared/ui/Note/Note.vue'
+import { Float } from '@headlessui-float/vue'
 
 interface Props {
     onSubmit: (values: Record<string, string>) => void
