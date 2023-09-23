@@ -9,6 +9,7 @@ export const useUserStore = defineStore('user', {
     }),
     getters: {
         isUserLoggedIn: (state) => state.isLoggedIn,
+        loggedInUser: (state) => state.user,
     },
     actions: {
         setIsLoggedIn(value: boolean) {
@@ -17,6 +18,7 @@ export const useUserStore = defineStore('user', {
         setUser(value: User) {
             this.user = value
         },
+
         setInited() {
             this.inited = true
         },

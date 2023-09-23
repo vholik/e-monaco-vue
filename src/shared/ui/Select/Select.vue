@@ -17,6 +17,7 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 import Error from '@/shared/ui/Error/Error.vue'
 import { Float } from '@headlessui-float/vue'
 import Input from '@/shared/ui/Input/Input.vue'
+import { debounce } from 'lodash'
 
 interface Props {
     options: SelectOption[]
@@ -62,6 +63,10 @@ const currentOption = computed(() => {
 
     return options?.value?.find((option) => option.id === value.value)
 })
+
+const debouncedInputChange = debounce((value) => {
+    emit('update:inputValue', value)
+}, 500)
 </script>
 
 <template>
@@ -169,7 +174,7 @@ const currentOption = computed(() => {
                             placeholder="Wpisz imię"
                             name="input-select"
                             @update:model-value="
-                                (val) => emit('update:inputValue', val)
+                                (val) => debouncedInputChange(val)
                             " />
                         <Flex
                             direction="column"

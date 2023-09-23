@@ -48,7 +48,7 @@ function onUpdate(value: string) {
             :label="label"
             v-bind="$props"
             :error-message="errorMessage"
-            @update="onUpdate"
+            @update:model-value="onUpdate"
         />
     </div>
 </template>

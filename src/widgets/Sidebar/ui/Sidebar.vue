@@ -4,9 +4,12 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import { sidebarItems } from '../model/consts/sidebarItems'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/entities/User'
 
 const router = useRouter()
 let currentPath = router.currentRoute.value.path
+
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -17,11 +20,15 @@ let currentPath = router.currentRoute.value.path
             align="start"
         >
             <Flex gap="4">
-                <div :class="cls.userIcon">VH</div>
+                <div :class="cls.userIcon">
+                    {{ userStore.loggedInUser?.firstName[0]
+                    }}{{ userStore.loggedInUser?.lastName[0] }}
+                </div>
                 <Text
                     size="size_s"
                     weight="bold"
-                    >Zespół CIG Podatek</Text
+                    >{{ userStore.loggedInUser?.firstName }}
+                    {{ userStore.loggedInUser?.lastName }}</Text
                 >
             </Flex>
             <Flex
