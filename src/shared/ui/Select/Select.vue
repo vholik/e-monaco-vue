@@ -148,7 +148,7 @@ const inputElement = ref('inputElement')
                     }"
                 />
             </ListboxButton> -->
-            <!-- <transition
+            <transition
                 name="fade"
                 mode="out-in"
             >
@@ -198,7 +198,7 @@ const inputElement = ref('inputElement')
                             </ListboxOption> </Flex
                     ></Flex>
                 </ListboxOptions>
-            </transition> -->
+            </transition>
         </Listbox>
         <Error
             v-if="errorMessage"
