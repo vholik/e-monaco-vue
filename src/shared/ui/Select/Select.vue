@@ -79,10 +79,7 @@ const inputElement = ref('inputElement')
         >
             {{ label }}
         </label>
-        <Listbox
-            :model-value="currentOption"
-            @update:model-value="change"
-        >
+        <Listbox>
             <ListboxButton
                 ref="inputElement"
                 :style="{
