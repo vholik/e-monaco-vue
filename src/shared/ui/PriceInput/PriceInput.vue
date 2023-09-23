@@ -40,17 +40,17 @@ function removePrice() {
 <template>
     <Input
         v-if="!isSelected"
+        v-model="inputValue"
         :class="cls.PriceInput"
         name="price"
         size="size_s"
-        placeholder="Wpisz cenę"
+        placeholder="Wartość całkowita"
         type="number"
-        v-model="inputValue"
         @onEnter="submit"
     />
     <Flex
-        gap="2"
         v-else
+        gap="2"
     >
         <Text size="size_s">{{ inputValue }}</Text>
         <Icon

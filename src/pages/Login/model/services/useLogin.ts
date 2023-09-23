@@ -5,7 +5,7 @@ import {
     USER_REFRESH_LOCALSTORAGE_KEY,
     USER_ACCESS_LOCALSTORAGE_KEY,
 } from '@/shared/const/localStorage'
-import { useUserStore } from '@/entities/User'
+import { useUserStore, type User } from '@/entities/User'
 import { useRouter } from 'vue-router'
 
 export const useLogin = () => {
@@ -19,10 +19,11 @@ export const useLogin = () => {
                 'authentication/signin',
                 data,
             )
+
             return response.data
         },
         {
-            onSuccess: (data) => {
+            onSuccess: async (data) => {
                 localStorage.setItem(
                     USER_ACCESS_LOCALSTORAGE_KEY,
                     data.accessToken,
@@ -33,6 +34,11 @@ export const useLogin = () => {
                 )
                 userStore.setIsLoggedIn(true)
                 router.push('/dashboard')
+
+                const res = await $api.get<User>('authentication/me')
+
+                userStore.setUser(res.data)
+                userStore.setInited()
             },
         },
     )

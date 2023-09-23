@@ -6,16 +6,15 @@ import Icon from '@/shared/ui/Icon/Icon.vue'
 import CrossIcon from '@/shared/assets/icons/Cross.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
-import { useToast } from 'vue-toastification'
 
 let inputValue = ref('')
 let isSelected = ref(false)
-const toast = useToast()
 
 interface Props {
     defaultValue?: string
     onChangeFn: (value: string | null) => void
     validateFn?: (value: string) => boolean
+    placeholder?: string
 }
 
 const props = defineProps<Props>()
@@ -47,18 +46,22 @@ function removeText() {
 <template>
     <Input
         v-if="!isSelected"
+        v-model="inputValue"
         :class="cls.CommentInput"
         name="price"
         size="size_s"
-        placeholder="..."
-        v-model="inputValue"
+        :placeholder="placeholder || 'Wpisz'"
         @onEnter="submit"
     />
     <Flex
-        gap="2"
         v-else
+        gap="2"
     >
-        <Text size="size_s">{{ inputValue }}</Text>
+        <Text
+            size="size_s"
+            :class="cls.text"
+            >{{ inputValue }}</Text
+        >
         <Icon
             :class="cls.cancel"
             :icon="CrossIcon"

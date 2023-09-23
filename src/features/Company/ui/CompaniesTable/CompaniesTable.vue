@@ -108,6 +108,7 @@ const columns: any[] = [
             h(CommentInput, {
                 onChangeFn: onDataChange(info.row.original.id, 'comment'),
                 defaultValue: info.getValue(),
+                placeholder: 'Pole tekstowe',
             }),
         header: () => {
             return h(SortHeader, { name: 'Komentarz', value: 'cool' })
@@ -117,6 +118,7 @@ const columns: any[] = [
         id: 'nip',
         cell: (info) =>
             h(CommentInput, {
+                placeholder: '123-456-78-90',
                 onChangeFn: onDataChange(info.row.original.id, 'nip'),
                 defaultValue: info.getValue(),
                 validateFn: (value: string) => {
@@ -138,6 +140,7 @@ const columns: any[] = [
             h(CommentInput, {
                 onChangeFn: onDataChange(info.row.original.id, 'name'),
                 defaultValue: info.getValue(),
+                placeholder: 'Firma XYZ',
             }),
         header: () => {
             return h(SortHeader, { name: 'Naszwa firmy', value: 'cool' })
