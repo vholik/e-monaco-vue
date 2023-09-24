@@ -11,6 +11,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         order: null as null | Order,
         orderBy: null as null | string,
         page: 1,
+        q: '',
     }),
     getters: {
         getOwners(state) {
@@ -36,6 +37,9 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         },
         getCurrentPage(state) {
             return state.page
+        },
+        getSearchTerm(state) {
+            return state.q
         },
     },
     actions: {
@@ -67,6 +71,10 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         },
         setOrderBy(value: string | null) {
             this.orderBy = value
+            this.page = 1
+        },
+        setSearchTerm(value: string) {
+            this.q = value
             this.page = 1
         },
     },

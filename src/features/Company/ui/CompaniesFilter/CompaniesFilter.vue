@@ -7,21 +7,15 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import AddCompaniesModalVue from '../AddCompaniesModal/AddCompaniesModal.vue'
 import { ref } from 'vue'
-import { CurrentFilter } from '@/features/CompanyFilter'
+import { CurrentFilter, useCompanyFilterStore } from '@/features/CompanyFilter'
+import { debounce } from 'lodash'
 
-interface Props {
-    inputValue?: string | number
-}
-
-defineProps<Props>()
-
+const companyFilterStore = useCompanyFilterStore()
 let modalOpen = ref(false)
 
-const emit = defineEmits(['update:inputValue'])
-
-function changeInputValue(value: string) {
-    emit('update:inputValue', value)
-}
+const changeInputValue = debounce((value: string) => {
+    companyFilterStore.setSearchTerm(value)
+}, 500)
 
 function openModal() {
     modalOpen.value = true
@@ -51,7 +45,6 @@ function openModal() {
             :class="cls.input"
             variant="secondary"
             name="companies-input"
-            :model-value="inputValue"
             placeholder="Szukaj według słowa kluczowego..."
             @update:modelValue="changeInputValue"
         />
