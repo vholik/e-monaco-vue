@@ -4,7 +4,7 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import { useField } from 'vee-validate'
-import { toRefs } from 'vue'
+import { toRefs, watch } from 'vue'
 import Error from '@/shared/ui/Error/Error.vue'
 
 interface Props {
@@ -22,13 +22,21 @@ const emit = defineEmits(['change'])
 
 const { name, defaultValue } = toRefs(props)
 
-const { errorMessage, value } = useField<string>(name, undefined, {
-    initialValue: defaultValue?.value,
-})
+const { errorMessage, value, handleChange } = useField<string>(
+    name,
+    undefined,
+    {
+        initialValue: defaultValue?.value,
+    },
+)
 
 function onUpdate(value: string) {
     emit('change', value)
 }
+
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
+})
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 import { useContactPersons } from '../../model/services/useContactPersons'
@@ -18,9 +18,13 @@ const emit = defineEmits(['update'])
 
 const { name, defaultValue } = toRefs(props)
 
-const { errorMessage, value } = useField<string[]>(name, undefined, {
-    initialValue: defaultValue?.value || [],
-})
+const { errorMessage, value, handleChange } = useField<string[]>(
+    name,
+    undefined,
+    {
+        initialValue: defaultValue?.value || [],
+    },
+)
 
 let inputValue = ref('')
 const { data } = useContactPersons(inputValue, value)
@@ -28,6 +32,10 @@ const { data } = useContactPersons(inputValue, value)
 function onUpdate(value: string[]) {
     emit('update', value)
 }
+
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
+})
 </script>
 
 <template>

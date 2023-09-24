@@ -33,7 +33,7 @@ function changeOrder() {
             emit('update', 'asc')
             break
         case null:
-            emit('update', 'asc')
+            emit('update', 'desc')
             break
     }
 }
@@ -55,7 +55,7 @@ function changeOrder() {
         </Text>
         <Icon
             v-if="canSort"
-            :class="{ [cls.ascending]: value === 'asc' }"
+            :class="{ [cls.ascending]: value === 'desc' }"
             :icon="ArrowUpIcon"
             color="quatinary"
         />

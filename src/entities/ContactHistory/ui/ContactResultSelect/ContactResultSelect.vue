@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { contactResultOptions } from '../../model/consts/contactHistory'
-import { toRefs } from 'vue'
+import { toRefs, watch } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 

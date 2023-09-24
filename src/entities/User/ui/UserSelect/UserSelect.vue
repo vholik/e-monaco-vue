@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import cls from './UserSelect.module.scss'
 import Select from '@/shared/ui/Select/Select.vue'
-import { toRefs } from 'vue'
+import { toRefs, watch } from 'vue'
 import { useField } from 'vee-validate'
 import { useOwners } from '../../model/services/useOwners'
 import type { User } from '../../model/types/user'
@@ -22,13 +22,21 @@ const emit = defineEmits(['update'])
 
 const { name, defaultValue } = toRefs(props)
 
-const { errorMessage, value } = useField<string | string[]>(name, undefined, {
-    initialValue: defaultValue?.value,
-})
+const { errorMessage, value, handleChange } = useField<string | string[]>(
+    name,
+    undefined,
+    {
+        initialValue: defaultValue?.value,
+    },
+)
 
 function onUpdate(value: string | string[]) {
     emit('update', value)
 }
+
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
+})
 </script>
 
 <template>

@@ -91,17 +91,7 @@ const columns = [
     }),
     columnHelper.accessor((row) => row.contactHistories, {
         id: 'contactHistories',
-        cell: (info) =>
-            h(
-                ActionLink,
-                {
-                    onClickFn: () =>
-                        onContactHistoriesClick(info.row.original.id),
-                },
-                {
-                    default: () => 'Kliknij aby zobaczyć',
-                },
-            ),
+        cell: (info) => info.row.original.owner.firstName,
         header: () => {
             return h(SortHeader, {
                 name: 'Historia kóntaktów',
@@ -120,9 +110,9 @@ const columns = [
             h(UserSelect, {
                 name: 'owner',
                 defaultValue: info.getValue().id,
-
                 onUpdate: onDataChange(info.row.original.id, 'ownerId'),
             }),
+
         header: () => {
             return h(SortHeader, {
                 name: 'Właściciel',

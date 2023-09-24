@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
-import { toRefs } from 'vue'
+import { toRefs, watch } from 'vue'
 import { options } from '../../model/consts/status'
 import type { CompanyStatus } from '../..'
 
@@ -18,13 +18,17 @@ const emit = defineEmits(['update'])
 
 const { name, defaultValue } = toRefs(props)
 
-const { errorMessage, value } = useField(name, undefined, {
+const { errorMessage, value, handleChange } = useField(name, undefined, {
     initialValue: defaultValue?.value || options[0].id,
 })
 
 function onUpdate(value: CompanyStatus) {
     emit('update', value)
 }
+
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
+})
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Input from '@/shared/ui/Input/Input.vue'
 import cls from './PriceInput.module.scss'
-import { onMounted, ref, toRefs } from 'vue'
+import { onMounted, ref, toRefs, watch } from 'vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import CrossIcon from '@/shared/assets/icons/Cross.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
@@ -20,12 +20,16 @@ const { defaultValue } = toRefs(props)
 
 const emit = defineEmits(['update'])
 
-onMounted(() => {
+function initDefaultValue() {
     if (defaultValue?.value) {
         isSelected.value = true
         inputValue.value = defaultValue.value
     }
-})
+}
+
+onMounted(initDefaultValue)
+
+watch(defaultValue!, initDefaultValue)
 
 function submit() {
     emit('update', inputValue.value)

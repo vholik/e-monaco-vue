@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { toRefs, watch } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 import { useMunicipalities } from '../../model/services/useMunicipalities'
@@ -21,13 +21,21 @@ const props = defineProps<Props>()
 const { name, defaultValue } = toRefs(props)
 const emit = defineEmits(['update'])
 
-const { errorMessage, value } = useField<string | string[]>(name, undefined, {
-    initialValue: defaultValue?.value,
-})
+const { errorMessage, value, handleChange } = useField<string | string[]>(
+    name,
+    undefined,
+    {
+        initialValue: defaultValue?.value,
+    },
+)
 
 function onUpdate(value: string) {
     emit('update', value)
 }
+
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
+})
 </script>
 
 <template>
