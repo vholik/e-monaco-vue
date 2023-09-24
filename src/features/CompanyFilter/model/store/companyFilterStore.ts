@@ -42,7 +42,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         setContactPersons(value: string[]) {
             this.contactPersons = value
         },
-        setStatus(status: CompanyStatus) {
+        setStatus(status: CompanyStatus | null) {
             this.status = status
         },
         setMunicipalities(municipalities: string[]) {

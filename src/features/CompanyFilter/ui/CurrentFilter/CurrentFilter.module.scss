@@ -1,0 +1,18 @@
+.CurrentFilter {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filterBtn {
+    background-color: var(--primary-variant-bg-color);
+    color: var(--primary-variant-color);
+    font: var(--font-s);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: var(--large-border-radius);
+    width: fit-content;
+    border: 1px solid var(--stroke-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

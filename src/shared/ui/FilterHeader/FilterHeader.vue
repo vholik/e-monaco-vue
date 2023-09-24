@@ -1,17 +1,33 @@
 <script setup lang="ts">
-import SortIcon from '@/shared/assets/icons/Sort.vue'
+import FilterIcon from '@/shared/assets/icons/Filter.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import Popover from '@/shared/ui/Popover/Popover.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
+import cls from './FilterHeader.module.scss'
+
+interface Props {
+    selectedCount?: number
+}
+
+defineProps<Props>()
 </script>
 
 <template>
     <Popover>
-        <Icon
-            cursor-pointer
-            :icon="SortIcon"
-            color="quatinary"
-        />
+        <Flex gap="2">
+            <div
+                v-if="selectedCount"
+                :class="cls.count"
+            >
+                {{ selectedCount }}
+            </div>
+            <Icon
+                cursor-pointer
+                :icon="FilterIcon"
+                color="quatinary"
+            />
+        </Flex>
+
         <template #content>
             <Flex
                 gap="2"

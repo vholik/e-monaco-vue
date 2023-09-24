@@ -7,6 +7,7 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import AddCompaniesModalVue from '../AddCompaniesModal/AddCompaniesModal.vue'
 import { ref } from 'vue'
+import { CurrentFilter } from '@/features/CompanyFilter'
 
 interface Props {
     inputValue?: string | number
@@ -28,7 +29,11 @@ function openModal() {
 </script>
 
 <template>
-    <Flex gap="4">
+    <Flex
+        gap="4"
+        align="center"
+        :class="cls.CompaniesFilter"
+    >
         <Button
             variant="secondary"
             :max="false"
@@ -40,14 +45,15 @@ function openModal() {
             />
             Dodaj firmę
         </Button>
+        <CurrentFilter />
         <Input
-            :withSearchIcon="true"
+            :with-search-icon="true"
             :class="cls.input"
             variant="secondary"
             name="companies-input"
-            :modelValue="inputValue"
-            @update:modelValue="changeInputValue"
+            :model-value="inputValue"
             placeholder="Szukaj według słowa kluczowego..."
+            @update:modelValue="changeInputValue"
         />
         <AddCompaniesModalVue v-model:isModalOpen="modalOpen" />
     </Flex>

@@ -11,7 +11,6 @@ interface Props {
         | 'tertiary'
         | 'quatinary'
         | 'quinary'
-
     cursorPointer?: boolean
 }
 

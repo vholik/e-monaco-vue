@@ -1,0 +1,12 @@
+.count {
+    background-color: var(--primary-variant-color);
+    height: 18px;
+    width: 18px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--primary-invert-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
