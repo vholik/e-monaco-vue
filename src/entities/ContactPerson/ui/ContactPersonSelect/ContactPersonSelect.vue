@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRefs, type Ref } from 'vue'
+import { ref, toRefs } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 import { useContactPersons } from '../../model/services/useContactPersons'
@@ -10,13 +10,13 @@ interface Props {
     label?: string
     type?: string
     name: string
-    onChangeFn?: (value: string[]) => void
     defaultValue?: string[]
 }
 
 const props = defineProps<Props>()
+const emit = defineEmits(['update'])
 
-const { name, onChangeFn, defaultValue } = toRefs(props)
+const { name, defaultValue } = toRefs(props)
 
 const { errorMessage, value } = useField<string[]>(name, undefined, {
     initialValue: defaultValue?.value || [],
@@ -26,7 +26,7 @@ let inputValue = ref('')
 const { data } = useContactPersons(inputValue, value)
 
 function onUpdate(value: string[]) {
-    onChangeFn?.value?.(value)
+    emit('update', value)
 }
 </script>
 

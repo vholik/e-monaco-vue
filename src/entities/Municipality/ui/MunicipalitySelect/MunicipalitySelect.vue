@@ -12,26 +12,28 @@ interface Props {
     label?: string
     type?: string
     name: string
-    onChangeFn?: (value: string) => void
-    defaultValue?: string
+    defaultValue?: string | string[]
+    multiple?: boolean
 }
 
 const props = defineProps<Props>()
 
-const { name, defaultValue, onChangeFn } = toRefs(props)
+const { name, defaultValue } = toRefs(props)
+const emit = defineEmits(['update'])
 
-const { errorMessage, value } = useField<string>(name, undefined, {
+const { errorMessage, value } = useField<string | string[]>(name, undefined, {
     initialValue: defaultValue?.value,
 })
 
 function onUpdate(value: string) {
-    onChangeFn?.value?.(value)
+    emit('update', value)
 }
 </script>
 
 <template>
     <Select
         v-model="value"
+        :multiple="multiple"
         :options="
             data.map((it: Municipality) => ({
                 id: it.id,

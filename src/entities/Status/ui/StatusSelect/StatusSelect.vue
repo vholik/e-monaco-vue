@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { SelectOption } from '@/shared/ui/Select/types'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 import { toRefs } from 'vue'
@@ -11,30 +10,29 @@ interface Props {
     label?: string
     type?: string
     name: string
-    errorMessage?: string
-    onChangeFn?: (value: string) => void
-    defaultValue?: string
+    defaultValue?: CompanyStatus
 }
 
 const props = defineProps<Props>()
+const emit = defineEmits(['update'])
 
-const { name, onChangeFn, defaultValue } = toRefs(props)
+const { name, defaultValue } = toRefs(props)
 
 const { errorMessage, value } = useField(name, undefined, {
     initialValue: defaultValue?.value || options[0].id,
 })
 
-function onUpdate(value: string) {
-    onChangeFn?.value?.(value)
+function onUpdate(value: CompanyStatus) {
+    emit('update', value)
 }
 </script>
 
 <template>
     <Select
-        :options="options"
         v-bind="$props"
         v-model="value"
-        :errorMessage="errorMessage"
+        :options="options"
+        :error-message="errorMessage"
         @update:modelValue="onUpdate"
     />
 </template>

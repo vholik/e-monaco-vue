@@ -37,8 +37,8 @@ const { data, isLoading } = useContactHistories(companyId.value)
                     size="size_s"
                     color="quatinary"
                     align-center
-                    >Nie znaleziono żadnych historii. Klinij "Dodaj historię"
-                    aby dodać nową"</Text
+                    >Nie znaleziono żadnych historii. Kliknij "Dodaj historię"
+                    aby dodać nową</Text
                 >
             </div>
         </LoaderContainer>

@@ -5,12 +5,15 @@ import ArrowUpIcon from '@/shared/assets/icons/ArrowUp.vue'
 
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '../Flex/Flex.vue'
+import type { Component } from 'vue'
+import type { Order } from '@/shared/types/order'
 
 interface Props {
     name: string
-    value: string
+    value?: null | Order
     state?: boolean
     canSort?: boolean
+    filter?: Component
 }
 
 withDefaults(defineProps<Props>(), {
@@ -19,7 +22,11 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <Flex gap="4">
+    <Flex
+        gap="4"
+        align="center"
+    >
+        <component :is="filter" />
         <Text
             :class="[cls.SortHeader, { [cls.disabled]: !canSort }]"
             color="quatinary"
@@ -28,9 +35,9 @@ withDefaults(defineProps<Props>(), {
             {{ name }}
         </Text>
         <Icon
+            v-if="canSort"
             :icon="ArrowUpIcon"
             color="quatinary"
-            v-if="canSort"
         />
     </Flex>
 </template>

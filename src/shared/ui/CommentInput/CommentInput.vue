@@ -12,14 +12,15 @@ let isSelected = ref(false)
 
 interface Props {
     defaultValue?: string
-    onChangeFn: (value: string | null) => void
     validateFn?: (value: string) => boolean
     placeholder?: string
 }
 
 const props = defineProps<Props>()
 
-const { defaultValue, onChangeFn, validateFn } = toRefs(props)
+const { defaultValue, validateFn } = toRefs(props)
+
+const emit = defineEmits(['update'])
 
 onMounted(() => {
     if (defaultValue?.value) {
@@ -33,12 +34,12 @@ function submit() {
         return
     }
 
-    onChangeFn.value(inputValue.value)
+    emit('update', inputValue.value)
     isSelected.value = true
 }
 
 function removeText() {
-    onChangeFn.value(null)
+    emit('update', null)
     isSelected.value = false
 }
 </script>

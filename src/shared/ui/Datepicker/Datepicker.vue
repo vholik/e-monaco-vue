@@ -13,22 +13,21 @@ interface Props {
     name: string
     placeholder?: string
     width?: string
-    onChangeFn?: (date: string) => void
     defaultValue?: string
 }
 
 const props = defineProps<Props>()
 
-const emit = defineEmits(['onChange'])
+const emit = defineEmits(['change'])
 
-const { name, onChangeFn, defaultValue } = toRefs(props)
+const { name, defaultValue } = toRefs(props)
 
 const { errorMessage, value } = useField<string>(name, undefined, {
     initialValue: defaultValue?.value,
 })
 
 function onUpdate(value: string) {
-    onChangeFn?.value?.(value)
+    emit('change', value)
 }
 </script>
 

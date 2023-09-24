@@ -9,13 +9,12 @@ interface Props {
     label?: string
     type?: string
     name: string
-    onChangeFn?: (value: string) => void
     defaultValue?: string
 }
 
 const props = defineProps<Props>()
 
-const { name, defaultValue } = toRefs(props)
+const { name } = toRefs(props)
 
 const { errorMessage, value } = useField<string>(name, undefined, {
     initialValue: contactResultOptions[0].id,

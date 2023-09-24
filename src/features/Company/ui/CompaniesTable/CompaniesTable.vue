@@ -20,6 +20,9 @@ import { useToast } from 'vue-toastification'
 import ActionLink from '@/shared/ui/ActionLink/ActionLink.vue'
 import CompanyHistoriesModal from '../CompanyHistoriesModal/CompanyHistoriesModal.vue'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
+import { MunicipalitiesFilter, UserFilter } from '@/features/CompanyFilter'
+import { StatusFilter } from '@/features/CompanyFilter'
+import { ContactPersonsFilter } from '@/features/CompanyFilter'
 
 const { data, isLoading } = useCompanies()
 const toast = useToast()
@@ -51,7 +54,7 @@ function calculatePairArguments(...args: (number | undefined)[]) {
 }
 
 const columnHelper = createColumnHelper<Company>()
-const columns: any[] = [
+const columns = [
     columnHelper.accessor((row) => row.nextContactDate, {
         id: 'nextContactDate',
         cell: (info) =>
@@ -59,14 +62,11 @@ const columns: any[] = [
                 name: 'nextContactDate',
                 width: '160px',
                 placeholder: 'Wybierz datę',
-                onChangeFn: onDataChange(
-                    info.row.original.id,
-                    'nextContactDate',
-                ),
+                onChange: onDataChange(info.row.original.id, 'nextContactDate'),
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Nast. kontakt', value: 'cool' })
+            return h(SortHeader, { name: 'Nast. kontakt', value: null })
         },
     }),
     columnHelper.accessor((row) => row.contactHistories, {
@@ -85,8 +85,7 @@ const columns: any[] = [
         header: () => {
             return h(SortHeader, {
                 name: 'Historia kóntaktów',
-                value: 'cool',
-                canSort: false,
+                value: null,
             })
         },
     }),
@@ -96,22 +95,26 @@ const columns: any[] = [
             h(UserSelect, {
                 name: 'owner',
                 defaultValue: info.getValue().id,
-                onChangeFn: onDataChange(info.row.original.id, 'ownerId'),
+                onUpdate: onDataChange(info.row.original.id, 'ownerId'),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Właściciel', value: 'cool' })
+            return h(SortHeader, {
+                name: 'Właściciel',
+                canSort: false,
+                filter: UserFilter,
+            })
         },
     }),
     columnHelper.accessor((row) => row.comment, {
         id: 'comment',
         cell: (info) =>
             h(CommentInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'comment'),
+                onUpdate: onDataChange(info.row.original.id, 'comment'),
                 defaultValue: info.getValue(),
                 placeholder: 'Pole tekstowe',
             }),
         header: () => {
-            return h(SortHeader, { name: 'Komentarz', value: 'cool' })
+            return h(SortHeader, { name: 'Komentarz', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.nip, {
@@ -119,7 +122,7 @@ const columns: any[] = [
         cell: (info) =>
             h(CommentInput, {
                 placeholder: '123-456-78-90',
-                onChangeFn: onDataChange(info.row.original.id, 'nip'),
+                onUpdate: onDataChange(info.row.original.id, 'nip'),
                 defaultValue: info.getValue(),
                 validateFn: (value: string) => {
                     const isValid = validateNip(value)
@@ -131,19 +134,19 @@ const columns: any[] = [
                 },
             }),
         header: () => {
-            return h(SortHeader, { name: 'NIP', value: 'cool' })
+            return h(SortHeader, { name: 'NIP', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.name, {
         id: 'name',
         cell: (info) =>
             h(CommentInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'name'),
+                onUpdate: onDataChange(info.row.original.id, 'name'),
                 defaultValue: info.getValue(),
                 placeholder: 'Firma XYZ',
             }),
         header: () => {
-            return h(SortHeader, { name: 'Naszwa firmy', value: 'cool' })
+            return h(SortHeader, { name: 'Naszwa firmy', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.status, {
@@ -152,11 +155,15 @@ const columns: any[] = [
             return h(StatusSelect, {
                 name: 'status',
                 defaultValue: info.row.original.status,
-                onChangeFn: onDataChange(info.row.original.id, 'status'),
+                onUpdate: onDataChange(info.row.original.id, 'status'),
             })
         },
         header: () => {
-            return h(SortHeader, { name: 'Status', value: 'cool' })
+            return h(SortHeader, {
+                name: 'Status',
+                filter: StatusFilter,
+                canSort: false,
+            })
         },
     }),
     columnHelper.accessor((row) => row.municipality, {
@@ -165,27 +172,28 @@ const columns: any[] = [
             h(MunicipalitySelect, {
                 name: 'municipality',
                 defaultValue: info.getValue().id,
-                onChangeFn: onDataChange(
-                    info.row.original.id,
-                    'municipalityId',
-                ),
+                onUpdate: onDataChange(info.row.original.id, 'municipalityId'),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Gmina', value: 'cool' })
+            return h(SortHeader, {
+                name: 'Gmina',
+                canSort: false,
+                filter: MunicipalitiesFilter,
+            })
         },
     }),
     columnHelper.accessor((row) => row, {
         id: 'taxIncrease',
         cell: (info) => info.row.original.municipality.taxIncrease,
         header: () => {
-            return h(SortHeader, { name: 'Wzrost podatku', value: 'cool' })
+            return h(SortHeader, { name: 'Wzrost podatku' })
         },
     }),
     columnHelper.accessor((row) => row, {
         id: 'kitRate',
         cell: (info) => info.row.original.municipality.kitRate,
         header: () => {
-            return h(SortHeader, { name: 'Zestaw', value: 'cool' })
+            return h(SortHeader, { name: 'Zestaw' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -195,21 +203,21 @@ const columns: any[] = [
             info.row.original.municipality.trailerRate +
             info.row.original.municipality.otherRate,
         header: () => {
-            return h(SortHeader, { name: 'Tabor', value: 'cool' })
+            return h(SortHeader, { name: 'Tabor', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'tractorRate',
         cell: (info) => info.row.original.municipality.tractorRate,
         header: () => {
-            return h(SortHeader, { name: 'Stawka ciągnik', value: 'cool' })
+            return h(SortHeader, { name: 'Stawka ciągnik' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'trailerRate',
         cell: (info) => info.row.original.municipality.trailerRate,
         header: () => {
-            return h(SortHeader, { name: 'Stawka naczepa', value: 'cool' })
+            return h(SortHeader, { name: 'Stawka naczepa' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -225,7 +233,7 @@ const columns: any[] = [
                 info.row.original.otherAmount,
             ),
         header: () => {
-            return h(SortHeader, { name: 'Podatek u nich', value: 'cool' })
+            return h(SortHeader, { name: 'Podatek u nich', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -241,7 +249,7 @@ const columns: any[] = [
                 info.row.original.otherAmount,
             ),
         header: () => {
-            return h(SortHeader, { name: 'Podatek u nas', value: 'cool' })
+            return h(SortHeader, { name: 'Podatek u nas', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -275,40 +283,40 @@ const columns: any[] = [
             return 'N/A'
         },
         header: () => {
-            return h(SortHeader, { name: 'Oszczędność', value: 'cool' })
+            return h(SortHeader, { name: 'Oszczędność', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'activation',
         cell: (info) =>
             h(PriceInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'activation'),
+                onUpdate: onDataChange(info.row.original.id, 'activation'),
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Aktywacja', value: 'cool' })
+            return h(SortHeader, { name: 'Aktywacja' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'rentalFee',
         cell: (info) =>
             h(PriceInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'rent'),
+                onUpdate: onDataChange(info.row.original.id, 'rent'),
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Czyńsz', value: 'cool' })
+            return h(SortHeader, { name: 'Czyńsz' })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'statement',
         cell: (info) =>
             h(PriceInput, {
-                onChangeFn: onDataChange(info.row.original.id, 'declaration'),
+                onUpdate: onDataChange(info.row.original.id, 'declaration'),
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Deklaracja', value: 'cool' })
+            return h(SortHeader, { name: 'Deklaracja' })
         },
     }),
     columnHelper.accessor((row) => row.contactPersons, {
@@ -317,13 +325,17 @@ const columns: any[] = [
             h(ContactPersonSelect, {
                 name: 'contactPersons',
                 defaultValue: info.getValue().map((it) => it.id),
-                onChangeFn: onDataChange(
+                onUpdate: onDataChange(
                     info.row.original.id,
                     'contactPersonsIds',
                 ),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Osoby kontaktowe', value: 'cool' })
+            return h(SortHeader, {
+                name: 'Osoby kontaktowe',
+                canSort: false,
+                filter: ContactPersonsFilter,
+            })
         },
     }),
 ]
