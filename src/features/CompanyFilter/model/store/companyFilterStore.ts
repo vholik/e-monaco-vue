@@ -31,6 +31,9 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         getContactPersons(state) {
             return state.contactPersons
         },
+        getFilter(state) {
+            return state.contactPersons
+        },
     },
     actions: {
         setOwners(owners: string[]) {

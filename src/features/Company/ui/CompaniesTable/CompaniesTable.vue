@@ -20,10 +20,16 @@ import { useToast } from 'vue-toastification'
 import ActionLink from '@/shared/ui/ActionLink/ActionLink.vue'
 import CompanyHistoriesModal from '../CompanyHistoriesModal/CompanyHistoriesModal.vue'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
-import { MunicipalitiesFilter, UserFilter } from '@/features/CompanyFilter'
+import {
+    MunicipalitiesFilter,
+    UserFilter,
+    useCompanyFilterStore,
+} from '@/features/CompanyFilter'
 import { StatusFilter } from '@/features/CompanyFilter'
 import { ContactPersonsFilter } from '@/features/CompanyFilter'
+import type { Order } from '@/shared/types/order'
 
+const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading } = useCompanies()
 const toast = useToast()
 const companiesData = ref({ count: 0, companies: [] as Company[] })
@@ -53,6 +59,13 @@ function calculatePairArguments(...args: (number | undefined)[]) {
     return count
 }
 
+function changeOrder(name: string) {
+    return (value: Order) => {
+        companyFilterStore.setOrder(value)
+        companyFilterStore.setOrderBy(name)
+    }
+}
+
 const columnHelper = createColumnHelper<Company>()
 const columns = [
     columnHelper.accessor((row) => row.nextContactDate, {
@@ -66,7 +79,14 @@ const columns = [
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Nast. kontakt', value: null })
+            return h(SortHeader, {
+                name: 'Nast. kontakt',
+                value:
+                    companyFilterStore.getOrderBy === 'nextContactDate'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('nextContactDate'),
+            })
         },
     }),
     columnHelper.accessor((row) => row.contactHistories, {
@@ -85,7 +105,12 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Historia kóntaktów',
-                value: null,
+                value:
+                    companyFilterStore.getOrderBy ===
+                    'contactHistories.contactDate'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('contactHistories.contactDate'),
             })
         },
     }),
@@ -95,6 +120,7 @@ const columns = [
             h(UserSelect, {
                 name: 'owner',
                 defaultValue: info.getValue().id,
+
                 onUpdate: onDataChange(info.row.original.id, 'ownerId'),
             }),
         header: () => {
@@ -114,7 +140,10 @@ const columns = [
                 placeholder: 'Pole tekstowe',
             }),
         header: () => {
-            return h(SortHeader, { name: 'Komentarz', canSort: false })
+            return h(SortHeader, {
+                name: 'Komentarz',
+                canSort: false,
+            })
         },
     }),
     columnHelper.accessor((row) => row.nip, {
@@ -186,14 +215,28 @@ const columns = [
         id: 'taxIncrease',
         cell: (info) => info.row.original.municipality.taxIncrease,
         header: () => {
-            return h(SortHeader, { name: 'Wzrost podatku' })
+            return h(SortHeader, {
+                name: 'Wzrost podatku',
+                onUpdate: changeOrder('municipality.taxIncrease'),
+                value:
+                    companyFilterStore.getOrderBy === 'municipality.taxIncrease'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row, {
         id: 'kitRate',
         cell: (info) => info.row.original.municipality.kitRate,
         header: () => {
-            return h(SortHeader, { name: 'Zestaw' })
+            return h(SortHeader, {
+                name: 'Zestaw',
+                onUpdate: changeOrder('municipality.kitRate'),
+                value:
+                    companyFilterStore.getOrderBy === 'municipality.kitRate'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -210,14 +253,28 @@ const columns = [
         id: 'tractorRate',
         cell: (info) => info.row.original.municipality.tractorRate,
         header: () => {
-            return h(SortHeader, { name: 'Stawka ciągnik' })
+            return h(SortHeader, {
+                name: 'Stawka ciągnik',
+                onUpdate: changeOrder('municipality.tractorRate'),
+                value:
+                    companyFilterStore.getOrderBy === 'municipality.tractorRate'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'trailerRate',
         cell: (info) => info.row.original.municipality.trailerRate,
         header: () => {
-            return h(SortHeader, { name: 'Stawka naczepa' })
+            return h(SortHeader, {
+                name: 'Stawka naczepa',
+                onUpdate: changeOrder('municipality.trailerRate'),
+                value:
+                    companyFilterStore.getOrderBy === 'municipality.trailerRate'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -294,7 +351,14 @@ const columns = [
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Aktywacja' })
+            return h(SortHeader, {
+                name: 'Aktywacja',
+                onUpdate: changeOrder('activation'),
+                value:
+                    companyFilterStore.getOrderBy === 'activation'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -305,18 +369,32 @@ const columns = [
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Czyńsz' })
+            return h(SortHeader, {
+                name: 'Czyńsz',
+                onUpdate: changeOrder('rentalFee'),
+                value:
+                    companyFilterStore.getOrderBy === 'rentalFee'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'statement',
         cell: (info) =>
             h(PriceInput, {
-                onUpdate: onDataChange(info.row.original.id, 'declaration'),
+                onUpdate: onDataChange(info.row.original.id, 'statement'),
                 defaultValue: info.getValue(),
             }),
         header: () => {
-            return h(SortHeader, { name: 'Deklaracja' })
+            return h(SortHeader, {
+                name: 'Deklaracja',
+                onUpdate: changeOrder('statement'),
+                value:
+                    companyFilterStore.getOrderBy === 'statement'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.contactPersons, {
