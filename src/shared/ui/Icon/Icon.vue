@@ -12,6 +12,7 @@ interface Props {
         | 'quatinary'
         | 'quinary'
     cursorPointer?: boolean
+    disabled?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,6 +25,10 @@ const { color } = toRefs(props)
 <template>
     <component
         :is="icon"
-        :class="[cls.Icon, cls[color], { [cls.pointer]: cursorPointer }]"
+        :class="[
+            cls.Icon,
+            cls[color],
+            { [cls.pointer]: cursorPointer, [cls.disabled]: disabled },
+        ]"
     />
 </template>

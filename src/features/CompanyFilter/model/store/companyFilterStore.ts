@@ -34,25 +34,40 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         getFilter(state) {
             return state.contactPersons
         },
+        getCurrentPage(state) {
+            return state.page
+        },
     },
     actions: {
+        toPreviousPage() {
+            this.page -= 1
+        },
+        toNextPage() {
+            this.page += 1
+        },
         setOwners(owners: string[]) {
             this.owners = owners
+            this.page = 1
         },
         setContactPersons(value: string[]) {
             this.contactPersons = value
+            this.page = 1
         },
         setStatus(status: CompanyStatus | null) {
             this.status = status
+            this.page = 1
         },
         setMunicipalities(municipalities: string[]) {
             this.municipalities = municipalities
+            this.page = 1
         },
         setOrder(value: null | Order) {
             this.order = value
+            this.page = 1
         },
         setOrderBy(value: string | null) {
             this.orderBy = value
+            this.page = 1
         },
     },
 })

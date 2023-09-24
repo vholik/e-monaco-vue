@@ -28,6 +28,7 @@ import {
 } from '@/features/CompanyFilter'
 import { StatusFilter } from '@/features/CompanyFilter'
 import { ContactPersonsFilter } from '@/features/CompanyFilter'
+import CompaniesPagination from '../CompaniesPagination/CompaniesPagination.vue'
 import type { Order } from '@/shared/types/order'
 
 const companyFilterStore = useCompanyFilterStore()
@@ -481,5 +482,6 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
+        <CompaniesPagination :count="companiesData.count" />
     </div>
 </template>

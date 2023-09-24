@@ -1,5 +1,6 @@
 import { useCompanyFilterStore } from '@/features/CompanyFilter'
 import { $api } from '@/shared/api/api'
+import { PAGE_SIZE } from '@/shared/const/pagination'
 import { debounce } from 'lodash'
 import { ref } from 'vue'
 import { useQuery } from 'vue-query'
@@ -11,8 +12,13 @@ export const useCompanies = () => {
     const query = useQuery(
         ['companies', filters],
         async () => {
+            const page = filters.value?.page || 1
             const response = await $api.get('companies', {
-                params: filters.value,
+                params: {
+                    ...filters.value,
+                    skip: (page - 1) * PAGE_SIZE,
+                    page: undefined,
+                },
             })
 
             return response.data

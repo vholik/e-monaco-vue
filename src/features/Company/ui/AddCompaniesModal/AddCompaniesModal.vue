@@ -22,7 +22,7 @@ function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
 
-const { mutate, isLoading, isError } = useAddCompany(setIsModalOpen)
+const { mutate, isLoading, error } = useAddCompany(setIsModalOpen)
 
 defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
@@ -49,7 +49,7 @@ const onSubmit = (values: unknown) => {
                     align="start"
                     :class="cls.wrapper"
                 >
-                    <Note v-if="isError">
+                    <Note v-if="error">
                         Nie udało nam się dodać firmę. Spróbuj ponownie później
                     </Note>
                     <Datepicker
@@ -132,7 +132,7 @@ const onSubmit = (values: unknown) => {
                 <div :class="cls.footer">
                     <Button
                         :class="cls.button"
-                        :disabled="isLoading || isError"
+                        :disabled="isLoading"
                         >Dodaj</Button
                     >
                 </div>
