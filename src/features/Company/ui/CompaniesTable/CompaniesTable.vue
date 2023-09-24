@@ -20,6 +20,7 @@ import { useToast } from 'vue-toastification'
 import ActionLink from '@/shared/ui/ActionLink/ActionLink.vue'
 import CompanyHistoriesModal from '../CompanyHistoriesModal/CompanyHistoriesModal.vue'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
+import Text from '@/shared/ui/Text/Text.vue'
 import {
     MunicipalitiesFilter,
     UserFilter,
@@ -91,7 +92,17 @@ const columns = [
     }),
     columnHelper.accessor((row) => row.contactHistories, {
         id: 'contactHistories',
-        cell: (info) => info.row.original.owner.firstName,
+        cell: (info) =>
+            h(
+                ActionLink,
+                {
+                    onClickFn: () =>
+                        onContactHistoriesClick(info.row.original.id),
+                },
+                {
+                    default: () => 'Kliknij aby zobaczyć',
+                },
+            ),
         header: () => {
             return h(SortHeader, {
                 name: 'Historia kóntaktów',
@@ -463,6 +474,12 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
                 </tr>
             </tbody>
         </table>
+        <div
+            v-if="!companiesData?.companies?.length && !isLoading"
+            :class="cls.noData"
+        >
+            <Text color="quinary">Nie znaleziono danych</Text>
+        </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
     </div>
 </template>

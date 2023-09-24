@@ -2,6 +2,8 @@
     // sidebar width - gap between sidebar and page
     width: calc(100vw - var(--sidebar-width) - 2rem);
     overflow-x: scroll;
+    overflow-y: scroll;
+    height: 83vh;
 }
 
 .CompaniesTable {
@@ -36,4 +38,12 @@
 
 .marked {
     background-color: var(--marked-row-bg-color);
+}
+
+.noData {
+    width: 100%;
+    height: 83vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

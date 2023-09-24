@@ -1,5 +1,6 @@
 import { useCompanyFilterStore } from '@/features/CompanyFilter'
 import { $api } from '@/shared/api/api'
+import { debounce } from 'lodash'
 import { ref } from 'vue'
 import { useQuery } from 'vue-query'
 
@@ -19,9 +20,11 @@ export const useCompanies = () => {
         { keepPreviousData: true },
     )
 
-    companyFilterStore.$subscribe((_, state) => {
-        filters.value = state
-    })
+    companyFilterStore.$subscribe(
+        debounce((_, state) => {
+            filters.value = state
+        }, 500),
+    )
 
     return query
 }
