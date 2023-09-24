@@ -35,13 +35,13 @@ const onSubmit = (values: unknown) => {
 <template>
     <div :class="cls.AddCompaniesModal">
         <Modal
-            :isOpen="isModalOpen"
+            :is-open="isModalOpen"
             title="Dodanie firmy"
             @update:isOpen="setIsModalOpen"
         >
             <Form
-                @submit="onSubmit"
                 :validation-schema="addCompanyValidationSchema"
+                @submit="onSubmit"
             >
                 <Flex
                     gap="8"
@@ -58,7 +58,7 @@ const onSubmit = (values: unknown) => {
                         placeholder="15/09/2023, 14:00"
                     />
                     <UserSelect
-                        asInput
+                        as-input
                         name="ownerId"
                         label="Owners"
                     />
@@ -97,12 +97,12 @@ const onSubmit = (values: unknown) => {
                     />
                     <StatusSelect
                         label="Status"
-                        asInput
+                        as-input
                         name="status"
                     />
                     <MunicipalitySelect
                         label="Gmina*"
-                        asInput
+                        as-input
                         name="municipalityId"
                     />
                     <Input
@@ -124,8 +124,8 @@ const onSubmit = (values: unknown) => {
                         type="number"
                     />
                     <ContactPersonSelect
-                        asInput
-                        label="Contact persons"
+                        as-input
+                        label="Osoby kontaktowe"
                         name="contactPersonsIds"
                     />
                 </Flex>
