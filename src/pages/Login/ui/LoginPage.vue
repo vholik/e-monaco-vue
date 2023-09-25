@@ -5,6 +5,7 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
+import Logo from '@/shared/ui/Logo/Logo.vue'
 import { loginValidationSchema } from '../model/lib/authLogin'
 import { useLogin } from '../model/services/useLogin'
 import Note from '@/shared/ui/Note/Note.vue'
@@ -22,6 +23,7 @@ const onSubmit = (values: Record<string, unknown>) => {
             :validation-schema="loginValidationSchema"
             @submit="onSubmit"
         >
+            <Logo></Logo>
             <Flex
                 direction="column"
                 gap="16"
@@ -44,12 +46,12 @@ const onSubmit = (values: Record<string, unknown>) => {
                             :is-title="true"
                             size="size_xxl"
                             weight="superbold"
-                            >Witamy spowrotem</Text
+                            >Witamy z powrotem</Text
                         >
                         <Text
                             size="size_s"
                             color="secondary"
-                            >Witamy spowrotem, podaj swoje dane</Text
+                            >Witamy z powrotem, podaj swoje dane</Text
                         >
                     </Flex>
                     <Flex
