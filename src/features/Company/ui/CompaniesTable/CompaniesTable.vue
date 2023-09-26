@@ -8,7 +8,10 @@ import { StatusSelect } from '@/entities/Status'
 import { UserSelect } from '@/entities/User'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import { ContactPersonSelect } from '@/entities/ContactPerson'
-import { useCompanies } from '../../model/services/useCompanies'
+import {
+    useCompanies,
+    type CompaniesData,
+} from '../../model/services/useCompanies'
 import type { Company } from '@/entities/Company'
 import { watch } from 'vue'
 import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
@@ -34,7 +37,6 @@ import type { Order } from '@/shared/types/order'
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading } = useCompanies()
 const toast = useToast()
-const companiesData = ref({ count: 0, companies: [] as Company[] })
 const { onDataChange } = useCompanyActions()
 const isCompanyHistoriesModalOpen = ref(false)
 const currentCompanyId = ref('')
@@ -423,14 +425,9 @@ const columns = [
 const table = useVueTable({
     columns,
     get data() {
-        return companiesData.value.companies || []
+        return data.value?.companies || []
     },
     getCoreRowModel: getCoreRowModel(),
-})
-
-watch(data, (newData: { count: number; companies: Company[] }) => {
-    companiesData.value = newData
-    table.setPageSize(newData.count)
 })
 </script>
 
@@ -476,12 +473,12 @@ watch(data, (newData: { count: number; companies: Company[] }) => {
             </tbody>
         </table>
         <div
-            v-if="!companiesData?.companies?.length && !isLoading"
+            v-if="!data?.companies?.length && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
-        <CompaniesPagination :count="companiesData.count" />
+        <CompaniesPagination :count="data?.count || 0" />
     </div>
 </template>

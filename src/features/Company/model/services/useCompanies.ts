@@ -1,11 +1,21 @@
+import type { Company } from '@/entities/Company'
 import { useCompanyFilterStore } from '@/features/CompanyFilter'
 import { $api } from '@/shared/api/api'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { debounce } from 'lodash'
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { useQuery } from 'vue-query'
 
-export const useCompanies = () => {
+export type CompaniesData = Ref<
+    { count?: number; companies?: Company[] } | undefined
+>
+
+interface UseCompaniesData {
+    data: CompaniesData
+    isLoading: Ref<boolean>
+}
+
+export const useCompanies = (): UseCompaniesData => {
     const companyFilterStore = useCompanyFilterStore()
     const filters = ref<typeof companyFilterStore.$state | null>(null)
 

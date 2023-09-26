@@ -23,7 +23,10 @@ const emit = defineEmits(['update'])
 function initDefaultValue() {
     if (defaultValue?.value) {
         isSelected.value = true
-        inputValue.value = defaultValue.value
+        inputValue.value = defaultValue?.value || 0
+    } else {
+        isSelected.value = false
+        inputValue.value = 0
     }
 }
 
