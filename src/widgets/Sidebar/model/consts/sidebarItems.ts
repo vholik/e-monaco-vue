@@ -9,8 +9,8 @@ export const sidebarItems = [
         path: '/dashboard',
     },
     {
-        name: 'Firmy',
+        name: 'Użytkownicy',
         icon: UsersIcon,
-        path: '/',
+        path: '/users',
     },
 ]

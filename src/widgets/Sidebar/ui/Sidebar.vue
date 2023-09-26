@@ -15,6 +15,7 @@ const userStore = useUserStore()
 <template>
     <div :class="cls.Sidebar">
         <Flex
+            @click="router.push('/users')"
             direction="column"
             gap="8"
             align="start"
