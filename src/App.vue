@@ -35,8 +35,8 @@ onMounted(() => {
 </script>
 
 <template>
+    <router-view name="sidebar"></router-view>
     <router-view></router-view>
-    <router-view name="dashboard"></router-view>
 </template>
 
 <style scoped></style>

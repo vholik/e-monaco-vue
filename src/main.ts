@@ -19,14 +19,14 @@ app.use(VueQueryPlugin)
 app.use(Toast)
 
 // Ensure that user is authenticated if not - redirect to login
-router.beforeEach(async (to, from, next) => {
-    const store = useUserStore()
+// router.beforeEach(async (to, from, next) => {
+//     const store = useUserStore()
 
-    if (!store.isUserLoggedIn && store.inited && to.path !== '/login') {
-        return next('/login')
-    }
+//     if (!store.isUserLoggedIn && store.inited && to.path !== '/login') {
+//         return next('/login')
+//     }
 
-    next()
-})
+//     next()
+// })
 
 app.mount('#app')

@@ -5,9 +5,10 @@ import Text from '@/shared/ui/Text/Text.vue'
 import { sidebarItems } from '../model/consts/sidebarItems'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/entities/User'
+import { computed } from 'vue'
 
 const router = useRouter()
-let currentPath = router.currentRoute.value.path
+let currentPath = computed(() => router.currentRoute.value.path)
 
 const userStore = useUserStore()
 </script>
@@ -15,7 +16,6 @@ const userStore = useUserStore()
 <template>
     <div :class="cls.Sidebar">
         <Flex
-            @click="router.push('/users')"
             direction="column"
             gap="8"
             align="start"
@@ -47,6 +47,7 @@ const userStore = useUserStore()
                     ]"
                     :max="true"
                     gap="4"
+                    @click="router.push(item.path)"
                 >
                     <component :is="item.icon" />
                     <Text

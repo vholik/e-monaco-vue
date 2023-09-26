@@ -15,18 +15,21 @@ export const getRouteLogin = () => '/login'
 export const getRouteUsers = () => '/users'
 
 const routes = [
+    { path: '/', components: LoginPage },
     {
         path: getRouteMain(),
         components: {
-            default: Sidebar,
-            dashboard: DashboardPage,
+            sidebar: Sidebar,
+            default: DashboardPage,
         },
     },
     { path: getRouteLogin(), component: LoginPage },
     {
         path: getRouteUsers(),
-
-        component: UsersPage,
+        components: {
+            sidebar: Sidebar,
+            default: UsersPage,
+        },
     },
 ]
 
