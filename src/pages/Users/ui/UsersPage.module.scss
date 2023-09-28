@@ -1,3 +1,66 @@
 .UsersPage {
     padding-top: 1.5rem;
+
+    .breadcrumbs {
+        margin-bottom: 1rem;
+    }
+
+    .title {
+        margin-bottom: 2rem;
+        margin-top: 3rem;
+    }
+
+    .user-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 1rem;
+
+        .user-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        td {
+            color: #000;
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 21px;
+            letter-spacing: -0.39px;
+            padding-bottom: 1rem;
+        }
+
+        .user-details {
+            margin-left: 12px;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-role {
+            color: #666;
+        }
+
+        .text {
+            color: #000;
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 21px;
+            letter-spacing: -0.39px;
+        }
+
+        th {
+            text-align: left;
+            color: #969696;
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 23px;
+            letter-spacing: -0.39px;
+        }
+    }
 }
