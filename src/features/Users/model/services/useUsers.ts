@@ -1,46 +1,37 @@
-// import axios library
 import axios from 'axios'
 
-// define interface for user data
-interface UserData {
-    // define the structure based on the actual response
-    // adjust it based on the actual response from the server
-    id: number
-    name: string
+interface NewUser {
+    firstName: string
+    lastName: string
     email: string
-    // ... other fields
+    password: string
+    role: string
 }
-
-// define function to fetch user data
-const fetchUsers = async (): Promise<UserData[]> => {
+const createUser = async (newUser: NewUser): Promise<void> => {
     try {
-        // make GET request to /users endpoint
-        const response = await axios.get(
-            'https://sea-lion-app-r5tih.ondigitalocean.app/users',
+        const response = await axios.post(
+            'https://sea-lion-app-r5tih.ondigitalocean.app/authentication/signup',
+            newUser,
         )
 
-        // check if the response status is 200 (OK)
-        if (response.status === 200) {
-            // parse the response data as an array of UserData
-            const userData: UserData[] = response.data
-            return userData
+        if (response.status === 201) {
+            console.log('Użytkownik został pomyślnie dodany.')
         } else {
-            // handle other response statuses
-            console.error(`Unexpected response status: ${response.status}`)
-            return []
+            console.error(
+                `Błąd podczas dodawania użytkownika. Status: ${response.status}`,
+            )
         }
     } catch (error) {
-        // handle errors during the request
-        console.error('Error fetching user data:', error.message)
-        return []
+        console.error('Błąd podczas wysyłania żądania:', error.message)
     }
 }
 
-// example usage
-fetchUsers()
-    .then((userData) => {
-        console.log('User data:', userData)
-    })
-    .catch((error) => {
-        console.error('Error:', error)
-    })
+const newUser: NewUser = {
+    firstName: 'Imię',
+    lastName: 'Nazwisko',
+    email: 'jan.kowalski@gmail.com',
+    password: 'silneHaslo',
+    role: 'user',
+}
+
+createUser(newUser)

@@ -1,3 +1,60 @@
+<template>
+    <div :class="cls.AddUserModal">
+        <Modal
+            :is-open="isModalOpen"
+            title="Dodanie użytkownika"
+            @update:isOpen="emit('update:isModalOpen', $event)"
+        >
+            <Form
+                :validation-schema="addUsersModalValidationSchema"
+                @submit="onSubmit"
+            >
+                <Flex
+                    gap="8"
+                    direction="column"
+                    align="start"
+                    :class="cls.wrapper"
+                >
+                    <Note v-if="error">
+                        Nie udało nam się dodać użytkownika. Spróbuj ponownie
+                        później.
+                    </Note>
+                    <Input
+                        name="firstName"
+                        label="Imię"
+                        placeholder="Jan"
+                    />
+                    <Input
+                        name="lastName"
+                        label="Nazwisko"
+                        placeholder="Kowalski"
+                    />
+                    <Input
+                        name="email"
+                        label="E-mail"
+                        placeholder="jan.kowalski@gmail.com"
+                    />
+                    <Input
+                        name="password"
+                        label="Hasło"
+                        type="password"
+                        placeholder="********"
+                    />
+                    <CustomRoleSelect />
+                </Flex>
+                <div :class="cls.footer">
+                    <Button
+                        :class="cls.button"
+                        :disabled="isLoading"
+                    >
+                        Dodaj
+                    </Button>
+                </div>
+            </Form>
+        </Modal>
+    </div>
+</template>
+
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
 import { Form, useForm } from 'vee-validate'
@@ -8,6 +65,7 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import { useAddUser } from '../../model/services/useAddUser'
 import Note from '@/shared/ui/Note/Note.vue'
+import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
 
 interface Props {
     isModalOpen: boolean
@@ -26,59 +84,3 @@ const onSubmit = (values: unknown) => {
     mutate(values)
 }
 </script>
-
-<template>
-    <div :class="cls.AddUserModal">
-        <Modal
-            :is-open="isModalOpen"
-            title="Dodanie użytkownika"
-            @update:isOpen="emit('update:isModalOpen', $event)"
-        >
-            <Form
-                :validation-schema="addUserValidationSchema"
-                @submit="onSubmit"
-            >
-                <Flex
-                    gap="8"
-                    direction="column"
-                    align="start"
-                    :class="cls.wrapper"
-                >
-                    <Note v-if="error">
-                        Nie udało nam się dodać użytkownika. Spróbuj ponownie
-                        później.
-                    </Note>
-                    <Input
-                        name="firstName"
-                        label="Imię"
-                        placeholder="John"
-                    />
-                    <Input
-                        name="lastName"
-                        label="Nazwisko"
-                        placeholder="Doe"
-                    />
-                    <Input
-                        name="email"
-                        label="E-mail"
-                        placeholder="john.doe@example.com"
-                    />
-                    <Input
-                        name="password"
-                        label="Hasło"
-                        type="password"
-                        placeholder="********"
-                    />
-                </Flex>
-                <div :class="cls.footer">
-                    <Button
-                        :class="cls.button"
-                        :disabled="isLoading"
-                    >
-                        Dodaj
-                    </Button>
-                </div>
-            </Form>
-        </Modal>
-    </div>
-</template>
