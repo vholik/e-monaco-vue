@@ -17,7 +17,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 const emit = defineEmits(['update'])
 
 const { name, defaultValue } = toRefs(props)

@@ -1,5 +1,35 @@
+<script setup lang="ts">
+import { defineProps, defineEmits, ref } from 'vue'
+import { Form, useForm } from 'vee-validate'
+import cls from './AddUsersModal.module.scss'
+import Modal from '@/shared/ui/Modal/Modal.vue'
+import Flex from '@/shared/ui/Flex/Flex.vue'
+import Input from '@/shared/ui/Input/Input.vue'
+import Button from '@/shared/ui/Button/Button.vue'
+import { useAddUser } from '../../model/services/useAddUser'
+import Note from '@/shared/ui/Note/Note.vue'
+import UserRoleSelect from '@/entities/User/ui/UserRoleSelect/UserRoleSelect.vue'
+import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
+interface Props {
+    isModalOpen: boolean
+}
+
+function setIsModalOpen(value: boolean) {
+    emit('update:isModalOpen', value)
+}
+
+const { mutate, isLoading, error } = useAddUser(setIsModalOpen)
+
+defineProps<Props>()
+const emit = defineEmits(['update:isModalOpen'])
+
+const onSubmit = (values: unknown) => {
+    mutate(values)
+}
+</script>
+
 <template>
-    <div :class="cls.AddUserModal">
+    <div :class="cls.UserRoleSelect">
         <Modal
             :is-open="isModalOpen"
             title="Dodanie użytkownika"
@@ -40,7 +70,10 @@
                         type="password"
                         placeholder="********"
                     />
-                    <CustomRoleSelect />
+                    <UserRoleSelect
+                        name="role"
+                        label="Rola"
+                    />
                 </Flex>
                 <div :class="cls.footer">
                     <Button
@@ -54,33 +87,3 @@
         </Modal>
     </div>
 </template>
-
-<script setup lang="ts">
-import { defineProps, defineEmits, ref } from 'vue'
-import { Form, useForm } from 'vee-validate'
-import cls from './AddUsersModal.module.scss'
-import Modal from '@/shared/ui/Modal/Modal.vue'
-import Flex from '@/shared/ui/Flex/Flex.vue'
-import Input from '@/shared/ui/Input/Input.vue'
-import Button from '@/shared/ui/Button/Button.vue'
-import { useAddUser } from '../../model/services/useAddUser'
-import Note from '@/shared/ui/Note/Note.vue'
-import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
-
-interface Props {
-    isModalOpen: boolean
-}
-
-function setIsModalOpen(value: boolean) {
-    emit('update:isModalOpen', value)
-}
-
-const { mutate, isLoading, error } = useAddUser(setIsModalOpen)
-
-defineProps<Props>()
-const emit = defineEmits(['update:isModalOpen'])
-
-const onSubmit = (values: unknown) => {
-    mutate(values)
-}
-</script>
