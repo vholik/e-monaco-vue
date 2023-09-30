@@ -5,7 +5,7 @@ import { h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { StatusSelect } from '@/entities/Status'
-import { UserSelect } from '@/entities/User'
+import { UserSelect, useUserStore, type User } from '@/entities/User'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import { ContactPersonSelect } from '@/entities/ContactPerson'
 import {
@@ -33,6 +33,7 @@ import { StatusFilter } from '@/features/CompanyFilter'
 import { ContactPersonsFilter } from '@/features/CompanyFilter'
 import CompaniesPagination from '../CompaniesPagination/CompaniesPagination.vue'
 import type { Order } from '@/shared/types/order'
+import { storeToRefs } from 'pinia'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading } = useCompanies()
@@ -40,6 +41,8 @@ const toast = useToast()
 const { onDataChange } = useCompanyActions()
 const isCompanyHistoriesModalOpen = ref(false)
 const currentCompanyId = ref('')
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 function onContactHistoriesClick(companyId: string) {
     isCompanyHistoriesModalOpen.value = true
@@ -118,23 +121,7 @@ const columns = [
             })
         },
     }),
-    columnHelper.accessor((row) => row.owner, {
-        id: 'owner',
-        cell: (info) =>
-            h(UserSelect, {
-                name: 'owner',
-                defaultValue: info.getValue().id,
-                onUpdate: onDataChange(info.row.original.id, 'ownerId'),
-            }),
 
-        header: () => {
-            return h(SortHeader, {
-                name: 'Właściciel',
-                canSort: false,
-                filter: UserFilter,
-            })
-        },
-    }),
     columnHelper.accessor((row) => row.comment, {
         id: 'comment',
         cell: (info) =>
@@ -421,6 +408,30 @@ const columns = [
         },
     }),
 ]
+
+if (user.value && user.value?.role !== 'user') {
+    columns.splice(
+        2,
+        0,
+        // @ts-ignore
+        columnHelper.accessor((row) => row.owner, {
+            id: 'owner',
+            cell: (info) =>
+                h(UserSelect, {
+                    name: 'owner',
+                    defaultValue: (info.getValue() as User).id,
+                    onUpdate: onDataChange(info.row.original.id, 'ownerId'),
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Właściciel',
+                    canSort: false,
+                    filter: UserFilter,
+                })
+            },
+        }),
+    )
+}
 
 const table = useVueTable({
     columns,
