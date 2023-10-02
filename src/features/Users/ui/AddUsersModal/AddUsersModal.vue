@@ -6,7 +6,7 @@ import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
-import { useAddUser } from '../../model/services/useAddUser'
+import { useUsers } from '../../model/services/useUsers'
 import Note from '@/shared/ui/Note/Note.vue'
 import UserRoleSelect from '@/entities/User/ui/UserRoleSelect/UserRoleSelect.vue'
 import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
@@ -18,7 +18,7 @@ function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
 
-const { mutate, isLoading, error } = useAddUser(setIsModalOpen)
+const { mutate, isLoading, error } = useUsers(setIsModalOpen)
 
 defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])

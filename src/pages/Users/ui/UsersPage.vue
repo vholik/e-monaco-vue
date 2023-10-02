@@ -39,7 +39,6 @@ function openModal() {
             />
             Dodaj Użytkownika
         </Button>
-        <CurrentFilter />
         <AddUsersModal v-model:isModalOpen="modalOpen"></AddUsersModal>
         <table :class="[cls['user-table']]">
             <thead>

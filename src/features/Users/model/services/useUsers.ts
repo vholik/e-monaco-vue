@@ -1,37 +1,27 @@
-import axios from 'axios'
+import { $api } from '@/shared/api/api'
+import { useMutation } from 'vue-query'
+import { useToast } from 'vue-toastification'
+import { Ref } from 'vue'
 
-interface NewUser {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    role: string
+export const useUsers = (setIsModalOpen: (value: boolean) => void) => {
+    const toast = useToast()
+
+    return useMutation(
+        'add-user',
+        async (data) => {
+            try {
+                const response = await $api.post('authentication/signup', data)
+                return response.data
+            } catch (error) {
+                console.error('Błąd podczas wysyłania żądania:', error.message)
+                throw error
+            }
+        },
+        {
+            onSuccess: () => {
+                toast.success('Pomyślnie dodano użytkownika')
+                setIsModalOpen(false)
+            },
+        },
+    )
 }
-const createUser = async (newUser: NewUser): Promise<void> => {
-    try {
-        const response = await axios.post(
-            'https://sea-lion-app-r5tih.ondigitalocean.app/authentication/signup',
-            newUser,
-        )
-
-        if (response.status === 201) {
-            console.log('Użytkownik został pomyślnie dodany.')
-        } else {
-            console.error(
-                `Błąd podczas dodawania użytkownika. Status: ${response.status}`,
-            )
-        }
-    } catch (error) {
-        console.error('Błąd podczas wysyłania żądania:', error.message)
-    }
-}
-
-const newUser: NewUser = {
-    firstName: 'Imię',
-    lastName: 'Nazwisko',
-    email: 'jan.kowalski@gmail.com',
-    password: 'silneHaslo',
-    role: 'user',
-}
-
-createUser(newUser)
