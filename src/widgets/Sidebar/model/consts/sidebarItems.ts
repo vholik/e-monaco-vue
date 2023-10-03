@@ -13,4 +13,9 @@ export const sidebarItems = [
         icon: UsersIcon,
         path: '/users',
     },
+    {
+        name: 'Osoby kontaktowe',
+        icon: UsersIcon,
+        path: '/persons',
+    },
 ]
