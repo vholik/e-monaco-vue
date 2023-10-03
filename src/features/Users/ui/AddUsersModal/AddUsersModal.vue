@@ -63,12 +63,14 @@ const onSubmit = (values: unknown) => {
                         name="email"
                         label="E-mail"
                         placeholder="jan.kowalski@gmail.com"
+                        autocomplete="off"
                     />
                     <Input
                         name="password"
                         label="Hasło"
                         type="password"
                         placeholder="********"
+                        autocomplete="off"
                     />
                     <UserRoleSelect
                         name="role"

@@ -1,3 +1,4 @@
+<!-- UsersPage.vue -->
 <script setup lang="ts">
 import { useOwners } from '@/entities/User/model/services/useOwners'
 import type { User } from '@/model/types/user'
@@ -12,6 +13,7 @@ import Button from '@/shared/ui/Button/Button.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
 import { ref } from 'vue'
 import AddUsersModal from '@/features/Users/ui/AddUsersModal/AddUsersModal.vue'
+
 const { data: users } = useOwners()
 
 let modalOpen = ref(false)
@@ -27,7 +29,7 @@ function openModal() {
             :items="breadcrumbs"
             class="breadcrumbs"
         />
-        <h1 :class="cls.title">Lista Wszystkich Użytkowników</h1>
+        <h1 :class="cls.title">Lista wszystkich użytkowników</h1>
         <Button
             variant="secondary"
             :max="false"
@@ -58,7 +60,7 @@ function openModal() {
                         <div :class="cls['user-wrapper']">
                             <Avatar
                                 :role="user.role"
-                                :name="user.firstName"
+                                :name="user.firstName + ' ' + user.lastName"
                             />
                             <span :class="[cls.text, cls.userDetails]">
                                 {{ user.firstName }} {{ user.lastName }}
