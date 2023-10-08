@@ -1,0 +1,49 @@
+.tableWrapper {
+    // sidebar width - gap between sidebar and page
+    width: calc(100vw - var(--sidebar-width) - 2rem);
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 83vh;
+}
+
+.CompaniesTable {
+    width: max-content;
+    border-collapse: collapse;
+}
+
+.headerTitle {
+    text-align: left;
+    color: var(--quatinary-color);
+    font: var(--font-s);
+    font-weight: 500;
+}
+
+.headerTitle,
+.bodyValue {
+    padding: 0.6rem 1.5rem 0.6rem 0.5rem;
+}
+
+.bodyValue {
+    font: var(--font-s);
+}
+
+.header {
+    border-top: 1px solid var(--stroke-color);
+    border-bottom: 1px solid var(--stroke-color);
+}
+
+.row {
+    border-bottom: 1px solid var(--stroke-color);
+}
+
+.marked {
+    background-color: var(--marked-row-bg-color);
+}
+
+.noData {
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

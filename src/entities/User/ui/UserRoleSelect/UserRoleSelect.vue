@@ -53,7 +53,6 @@ watch(defaultValue!, () => {
         :label="label"
         v-bind="$props"
         :error-message="errorMessage"
-        with-input
         @update:modelValue="onUpdate"
     />
 </template>
