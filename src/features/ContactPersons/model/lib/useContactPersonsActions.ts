@@ -1,9 +1,8 @@
-// useContactPersonsActions.ts
 import { debounce } from 'lodash'
-import { usePersons } from '@/features/ContactPersons/model/services/usePersons'
+import { useUpdatePersons } from '../services/useUpdatePersons'
 
-export function useContactPersonActions() {
-    const { mutate } = usePersons()
+export function useContactPersonsActions() {
+    const { mutate } = useUpdatePersons()
 
     const onDataChange = (id: string, key: string) =>
         debounce((value: unknown) => {

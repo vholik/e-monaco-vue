@@ -2,7 +2,7 @@
 import { ref, toRefs, watch } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
-import { useContactPersons } from '../../model/services/useContactPersons'
+import { useContactPersons } from '@/entities/ContactPerson/model/services/useContactPersons'
 import type { ContactPerson } from '../../model/types/contactPerson'
 
 interface Props {

@@ -4,16 +4,39 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 import Breadcrumbs from '@/shared/ui/Breadcrumbs/Breadcrumbs.vue'
 import { breadcrumbs } from '../model/consts/breadcrumbs'
 import PersonsTable from '@/features/ContactPersons/ui/PersonsTable.vue'
+import Icon from '@/shared/ui/Icon/Icon.vue'
+import AddPersonsModal from '@/features/ContactPersons/ui/AddPersonsModal.vue'
+import { ref } from 'vue'
+import Button from '@/shared/ui/Button/Button.vue'
+
+let modalOpen = ref(false)
+
+function openModal() {
+    modalOpen.value = true
+}
 </script>
 
 <template>
-    <div :class="cls.ContactPersonsPage">
+    <div :class="cls.ContactPersons">
         <Flex
             gap="32"
             direction="column"
             align="start"
         >
             <Breadcrumbs :items="breadcrumbs" />
+            <h1 :class="cls.title">Lista wszystkich użytkowników</h1>
+            <Button
+                variant="secondary"
+                :max="false"
+                @click="openModal"
+            >
+                <Icon
+                    color="primary-variant"
+                    :icon="AddIcon"
+                />
+                Dodaj Użytkownika
+            </Button>
+            <AddPersonsModal v-model:isModalOpen="modalOpen"></AddPersonsModal>
             <Flex
                 gap="16"
                 direction="column"

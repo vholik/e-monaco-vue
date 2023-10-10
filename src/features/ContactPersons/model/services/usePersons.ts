@@ -1,26 +1,27 @@
-import { useQuery } from 'vue-query'
 import { $api } from '@/shared/api/api'
-import type { Ref } from 'vue'
+import { useMutation } from 'vue-query'
+import { useToast } from 'vue-toastification'
+import { Ref } from 'vue'
 
-export const usePersons = (
-    refValue: Ref<string>,
-    selectedRef: Ref<string[]>,
-) => {
-    if (!refValue.value) refValue.value = 'initial value'
-    if (!selectedRef.value) selectedRef.value = []
+export const usePersons = (setIsModalOpen: (value: boolean) => void) => {
+    const toast = useToast()
 
-    return useQuery(
-        ['persons', refValue],
-        async () => {
-            const response = await $api.get(`persons`, {
-                params: { q: refValue.value, selected: selectedRef.value },
-            })
-
-            return response.data
+    return useMutation(
+        'add-contact-persons',
+        async (data) => {
+            try {
+                const response = await $api.post('/persons', data)
+                return response.data
+            } catch (error) {
+                console.error('Błąd podczas wysyłania żądania:', error.message)
+                throw error
+            }
         },
         {
-            initialData: [],
-            keepPreviousData: true,
+            onSuccess: () => {
+                toast.success('Pomyślnie dodano osoby kontaktowe')
+                setIsModalOpen(false)
+            },
         },
     )
 }

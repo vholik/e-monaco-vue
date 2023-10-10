@@ -1,15 +1,15 @@
-import type { ContactPerson } from '@/entities/ContactPerson' // Upewnij się, że ścieżka jest poprawna
+import type { ContactPerson } from '@/entities/ContactPerson'
 import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
 
-export const useUpdatePerson = () => {
+export const useUpdatePersons = () => {
     const toast = useToast()
     return useMutation(
         ['update-person'],
         async (data: Partial<ContactPerson>) => {
             const { id, ...body } = data
-            const response = await $api.put(`persons/${id}`, body) // Zakładam, że endpoint dla Persons to `persons`
+            const response = await $api.put(`persons/${id}`, body)
             return response.data
         },
         {

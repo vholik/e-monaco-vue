@@ -1,4 +1,3 @@
-<!-- UsersPage.vue -->
 <script setup lang="ts">
 import { useOwners } from '@/entities/User/model/services/useOwners'
 import type { User } from '@/model/types/user'

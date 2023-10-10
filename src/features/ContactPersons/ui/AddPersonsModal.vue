@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
 import { Form, useForm } from 'vee-validate'
-import cls from './AddUsersModal.module.scss'
+import cls from './AddPersonsModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
-import { useUsers } from '../../model/services/useUsers'
-import UserRoleSelect from '@/entities/User/ui/UserRoleSelect/UserRoleSelect.vue'
-import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
+import { usePersons } from '@/features/ContactPersons/model/services/usePersons'
+import { addContactPersonsModalValidationSchema } from '@/features/ContactPersons/model/lib/addContactPersonsSchema'
 
 interface Props {
     isModalOpen: boolean
@@ -19,7 +18,7 @@ function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
 
-const { mutate, isLoading, error } = useUsers(setIsModalOpen)
+const { mutate, isLoading, error } = usePersons(setIsModalOpen)
 
 defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
@@ -30,14 +29,14 @@ const onSubmit = (values: unknown) => {
 </script>
 
 <template>
-    <div :class="cls.UserRoleSelect">
+    <div :class="cls.ContactPersonsModal">
         <Modal
             :is-open="isModalOpen"
-            title="Dodanie użytkownika"
+            title="Dodanie osoby kontaktowej"
             @update:isOpen="emit('update:isModalOpen', $event)"
         >
             <Form
-                :validation-schema="addUsersModalValidationSchema"
+                :validation-schema="addContactPersonsModalValidationSchema"
                 @submit="onSubmit"
             >
                 <Flex
@@ -47,8 +46,8 @@ const onSubmit = (values: unknown) => {
                     :class="cls.wrapper"
                 >
                     <Note v-if="error">
-                        Nie udało nam się dodać użytkownika. Spróbuj ponownie
-                        później.
+                        Nie udało nam się dodać osoby kontaktowej. Spróbuj
+                        ponownie później.
                     </Note>
                     <Input
                         name="firstName"
@@ -61,21 +60,20 @@ const onSubmit = (values: unknown) => {
                         placeholder="Kowalski"
                     />
                     <Input
+                        name="role"
+                        label="Rola"
+                        placeholder="Stanowisko, rola, itp."
+                    />
+                    <Input
+                        name="phone"
+                        label="Telefon"
+                        placeholder="123-456-789"
+                    />
+                    <Input
                         name="email"
                         label="E-mail"
                         placeholder="jan.kowalski@gmail.com"
                         autocomplete="off"
-                    />
-                    <Input
-                        name="password"
-                        label="Hasło"
-                        type="password"
-                        placeholder="********"
-                        autocomplete="off"
-                    />
-                    <UserRoleSelect
-                        name="role"
-                        label="Rola"
                     />
                 </Flex>
                 <div :class="cls.footer">
