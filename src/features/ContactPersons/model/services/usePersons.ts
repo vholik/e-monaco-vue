@@ -14,13 +14,13 @@ export const usePersons = (setIsModalOpen: (value: boolean) => void) => {
                 return response.data
             } catch (error) {
                 console.error('Błąd podczas wysyłania żądania:', error.message)
-                throw error
             }
         },
         {
-            onSuccess: () => {
+            onSuccess: (data) => {
                 toast.success('Pomyślnie dodano osoby kontaktowe')
                 setIsModalOpen(false)
+                return { value: data }
             },
         },
     )

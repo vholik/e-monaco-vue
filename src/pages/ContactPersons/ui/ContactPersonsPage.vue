@@ -8,7 +8,7 @@ import Icon from '@/shared/ui/Icon/Icon.vue'
 import AddPersonsModal from '@/features/ContactPersons/ui/AddPersonsModal.vue'
 import { ref } from 'vue'
 import Button from '@/shared/ui/Button/Button.vue'
-
+import AddIcon from '@/shared/assets/icons/Add.vue'
 let modalOpen = ref(false)
 
 function openModal() {
@@ -24,7 +24,7 @@ function openModal() {
             align="start"
         >
             <Breadcrumbs :items="breadcrumbs" />
-            <h1 :class="cls.title">Lista wszystkich użytkowników</h1>
+            <h1 :class="cls.title">Lista wszystkich osób kontaktowych</h1>
             <Button
                 variant="secondary"
                 :max="false"
@@ -34,7 +34,7 @@ function openModal() {
                     color="primary-variant"
                     :icon="AddIcon"
                 />
-                Dodaj Użytkownika
+                Dodaj osobę kontaktową
             </Button>
             <AddPersonsModal v-model:isModalOpen="modalOpen"></AddPersonsModal>
             <Flex

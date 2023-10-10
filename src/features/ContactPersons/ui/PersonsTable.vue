@@ -33,21 +33,6 @@ const columns = [
         header: () => h('div', 'Email'),
         cell: (info) => h('div', info.row.original.email),
     }),
-    columnHelper.accessor((row) => row.contactPersons, {
-        id: 'contactPersons',
-        cell: (info) =>
-            h({
-                name: 'contactPersons',
-                defaultValue: info.getValue().map((it) => it.id),
-                onUpdate: onDataChange(
-                    info.row.original.id,
-                    'contactPersonsIds',
-                ),
-            }),
-        header: () => {
-            return h('div', 'Osoby kontaktowe')
-        },
-    }),
 ]
 
 const table = useVueTable({
