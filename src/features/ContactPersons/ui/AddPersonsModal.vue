@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
-import { Form, useForm } from 'vee-validate'
+import { ErrorMessage, Form, useForm } from 'vee-validate'
 import cls from './AddPersonsModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
@@ -8,7 +8,7 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
 import { usePersons } from '@/features/ContactPersons/model/services/usePersons'
-import { addContactPersonsModalValidationSchema } from '@/features/ContactPersons/model/lib/addContactPersonsSchema'
+import { addPersonsModalValidationSchema } from '@/features/ContactPersons/model/lib/addContactPersonsSchema'
 
 interface Props {
     isModalOpen: boolean
@@ -24,6 +24,7 @@ defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = (values: unknown) => {
+    values.top = Boolean(values.top)
     mutate(values)
 }
 </script>
@@ -36,7 +37,7 @@ const onSubmit = (values: unknown) => {
             @update:isOpen="emit('update:isModalOpen', $event)"
         >
             <Form
-                :validation-schema="addContactPersonsModalValidationSchema"
+                :validation-schema="addPersonsModalValidationSchema"
                 @submit="onSubmit"
             >
                 <Flex
@@ -73,6 +74,12 @@ const onSubmit = (values: unknown) => {
                         name="email"
                         label="E-mail"
                         placeholder="jan.kowalski@gmail.com"
+                        autocomplete="off"
+                    />
+                    <Input
+                        name="top"
+                        label="Top"
+                        placeholder="true/false"
                         autocomplete="off"
                     />
                 </Flex>

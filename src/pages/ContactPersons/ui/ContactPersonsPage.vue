@@ -9,6 +9,7 @@ import AddPersonsModal from '@/features/ContactPersons/ui/AddPersonsModal.vue'
 import { ref } from 'vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
+
 let modalOpen = ref(false)
 
 function openModal() {

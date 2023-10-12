@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useOwners } from '@/entities/User/model/services/useOwners'
-import type { User } from '@/model/types/user'
 import cls from './UsersPage.module.scss'
 import Breadcrumbs from '@/shared/ui/Breadcrumbs/Breadcrumbs.vue'
 import Avatar from '@/shared/ui/Avatar/Avatar.vue'

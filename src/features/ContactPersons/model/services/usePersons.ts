@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
@@ -9,18 +10,37 @@ export const usePersons = (setIsModalOpen: (value: boolean) => void) => {
     return useMutation(
         'add-contact-persons',
         async (data) => {
+            const requestData = { data, top: true }
+
             try {
-                const response = await $api.post('/persons', data)
+                console.log('Wysyłane dane:', data)
+                const response = await $api.post(
+                    '/persons',
+                    JSON.stringify(data),
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    },
+                )
                 return response.data
             } catch (error) {
-                console.error('Błąd podczas wysyłania żądania:', error.message)
+                console.error('AxiosError:', error)
+                if (error instanceof AxiosError && error.response) {
+                    const axiosError = error as AxiosError
+                    console.log('Response data:', axiosError.response.data)
+                    console.log('Response status:', axiosError.response.status)
+                    console.log(
+                        'Response headers:',
+                        axiosError.response.headers,
+                    )
+                }
             }
         },
         {
-            onSuccess: (data) => {
+            onSuccess: () => {
                 toast.success('Pomyślnie dodano osoby kontaktowe')
                 setIsModalOpen(false)
-                return { value: data }
             },
         },
     )

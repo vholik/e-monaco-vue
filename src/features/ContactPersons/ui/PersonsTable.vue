@@ -7,7 +7,10 @@ import { useContactPersons } from '@/entities/ContactPerson/model/services/useCo
 import { useContactPersonsActions } from '@/features/ContactPersons/model/lib/useContactPersonsActions'
 import type { ContactPerson } from '@/entities/ContactPerson/model/types/contactPerson'
 
-const { data, isLoading } = useContactPersons()
+const refValue = ref('')
+const selectedRef = ref<string[]>([])
+
+const { data, isLoading } = useContactPersons(refValue, selectedRef)
 const { onDataChange } = useContactPersonsActions()
 
 const columnHelper = createColumnHelper<any>()
