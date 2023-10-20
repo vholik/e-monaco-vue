@@ -79,7 +79,7 @@ const onSubmit = (values: unknown) => {
                     <Input
                         name="top"
                         label="Top"
-                        placeholder="true/false"
+                        type="checkbox"
                         autocomplete="off"
                     />
                 </Flex>

@@ -3,44 +3,97 @@ import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
 import { h, ref } from 'vue'
 import cls from './PersonsTable.module.scss'
-import { useContactPersons } from '@/entities/ContactPerson/model/services/useContactPersons'
+import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
+import { useContactPersonsFilterStore } from '@/features/PersonsFilter'
+import { usePersons } from '@/features/ContactPersons/model/services/useContactPerson'
+import { useToast } from 'vue-toastification'
 import { useContactPersonsActions } from '@/features/ContactPersons/model/lib/useContactPersonsActions'
+import { validatePhone } from '@/shared/lib/phone'
+import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
+import Text from '@/shared/ui/Text/Text.vue'
+import type { Order } from '@/shared/types/order'
 import type { ContactPerson } from '@/entities/ContactPerson/model/types/contactPerson'
 
-const refValue = ref('')
-const selectedRef = ref<string[]>([])
-
-const { data, isLoading } = useContactPersons(refValue, selectedRef)
+const data = ref({ persons: [] })
+const isLoading = ref(true)
+const toast = useToast()
 const { onDataChange } = useContactPersonsActions()
+const ContactPersonsFilterStore = useContactPersonsFilterStore()
 
-const columnHelper = createColumnHelper<any>()
+const changeOrder = (name: string) => (value: Order) => {
+    ContactPersonsFilterStore.setOrder(value)
+    ContactPersonsFilterStore.setOrderBy(name)
+}
+
+const columnHelper = createColumnHelper<ContactPerson>()
 
 const columns = [
     columnHelper.accessor((row) => row.firstName, {
+        cell: (info) =>
+            h('div', onDataChange(info.row.original.id, 'firstName')),
         id: 'firstName',
-        header: () => h('div', 'Imię'),
-        cell: (info) => h('div', info.row.original.firstName),
+        header: () =>
+            h(SortHeader, {
+                name: 'Imię',
+                value:
+                    ContactPersonsFilterStore.getOrderBy === 'firstName'
+                        ? ContactPersonsFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('firstName'),
+            }),
     }),
     columnHelper.accessor((row) => row.lastName, {
         id: 'lastName',
-        header: () => h('div', 'Nazwisko'),
-        cell: (info) => h('div', info.row.original.lastName),
+        cell: (info) =>
+            h(CommentInput, onDataChange(info.row.original.id, 'lastName')),
+
+        header: () =>
+            h(SortHeader, {
+                name: 'Nazwisko',
+                value:
+                    ContactPersonsFilterStore.getOrderBy === 'lastName'
+                        ? ContactPersonsFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('lastName'),
+            }),
     }),
     columnHelper.accessor((row) => row.phone, {
         id: 'phone',
-        header: () => h('div', 'Telefon'),
-        cell: (info) => h('div', info.row.original.phone),
+        cell: (info) =>
+            h(CommentInput, {
+                placeholder: '123-456-789',
+                onUpdate: onDataChange(info.row.original.id, 'phone'),
+                defaultValue: info.getValue(),
+                validateFn: (value: string) => {
+                    const isValid = validatePhone(value)
+                    if (!isValid) {
+                        toast.error('Niepoprawny numer telefonu')
+                        return isValid
+                    }
+                    return isValid
+                },
+            }),
+        header: () => h(SortHeader, { name: 'Telefon', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.email, {
-        id: 'email',
-        header: () => h('div', 'Email'),
-        cell: (info) => h('div', info.row.original.email),
+    columnHelper.accessor((row) => row.role, {
+        cell: (info) => h('div', onDataChange(info.row.original.id, 'role')),
+        id: 'role',
+        header: () =>
+            h(SortHeader, {
+                name: 'Rola',
+                value:
+                    ContactPersonsFilterStore.getOrderBy === 'role'
+                        ? ContactPersonsFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('role'),
+            }),
     }),
 ]
-
 const table = useVueTable({
     columns,
-    data: data.value?.persons || [],
+    get data() {
+        return data.value!.persons || []
+    },
     getCoreRowModel: getCoreRowModel(),
 })
 </script>
@@ -83,12 +136,10 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="!data?.persons?.length && !isLoading"
+            v-if="!data || (!data.persons.length && !isLoading)"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
-        <LoaderContainer :is-loading="isLoading"></LoaderContainer>
-        <CompaniesPagination :count="data?.count || 0" />
     </div>
 </template>

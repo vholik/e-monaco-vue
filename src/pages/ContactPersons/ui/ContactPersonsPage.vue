@@ -6,7 +6,7 @@ import { breadcrumbs } from '../model/consts/breadcrumbs'
 import PersonsTable from '@/features/ContactPersons/ui/PersonsTable.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import AddPersonsModal from '@/features/ContactPersons/ui/AddPersonsModal.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
 
