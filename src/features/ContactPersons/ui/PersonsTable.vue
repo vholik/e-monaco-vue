@@ -14,7 +14,7 @@ import Text from '@/shared/ui/Text/Text.vue'
 import type { Order } from '@/shared/types/order'
 import type { ContactPerson } from '@/entities/ContactPerson/model/types/contactPerson'
 
-const data = ref({ persons: [] })
+const { data } = usePersons()
 const isLoading = ref(true)
 const toast = useToast()
 const { onDataChange } = useContactPersonsActions()
@@ -91,8 +91,9 @@ const columns = [
 ]
 const table = useVueTable({
     columns,
+    // @ts-ignore
     get data() {
-        return data.value!.persons || []
+        return data.value?.persons || []
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -136,7 +137,7 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="!data || (!data.persons.length && !isLoading)"
+            v-if="!data || (!data?.count && !isLoading)"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>

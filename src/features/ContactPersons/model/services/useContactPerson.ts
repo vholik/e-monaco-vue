@@ -20,10 +20,10 @@ export const usePersons = (): UsePersonsData => {
     const filters = ref<typeof personFilterStore.$state | null>(null)
 
     const query = useQuery(
-        ['persons', filters],
+        ['persons-filtered', filters],
         async () => {
             const page = filters.value?.page || 1
-            const response = await $api.get('persons', {
+            const response = await $api.get('persons/filtered', {
                 params: {
                     ...filters.value,
                     skip: (page - 1) * PAGE_SIZE,
