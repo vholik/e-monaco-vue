@@ -29,33 +29,24 @@ const columnHelper = createColumnHelper<ContactPerson>()
 
 const columns = [
     columnHelper.accessor((row) => row.firstName, {
-        cell: (info) =>
-            h('div', onDataChange(info.row.original.id, 'firstName')),
         id: 'firstName',
-        header: () =>
-            h(SortHeader, {
-                name: 'Imię',
-                value:
-                    ContactPersonsFilterStore.getOrderBy === 'firstName'
-                        ? ContactPersonsFilterStore.getOrder
-                        : null,
-                onUpdate: changeOrder('firstName'),
+        cell: (info) =>
+            h(CommentInput, {
+                placeholder: 'Jan',
+                onUpdate: onDataChange(info.row.original.id, 'firstName'),
+                defaultValue: info.getValue(),
             }),
+        header: () => h(SortHeader, { name: 'Imię', canSort: false }),
     }),
     columnHelper.accessor((row) => row.lastName, {
         id: 'lastName',
         cell: (info) =>
-            h(CommentInput, onDataChange(info.row.original.id, 'lastName')),
-
-        header: () =>
-            h(SortHeader, {
-                name: 'Nazwisko',
-                value:
-                    ContactPersonsFilterStore.getOrderBy === 'lastName'
-                        ? ContactPersonsFilterStore.getOrder
-                        : null,
-                onUpdate: changeOrder('lastName'),
+            h(CommentInput, {
+                placeholder: 'Kowalski',
+                onUpdate: onDataChange(info.row.original.id, 'lastName'),
+                defaultValue: info.getValue(),
             }),
+        header: () => h(SortHeader, { name: 'Nazwisko', canSort: false }),
     }),
     columnHelper.accessor((row) => row.phone, {
         id: 'phone',
@@ -76,17 +67,34 @@ const columns = [
         header: () => h(SortHeader, { name: 'Telefon', canSort: false }),
     }),
     columnHelper.accessor((row) => row.role, {
-        cell: (info) => h('div', onDataChange(info.row.original.id, 'role')),
         id: 'role',
-        header: () =>
-            h(SortHeader, {
-                name: 'Rola',
-                value:
-                    ContactPersonsFilterStore.getOrderBy === 'role'
-                        ? ContactPersonsFilterStore.getOrder
-                        : null,
-                onUpdate: changeOrder('role'),
+        cell: (info) =>
+            h(CommentInput, {
+                placeholder: 'kierownik',
+                onUpdate: onDataChange(info.row.original.id, 'role'),
+                defaultValue: info.getValue(),
             }),
+        header: () => h(SortHeader, { name: 'Rola', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.email, {
+        id: 'email',
+        cell: (info) =>
+            h(CommentInput, {
+                placeholder: 'jan.kowalski@gmail.com',
+                onUpdate: onDataChange(info.row.original.id, 'email'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => h(SortHeader, { name: 'Email', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.top, {
+        id: 'top',
+        cell: (info) =>
+            h({
+                placeholder: 'jan.kowalski@gmail.com',
+                onUpdate: onDataChange(info.row.original.id, 'top'),
+                defaultValue: info.getValue(),
+            }),
+        header: () => h(SortHeader, { name: 'Top', canSort: false }),
     }),
 ]
 const table = useVueTable({
