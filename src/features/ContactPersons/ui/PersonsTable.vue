@@ -15,7 +15,19 @@ import type { Order } from '@/shared/types/order'
 import type { ContactPerson } from '@/entities/ContactPerson/model/types/contactPerson'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 import CompaniesPagination from '@/features/Company/ui/CompaniesPagination/CompaniesPagination.vue'
+import { useDeletePersons } from '@/features/ContactPersons/model/services/useDeletePersons'
+import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 
+const { mutateAsync } = useDeletePersons()
+const handleDelete = async (id: number) => {
+    try {
+        await mutateAsync(id)
+    } catch (error) {
+        toast.error('Błąd podczas usuwania rekordu:', error)
+    }
+}
+
+const deletePersons = useDeletePersons()
 const { data, isLoading } = usePersons()
 const toast = useToast()
 const { onDataChange } = useContactPersonsActions()
@@ -140,6 +152,13 @@ const table = useVueTable({
                             :props="cell.getContext()"
                         />
                     </td>
+                    <DeleteButton
+                        :class="cls.button"
+                        :disabled="isLoading"
+                        @click="handleDelete(row.original.id)"
+                    >
+                        Usuń
+                    </DeleteButton>
                 </tr>
             </tbody>
         </table>
