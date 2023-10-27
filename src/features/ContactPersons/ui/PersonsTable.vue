@@ -13,9 +13,10 @@ import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import type { Order } from '@/shared/types/order'
 import type { ContactPerson } from '@/entities/ContactPerson/model/types/contactPerson'
+import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
+import CompaniesPagination from '@/features/Company/ui/CompaniesPagination/CompaniesPagination.vue'
 
-const { data } = usePersons()
-const isLoading = ref(true)
+const { data, isLoading } = usePersons()
 const toast = useToast()
 const { onDataChange } = useContactPersonsActions()
 const ContactPersonsFilterStore = useContactPersonsFilterStore()
@@ -88,12 +89,10 @@ const columns = [
     }),
     columnHelper.accessor((row) => row.top, {
         id: 'top',
-        cell: (info) =>
-            h({
-                placeholder: 'jan.kowalski@gmail.com',
-                onUpdate: onDataChange(info.row.original.id, 'top'),
-                defaultValue: info.getValue(),
-            }),
+        cell: (info) => {
+            const isTop = info.getValue()
+            return isTop ? 'Tak' : 'Nie'
+        },
         header: () => h(SortHeader, { name: 'Top', canSort: false }),
     }),
 ]
@@ -145,10 +144,12 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="!data || (!data?.count && !isLoading)"
+            v-if="!data?.persons?.length && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
+        <LoaderContainer :is-loading="isLoading"></LoaderContainer>
+        <CompaniesPagination :count="data?.count || 0" />
     </div>
 </template>
