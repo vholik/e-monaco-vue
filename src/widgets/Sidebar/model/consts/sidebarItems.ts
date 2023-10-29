@@ -18,4 +18,9 @@ export const sidebarItems = [
         icon: UsersIcon,
         path: '/persons',
     },
+    {
+        name: 'Gminy',
+        icon: UsersIcon,
+        path: '/municipalities',
+    },
 ]
