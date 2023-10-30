@@ -1,13 +1,10 @@
-import type { Municipality } from '@/entities/Municipality'
-import { useMunicipalityFilterStore } from '@/features/Municipalities/model/services/useMunicipalitiesFilters'
 import { $api } from '@/shared/api/api'
-import { PAGE_SIZE } from '@/shared/const/pagination'
-import { debounce } from 'lodash'
 import { ref, type Ref } from 'vue'
 import { useQuery } from 'vue-query'
+import type { Municipality } from '@/entities/Municipality'
 
 export type MunicipalitiesData = Ref<
-    { count?: number; municipalities?: Municipality[] } | undefined
+    { municipalities?: Municipality[] } | undefined
 >
 
 interface UseMunicipalitiesData {
@@ -16,30 +13,14 @@ interface UseMunicipalitiesData {
 }
 
 export const useMunicipalities = (): UseMunicipalitiesData => {
-    const municipalityFilterStore = useMunicipalityFilterStore()
-    const filters = ref<typeof municipalityFilterStore.$state | null>(null)
-
     const query = useQuery(
-        ['municipalities-filtered', filters],
+        'municipalities',
         async () => {
-            const page = filters.value?.page || 1
-            const response = await $api.get('municipalities/filtered', {
-                params: {
-                    ...filters.value,
-                    skip: (page - 1) * PAGE_SIZE,
-                    page: undefined,
-                },
-            })
+            const response = await $api.get('municipalities')
 
             return response.data
         },
         { keepPreviousData: true },
-    )
-
-    municipalityFilterStore.$subscribe(
-        debounce((_, state) => {
-            filters.value = state
-        }, 500),
     )
 
     return query

@@ -4,16 +4,13 @@ import { FlexRender, useVueTable } from '@tanstack/vue-table'
 import { h, ref } from 'vue'
 import cls from './MunicipalitiesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
-import { useMunicipalityFilterStore } from '@/features/MunicipalitiesFilter'
 import { useMunicipalities } from '@/features/Municipalities/model/services/useMunicipality'
 import { useToast } from 'vue-toastification'
 import { useMunicipalityActions } from '@/features/Municipalities/model/lib/useManicipalitiesActions'
 import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
 import Text from '@/shared/ui/Text/Text.vue'
-import type { Order } from '@/shared/types/order'
 import type { Municipality } from '@/entities/Municipality/model/types/municipality'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
-import CompaniesPagination from '@/features/Company/ui/CompaniesPagination/CompaniesPagination.vue'
 import { useDeleteMunicipalities } from '@/features/Municipalities/model/services/useDeleteMunicipalities'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
@@ -26,17 +23,9 @@ const handleDelete = async (id: number) => {
         toast.error('Błąd podczas usuwania rekordu:', error)
     }
 }
-
-const { data } = useMunicipalities()
-const isLoading = ref(true)
+const { data, isLoading } = useMunicipalities()
 const toast = useToast()
 const { onDataChange } = useMunicipalityActions()
-const ContactMunicipalitiesFilterStore = useMunicipalityFilterStore()
-
-const changeOrder = (name: string) => (value: Order) => {
-    ContactMunicipalitiesFilterStore.setOrder(value)
-    ContactMunicipalitiesFilterStore.setOrderBy(name)
-}
 
 const columnHelper = createColumnHelper<Municipality>()
 
