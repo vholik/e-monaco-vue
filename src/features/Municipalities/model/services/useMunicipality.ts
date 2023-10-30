@@ -1,7 +1,8 @@
+import type { Municipality } from '@/entities/Municipality'
 import { $api } from '@/shared/api/api'
+import { debounce } from 'lodash'
 import { ref, type Ref } from 'vue'
 import { useQuery } from 'vue-query'
-import type { Municipality } from '@/entities/Municipality'
 
 export type MunicipalitiesData = Ref<
     { municipalities?: Municipality[] } | undefined
@@ -12,9 +13,9 @@ interface UseMunicipalitiesData {
     isLoading: Ref<boolean>
 }
 
-export const useMunicipalities = (): UseMunicipalitiesData => {
+export const useMunicipality = (): UseMunicipalitiesData => {
     const query = useQuery(
-        'municipalities',
+        ['municipalities'],
         async () => {
             const response = await $api.get('municipalities')
 
@@ -22,6 +23,5 @@ export const useMunicipalities = (): UseMunicipalitiesData => {
         },
         { keepPreviousData: true },
     )
-
     return query
 }

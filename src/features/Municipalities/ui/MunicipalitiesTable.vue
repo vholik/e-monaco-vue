@@ -4,7 +4,6 @@ import { FlexRender, useVueTable } from '@tanstack/vue-table'
 import { h, ref } from 'vue'
 import cls from './MunicipalitiesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
-import { useMunicipalities } from '@/features/Municipalities/model/services/useMunicipality'
 import { useToast } from 'vue-toastification'
 import { useMunicipalityActions } from '@/features/Municipalities/model/lib/useManicipalitiesActions'
 import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
@@ -14,6 +13,7 @@ import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 import { useDeleteMunicipalities } from '@/features/Municipalities/model/services/useDeleteMunicipalities'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
+import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
 
 const { mutateAsync } = useDeleteMunicipalities()
 const handleDelete = async (id: number) => {
@@ -23,7 +23,8 @@ const handleDelete = async (id: number) => {
         toast.error('Błąd podczas usuwania rekordu:', error)
     }
 }
-const { data, isLoading } = useMunicipalities()
+
+const { data, isLoading } = useMunicipality()
 const toast = useToast()
 const { onDataChange } = useMunicipalityActions()
 
@@ -95,7 +96,7 @@ const table = useVueTable({
     columns,
     // @ts-ignore
     get data() {
-        return data.value?.municipalities || []
+        return data.value || []
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -146,12 +147,11 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="!data?.municipalities?.length && !isLoading"
+            v-if="!data && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
-        <CompaniesPagination :count="data?.count || 0" />
     </div>
 </template>
