@@ -24,8 +24,6 @@ defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = (values: unknown) => {
-    values.taxIncrease = Number(values.taxIncrease)
-
     mutate(values)
 }
 </script>

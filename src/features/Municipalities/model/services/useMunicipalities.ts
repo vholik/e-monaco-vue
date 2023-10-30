@@ -10,11 +10,10 @@ export const useMunicipalities = (setIsModalOpen: (value: boolean) => void) => {
         'add-municipalities',
         async (data) => {
             try {
-                console.log('oto dane:', data)
                 const response = await $api.post('municipalities', data)
                 return response.data
             } catch (error) {
-                console.error('Błąd podczas wysyłania żądania:', error.message)
+                toast.error('Błąd podczas wysyłania żądania:', error.message)
                 throw error
             }
         },

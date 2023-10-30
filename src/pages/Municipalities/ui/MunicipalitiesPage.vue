@@ -8,7 +8,7 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
-
+import MunicipalitesTable from '@/features/Municipalities/ui/MunicipalitiesTable.vue'
 let modalOpen = ref(false)
 
 function openModal() {
@@ -42,6 +42,7 @@ function openModal() {
             <AddMunicipalitiesModal
                 v-model:isModalOpen="modalOpen"
             ></AddMunicipalitiesModal>
+            <MunicipalitesTable />
         </Flex>
     </div>
 </template>
