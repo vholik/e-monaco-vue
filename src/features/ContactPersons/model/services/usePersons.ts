@@ -13,7 +13,6 @@ export const usePersons = (setIsModalOpen: (value: boolean) => void) => {
             const requestData = { data, top: true }
 
             try {
-                console.log('Wysyłane dane:', data)
                 const response = await $api.post(
                     '/persons',
                     JSON.stringify(data),
