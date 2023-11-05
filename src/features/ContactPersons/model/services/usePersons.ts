@@ -4,7 +4,7 @@ import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
 import { Ref } from 'vue'
 
-export const usePersons = (setIsModalOpen: (value: boolean) => void) => {
+export const usePersons = (setIsModalOpen?: (value: boolean) => void) => {
     const toast = useToast()
 
     return useMutation(
@@ -39,7 +39,7 @@ export const usePersons = (setIsModalOpen: (value: boolean) => void) => {
         {
             onSuccess: () => {
                 toast.success('Pomyślnie dodano osoby kontaktowe')
-                setIsModalOpen(false)
+                setIsModalOpen?.(false)
             },
         },
     )

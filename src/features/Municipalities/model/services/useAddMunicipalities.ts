@@ -19,7 +19,7 @@ export const useAddMunicipalities = (
             onSuccess: () => {
                 toast.success('Pomyślnie dodano gminę')
                 setIsModalOpen(false)
-                refetch()
+                refetch.value()
             },
         },
     )

@@ -13,6 +13,7 @@ export type CompaniesData = Ref<
 interface UseCompaniesData {
     data: CompaniesData
     isLoading: Ref<boolean>
+    refetch: Ref<() => void>
 }
 
 export const useCompanies = (): UseCompaniesData => {

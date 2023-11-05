@@ -17,7 +17,7 @@ export const useAddCompany = (setIsModalOpen: (value: boolean) => void) => {
             onSuccess: () => {
                 toast.success('Pomyślnie dodano firmę')
                 setIsModalOpen(false)
-                refetch()
+                refetch.value()
             },
         },
     )

@@ -19,7 +19,7 @@ export const useAddContactPerson = (
             onSuccess: () => {
                 toast.success('Pomyślnie dodano osobę kontaktową')
                 setIsModalOpen(false)
-                refetch()
+                refetch.value()
             },
         },
     )

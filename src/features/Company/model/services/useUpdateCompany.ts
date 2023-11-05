@@ -2,9 +2,12 @@ import type { Company } from '@/entities/Company'
 import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
+import { useCompanies } from './useCompanies'
 
 export const useUpdateCompany = () => {
     const toast = useToast()
+    const { refetch } = useCompanies()
+
     return useMutation(
         ['update-company'],
         async (data: Partial<Company>) => {
@@ -28,6 +31,7 @@ export const useUpdateCompany = () => {
                 } else {
                     toast.success('Pomyślnie usunięte dane')
                 }
+                console.log(refetch.value())
             },
             onError: () => {
                 toast.error('Wystąpił błąd. Spróbuj póżniej')
