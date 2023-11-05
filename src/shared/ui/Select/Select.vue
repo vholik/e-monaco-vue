@@ -9,6 +9,7 @@ import {
 } from '@headlessui/vue'
 import SelectIcon from '@/shared/assets/icons/Select.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
+
 import Avatar from '@/shared/ui/Avatar/Avatar.vue'
 import { type SelectOption } from './types'
 import CheckIcon from '@/shared/assets/icons/Check.vue'

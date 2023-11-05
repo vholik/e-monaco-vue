@@ -4,7 +4,6 @@ import { FlexRender, useVueTable } from '@tanstack/vue-table'
 import { h, ref } from 'vue'
 import cls from './MunicipalitiesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
-import { useMunicipalities } from '@/features/Municipalities/model/services/useMunicipality'
 import { useToast } from 'vue-toastification'
 import { useMunicipalityActions } from '@/features/Municipalities/model/lib/useManicipalitiesActions'
 import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
@@ -14,6 +13,7 @@ import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 import { useDeleteMunicipalities } from '@/features/Municipalities/model/services/useDeleteMunicipalities'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
+import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
 
 const { mutateAsync } = useDeleteMunicipalities()
 const handleDelete = async (id: number) => {
@@ -23,7 +23,8 @@ const handleDelete = async (id: number) => {
         toast.error('Błąd podczas usuwania rekordu')
     }
 }
-const { data, isLoading } = useMunicipalities()
+
+const { data, isLoading } = useMunicipality()
 const toast = useToast()
 const { onDataChange } = useMunicipalityActions()
 
@@ -145,6 +146,15 @@ const table = useVueTable({
                 </tr>
             </tbody>
         </table>
+<<<<<<< HEAD
+=======
+        <div
+            v-if="!data && !isLoading"
+            :class="cls.noData"
+        >
+            <Text color="quinary">Nie znaleziono danych</Text>
+        </div>
+>>>>>>> 4e1fdb3faf5e739b8a1a8915cb84955f8951e9fc
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
     </div>
 </template>
