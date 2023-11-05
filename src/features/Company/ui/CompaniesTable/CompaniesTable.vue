@@ -191,7 +191,7 @@ const columns = [
         cell: (info) =>
             h(MunicipalitySelect, {
                 name: 'municipality',
-                defaultValue: info.getValue().id,
+                defaultValue: info.row.original.municipality?.id,
                 onUpdate: onDataChange(info.row.original.id, 'municipalityId'),
             }),
         header: () => {
@@ -204,7 +204,7 @@ const columns = [
     }),
     columnHelper.accessor((row) => row, {
         id: 'taxIncrease',
-        cell: (info) => info.row.original.municipality.taxIncrease,
+        cell: (info) => info.row.original.municipality?.taxIncrease,
         header: () => {
             return h(SortHeader, {
                 name: 'Wzrost podatku',
@@ -218,7 +218,7 @@ const columns = [
     }),
     columnHelper.accessor((row) => row, {
         id: 'kitRate',
-        cell: (info) => info.row.original.municipality.kitRate,
+        cell: (info) => info.row.original.municipality?.kitRate,
         header: () => {
             return h(SortHeader, {
                 name: 'Zestaw',
@@ -230,19 +230,19 @@ const columns = [
             })
         },
     }),
-    columnHelper.accessor((row) => row.trailerAmount, {
+    columnHelper.accessor((row) => row?.trailerAmount, {
         id: 'supply',
         cell: (info) =>
-            info.row.original.municipality.tractorRate +
-            info.row.original.municipality.trailerRate +
-            info.row.original.municipality.otherRate,
+            info.row.original.municipality?.tractorRate +
+            info.row.original.municipality?.trailerRate +
+            info.row.original.municipality?.otherRate,
         header: () => {
             return h(SortHeader, { name: 'Tabor', canSort: false })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'tractorRate',
-        cell: (info) => info.row.original.municipality.tractorRate,
+        cell: (info) => info.row.original.municipality?.tractorRate,
         header: () => {
             return h(SortHeader, {
                 name: 'Stawka ciągnik',
@@ -256,7 +256,7 @@ const columns = [
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'trailerRate',
-        cell: (info) => info.row.original.municipality.trailerRate,
+        cell: (info) => info.row.original.municipality?.trailerRate,
         header: () => {
             return h(SortHeader, {
                 name: 'Stawka naczepa',
@@ -268,15 +268,15 @@ const columns = [
             })
         },
     }),
-    columnHelper.accessor((row) => row.trailerAmount, {
+    columnHelper.accessor((row) => row?.trailerAmount, {
         id: 'theirsTaxes',
         // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
         cell: (info) =>
             calculatePairArguments(
                 info.row.original.tractorAmount,
-                info.row.original.municipality.tractorRate,
+                info.row.original.municipality?.tractorRate,
                 info.row.original.trailerAmount,
-                info.row.original.municipality.trailerRate,
+                info.row.original.municipality?.trailerRate,
                 1800,
                 info.row.original.otherAmount,
             ),
@@ -305,9 +305,9 @@ const columns = [
         cell: (info) => {
             const arg1 = calculatePairArguments(
                 info.row.original.tractorAmount,
-                info.row.original.municipality.tractorRate,
+                info.row.original.municipality?.tractorRate,
                 info.row.original.trailerAmount,
-                info.row.original.municipality.trailerRate,
+                info.row.original.municipality?.trailerRate,
             )
             const arg2 = calculatePairArguments(
                 1800,
@@ -339,7 +339,7 @@ const columns = [
         cell: (info) =>
             h(PriceInput, {
                 onUpdate: onDataChange(info.row.original.id, 'activation'),
-                defaultValue: info.getValue(),
+                defaultValue: info.row.original.activation,
             }),
         header: () => {
             return h(SortHeader, {
@@ -356,8 +356,8 @@ const columns = [
         id: 'rentalFee',
         cell: (info) =>
             h(PriceInput, {
-                onUpdate: onDataChange(info.row.original.id, 'rent'),
-                defaultValue: info.getValue(),
+                onUpdate: onDataChange(info.row.original.id, 'rentalFee'),
+                defaultValue: info.row.original.rentalFee,
             }),
         header: () => {
             return h(SortHeader, {
@@ -375,7 +375,7 @@ const columns = [
         cell: (info) =>
             h(PriceInput, {
                 onUpdate: onDataChange(info.row.original.id, 'statement'),
-                defaultValue: info.getValue(),
+                defaultValue: info.row.original.statement,
             }),
         header: () => {
             return h(SortHeader, {
@@ -393,7 +393,9 @@ const columns = [
         cell: (info) =>
             h(ContactPersonSelect, {
                 name: 'contactPersons',
-                defaultValue: info.getValue().map((it) => it.id),
+                defaultValue: info.row.original.contactPersons.map(
+                    (it) => it.id,
+                ),
                 onUpdate: onDataChange(
                     info.row.original.id,
                     'contactPersonsIds',
@@ -419,7 +421,7 @@ if (user.value && user.value?.role !== 'user') {
             cell: (info) =>
                 h(UserSelect, {
                     name: 'owner',
-                    defaultValue: (info.getValue() as User).id,
+                    defaultValue: info.row.original.owner?.id,
                     onUpdate: onDataChange(info.row.original.id, 'ownerId'),
                 }),
             header: () => {

@@ -27,7 +27,11 @@ const { errorMessage, value, handleChange } = useField<string[]>(
 )
 
 let inputValue = ref('')
-const { data } = useContactPersons(inputValue, value)
+const { data } = useContactPersons(
+    inputValue,
+    value,
+    defaultValue?.value?.join(','),
+)
 
 function onUpdate(value: string[]) {
     emit('update', value)

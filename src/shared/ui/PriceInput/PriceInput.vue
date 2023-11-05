@@ -21,13 +21,8 @@ const { defaultValue } = toRefs(props)
 const emit = defineEmits(['update'])
 
 function initDefaultValue() {
-    if (defaultValue?.value) {
-        isSelected.value = true
-        inputValue.value = defaultValue?.value || 0
-    } else {
-        isSelected.value = false
-        inputValue.value = 0
-    }
+    isSelected.value = !!defaultValue?.value
+    inputValue.value = defaultValue?.value || 0
 }
 
 onMounted(initDefaultValue)
