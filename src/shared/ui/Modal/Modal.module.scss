@@ -17,6 +17,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: var(--modal-z-index);
 }
 
 .header {
@@ -38,6 +39,7 @@
     left: 0;
     right: 0;
     background-color: var(--modal-backdrop);
+    z-index: var(--modal-backdrop-z-index);
 }
 
 .title {
