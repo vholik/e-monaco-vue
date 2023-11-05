@@ -435,6 +435,7 @@ if (user.value && user.value?.role !== 'user') {
 
 const table = useVueTable({
     columns,
+
     get data() {
         return data.value?.companies || []
     },
