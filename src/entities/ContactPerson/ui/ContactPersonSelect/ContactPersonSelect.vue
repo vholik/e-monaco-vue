@@ -46,6 +46,7 @@ watch(defaultValue!, () => {
             data.map((it: ContactPerson) => ({
                 id: it.id,
                 name: [it.firstName, it?.lastName].filter(Boolean).join(' '),
+                info: `Telefon: ${it.phone}, E-Mail: ${it.email}, Rola: ${it.role}`,
             }))
         "
         :multiple="true"

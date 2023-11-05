@@ -20,7 +20,7 @@ const handleDelete = async (id: number) => {
     try {
         await mutateAsync(id)
     } catch (error) {
-        toast.error('Błąd podczas usuwania rekordu:', error)
+        toast.error('Błąd podczas usuwania rekordu')
     }
 }
 const { data, isLoading } = useMunicipalities()
@@ -95,7 +95,7 @@ const table = useVueTable({
     columns,
     // @ts-ignore
     get data() {
-        return data.value?.municipalities || []
+        return data.value || []
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -145,13 +145,6 @@ const table = useVueTable({
                 </tr>
             </tbody>
         </table>
-        <div
-            v-if="!data?.municipalities?.length && !isLoading"
-            :class="cls.noData"
-        >
-            <Text color="quinary">Nie znaleziono danych</Text>
-        </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
-        <CompaniesPagination :count="data?.count || 0" />
     </div>
 </template>

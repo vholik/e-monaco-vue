@@ -136,11 +136,21 @@ const debouncedInputChange = debounce((value) => {
                             color="secondary"
                             >Wybierz</Text
                         >
-                        {{
-                            Array.isArray(currentOption)
-                                ? currentOption.map((it) => it.name).join(', ')
-                                : currentOption?.name
-                        }}
+
+                        <span v-if="Array.isArray(currentOption)">
+                            <VTooltip
+                                v-for="item in currentOption"
+                                :key="item.id"
+                            >
+                                <a>{{ item.name }}</a>
+                                <template #popper>
+                                    {{ item.info }}
+                                </template>
+                            </VTooltip>
+                        </span>
+                        <span v-else>
+                            {{ currentOption?.name }}
+                        </span>
                     </Flex>
 
                     <Icon
