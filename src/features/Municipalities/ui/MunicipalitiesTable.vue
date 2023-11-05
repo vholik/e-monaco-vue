@@ -20,7 +20,7 @@ const handleDelete = async (id: number) => {
     try {
         await mutateAsync(id)
     } catch (error) {
-        toast.error('Błąd podczas usuwania rekordu:', error)
+        toast.error('Błąd podczas usuwania rekordu')
     }
 }
 
@@ -146,12 +146,15 @@ const table = useVueTable({
                 </tr>
             </tbody>
         </table>
+<<<<<<< HEAD
+=======
         <div
             v-if="!data && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
+>>>>>>> 4e1fdb3faf5e739b8a1a8915cb84955f8951e9fc
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
     </div>
 </template>

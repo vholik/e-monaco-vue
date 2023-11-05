@@ -8,6 +8,7 @@ import {
     USER_REFRESH_LOCALSTORAGE_KEY,
 } from '@/shared/const/localStorage'
 import { useRouter } from 'vue-router'
+import 'floating-vue/dist/style.css'
 
 useQueryProvider()
 
