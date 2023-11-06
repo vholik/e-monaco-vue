@@ -43,13 +43,14 @@ function changeOrder() {
     <Flex
         gap="4"
         align="center"
+        :class="[cls.SortHeader, { [cls.disabled]: !canSort }]"
+        @click="changeOrder"
     >
         <component :is="filter" />
         <Text
             :class="[cls.SortHeader, { [cls.disabled]: !canSort }]"
             color="quatinary"
             weight="medium"
-            @click="changeOrder"
         >
             {{ name }}
         </Text>
