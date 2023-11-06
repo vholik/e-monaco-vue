@@ -230,12 +230,66 @@ const columns = [
             })
         },
     }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'tractorAmount',
+        cell: (info) =>
+            h(PriceInput, {
+                onUpdate: onDataChange(info.row.original.id, 'tractorAmount'),
+                defaultValue: info.row.original.tractorAmount,
+            }),
+        header: () => {
+            return h(SortHeader, {
+                name: 'Ciągniki',
+                onUpdate: changeOrder('tractorAmount'),
+                value:
+                    companyFilterStore.getOrderBy === 'tractorAmount'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'trailerAmount',
+        cell: (info) =>
+            h(PriceInput, {
+                onUpdate: onDataChange(info.row.original.id, 'trailerAmount'),
+                defaultValue: info.row.original.trailerAmount,
+            }),
+        header: () => {
+            return h(SortHeader, {
+                name: 'Naczepy',
+                onUpdate: changeOrder('trailerAmount'),
+                value:
+                    companyFilterStore.getOrderBy === 'trailerAmount'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
+        },
+    }),
+    columnHelper.accessor((row) => row.trailerAmount, {
+        id: 'otherAmount',
+        cell: (info) =>
+            h(PriceInput, {
+                onUpdate: onDataChange(info.row.original.id, 'otherAmount'),
+                defaultValue: info.row.original.otherAmount,
+            }),
+        header: () => {
+            return h(SortHeader, {
+                name: 'Inne',
+                onUpdate: changeOrder('otherAmount'),
+                value:
+                    companyFilterStore.getOrderBy === 'otherAmount'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
+        },
+    }),
     columnHelper.accessor((row) => row?.trailerAmount, {
         id: 'supply',
         cell: (info) =>
-            info.row.original.municipality?.tractorRate +
-            info.row.original.municipality?.trailerRate +
-            info.row.original.municipality?.otherRate,
+            (info.row.original.tractorAmount ?? 0) +
+            (info.row.original.trailerAmount ?? 0) +
+            (info.row.original.otherAmount ?? 0),
         header: () => {
             return h(SortHeader, { name: 'Tabor', canSort: false })
         },
