@@ -13,6 +13,7 @@ import Button from '@/shared/ui/Button/Button.vue'
 import { useAddCompany } from '../../model/services/useAddCompany'
 import Note from '@/shared/ui/Note/Note.vue'
 import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
+import InputNipModal from '@/shared/ui/InputNipModal/InputNipModal.vue'
 
 interface Props {
     isModalOpen: boolean
@@ -67,7 +68,7 @@ const onSubmit = (values: unknown) => {
                         label="Komentarz"
                         placeholder="Pole tekstowe do 500 znaków"
                     />
-                    <Input
+                    <InputNipModal
                         name="nip"
                         label="nip"
                         placeholder="123-456-78-90"

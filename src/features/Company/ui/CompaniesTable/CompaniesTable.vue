@@ -34,6 +34,7 @@ import { ContactPersonsFilter } from '@/features/CompanyFilter'
 import CompaniesPagination from '../CompaniesPagination/CompaniesPagination.vue'
 import type { Order } from '@/shared/types/order'
 import { storeToRefs } from 'pinia'
+import NipInput from '@/shared/ui/NipInput/NipInput.vue'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading } = useCompanies()
@@ -140,7 +141,7 @@ const columns = [
     columnHelper.accessor((row) => row.nip, {
         id: 'nip',
         cell: (info) =>
-            h(CommentInput, {
+            h(NipInput, {
                 placeholder: '123-456-78-90',
                 onUpdate: onDataChange(info.row.original.id, 'nip'),
                 defaultValue: info.getValue(),
