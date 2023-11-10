@@ -9,6 +9,7 @@ import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
 import { usePersons } from '@/features/ContactPersons/model/services/usePersons'
 import { addPersonsModalValidationSchema } from '@/features/ContactPersons/model/lib/addContactPersonsSchema'
+import Switch from '@/shared/ui/Switch/Switch.vue'
 
 interface Props {
     isModalOpen: boolean
@@ -20,11 +21,14 @@ function setIsModalOpen(value: boolean) {
 
 const { mutate, isLoading, error } = usePersons(setIsModalOpen)
 
+const modelValue = ref(false)
 defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = (values: unknown) => {
-    values.top = Boolean(values.top)
+    console.log('AddPersonsModal - onSubmit - values:', values)
+    values.top = modelValue.value
+
     mutate(values)
 }
 </script>
@@ -76,11 +80,10 @@ const onSubmit = (values: unknown) => {
                         placeholder="jan.kowalski@gmail.com"
                         autocomplete="off"
                     />
-                    <Input
+                    <Switch
                         name="top"
                         label="Top"
-                        type="checkbox"
-                        autocomplete="off"
+                        v-model="modelValue"
                     />
                 </Flex>
                 <div :class="cls.footer">

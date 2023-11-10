@@ -1,0 +1,79 @@
+.customSwitch {
+    cursor: pointer;
+    user-select: none;
+    transition:
+        background-color 0.2s,
+        box-shadow 0.2s;
+    border-radius: 1rem;
+    overflow: hidden;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    border: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 1.7rem;
+}
+.label {
+    color: var(--secondary-color);
+    font: var(--font-mini);
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    width: 100%;
+    width: fit-content;
+}
+.size_m {
+    padding: 0.5em 0.75em;
+}
+
+.size_s {
+    padding: 0.35em 0.5em;
+}
+.customSwitch:focus {
+    outline: none;
+}
+
+.customSwitch:active {
+    filter: brightness(120%);
+    outline: none;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.customSwitch.checked {
+    background-color: #6b46fe;
+}
+
+.customSwitch.checked:hover {
+    filter: brightness(110%);
+}
+
+.customSwitch.checked:active {
+    filter: brightness(120%);
+    outline: none;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.customSwitch span {
+    display: inline-block;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    background-color: #6b46fe;
+    margin-left: 2px;
+    cursor: pointer;
+    transition:
+        transform 0.2s,
+        background-color 0.2s;
+}
+
+.customSwitch.checked span {
+    transform: translateX(150%);
+    background-color: #fff;
+}
+
+.customSwitch.checked.active span {
+    transform: translateX(200%);
+    background-color: #6b46fe;
+}
