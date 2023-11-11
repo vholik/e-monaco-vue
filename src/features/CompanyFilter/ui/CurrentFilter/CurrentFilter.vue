@@ -5,6 +5,7 @@ import CloseIcon from '@/shared/assets/icons/Close.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import { storeToRefs } from 'pinia'
 import { companyStatusMap } from '@/entities/Status/model/consts/status'
+import Flex from '@/shared/ui/Flex/Flex.vue'
 
 const store = useCompanyFilterStore()
 
@@ -15,6 +16,7 @@ const {
     getOrderBy,
     getStatus,
     getMunicipalities,
+    freeText,
 } = storeToRefs(store)
 
 const sortNameMap: Record<string, string> = {
@@ -41,6 +43,9 @@ const sortNameMap: Record<string, string> = {
     'company.rentalFee': 'Czyńsz',
     'company.statement': 'Deklaracja',
     'contactPersons.firstName': 'Osoby kontaktowe',
+    comment: 'Komentarz',
+    nip: 'NIP',
+    name: 'Nazwa firmy',
 }
 </script>
 
@@ -127,5 +132,27 @@ const sortNameMap: Record<string, string> = {
                 "
             />
         </div>
+        <Flex
+            v-for="[key, value] in Object.entries(freeText)"
+            :key="key"
+            align="center"
+            gap="4"
+        >
+            <div
+                v-if="value.length"
+                :class="cls.filterBtn"
+            >
+                {{ sortNameMap[key] ?? key }}: {{ value.join(', ') }}
+                <Icon
+                    :icon="CloseIcon"
+                    cursor-pointer
+                    @click="
+                        () => {
+                            store.setFreeTextColumn(key, [])
+                        }
+                    "
+                />
+            </div>
+        </Flex>
     </div>
 </template>

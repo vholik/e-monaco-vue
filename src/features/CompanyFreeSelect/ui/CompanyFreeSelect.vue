@@ -35,6 +35,9 @@ const values = computed(
                         .toLowerCase()
                         .includes(inputValue.value.toLowerCase()) ||
                     selectedOptions.value.includes(it.id),
+            )
+            .sort((a: { name: string }) =>
+                selectedOptions.value.includes(a.name) ? -1 : 1,
             ),
 )
 
