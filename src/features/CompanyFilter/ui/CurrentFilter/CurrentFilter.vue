@@ -18,15 +18,29 @@ const {
 } = storeToRefs(store)
 
 const sortNameMap: Record<string, string> = {
-    nextContactDate: 'Następna data kontaktu',
-    statement: 'Deklaracja',
-    rentalFee: 'Czyńsz',
-    activation: 'Aktywacja',
-    'municipality.trailerRate': 'Stakwa naczepa',
-    'municipality.tractorRate': 'Stawka ciągnik',
-    'municipality.kitRate': 'Zestaw',
+    'company.nextContactDate': 'Nast. kontakt',
+    'contactHistories.contactDate': 'Historia kóntaktów',
+    'owner.firstName': 'Właściciel',
+    'company.comment': 'Komentarz',
+    'company.nip': 'NIP',
+    'company.name': 'Nazwa firmy',
+    'company.status': 'Status',
+    'municipality.name': 'Gmina',
     'municipality.taxIncrease': 'Wzrost podatku',
-    'contactHistories.contactDate': 'Historia kontaktów',
+    'municipality.kitRate': 'Zestaw',
+    'company.tractorAmount': 'Ciągniki',
+    'company.trailerAmount': 'Naczepy',
+    'company.otherAmount': 'Inne',
+    'company.supply': 'Tabor',
+    'municipality.tractorRate': 'Stawka ciągnik',
+    'municipality.trailerRate': 'Stawka naczepa',
+    'company.theirsTaxes': 'Podatek u nich',
+    'company.ourTaxes': 'Podatek u nas',
+    'company.frugality': 'Oszczędność',
+    'company.activation': 'Aktywacja',
+    'company.rentalFee': 'Czyńsz',
+    'company.statement': 'Deklaracja',
+    'contactPersons.firstName': 'Osoby kontaktowe',
 }
 </script>
 
@@ -37,7 +51,7 @@ const sortNameMap: Record<string, string> = {
             :class="cls.filterBtn"
         >
             Sortowanie {{ getOrder === 'asc' ? 'rosnąco' : 'malejąco' }}:
-            {{ sortNameMap[getOrderBy] }}
+            {{ sortNameMap[getOrderBy] ?? getOrderBy }}
 
             <Icon
                 :icon="CloseIcon"

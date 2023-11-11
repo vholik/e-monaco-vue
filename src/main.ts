@@ -6,7 +6,6 @@ import { VueQueryPlugin } from 'vue-query'
 import { createPinia } from 'pinia'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
-import { useUserStore } from './entities/User'
 import FloatingVue from 'floating-vue'
 
 const app = createApp(App)

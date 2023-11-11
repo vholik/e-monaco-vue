@@ -19,6 +19,7 @@ import Error from '@/shared/ui/Error/Error.vue'
 import { Float } from '@headlessui-float/vue'
 import Input from '@/shared/ui/Input/Input.vue'
 import { debounce } from 'lodash'
+import { useVirtualList } from '@vueuse/core'
 
 interface Props {
     options: SelectOption[]
@@ -68,6 +69,10 @@ const currentOption = computed(() => {
 const debouncedInputChange = debounce((value) => {
     emit('update:inputValue', value)
 }, 500)
+
+const { list, containerProps, wrapperProps } = useVirtualList(options, {
+    itemHeight: 29,
+})
 </script>
 
 <template>
@@ -198,33 +203,46 @@ const debouncedInputChange = debounce((value) => {
                             direction="column"
                             max
                         >
-                            <ListboxOption
-                                v-for="option in options"
-                                v-slot="{ selected }"
-                                :key="option.id"
-                                :class="cls.option"
-                                :value="option"
+                            <div
+                                v-bind="containerProps"
+                                :style="{
+                                    height:
+                                        options.length < 6
+                                            ? `${options.length * 29}px`
+                                            : '160px',
+                                    width: '210px',
+                                }"
                             >
-                                <Flex
-                                    align="center"
-                                    justify="between"
-                                    gap="4"
-                                >
-                                    <Flex
-                                        align="center"
-                                        gap="2"
+                                <div v-bind="wrapperProps">
+                                    <ListboxOption
+                                        v-for="item in list"
+                                        v-slot="{ selected }"
+                                        :key="item.data.id"
+                                        :class="cls.option"
+                                        :value="item.data"
                                     >
-                                        <Avatar
-                                            v-if="withAvatar"
-                                            :name="option.name"
-                                            :role="option.role"
-                                        />
-                                        {{ option.name }}
-                                    </Flex>
+                                        <Flex
+                                            align="center"
+                                            justify="between"
+                                            gap="4"
+                                        >
+                                            <Flex
+                                                align="center"
+                                                gap="2"
+                                            >
+                                                <Avatar
+                                                    v-if="withAvatar"
+                                                    :name="item.data.name"
+                                                    :role="item.data.role"
+                                                />
+                                                {{ item.data.name }}
+                                            </Flex>
 
-                                    <CheckIcon v-show="selected" />
-                                </Flex>
-                            </ListboxOption> </Flex
+                                            <CheckIcon v-show="selected" />
+                                        </Flex>
+                                    </ListboxOption>
+                                </div>
+                            </div> </Flex
                     ></Flex>
                 </ListboxOptions>
             </Float>

@@ -44,21 +44,26 @@ function changeOrder() {
         gap="4"
         align="center"
         :class="[cls.SortHeader, { [cls.disabled]: !canSort }]"
-        @click="changeOrder"
     >
         <component :is="filter" />
-        <Text
-            :class="[cls.SortHeader, { [cls.disabled]: !canSort }]"
-            color="quatinary"
-            weight="medium"
+        <Flex
+            gap="4"
+            align="center"
+            @click="changeOrder"
         >
-            {{ name }}
-        </Text>
-        <Icon
-            v-if="canSort"
-            :class="{ [cls.ascending]: value === 'desc' }"
-            :icon="ArrowUpIcon"
-            color="quatinary"
-        />
+            <Text
+                :class="[cls.SortHeader, { [cls.disabled]: !canSort }]"
+                color="quatinary"
+                weight="medium"
+            >
+                {{ name }}
+            </Text>
+            <Icon
+                v-if="canSort"
+                :class="{ [cls.ascending]: value === 'desc' }"
+                :icon="ArrowUpIcon"
+                color="quatinary"
+            />
+        </Flex>
     </Flex>
 </template>

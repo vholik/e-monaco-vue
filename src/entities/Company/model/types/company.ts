@@ -22,4 +22,8 @@ export interface Company {
     statement?: number
     contactPersons: ContactPerson[]
     markDeleted: boolean
+    frugality: number
+    theirsTaxes: number
+    ourTaxes: number
+    supply: number
 }

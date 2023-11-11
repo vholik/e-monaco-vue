@@ -90,10 +90,10 @@ const columns = [
             return h(SortHeader, {
                 name: 'Nast. kontakt',
                 value:
-                    companyFilterStore.getOrderBy === 'nextContactDate'
+                    companyFilterStore.getOrderBy === 'company.nextContactDate'
                         ? companyFilterStore.getOrder
                         : null,
-                onUpdate: changeOrder('nextContactDate'),
+                onUpdate: changeOrder('company.nextContactDate'),
             })
         },
     }),
@@ -134,7 +134,11 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Komentarz',
-                canSort: false,
+                value:
+                    companyFilterStore.getOrderBy === 'company.comment'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('company.comment'),
             })
         },
     }),
@@ -155,7 +159,14 @@ const columns = [
                 },
             }),
         header: () => {
-            return h(SortHeader, { name: 'NIP', canSort: false })
+            return h(SortHeader, {
+                name: 'NIP',
+                value:
+                    companyFilterStore.getOrderBy === 'company.nip'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('company.nip'),
+            })
         },
     }),
     columnHelper.accessor((row) => row.name, {
@@ -167,7 +178,14 @@ const columns = [
                 placeholder: 'Firma XYZ',
             }),
         header: () => {
-            return h(SortHeader, { name: 'Naszwa firmy', canSort: false })
+            return h(SortHeader, {
+                name: 'Naszwa firmy',
+                value:
+                    companyFilterStore.getOrderBy === 'company.name'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('company.name'),
+            })
         },
     }),
     columnHelper.accessor((row) => row.status, {
@@ -183,7 +201,11 @@ const columns = [
             return h(SortHeader, {
                 name: 'Status',
                 filter: StatusFilter,
-                canSort: false,
+                value:
+                    companyFilterStore.getOrderBy === 'company.status'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('company.status'),
             })
         },
     }),
@@ -198,8 +220,12 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Gmina',
-                canSort: false,
                 filter: MunicipalitiesFilter,
+                value:
+                    companyFilterStore.getOrderBy === 'municipality.name'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('municipality.name'),
             })
         },
     }),
@@ -241,9 +267,9 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Ciągniki',
-                onUpdate: changeOrder('tractorAmount'),
+                onUpdate: changeOrder('company.tractorAmount'),
                 value:
-                    companyFilterStore.getOrderBy === 'tractorAmount'
+                    companyFilterStore.getOrderBy === 'company.tractorAmount'
                         ? companyFilterStore.getOrder
                         : null,
             })
@@ -259,9 +285,9 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Naczepy',
-                onUpdate: changeOrder('trailerAmount'),
+                onUpdate: changeOrder('company.trailerAmount'),
                 value:
-                    companyFilterStore.getOrderBy === 'trailerAmount'
+                    companyFilterStore.getOrderBy === 'company.trailerAmount'
                         ? companyFilterStore.getOrder
                         : null,
             })
@@ -277,9 +303,9 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Inne',
-                onUpdate: changeOrder('otherAmount'),
+                onUpdate: changeOrder('company.otherAmount'),
                 value:
-                    companyFilterStore.getOrderBy === 'otherAmount'
+                    companyFilterStore.getOrderBy === 'company.otherAmount'
                         ? companyFilterStore.getOrder
                         : null,
             })
@@ -287,12 +313,16 @@ const columns = [
     }),
     columnHelper.accessor((row) => row?.trailerAmount, {
         id: 'supply',
-        cell: (info) =>
-            (info.row.original.tractorAmount ?? 0) +
-            (info.row.original.trailerAmount ?? 0) +
-            (info.row.original.otherAmount ?? 0),
+        cell: (info) => info.row.original.supply,
         header: () => {
-            return h(SortHeader, { name: 'Tabor', canSort: false })
+            return h(SortHeader, {
+                name: 'Tabor',
+                value:
+                    companyFilterStore.getOrderBy === 'company.supply'
+                        ? companyFilterStore.getOrder
+                        : null,
+                onUpdate: changeOrder('company.supply'),
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -325,68 +355,44 @@ const columns = [
     }),
     columnHelper.accessor((row) => row?.trailerAmount, {
         id: 'theirsTaxes',
-        // STAWKA CIAGNIK x CIAGNIKI + STAWKA NACZEPA x NACZEPY + 1800 x INNE
-        cell: (info) =>
-            calculatePairArguments(
-                info.row.original.tractorAmount,
-                info.row.original.municipality?.tractorRate,
-                info.row.original.trailerAmount,
-                info.row.original.municipality?.trailerRate,
-                1800,
-                info.row.original.otherAmount,
-            ),
+        cell: (info) => info.row.original.theirsTaxes,
         header: () => {
-            return h(SortHeader, { name: 'Podatek u nich', canSort: false })
+            return h(SortHeader, {
+                name: 'Podatek u nich',
+                onUpdate: changeOrder('company.theirsTaxes'),
+                value:
+                    companyFilterStore.getOrderBy === 'company.theirsTaxes'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'ourTaxes',
-        // 1457 x CIAGNIKI + 972 x NACZEPY + 1000 x INNE
-        cell: (info) =>
-            calculatePairArguments(
-                1457,
-                info.row.original.tractorAmount,
-                972,
-                info.row.original.trailerAmount,
-                1000,
-                info.row.original.otherAmount,
-            ),
+        cell: (info) => info.row.original.ourTaxes,
         header: () => {
-            return h(SortHeader, { name: 'Podatek u nas', canSort: false })
+            return h(SortHeader, {
+                name: 'Podatek u nas',
+                onUpdate: changeOrder('company.ourTaxes'),
+                value:
+                    companyFilterStore.getOrderBy === 'company.ourTaxes'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'frugality',
-        cell: (info) => {
-            const arg1 = calculatePairArguments(
-                info.row.original.tractorAmount,
-                info.row.original.municipality?.tractorRate,
-                info.row.original.trailerAmount,
-                info.row.original.municipality?.trailerRate,
-            )
-            const arg2 = calculatePairArguments(
-                1800,
-                info.row.original.otherAmount,
-            )
-            const arg3 = calculatePairArguments(
-                1457,
-                info.row.original.tractorAmount,
-                972,
-                info.row.original.trailerAmount,
-                1000,
-                info.row.original.otherAmount,
-            )
-            if (
-                typeof arg1 === 'number' &&
-                typeof arg2 === 'number' &&
-                typeof arg3 === 'number'
-            ) {
-                return arg1 + arg2 - arg3
-            }
-            return 'N/A'
-        },
+        cell: (info) => info.row.original.frugality,
         header: () => {
-            return h(SortHeader, { name: 'Oszczędność', canSort: false })
+            return h(SortHeader, {
+                name: 'Oszczędność',
+                onUpdate: changeOrder('company.frugality'),
+                value:
+                    companyFilterStore.getOrderBy === 'company.frugality'
+                        ? companyFilterStore.getOrder
+                        : null,
+            })
         },
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
@@ -399,7 +405,7 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Aktywacja',
-                onUpdate: changeOrder('activation'),
+                onUpdate: changeOrder('company.activation'),
                 value:
                     companyFilterStore.getOrderBy === 'activation'
                         ? companyFilterStore.getOrder
@@ -417,9 +423,9 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Czyńsz',
-                onUpdate: changeOrder('rentalFee'),
+                onUpdate: changeOrder('company.rentalFee'),
                 value:
-                    companyFilterStore.getOrderBy === 'rentalFee'
+                    companyFilterStore.getOrderBy === 'company.rentalFee'
                         ? companyFilterStore.getOrder
                         : null,
             })
@@ -435,9 +441,9 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Deklaracja',
-                onUpdate: changeOrder('statement'),
+                onUpdate: changeOrder('company.statement'),
                 value:
-                    companyFilterStore.getOrderBy === 'statement'
+                    companyFilterStore.getOrderBy === 'company.statement'
                         ? companyFilterStore.getOrder
                         : null,
             })
@@ -459,8 +465,12 @@ const columns = [
         header: () => {
             return h(SortHeader, {
                 name: 'Osoby kontaktowe',
-                canSort: false,
+                onUpdate: changeOrder('contactPersons.firstName'),
                 filter: ContactPersonsFilter,
+                value:
+                    companyFilterStore.getOrderBy === 'contactPersons.firstName'
+                        ? companyFilterStore.getOrder
+                        : null,
             })
         },
     }),
@@ -482,8 +492,12 @@ if (user.value && user.value?.role !== 'user') {
             header: () => {
                 return h(SortHeader, {
                     name: 'Właściciel',
-                    canSort: false,
                     filter: UserFilter,
+                    onUpdate: changeOrder('owner.firstName'),
+                    value:
+                        companyFilterStore.getOrderBy === 'owner.firstName'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),

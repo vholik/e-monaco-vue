@@ -69,9 +69,9 @@ function onEnter() {
             :class="[
                 cls.inputWrapper,
                 cls[variant],
-                cls[size],
                 { [cls.inputError]: error },
                 { [cls.focused]: isFocused },
+                { [cls.withSearchIcon]: withSearchIcon },
             ]"
             gap="6"
         >
@@ -82,7 +82,13 @@ function onEnter() {
             />
             <input
                 :id="name"
-                :class="cls.Input"
+                :class="[
+                    cls.Input,
+                    cls[size],
+                    {
+                        [cls.withSearchIcon]: withSearchIcon,
+                    },
+                ]"
                 :placeholder="placeholder"
                 :name="name"
                 :type="type"

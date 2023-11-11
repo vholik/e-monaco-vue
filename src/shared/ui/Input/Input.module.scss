@@ -1,7 +1,7 @@
 .inputWrapper {
     background-color: var(--primary-inverted-color);
-    transition: border var(--transition);
     border-radius: var(--default-border-radius);
+    transition: border var(--transition);
 }
 
 .Input {
@@ -11,11 +11,20 @@
     font: var(--font-s);
     width: 100%;
     background-color: transparent;
+    border-radius: var(--default-border-radius);
 
     &::placeholder {
         color: var(--secondary-color);
         font-weight: 500;
     }
+}
+
+.Input.withSearchIcon {
+    padding-left: 0;
+}
+
+.withSearchIcon {
+    padding-left: 0.5rem;
 }
 
 .inputError {
