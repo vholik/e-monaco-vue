@@ -17,7 +17,7 @@ const { getStatus } = storeToRefs(filterStore)
         <StatusSelect
             as-input
             name="status-select"
-            :default-value="filterStore.getStatus || undefined"
+            :default-value="filterStore.getStatus ?? undefined"
             @update="onChangeFn"
         />
     </FilterHeader>

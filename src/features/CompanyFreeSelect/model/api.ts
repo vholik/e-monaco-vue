@@ -6,7 +6,12 @@ export const useFreeTextOptions = (column: Ref<string>) => {
     const query = useQuery(
         ['free-text-options', column],
         async () => {
-            const response = await $api.post('/persons', column.value)
+            if (!column.value) return []
+
+            const response = await $api.get(
+                `/companies/values/${column.value}`,
+                column.value,
+            )
             return response.data
         },
         { keepPreviousData: true },

@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import cls from './Select.module.scss'
-import { computed, toRefs } from 'vue'
+import { computed, ref, toRefs } from 'vue'
 import {
-    Listbox,
-    ListboxButton,
-    ListboxOptions,
-    ListboxOption,
+    Combobox,
+    ComboboxButton,
+    ComboboxOption,
+    ComboboxOptions,
 } from '@headlessui/vue'
 import SelectIcon from '@/shared/assets/icons/Select.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
-
 import Avatar from '@/shared/ui/Avatar/Avatar.vue'
 import { type SelectOption } from './types'
 import CheckIcon from '@/shared/assets/icons/Check.vue'
@@ -17,7 +16,6 @@ import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Error from '@/shared/ui/Error/Error.vue'
 import { Float } from '@headlessui-float/vue'
-import Input from '@/shared/ui/Input/Input.vue'
 import { debounce } from 'lodash'
 
 interface Props {
@@ -83,7 +81,10 @@ const debouncedInputChange = debounce((value) => {
         >
             {{ label }}
         </label>
-        <Listbox
+        <Combobox
+            :virtual="{
+                options,
+            }"
             :model-value="currentOption"
             :multiple="multiple"
             @update:model-value="change"
@@ -91,11 +92,10 @@ const debouncedInputChange = debounce((value) => {
             <Float
                 transition-name="fade"
                 placement="bottom-start"
-                :offset="4"
                 portal
                 origin-class="body"
             >
-                <ListboxButton
+                <ComboboxButton
                     :style="{
                         color:
                             !Array.isArray(currentOption) &&
@@ -177,58 +177,41 @@ const debouncedInputChange = debounce((value) => {
                                 currentOption?.color,
                         }"
                     />
-                </ListboxButton>
+                </ComboboxButton>
 
-                <ListboxOptions :class="cls.optionsWrapper">
-                    <Flex
-                        direction="column"
-                        align="start"
-                        gap="2"
-                        @click="(e) => e.stopPropagation"
+                <ComboboxOptions
+                    v-slot="{ option }"
+                    :class="cls.optionsWrapper"
+                >
+                    <ComboboxOption
+                        v-slot="{ selected }"
+                        :class="cls.option"
+                        :value="option"
+                        :data-index="option.id"
                     >
-                        <Input
-                            v-if="withInput"
-                            size="size_s"
-                            placeholder="Wpisz imię"
-                            name="input-select"
-                            @update:model-value="
-                                (val) => debouncedInputChange(val)
-                            " />
                         <Flex
-                            direction="column"
-                            max
+                            align="center"
+                            justify="between"
+                            gap="4"
                         >
-                            <ListboxOption
-                                v-for="option in options"
-                                v-slot="{ selected }"
-                                :key="option.id"
-                                :class="cls.option"
-                                :value="option"
+                            <Flex
+                                align="center"
+                                gap="2"
                             >
-                                <Flex
-                                    align="center"
-                                    justify="between"
-                                    gap="4"
-                                >
-                                    <Flex
-                                        align="center"
-                                        gap="2"
-                                    >
-                                        <Avatar
-                                            v-if="withAvatar"
-                                            :name="option.name"
-                                            :role="option.role"
-                                        />
-                                        {{ option.name }}
-                                    </Flex>
+                                <Avatar
+                                    v-if="withAvatar"
+                                    :name="option.name"
+                                    :role="option.role"
+                                />
+                                {{ option.name }}
+                            </Flex>
 
-                                    <CheckIcon v-show="selected" />
-                                </Flex>
-                            </ListboxOption> </Flex
-                    ></Flex>
-                </ListboxOptions>
+                            <CheckIcon v-show="selected" />
+                        </Flex>
+                    </ComboboxOption>
+                </ComboboxOptions>
             </Float>
-        </Listbox>
+        </Combobox>
         <Error
             v-if="errorMessage"
             :value="errorMessage"

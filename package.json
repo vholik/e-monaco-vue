@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "@headlessui-float/vue": "^0.11.3",
-        "@headlessui/vue": "^1.7.16",
+        "@headlessui/vue": "^0.0.0-insiders.bfacb64",
         "@tanstack/vue-table": "^8.9.3",
         "@types/lodash": "^4.14.198",
         "@vuepic/vue-datepicker": "^6.1.0",

@@ -12,6 +12,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         orderBy: null as null | string,
         page: 1,
         q: '',
+        freeText: {} as Record<string, string[]>,
     }),
     getters: {
         getOwners(state) {
@@ -40,6 +41,9 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         },
         getSearchTerm(state) {
             return state.q
+        },
+        getFreeTextColumn(state) {
+            return (column: string) => state.freeText[column] || []
         },
     },
     actions: {
@@ -75,6 +79,10 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         },
         setSearchTerm(value: string) {
             this.q = value
+            this.page = 1
+        },
+        setFreeTextColumn(column: string, value: string[]) {
+            this.freeText[column] = value
             this.page = 1
         },
     },

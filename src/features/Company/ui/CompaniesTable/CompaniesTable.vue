@@ -5,15 +5,11 @@ import { h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { StatusSelect } from '@/entities/Status'
-import { UserSelect, useUserStore, type User } from '@/entities/User'
+import { UserSelect, useUserStore } from '@/entities/User'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import { ContactPersonSelect } from '@/entities/ContactPerson'
-import {
-    useCompanies,
-    type CompaniesData,
-} from '../../model/services/useCompanies'
+import { useCompanies } from '../../model/services/useCompanies'
 import type { Company } from '@/entities/Company'
-import { watch } from 'vue'
 import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
 import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
 import { useCompanyActions } from '../../model/lib/useCompanyActions'
@@ -35,6 +31,7 @@ import CompaniesPagination from '../CompaniesPagination/CompaniesPagination.vue'
 import type { Order } from '@/shared/types/order'
 import { storeToRefs } from 'pinia'
 import NipInput from '@/shared/ui/NipInput/NipInput.vue'
+import CompanyFreeSelect from '@/features/CompanyFreeSelect/ui/CompanyFreeSelect.vue'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading } = useCompanies()
@@ -48,23 +45,6 @@ const { user } = storeToRefs(userStore)
 function onContactHistoriesClick(companyId: string) {
     isCompanyHistoriesModalOpen.value = true
     currentCompanyId.value = companyId
-}
-
-function calculatePairArguments(...args: (number | undefined)[]) {
-    for (let arg of args) {
-        if (arg === undefined) {
-            return 'N/A'
-        }
-    }
-
-    let count = 0
-    let i = 0
-
-    while (i < args.length - 1) {
-        count += args[i]! * args[i + 1]!
-        i += 2
-    }
-    return count
 }
 
 function changeOrder(name: string) {
@@ -139,6 +119,9 @@ const columns = [
                         ? companyFilterStore.getOrder
                         : null,
                 onUpdate: changeOrder('company.comment'),
+                filter: h(CompanyFreeSelect, {
+                    column: 'comment',
+                }),
             })
         },
     }),
@@ -166,6 +149,9 @@ const columns = [
                         ? companyFilterStore.getOrder
                         : null,
                 onUpdate: changeOrder('company.nip'),
+                filter: h(CompanyFreeSelect, {
+                    column: 'nip',
+                }),
             })
         },
     }),
@@ -185,6 +171,9 @@ const columns = [
                         ? companyFilterStore.getOrder
                         : null,
                 onUpdate: changeOrder('company.name'),
+                filter: h(CompanyFreeSelect, {
+                    column: 'name',
+                }),
             })
         },
     }),
@@ -466,7 +455,6 @@ const columns = [
             return h(SortHeader, {
                 name: 'Osoby kontaktowe',
                 onUpdate: changeOrder('contactPersons.firstName'),
-                filter: ContactPersonsFilter,
                 value:
                     companyFilterStore.getOrderBy === 'contactPersons.firstName'
                         ? companyFilterStore.getOrder

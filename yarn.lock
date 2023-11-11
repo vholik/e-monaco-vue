@@ -475,10 +475,12 @@
     "@floating-ui/dom" "^1.0.0"
     "@floating-ui/vue" "^0.2.0"
 
-"@headlessui/vue@^1.7.16":
-  version "1.7.16"
-  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.7.16.tgz#bdc9d32d329248910325539b99e6abfce0c69f89"
-  integrity sha512-nKT+nf/q6x198SsyK54mSszaQl/z+QxtASmgMEJtpxSX2Q0OPJX0upS/9daDyiECpeAsvjkoOrm2O/6PyBQ+Qg==
+"@headlessui/vue@^0.0.0-insiders.bfacb64":
+  version "0.0.0-insiders.bfacb64"
+  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-0.0.0-insiders.bfacb64.tgz#892e1d83cd1d439fcf0a5d7c0513f2a036a50ce0"
+  integrity sha512-9DNuxIAi1TE3Vx16Fa52NIFf0QtTFcBPdqoqOBnrDgiTnqajitcphXy+U3LtxH+BkRWj0TiIlAcFz1FHf4TUXA==
+  dependencies:
+    "@tanstack/vue-virtual" "^3.0.0-beta.60"
 
 "@humanwhocodes/config-array@^0.11.10":
   version "0.11.10"
@@ -574,12 +576,24 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.9.3.tgz#991da6b015f6200fdc841c48048bee5e197f6a46"
   integrity sha512-NpHZBoHTfqyJk0m/s/+CSuAiwtebhYK90mDuf5eylTvgViNOujiaOaxNDxJkQQAsVvHWZftUGAx1EfO1rkKtLg==
 
+"@tanstack/virtual-core@3.0.0-beta.68":
+  version "3.0.0-beta.68"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.0.0-beta.68.tgz#e6c478b393df57861e0a98fd0fea9982b79b6e7d"
+  integrity sha512-CnvsEJWK7cugigckt13AeY80FMzH+OMdEP0j0bS3/zjs44NiRe49x8FZC6R9suRXGMVMXtUHet0zbTp/Ec9Wfg==
+
 "@tanstack/vue-table@^8.9.3":
   version "8.9.3"
   resolved "https://registry.yarnpkg.com/@tanstack/vue-table/-/vue-table-8.9.3.tgz#6412e773fbeebebe6d23285cae8e46a4964b2516"
   integrity sha512-Ca9+XZogYOi99rBqIoEJKKIfS0hNWcHnIh8pDUy2xbBk396AtJaO/tvP6B9qsxZF6j4szHzx8TeRveHPpZ+bBw==
   dependencies:
     "@tanstack/table-core" "8.9.3"
+
+"@tanstack/vue-virtual@^3.0.0-beta.60":
+  version "3.0.0-beta.68"
+  resolved "https://registry.yarnpkg.com/@tanstack/vue-virtual/-/vue-virtual-3.0.0-beta.68.tgz#f475ed2b807e9d7fbd4fe38c5311368ea6106e1e"
+  integrity sha512-HhpgZdfathBJavOlBYFDWEO7Yuml6os7Oj15dIqtKeEMviJFQdDHLjtdqJW60zHshxOdqUDK95UF2DUtcyjNwA==
+  dependencies:
+    "@tanstack/virtual-core" "3.0.0-beta.68"
 
 "@tsconfig/node18@^18.2.0":
   version "18.2.1"

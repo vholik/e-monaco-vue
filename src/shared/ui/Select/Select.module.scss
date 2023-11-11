@@ -19,19 +19,17 @@
 
 .optionsWrapper {
     background-color: white;
-    z-index: 5;
     list-style: none;
     padding: 0.5rem;
     border-radius: 0.75rem;
     max-height: 15rem;
-    overflow-y: auto;
+    overflow: auto;
     font: var(--font-s);
     font-weight: 500;
     left: 0;
-    min-width: 12.5rem;
     border: 1px solid var(--stroke-color);
     color: var(--primary-color);
-    width: max-content;
+    width: 12.5rem;
 }
 
 .option {
@@ -40,7 +38,11 @@
     cursor: pointer;
     transition: background var(--transition);
     border-radius: 0.5rem;
-    height: 29px;
+    width: max-content;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &:hover {
         background-color: var(--light-grey-color);
