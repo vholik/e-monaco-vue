@@ -5,19 +5,37 @@ import Breadcrumbs from '@/shared/ui/Breadcrumbs/Breadcrumbs.vue'
 import Avatar from '@/shared/ui/Avatar/Avatar.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import { breadcrumbs } from '../model/consts/breadcrumbs'
-import Cross from '@/shared/assets/icons/Cross.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
 import { ref } from 'vue'
 import AddUsersModal from '@/features/Users/ui/AddUsersModal/AddUsersModal.vue'
+import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
+import { useDeletePersons } from '@/features/ContactPersons/model/services/useDeletePersons'
+import { useToast } from 'vue-toastification'
 
-const { data: users } = useOwners()
+const toast = useToast()
 
 let modalOpen = ref(false)
 
 function openModal() {
     modalOpen.value = true
+}
+const { mutateAsync } = useDeletePersons()
+const { data: users, refetch: refetchUsers } = useOwners()
+
+const handleDelete = async (id: number) => {
+    console.log('Before deleting user with ID:', id)
+    try {
+        await mutateAsync(id)
+        console.log('User deleted successfully.')
+
+        refetchUsers.value()
+    } catch (error) {
+        console.error('Error while deleting user:', error)
+        toast.error('Błąd podczas usuwania rekordu')
+    }
+    console.log('After deleting user with ID:', id)
 }
 </script>
 
@@ -68,7 +86,12 @@ function openModal() {
 
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
-                    <Cross></Cross>
+                    <DeleteButton
+                        :class="cls.button"
+                        @click="handleDelete(user.id)"
+                    >
+                        Usuń
+                    </DeleteButton>
                 </tr>
             </tbody>
         </table>

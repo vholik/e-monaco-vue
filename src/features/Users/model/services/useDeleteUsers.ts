@@ -2,25 +2,27 @@ import { useMutation, useQueryClient } from 'vue-query'
 import { useToast } from 'vue-toastification'
 import { $api } from '@/shared/api/api'
 
-export const useUsers = (setIsModalOpen: (value: boolean) => void) => {
+export const useDeleteUser = () => {
     const queryClient = useQueryClient()
     const toast = useToast()
 
     return useMutation(
-        'add-user',
-        async (data) => {
+        'delete-user',
+        async (id: number) => {
             try {
-                const response = await $api.post('authentication/signup', data)
+                const response = await $api.delete(`authentication/users/${id}`)
                 return response.data
             } catch (error) {
-                console.error('Błąd podczas wysyłania żądania:', error.message)
+                console.error(
+                    'Błąd podczas usuwania użytkownika:',
+                    error.message,
+                )
                 throw error
             }
         },
         {
             onSuccess: () => {
-                toast.success('Pomyślnie dodano użytkownika')
-                setIsModalOpen(false)
+                toast.success('Pomyślnie usunięto użytkownika')
                 queryClient.invalidateQueries('users')
             },
         },
