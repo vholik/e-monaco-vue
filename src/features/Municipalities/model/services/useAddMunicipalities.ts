@@ -1,14 +1,13 @@
 import { $api } from '@/shared/api/api'
-import { useMutation } from 'vue-query'
+import { useMutation, useQueryClient } from 'vue-query'
 import { useToast } from 'vue-toastification'
-import { useMunicipalities } from './useMunicipalities'
 
 export const useAddMunicipalities = (
     setIsModalOpen: (value: boolean) => void,
 ) => {
-    const { refetch } = useMunicipalities()
-
+    const queryClient = useQueryClient()
     const toast = useToast()
+
     return useMutation(
         ['add-municipalities'],
         async (data) => {
@@ -19,7 +18,7 @@ export const useAddMunicipalities = (
             onSuccess: () => {
                 toast.success('Pomyślnie dodano gminę')
                 setIsModalOpen(false)
-                refetch.value()
+                queryClient.invalidateQueries('municipalities')
             },
         },
     )

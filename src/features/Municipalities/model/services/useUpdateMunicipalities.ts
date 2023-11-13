@@ -2,9 +2,11 @@ import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
 import type { Municipality } from '@/entities/Municipality'
+import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
 
 export const useUpdateMunicipality = () => {
     const toast = useToast()
+    const { refetch } = useMunicipality()
 
     return useMutation(
         ['update-municipality'],
@@ -29,6 +31,7 @@ export const useUpdateMunicipality = () => {
                 } else {
                     toast.success('Pomyślnie usunięte dane')
                 }
+                console.log(refetch.value())
             },
             onError: () => {
                 toast.error('Wystąpił błąd. Spróbuj później')

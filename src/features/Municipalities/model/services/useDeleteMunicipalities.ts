@@ -1,9 +1,11 @@
 import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
+import { useQueryClient } from 'vue-query'
 
 export const useDeleteMunicipalities = () => {
     const toast = useToast()
+    const queryClient = useQueryClient()
 
     return useMutation(
         'delete-municipality',
@@ -19,6 +21,7 @@ export const useDeleteMunicipalities = () => {
         {
             onSuccess: () => {
                 toast.success('Pomyślnie usunięto gminę')
+                queryClient.invalidateQueries('municipalities')
             },
         },
     )

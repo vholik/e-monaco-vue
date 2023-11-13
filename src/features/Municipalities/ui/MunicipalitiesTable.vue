@@ -147,7 +147,7 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="!data?.municipalities?.length && !isLoading"
+            v-if="data?.municipalities?.length && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>

@@ -45,7 +45,6 @@ function updateInput(e: Event) {
     e.preventDefault()
     const newValue = !modelValue.value
     modelValue.value = newValue
-    console.log('Switch - updateInput - modelValue:', modelValue.value)
     emit('update:modelValue', newValue)
 }
 </script>

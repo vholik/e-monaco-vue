@@ -11,6 +11,7 @@ export type MunicipalitiesData = Ref<
 interface UseMunicipalitiesData {
     data: MunicipalitiesData
     isLoading: Ref<boolean>
+    refetch: Ref<() => void>
 }
 
 export const useMunicipality = (): UseMunicipalitiesData => {

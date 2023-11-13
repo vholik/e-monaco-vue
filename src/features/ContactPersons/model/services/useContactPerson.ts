@@ -20,7 +20,7 @@ export const usePersons = (): UsePersonsData => {
     const filters = ref<typeof personFilterStore.$state | null>(null)
 
     const query = useQuery(
-        ['persons-filtered', filters],
+        ['persons', filters],
         async () => {
             const page = filters.value?.page || 1
             const response = await $api.get('persons/filtered', {

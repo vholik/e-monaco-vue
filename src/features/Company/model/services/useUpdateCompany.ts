@@ -27,7 +27,7 @@ export const useUpdateCompany = () => {
                 })
 
                 if (flag) {
-                    toast.success('Pomyślnie modyfikowano firmę')
+                    toast.success('Pomyślnie zaktualizowano firmę')
                 } else {
                     toast.success('Pomyślnie usunięte dane')
                 }

@@ -1,14 +1,13 @@
 import { $api } from '@/shared/api/api'
-import { useMutation } from 'vue-query'
+import { useMutation, useQueryClient } from 'vue-query'
 import { useToast } from 'vue-toastification'
-import { usePersons } from './usePersons'
 
 export const useAddContactPerson = (
     setIsModalOpen: (value: boolean) => void,
 ) => {
-    const { refetch } = usePersons()
-
+    const queryClient = useQueryClient()
     const toast = useToast()
+
     return useMutation(
         ['add-contact-person'],
         async (data) => {
@@ -19,7 +18,7 @@ export const useAddContactPerson = (
             onSuccess: () => {
                 toast.success('Pomyślnie dodano osobę kontaktową')
                 setIsModalOpen(false)
-                refetch.value()
+                queryClient.invalidateQueries('persons')
             },
         },
     )
