@@ -11,7 +11,7 @@ import AddIcon from '@/shared/assets/icons/Add.vue'
 import { ref } from 'vue'
 import AddUsersModal from '@/features/Users/ui/AddUsersModal/AddUsersModal.vue'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
-import { useDeletePersons } from '@/features/ContactPersons/model/services/useDeletePersons'
+import { useDeleteUser } from '@/features/Users/model/services/useDeleteUsers'
 import { useToast } from 'vue-toastification'
 
 const toast = useToast()
@@ -21,21 +21,11 @@ let modalOpen = ref(false)
 function openModal() {
     modalOpen.value = true
 }
-const { mutateAsync } = useDeletePersons()
+const { mutate } = useDeleteUser()
 const { data: users, refetch: refetchUsers } = useOwners()
 
 const handleDelete = async (id: number) => {
-    console.log('Before deleting user with ID:', id)
-    try {
-        await mutateAsync(id)
-        console.log('User deleted successfully.')
-
-        refetchUsers.value()
-    } catch (error) {
-        console.error('Error while deleting user:', error)
-        toast.error('Błąd podczas usuwania rekordu')
-    }
-    console.log('After deleting user with ID:', id)
+    mutate(id)
 }
 </script>
 

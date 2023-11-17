@@ -10,7 +10,7 @@ export const useDeleteUser = () => {
         'delete-user',
         async (id: number) => {
             try {
-                const response = await $api.delete(`authentication/users/${id}`)
+                const response = await $api.delete(`users/${id}`)
                 return response.data
             } catch (error) {
                 console.error(

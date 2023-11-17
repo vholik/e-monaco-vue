@@ -26,6 +26,7 @@ export const companyStatusMap = {
     [CompanyStatus.RESIGNED]: 'ZREZYGNOWAŁ',
     [CompanyStatus.SIGNED_AGREEMENT_AND_LEFT]: 'PODPISAŁ UMOWĘ I ZWIAŁ',
     [CompanyStatus.PARTNER]: 'PARTNER',
+    [CompanyStatus.OFFER]: 'OFERTA',
     [CompanyStatus.OTHER]: 'INNY',
 }
 
@@ -117,6 +118,12 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.FEW_VEHICLES,
         name: companyStatusMap[CompanyStatus.FEW_VEHICLES],
+        bgColor: 'var(--status-grey-bg-color)',
+        color: 'var(--status-grey-color)',
+    },
+    {
+        id: CompanyStatus.OFFER,
+        name: companyStatusMap[CompanyStatus.OFFER],
         bgColor: 'var(--status-grey-bg-color)',
         color: 'var(--status-grey-color)',
     },

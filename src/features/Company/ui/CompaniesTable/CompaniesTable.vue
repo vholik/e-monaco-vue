@@ -198,6 +198,7 @@ const columns = [
             })
         },
     }),
+
     columnHelper.accessor((row) => row.municipality, {
         id: 'manicipality',
         cell: (info) =>

@@ -23,5 +23,6 @@ export enum CompanyStatus {
     RESIGNED = 'resigned',
     SIGNED_AGREEMENT_AND_LEFT = 'signed_agreement_and_left',
     PARTNER = 'partner',
+    OFFER = 'offer',
     OTHER = 'other',
 }
