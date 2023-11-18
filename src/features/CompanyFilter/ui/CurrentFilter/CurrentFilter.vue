@@ -21,7 +21,7 @@ const {
 
 const sortNameMap: Record<string, string> = {
     'company.nextContactDate': 'Nast. kontakt',
-    'contactHistories.contactDate': 'Historia kóntaktów',
+    'contactHistories.contactDate': 'Historia kontaktów',
     'owner.firstName': 'Właściciel',
     'company.comment': 'Komentarz',
     'company.nip': 'NIP',
@@ -40,7 +40,7 @@ const sortNameMap: Record<string, string> = {
     'company.ourTaxes': 'Podatek u nas',
     'company.frugality': 'Oszczędność',
     'company.activation': 'Aktywacja',
-    'company.rentalFee': 'Czyńsz',
+    'company.rentalFee': 'Czynsz',
     'company.statement': 'Deklaracja',
     'contactPersons.firstName': 'Osoby kontaktowe',
     comment: 'Komentarz',

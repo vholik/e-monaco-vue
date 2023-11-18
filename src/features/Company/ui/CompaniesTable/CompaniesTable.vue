@@ -165,7 +165,7 @@ const columns = [
             }),
         header: () => {
             return h(SortHeader, {
-                name: 'Naszwa firmy',
+                name: 'Nazwa firmy',
                 value:
                     companyFilterStore.getOrderBy === 'company.name'
                         ? companyFilterStore.getOrder
