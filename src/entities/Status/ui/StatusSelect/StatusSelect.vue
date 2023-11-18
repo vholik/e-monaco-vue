@@ -170,6 +170,9 @@ function onUpdate(value: CompanyStatus) {
 }
 
 watch(value, filterOptions)
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
+})
 </script>
 
 <template>
