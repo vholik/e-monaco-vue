@@ -52,12 +52,8 @@ function updateInput(e: Event) {
 <template>
     <label :class="cls.label">
         {{ label }}
-        <Flex
-            :class="[
-                cls[size],
-                { [cls.inputError]: error },
-                { [cls.focused]: isFocused },
-            ]"
+        <div
+            :class="[{ [cls.inputError]: error }, { [cls.focused]: isFocused }]"
             gap="6"
         >
             <button
@@ -69,7 +65,7 @@ function updateInput(e: Event) {
             >
                 <span :class="{ [cls.active]: modelValue }" />
             </button>
-        </Flex>
+        </div>
         <div
             v-if="errorMessage"
             class="error-message"

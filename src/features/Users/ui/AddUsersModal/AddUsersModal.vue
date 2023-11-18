@@ -75,6 +75,7 @@ const onSubmit = (values: unknown) => {
                     />
                     <UserRoleSelect
                         name="role"
+                        as-input
                         label="Rola"
                     />
                 </Flex>
