@@ -412,7 +412,7 @@ const columns = [
             }),
         header: () => {
             return h(SortHeader, {
-                name: 'Czyńsz',
+                name: 'Czynsz',
                 onUpdate: changeOrder('company.rentalFee'),
                 value:
                     companyFilterStore.getOrderBy === 'company.rentalFee'
