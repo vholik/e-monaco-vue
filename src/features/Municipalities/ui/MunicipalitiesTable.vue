@@ -69,7 +69,7 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'trailerRate'),
                 defaultValue: info.getValue(),
             }),
-        header: () => h(SortHeader, { name: 'Przyczepa', canSort: false }),
+        header: () => h(SortHeader, { name: 'Naczepa', canSort: false }),
     }),
     columnHelper.accessor((row) => row.kitRate, {
         id: 'kitRate',

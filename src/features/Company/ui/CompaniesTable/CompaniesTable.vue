@@ -92,7 +92,7 @@ const columns = [
             ),
         header: () => {
             return h(SortHeader, {
-                name: 'Historia kóntaktów',
+                name: 'Historia kontaktów',
                 value:
                     companyFilterStore.getOrderBy ===
                     'contactHistories.contactDate'
@@ -135,7 +135,7 @@ const columns = [
                 validateFn: (value: string) => {
                     const isValid = validateNip(value)
                     if (!isValid) {
-                        toast.error('Nie poprawny NIP')
+                        toast.error('Niepoprawny NIP')
                         return isValid
                     }
                     return isValid
