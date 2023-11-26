@@ -15,7 +15,6 @@ import { storeToRefs } from 'pinia'
 const companyFilterStore = useCompanyFilterStore()
 let modalOpen = ref(false)
 const store = useUserStore()
-const { user } = storeToRefs(store)
 
 const changeInputValue = debounce((value: string) => {
     companyFilterStore.setSearchTerm(value)
@@ -33,7 +32,6 @@ function openModal() {
         :class="cls.CompaniesFilter"
     >
         <Button
-            v-if="user?.role && user.role !== 'user'"
             variant="secondary"
             :max="false"
             @click="openModal"

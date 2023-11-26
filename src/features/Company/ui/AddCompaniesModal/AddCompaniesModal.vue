@@ -3,7 +3,7 @@ import cls from './AddCompaniesModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Input from '@/shared/ui/Input/Input.vue'
-import { UserSelect } from '@/entities/User'
+import { UserSelect, useUserStore } from '@/entities/User'
 import { ContactPersonSelect } from '@/entities/ContactPerson'
 import { StatusSelect } from '@/entities/Status'
 import { MunicipalitySelect } from '@/entities/Municipality'
@@ -14,10 +14,14 @@ import { useAddCompany } from '../../model/services/useAddCompany'
 import Note from '@/shared/ui/Note/Note.vue'
 import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
 import InputNipModal from '@/shared/ui/InputNipModal/InputNipModal.vue'
+import { storeToRefs } from 'pinia'
 
 interface Props {
     isModalOpen: boolean
 }
+
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
@@ -28,7 +32,7 @@ const { mutate, isLoading, error } = useAddCompany(setIsModalOpen)
 defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
-const onSubmit = (values: unknown) => {
+const onSubmit = (values: any) => {
     mutate(values)
 }
 </script>
@@ -59,6 +63,7 @@ const onSubmit = (values: unknown) => {
                         placeholder="15/09/2023, 14:00"
                     />
                     <UserSelect
+                        v-if="user?.role !== 'user'"
                         as-input
                         name="ownerId"
                         label="Owners"
@@ -119,7 +124,7 @@ const onSubmit = (values: unknown) => {
                         placeholder="Kwota w PLN"
                     />
                     <Input
-                        name="declaration"
+                        name="statement"
                         label="Deklaracja"
                         placeholder="Kwota w PLN"
                         type="number"
