@@ -229,7 +229,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row, {
             id: 'taxIncrease',
-            cell: (info) => info.row.original.municipality?.taxIncrease,
+            cell: (info) => `${info.row.original.municipality?.taxIncrease} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Wzrost podatku',
@@ -244,7 +244,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row, {
             id: 'kitRate',
-            cell: (info) => info.row.original.municipality?.kitRate,
+            cell: (info) => `${info.row.original.municipality?.kitRate} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Zestaw',
@@ -334,7 +334,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'tractorRate',
-            cell: (info) => info.row.original.municipality?.tractorRate,
+            cell: (info) => `${info.row.original.municipality?.tractorRate} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka ciągnik',
@@ -349,7 +349,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'trailerRate',
-            cell: (info) => info.row.original.municipality?.trailerRate,
+            cell: (info) => `${info.row.original.municipality?.trailerRate} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka naczepa',
@@ -364,7 +364,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row?.trailerAmount, {
             id: 'theirsTaxes',
-            cell: (info) => info.row.original.theirsTaxes,
+            cell: (info) => `${info.row.original.theirsTaxes} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Podatek u nich',
@@ -378,7 +378,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'ourTaxes',
-            cell: (info) => info.row.original.ourTaxes,
+            cell: (info) => `${info.row.original.ourTaxes} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Podatek u nas',
@@ -392,7 +392,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'frugality',
-            cell: (info) => info.row.original.frugality,
+            cell: (info) => `${info.row.original.frugality} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Oszczędność',
@@ -410,6 +410,7 @@ let columns = computed(() => {
                 h(PriceInput, {
                     onUpdate: onDataChange(info.row.original.id, 'activation'),
                     defaultValue: info.row.original.activation,
+                    withPrice: true,
                 }),
             header: () => {
                 return h(SortHeader, {
@@ -428,6 +429,7 @@ let columns = computed(() => {
                 h(PriceInput, {
                     onUpdate: onDataChange(info.row.original.id, 'rentalFee'),
                     defaultValue: info.row.original.rentalFee,
+                    withPrice: true,
                 }),
             header: () => {
                 return h(SortHeader, {
@@ -446,6 +448,7 @@ let columns = computed(() => {
                 h(PriceInput, {
                     onUpdate: onDataChange(info.row.original.id, 'statement'),
                     defaultValue: info.row.original.statement,
+                    withPrice: true,
                 }),
             header: () => {
                 return h(SortHeader, {

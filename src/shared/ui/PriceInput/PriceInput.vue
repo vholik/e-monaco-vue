@@ -12,6 +12,7 @@ let isSelected = ref(false)
 
 interface Props {
     defaultValue?: number
+    withPrice?: boolean
 }
 
 const props = defineProps<Props>()
@@ -56,6 +57,11 @@ function removePrice() {
         gap="2"
     >
         <Text size="size_s">{{ inputValue }}</Text>
+        <Text
+            v-if="withPrice"
+            size="size_s"
+            >zł</Text
+        >
         <Icon
             :class="cls.cancel"
             :icon="CrossIcon"
