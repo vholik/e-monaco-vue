@@ -21,6 +21,7 @@ import CompanyHistoriesModal from '../CompanyHistoriesModal/CompanyHistoriesModa
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import {
+    ContactPersonsFilter,
     MunicipalitiesFilter,
     UserFilter,
     useCompanyFilterStore,
@@ -479,6 +480,7 @@ let columns = computed(() => {
                         'contactPersons.firstName'
                             ? companyFilterStore.getOrder
                             : null,
+                    filter: ContactPersonsFilter,
                 })
             },
         }),
