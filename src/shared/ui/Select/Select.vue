@@ -189,7 +189,7 @@ const debouncedInputChange = debounce((value) => {
                         <Input
                             v-if="withInput"
                             size="size_s"
-                            placeholder="Wpisz imię"
+                            placeholder="Wpisz wartość"
                             name="input-select"
                             @update:model-value="
                                 (val) => debouncedInputChange(val)

@@ -16,7 +16,11 @@ app.use(router)
 app.use(pinia)
 app.use(VueQueryPlugin, {
     queryClientConfig: {
-        refetchOnWindowFocus: false,
+        defaultOptions: {
+            queries: {
+                refetchOnWindowFocus: false,
+            },
+        },
     },
 })
 app.use(FloatingVue)

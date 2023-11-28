@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { toRefs, watch } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 import { useMunicipalities } from '../../model/services/useMunicipalities'
 import type { Municipality } from '../../model/types/municipality'
-
-const { data } = useMunicipalities()
 
 interface Props {
     asInput?: boolean
@@ -29,6 +27,9 @@ const { errorMessage, value, handleChange } = useField<string | string[]>(
     },
 )
 
+let inputValue = ref('')
+const { data } = useMunicipalities(value, inputValue)
+
 function onUpdate(value: string) {
     emit('update', value)
 }
@@ -41,16 +42,18 @@ watch(defaultValue!, () => {
 <template>
     <Select
         v-model="value"
+        v-bind="$props"
+        v-model:input-value="inputValue"
         :multiple="multiple"
         :options="
-            data.map((it: Municipality) => ({
+            data?.municipalities?.map((it: Municipality) => ({
                 id: it.id,
                 name: it.name,
             }))
         "
+        with-input
         :as-input="asInput"
         :label="label"
-        v-bind="$props"
         :error-message="errorMessage"
         @update:modelValue="onUpdate"
     />
