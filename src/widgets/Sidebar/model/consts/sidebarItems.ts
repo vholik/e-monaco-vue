@@ -20,7 +20,7 @@ export const sidebarItems = [
         path: '/persons',
     },
     {
-        name: 'Gminy',
+        name: 'Lista gmin',
         icon: UsersIcon,
         path: '/municipalities',
     },

@@ -10,7 +10,8 @@ import Note from '@/shared/ui/Note/Note.vue'
 import { usePersons } from '@/features/ContactPersons/model/services/usePersons'
 import { addPersonsModalValidationSchema } from '@/features/ContactPersons/model/lib/addContactPersonsSchema'
 import Switch from '@/shared/ui/Switch/Switch.vue'
-
+import ContactPersonCompanySelect from '@/entities/ContactPerson/ui/ContactPersonCompanySelect/ContactPersonCompanySelect.vue'
+import { useCompanies } from '@/entities/Company/model/services/useCompanies'
 interface Props {
     isModalOpen: boolean
 }
@@ -18,7 +19,7 @@ interface Props {
 function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
-
+const { data } = useCompanies()
 const { mutate, isLoading, error } = usePersons(setIsModalOpen)
 
 const modelValue = ref(false)
@@ -79,6 +80,12 @@ const onSubmit = (values: unknown) => {
                         label="E-mail"
                         placeholder="jan.kowalski@gmail.com"
                         autocomplete="off"
+                    />
+                    <ContactPersonCompanySelect
+                        label="Nazwa Firmy"
+                        as-input
+                        name="companyId"
+                        :companies="data?.company"
                     />
                     <Switch
                         name="top"

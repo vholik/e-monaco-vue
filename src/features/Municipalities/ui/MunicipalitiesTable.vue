@@ -41,6 +41,7 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Nazwa gminy', canSort: false }),
     }),
+    // dodać Zestaw
     columnHelper.accessor((row) => row.taxIncrease, {
         id: 'taxIncrease',
         cell: (info) =>
@@ -49,8 +50,7 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'taxIncrease'),
                 defaultValue: info.getValue(),
             }),
-        header: () =>
-            h(SortHeader, { name: 'Podwyżka podatku', canSort: false }),
+        header: () => h(SortHeader, { name: 'Wzrost Podatku', canSort: false }),
     }),
     columnHelper.accessor((row) => row.tractorRate, {
         id: 'activation',
@@ -59,7 +59,7 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'tractorRate'),
                 defaultValue: info.getValue(),
             }),
-        header: () => h(SortHeader, { name: 'Ciągnik', canSort: false }),
+        header: () => h(SortHeader, { name: 'Stawka Ciągnik', canSort: false }),
     }),
     columnHelper.accessor((row) => row.trailerRate, {
         id: 'trailerRate',
@@ -69,7 +69,7 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'trailerRate'),
                 defaultValue: info.getValue(),
             }),
-        header: () => h(SortHeader, { name: 'Naczepa', canSort: false }),
+        header: () => h(SortHeader, { name: 'Stawka Naczepa', canSort: false }),
     }),
     columnHelper.accessor((row) => row.kitRate, {
         id: 'kitRate',
@@ -89,7 +89,7 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'otherRate'),
                 defaultValue: info.getValue(),
             }),
-        header: () => h(SortHeader, { name: 'Inne', canSort: false }),
+        header: () => h(SortHeader, { name: 'Stawka Inne', canSort: false }),
     }),
 ]
 const table = useVueTable({
