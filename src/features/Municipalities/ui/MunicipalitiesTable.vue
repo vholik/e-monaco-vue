@@ -135,15 +135,24 @@ const table = useVueTable({
                         <FlexRender
                             :render="cell.column.columnDef.cell"
                             :props="cell.getContext()"
+                            :class="cls.flexRender"
                         />
+                        <span
+                            v-if="cell.column.id !== 'name'"
+                            :class="[cls.currency]"
+                        >
+                            zł
+                        </span>
                     </td>
-                    <DeleteButton
-                        :class="cls.button"
-                        :disabled="isLoading"
-                        @click="handleDelete(row.original.id)"
-                    >
-                        Usuń
-                    </DeleteButton>
+                    <td :class="cls.bodyValue">
+                        <DeleteButton
+                            :class="cls.button"
+                            :disabled="isLoading"
+                            @click="handleDelete(row.original.id)"
+                        >
+                            Usuń
+                        </DeleteButton>
+                    </td>
                 </tr>
             </tbody>
         </table>
