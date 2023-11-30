@@ -42,7 +42,7 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Nazwa gminy', canSort: false }),
     }),
-    // dodać Zestaw
+
     columnHelper.accessor((row) => row.taxIncrease, {
         id: 'taxIncrease',
         cell: (info) =>
@@ -72,16 +72,23 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Stawka Naczepa', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.kitRate, {
-        id: 'kitRate',
-        cell: (info) =>
-            h(PriceInput, {
-                placeholder: 'xxx',
-                onUpdate: onDataChange(info.row.original.id, 'kitRate'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
-    }),
+    columnHelper.accessor(
+        //dodać wartość min dla tractorRate oraz trailerRate
+        (row) => {
+            const kitRate =
+                (Number(row.tractorRate) || 0) +
+                (Number(row.trailerRate) || 0) -
+                (Number(row.tractorRate) || 0) -
+                (Number(row.trailerRate) || 0)
+
+            return `${kitRate} zł`
+        },
+        {
+            id: 'kitRate',
+
+            header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
+        },
+    ),
     columnHelper.accessor((row) => row.otherRate, {
         id: 'otherRate',
         cell: (info) =>
