@@ -5,6 +5,7 @@ export const useMunicipalityFilterStore = defineStore('municipalityFilter', {
     state: () => ({
         owners: [] as string[],
         order: null as null | Order,
+        municipalities: [] as string[],
         orderBy: null as null | string,
         page: 1,
         q: '',

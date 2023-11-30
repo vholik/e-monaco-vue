@@ -14,6 +14,7 @@ import { useDeleteMunicipalities } from '@/features/Municipalities/model/service
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
+import MunicaplitiesPagination from '@/features/Municipalities/ui/MunicipalitiesPagination/MunicipalitiesPagination.vue'
 
 const { mutateAsync } = useDeleteMunicipalities()
 const handleDelete = async (id: number) => {
@@ -96,7 +97,7 @@ const table = useVueTable({
     columns,
     // @ts-ignore
     get data() {
-        return data.value || []
+        return data.value?.municipalities || []
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -147,11 +148,12 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="data?.municipalities?.length && !isLoading"
+            v-if="!data?.municipalities?.length && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
+        <MunicaplitiesPagination :count="data?.count || 0" />
     </div>
 </template>
