@@ -9,6 +9,8 @@ import AddIcon from '@/shared/assets/icons/Add.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import MunicipalitesTable from '@/features/Municipalities/ui/MunicipalitiesTable.vue'
+import MunicipalitiesFilter from '@/features/CompanyFilter/ui/MunicipalitiesFilter/MunicipalitiesFilter.vue'
+
 let modalOpen = ref(false)
 
 function openModal() {
@@ -28,20 +30,8 @@ function openModal() {
                 class="breadcrumbs"
             />
             <h1 :class="cls.title">Lista gmin</h1>
-            <Button
-                variant="secondary"
-                :max="false"
-                @click="openModal"
-            >
-                <Icon
-                    color="primary-variant"
-                    :icon="AddIcon"
-                />
-                Dodaj gminę
-            </Button>
-            <AddMunicipalitiesModal
-                v-model:isModalOpen="modalOpen"
-            ></AddMunicipalitiesModal>
+
+            <MunicipalitiesFilter />
             <MunicipalitesTable />
         </Flex>
     </div>
