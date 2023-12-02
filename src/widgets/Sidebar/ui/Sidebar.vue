@@ -25,7 +25,6 @@ const userStore = useUserStore()
 
 const filteredSidebarItems = computed(() => {
     const userRole = userStore.loggedInUser?.role || 'user'
-    console.log('UserRole:', userRole)
 
     const allowedPathsForUser = allowedPaths[userRole]
     const userSidebarItems = sidebarItems.filter((item) =>
@@ -62,6 +61,7 @@ function logout() {
                 <Text
                     size="size_s"
                     weight="bold"
+                    :class="cls.name"
                 >
                     {{ userStore.loggedInUser?.firstName }}
                     {{ userStore.loggedInUser?.lastName }}
