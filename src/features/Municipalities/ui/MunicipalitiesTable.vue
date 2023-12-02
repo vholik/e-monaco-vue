@@ -14,6 +14,7 @@ import { useDeleteMunicipalities } from '@/features/Municipalities/model/service
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
+import MunicaplitiesPagination from '@/features/Municipalities/ui/MunicipalitiesPagination/MunicipalitiesPagination.vue'
 
 const { mutateAsync } = useDeleteMunicipalities()
 const handleDelete = async (id: number) => {
@@ -41,6 +42,7 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Nazwa gminy', canSort: false }),
     }),
+
     columnHelper.accessor((row) => row.taxIncrease, {
         id: 'taxIncrease',
         cell: (info) =>
@@ -49,8 +51,7 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'taxIncrease'),
                 defaultValue: info.getValue(),
             }),
-        header: () =>
-            h(SortHeader, { name: 'Podwyżka podatku', canSort: false }),
+        header: () => h(SortHeader, { name: 'Wzrost Podatku', canSort: false }),
     }),
     columnHelper.accessor((row) => row.tractorRate, {
         id: 'activation',
@@ -59,7 +60,7 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'tractorRate'),
                 defaultValue: info.getValue(),
             }),
-        header: () => h(SortHeader, { name: 'Ciągnik', canSort: false }),
+        header: () => h(SortHeader, { name: 'Stawka Ciągnik', canSort: false }),
     }),
     columnHelper.accessor((row) => row.trailerRate, {
         id: 'trailerRate',
@@ -69,18 +70,25 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'trailerRate'),
                 defaultValue: info.getValue(),
             }),
-        header: () => h(SortHeader, { name: 'Naczepa', canSort: false }),
+        header: () => h(SortHeader, { name: 'Stawka Naczepa', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.kitRate, {
-        id: 'kitRate',
-        cell: (info) =>
-            h(PriceInput, {
-                placeholder: 'xxx',
-                onUpdate: onDataChange(info.row.original.id, 'kitRate'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
-    }),
+    columnHelper.accessor(
+        //dodać wartość min dla tractorRate oraz trailerRate
+        (row) => {
+            const kitRate =
+                (Number(row.tractorRate) || 0) +
+                (Number(row.trailerRate) || 0) -
+                (Number(row.tractorRate) || 0) -
+                (Number(row.trailerRate) || 0)
+
+            return `${kitRate} zł`
+        },
+        {
+            id: 'kitRate',
+
+            header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
+        },
+    ),
     columnHelper.accessor((row) => row.otherRate, {
         id: 'otherRate',
         cell: (info) =>
@@ -89,14 +97,14 @@ const columns = [
                 onUpdate: onDataChange(info.row.original.id, 'otherRate'),
                 defaultValue: info.getValue(),
             }),
-        header: () => h(SortHeader, { name: 'Inne', canSort: false }),
+        header: () => h(SortHeader, { name: 'Stawka Inne', canSort: false }),
     }),
 ]
 const table = useVueTable({
     columns,
     // @ts-ignore
     get data() {
-        return data.value || []
+        return data.value?.municipalities || []
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -134,24 +142,34 @@ const table = useVueTable({
                         <FlexRender
                             :render="cell.column.columnDef.cell"
                             :props="cell.getContext()"
+                            :class="cls.flexRender"
                         />
+                        <span
+                            v-if="cell.column.id !== 'name'"
+                            :class="[cls.currency]"
+                        >
+                            zł
+                        </span>
                     </td>
-                    <DeleteButton
-                        :class="cls.button"
-                        :disabled="isLoading"
-                        @click="handleDelete(row.original.id)"
-                    >
-                        Usuń
-                    </DeleteButton>
+                    <td :class="cls.bodyValue">
+                        <DeleteButton
+                            :class="cls.button"
+                            :disabled="isLoading"
+                            @click="handleDelete(row.original.id)"
+                        >
+                            Usuń
+                        </DeleteButton>
+                    </td>
                 </tr>
             </tbody>
         </table>
         <div
-            v-if="data?.municipalities?.length && !isLoading"
+            v-if="!data?.municipalities?.length && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
+        <MunicaplitiesPagination :count="data?.count || 0" />
     </div>
 </template>

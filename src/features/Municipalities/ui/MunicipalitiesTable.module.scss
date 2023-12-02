@@ -5,12 +5,18 @@
     overflow-y: scroll;
     height: 83vh;
 }
-
+.currency {
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: middle;
+}
 .CompaniesTable {
     width: max-content;
     border-collapse: collapse;
 }
-
+.flexRender {
+    display: inline-flex;
+}
 .headerTitle {
     text-align: left;
     color: var(--quatinary-color);
@@ -25,6 +31,7 @@
 
 .bodyValue {
     font: var(--font-s);
+    white-space: nowrap;
 }
 
 .header {
