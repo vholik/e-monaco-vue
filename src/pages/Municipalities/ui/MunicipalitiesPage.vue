@@ -30,7 +30,6 @@ function openModal() {
                 class="breadcrumbs"
             />
             <h1 :class="cls.title">Lista gmin</h1>
-<<<<<<< HEAD
             <Flex
                 direction="column"
                 align="start"
@@ -52,11 +51,6 @@ function openModal() {
                 ></AddMunicipalitiesModal>
                 <MunicipalitesTable />
             </Flex>
-=======
-
-            <MunicipalitiesFilter />
-            <MunicipalitesTable />
->>>>>>> f2a569fa36cdd966fba031efc2f5cd611f85077c
         </Flex>
     </div>
 </template>
