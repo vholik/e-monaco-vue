@@ -99,6 +99,12 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Email', canSort: false }),
     }),
+    columnHelper.accessor((row) => row.company, {
+        id: 'company',
+        cell: (info) => info.getValue()?.name,
+
+        header: () => h(SortHeader, { name: 'Nazwa firmy', canSort: false }),
+    }),
     columnHelper.accessor((row) => row.top, {
         id: 'top',
         cell: (info) => {
