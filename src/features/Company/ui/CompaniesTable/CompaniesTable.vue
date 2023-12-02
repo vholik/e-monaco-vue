@@ -229,35 +229,33 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row, {
             id: 'taxIncrease',
-            cell: (info) =>
-                `${info.row.original.municipality?.taxIncrease ?? 'N/A'} zł`,
+            cell: (info) => `${info.row.original.taxincrease ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Wzrost podatku',
-                    onUpdate: changeOrder('municipality.taxIncrease'),
+                    onUpdate: changeOrder('taxincrease'),
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'municipality.taxIncrease'
+                        companyFilterStore.getOrderBy === 'taxincrease'
                             ? companyFilterStore.getOrder
                             : null,
                 })
             },
         }),
-        columnHelper.accessor((row) => row, {
-            id: 'kitRate',
-            cell: (info) =>
-                `${info.row.original.municipality?.kitRate ?? 'N/A'} zł`,
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Zestaw',
-                    onUpdate: changeOrder('municipality.kitRate'),
-                    value:
-                        companyFilterStore.getOrderBy === 'municipality.kitRate'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
+        // columnHelper.accessor((row) => row, {
+        //     id: 'kitRate',
+        //     cell: (info) =>
+        //         `${info.row.original.municipality?.kitRate ?? 'N/A'} zł`,
+        //     header: () => {
+        //         return h(SortHeader, {
+        //             name: 'Zestaw',
+        //             onUpdate: changeOrder('municipality.kitRate'),
+        //             value:
+        //                 companyFilterStore.getOrderBy === 'municipality.kitRate'
+        //                     ? companyFilterStore.getOrder
+        //                     : null,
+        //         })
+        //     },
+        // }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'tractorAmount',
             cell: (info) =>
@@ -337,7 +335,10 @@ let columns = computed(() => {
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'tractorRate',
             cell: (info) =>
-                `${info.row.original.municipality?.tractorRate ?? 'N/A'} zł`,
+                `${
+                    info.row.original.municipality?.currentYearRate
+                        ?.tractorRate ?? 'N/A'
+                } zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka ciągnik',
@@ -353,7 +354,10 @@ let columns = computed(() => {
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'trailerRate',
             cell: (info) =>
-                `${info.row.original.municipality?.trailerRate ?? 'N/A'} zł`,
+                `${
+                    info.row.original.municipality?.currentYearRate
+                        ?.trailerRate ?? 'N/A'
+                } zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka naczepa',

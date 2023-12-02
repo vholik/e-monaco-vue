@@ -26,4 +26,5 @@ export interface Company {
     theirstaxes: number
     ourtaxes: number
     supply: number
+    taxincrease: number
 }

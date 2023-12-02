@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { h, ref } from 'vue'
+import { h } from 'vue'
 import cls from './MunicipalitiesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { useToast } from 'vue-toastification'
@@ -42,62 +42,26 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Nazwa gminy', canSort: false }),
     }),
-
-    columnHelper.accessor((row) => row.taxIncrease, {
-        id: 'taxIncrease',
-        cell: (info) =>
-            h(PriceInput, {
-                placeholder: 'xxx',
-                onUpdate: onDataChange(info.row.original.id, 'taxIncrease'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => h(SortHeader, { name: 'Wzrost Podatku', canSort: false }),
+    columnHelper.accessor((row) => row.kitRate, {
+        id: 'kitRate',
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.tractorRate, {
-        id: 'activation',
-        cell: (info) =>
-            h(PriceInput, {
-                onUpdate: onDataChange(info.row.original.id, 'tractorRate'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => h(SortHeader, { name: 'Stawka Ciągnik', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.trailerRate, {
+    columnHelper.accessor((row) => row.currentYearRate?.trailerRate, {
         id: 'trailerRate',
-        cell: (info) =>
-            h(PriceInput, {
-                placeholder: 'xxx',
-                onUpdate: onDataChange(info.row.original.id, 'trailerRate'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => h(SortHeader, { name: 'Stawka Naczepa', canSort: false }),
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () => h(SortHeader, { name: 'Stawka naczepa', canSort: false }),
     }),
-    columnHelper.accessor(
-        //dodać wartość min dla tractorRate oraz trailerRate
-        (row) => {
-            const kitRate =
-                (Number(row.tractorRate) || 0) +
-                (Number(row.trailerRate) || 0) -
-                (Number(row.tractorRate) || 0) -
-                (Number(row.trailerRate) || 0)
-
-            return `${kitRate}`
-        },
-        {
-            id: 'kitRate',
-
-            header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
-        },
-    ),
-    columnHelper.accessor((row) => row.otherRate, {
+    columnHelper.accessor((row) => row.currentYearRate?.tractorRate, {
+        id: 'tractorRate',
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () =>
+            h(SortHeader, { name: 'Stawka ciągniki', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.currentYearRate?.otherRate, {
         id: 'otherRate',
-        cell: (info) =>
-            h(PriceInput, {
-                placeholder: 'xxx',
-                onUpdate: onDataChange(info.row.original.id, 'otherRate'),
-                defaultValue: info.getValue(),
-            }),
-        header: () => h(SortHeader, { name: 'Stawka Inne', canSort: false }),
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () => h(SortHeader, { name: 'Stawka inne', canSort: false }),
     }),
 ]
 const table = useVueTable({
@@ -144,12 +108,6 @@ const table = useVueTable({
                             :props="cell.getContext()"
                             :class="cls.flexRender"
                         />
-                        <span
-                            v-if="cell.column.id !== 'name'"
-                            :class="[cls.currency]"
-                        >
-                            zł
-                        </span>
                     </td>
                     <td :class="cls.bodyValue">
                         <DeleteButton

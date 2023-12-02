@@ -6,25 +6,20 @@ export const addMunicipalityValidationSchema = yup.object().shape({
         .number()
         .integer()
         .min(0, 'Pole musi być powyżej 0')
-        .nullable(),
+        .required('Pole jest obowiązkowe'),
     tractorRate: yup
         .number()
         .integer()
         .min(0, 'Pole musi być powyżej 0')
-        .nullable(),
+        .required('Pole jest obowiązkowe'),
     trailerRate: yup
         .number()
         .integer()
         .min(0, 'Pole musi być powyżej 0')
-        .nullable(),
-    kitRate: yup
-        .number()
-        .integer()
-        .min(0, 'Pole musi być powyżej 0')
-        .nullable(),
+        .required('Pole jest obowiązkowe'),
     otherRate: yup
         .number()
         .integer()
         .min(0, 'Pole musi być powyżej 0')
-        .nullable(),
+        .required('Pole jest obowiązkowe'),
 })

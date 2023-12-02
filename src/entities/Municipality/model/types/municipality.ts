@@ -1,12 +1,17 @@
 import type { Company } from '@/entities/Company'
 
-export interface Municipality {
+export interface Rate {
     id: string
-    name: string
-    taxIncrease: number
+    year: number
     tractorRate: number
     trailerRate: number
     otherRate: number
+}
+
+export interface Municipality {
+    id: string
+    name: string
     companies: Company[]
+    currentYearRate: Rate
     kitRate: number
 }

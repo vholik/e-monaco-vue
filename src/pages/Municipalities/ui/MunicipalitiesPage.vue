@@ -28,21 +28,27 @@ function openModal() {
                 class="breadcrumbs"
             />
             <h1 :class="cls.title">Lista gmin</h1>
-            <Button
-                variant="secondary"
-                :max="false"
-                @click="openModal"
+            <Flex
+                direction="column"
+                align="start"
+                gap="8"
             >
-                <Icon
-                    color="primary-variant"
-                    :icon="AddIcon"
-                />
-                Dodaj gminę
-            </Button>
-            <AddMunicipalitiesModal
-                v-model:isModalOpen="modalOpen"
-            ></AddMunicipalitiesModal>
-            <MunicipalitesTable />
+                <Button
+                    variant="secondary"
+                    :max="false"
+                    @click="openModal"
+                >
+                    <Icon
+                        color="primary-variant"
+                        :icon="AddIcon"
+                    />
+                    Dodaj gminę
+                </Button>
+                <AddMunicipalitiesModal
+                    v-model:isModalOpen="modalOpen"
+                ></AddMunicipalitiesModal>
+                <MunicipalitesTable />
+            </Flex>
         </Flex>
     </div>
 </template>

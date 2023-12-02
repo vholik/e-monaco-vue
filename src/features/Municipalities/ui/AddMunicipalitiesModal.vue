@@ -54,12 +54,6 @@ const onSubmit = (values: unknown) => {
                         placeholder="Nazwa gminy"
                     />
                     <Input
-                        name="taxIncrease"
-                        label="Wysokość podatku"
-                        placeholder="xxx"
-                        type="number"
-                    />
-                    <Input
                         name="tractorRate"
                         label="Stawka ciągnika"
                         placeholder="xxx"
@@ -68,12 +62,6 @@ const onSubmit = (values: unknown) => {
                     <Input
                         name="trailerRate"
                         label="Stawka naczepy"
-                        placeholder="xxx"
-                        type="number"
-                    />
-                    <Input
-                        name="kitRate"
-                        label="Zestaw"
                         placeholder="xxx"
                         type="number"
                     />
