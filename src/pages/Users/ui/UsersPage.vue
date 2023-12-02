@@ -13,6 +13,7 @@ import AddUsersModal from '@/features/Users/ui/AddUsersModal/AddUsersModal.vue'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import { useDeleteUser } from '@/features/Users/model/services/useDeleteUsers'
 import { useToast } from 'vue-toastification'
+import UpdatePassUserButton from '@/shared/ui/UpdatePassUserButton/UpdatePassUserButton.vue'
 
 const toast = useToast()
 
@@ -76,12 +77,21 @@ const handleDelete = async (id: number) => {
 
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
-                    <DeleteButton
-                        :class="cls.button"
-                        @click="handleDelete(user.id)"
-                    >
-                        Usuń
-                    </DeleteButton>
+                    <div :class="cls.buttonWrapper">
+                        <DeleteButton
+                            :class="cls.button"
+                            @click="handleDelete(user.id)"
+                        >
+                            Usuń
+                        </DeleteButton>
+
+                        <UpdatePassUserButton
+                            :class="(cls.UpdatePassUserButton, cls.button)"
+                            @click="handleDelete(user.id)"
+                        >
+                            Zaktualizuj hasło
+                        </UpdatePassUserButton>
+                    </div>
                 </tr>
             </tbody>
         </table>

@@ -14,7 +14,7 @@
         width: 100%;
         border-collapse: separate;
         border-spacing: 0 1rem;
-
+        margin-right: 2rem;
         .user-wrapper {
             display: flex;
             align-items: center;
@@ -38,6 +38,14 @@
         .user-name {
             font-weight: bold;
             color: #333;
+        }
+        .buttonWrapper {
+            display: flex;
+            gap: 8px;
+        }
+        .button {
+            width: fit-content;
+            display: inline-flex;
         }
 
         .user-role {
