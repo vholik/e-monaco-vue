@@ -19,6 +19,7 @@ app.use(VueQueryPlugin, {
         defaultOptions: {
             queries: {
                 refetchOnWindowFocus: false,
+                refetchOnMount: false,
             },
         },
     },
