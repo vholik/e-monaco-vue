@@ -20,7 +20,7 @@ import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 
 const { mutateAsync } = useDeletePersons()
 
-const handleDelete = async (id: number) => {
+const handleDelete = async (id: string) => {
     try {
         await mutateAsync(id)
     } catch (error) {

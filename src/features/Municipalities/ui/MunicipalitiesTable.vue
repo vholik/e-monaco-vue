@@ -17,7 +17,7 @@ import { useMunicipality } from '@/features/Municipalities/model/services/useMun
 import MunicaplitiesPagination from '@/features/Municipalities/ui/MunicipalitiesPagination/MunicipalitiesPagination.vue'
 
 const { mutateAsync } = useDeleteMunicipalities()
-const handleDelete = async (id: number) => {
+const handleDelete = async (id: string) => {
     try {
         await mutateAsync(id)
     } catch (error) {
@@ -81,7 +81,7 @@ const columns = [
                 (Number(row.tractorRate) || 0) -
                 (Number(row.trailerRate) || 0)
 
-            return `${kitRate} zł`
+            return `${kitRate}`
         },
         {
             id: 'kitRate',
