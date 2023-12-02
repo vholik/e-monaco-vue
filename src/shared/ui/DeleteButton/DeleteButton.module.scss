@@ -8,6 +8,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+<<<<<<< HEAD
+=======
+    gap: 0.75rem;
+    box-shadow: var(--box-shadow);
+    margin-top: 3px;
+
+    &:disabled {
+        background-color: var(--stroke-color) !important;
+        cursor: not-allowed !important;
+    }
+}
+
+.size_m {
+    padding: 0.3rem 1rem;
+}
+
+.primary {
+    background-color: var(--red-color);
+    color: var(--primary-invert-color);
+>>>>>>> f2a569fa36cdd966fba031efc2f5cd611f85077c
 
     &:hover {
         background-color: rgb(233, 44, 44, 0.15);
