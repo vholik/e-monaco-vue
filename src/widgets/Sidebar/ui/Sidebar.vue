@@ -2,13 +2,15 @@
 import cls from './Sidebar.module.scss'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
-import HomeIcon from '@/shared/assets/icons/Home.vue'
-import UsersIcon from '@/shared/assets/icons/Users.vue'
 import { sidebarItems } from '../model/consts/sidebarItems'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/entities/User'
 import { computed } from 'vue'
 import type { UserRoles } from '@/entities/User/model/types/roles'
+import {
+    USER_ACCESS_LOCALSTORAGE_KEY,
+    USER_REFRESH_LOCALSTORAGE_KEY,
+} from '@/shared/const/localStorage'
 
 const allowedPaths: Record<UserRoles, string[]> = {
     admin: ['/dashboard', '/users', '/persons', '/municipalities'],
@@ -35,6 +37,14 @@ const filteredSidebarItems = computed(() => {
         allowed: allowedPathsForUser.includes(item.path),
     }))
 })
+
+function logout() {
+    userStore.setUser(null)
+    localStorage.removeItem(USER_ACCESS_LOCALSTORAGE_KEY)
+    localStorage.removeItem(USER_REFRESH_LOCALSTORAGE_KEY)
+
+    router.push('/login')
+}
 </script>
 
 <template>
@@ -56,6 +66,14 @@ const filteredSidebarItems = computed(() => {
                     {{ userStore.loggedInUser?.firstName }}
                     {{ userStore.loggedInUser?.lastName }}
                 </Text>
+                <Text
+                    :class="cls.logoutButton"
+                    color="primary-variant"
+                    size="size_s"
+                    weight="bold"
+                    @click="logout"
+                    >Wyloguj się</Text
+                >
             </Flex>
             <Flex
                 direction="column"

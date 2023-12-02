@@ -6,14 +6,8 @@ export const useMunicipalities = (
     selected?: Ref<string | string[]>,
     q?: Ref<string>,
 ) => {
-    const key = selected?.value
-        ? Array.isArray(selected?.value)
-            ? selected?.value.join(',')
-            : selected?.value
-        : ''
-
     return useQuery(
-        ['municipalities' + key, q],
+        [selected, q],
         async () => {
             const response = await $api.get('municipalities', {
                 params: {

@@ -1,55 +1,61 @@
 .Sidebar {
-  min-width: var(--sidebar-width);
-  height: 100vh;
-  background-color: var(--primary-invert-color);
-  padding: 1.6rem 1.1rem;
-  box-shadow: var(--box-shadow);
+    min-width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--primary-invert-color);
+    padding: 1.6rem 1.1rem;
+    box-shadow: var(--box-shadow);
 }
 
 .userIcon {
-  font: var(--font-s);
-  height: 1.8rem;
-  width: 1.8rem;
-  border-radius: var(--default-border-radius);
-  background-color: var(--primary-variant-color);
-  font-weight: 600;
-  color: var(--primary-invert-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    font: var(--font-s);
+    height: 1.8rem;
+    width: 1.8rem;
+    border-radius: var(--default-border-radius);
+    background-color: var(--primary-variant-color);
+    font-weight: 600;
+    color: var(--primary-invert-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sidebarItem {
-  cursor: pointer;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--default-border-radius);
-  transition: background var(--transition);
+    cursor: pointer;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--default-border-radius);
+    transition: background var(--transition);
 
-  &:hover {
-    background-color: var(--primary-variant-bg-color);
+    &:hover {
+        background-color: var(--primary-variant-bg-color);
 
-    svg {
-      path {
-        fill: var(--primary-variant-color) !important;
-      }
+        svg {
+            path {
+                fill: var(--primary-variant-color) !important;
+            }
+        }
+
+        p {
+            color: var(--primary-variant-color) !important;
+        }
     }
-
-    p {
-      color: var(--primary-variant-color) !important;
-    }
-  }
 }
 
 .activeItem {
-  background-color: var(--primary-variant-bg-color);
+    background-color: var(--primary-variant-bg-color);
 
-  svg {
-    path {
-      fill: var(--primary-variant-color) !important;
+    svg {
+        path {
+            fill: var(--primary-variant-color) !important;
+        }
     }
-  }
 
-  p {
-    color: var(--primary-variant-color) !important;
-  }
+    p {
+        color: var(--primary-variant-color) !important;
+    }
+}
+
+.logoutButton {
+    display: flex;
+    cursor: pointer;
+    width: 5rem;
 }

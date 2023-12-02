@@ -7,7 +7,13 @@ interface Props {
     isTitle?: boolean
     alignCenter?: boolean
     weight?: 'regular' | 'medium' | 'bold' | 'superbold'
-    color?: 'primary' | 'secondary' | 'tertiary' | 'quatinary' | 'quinary'
+    color?:
+        | 'primary'
+        | 'secondary'
+        | 'tertiary'
+        | 'quatinary'
+        | 'quinary'
+        | 'primary-variant'
 }
 
 const props = withDefaults(defineProps<Props>(), {

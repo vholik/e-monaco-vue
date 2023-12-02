@@ -5,10 +5,10 @@ import { useQuery } from 'vue-query'
 export const useContactPersons = (
     refValue: Ref<string>,
     selectedRef: Ref<string[]>,
-    key?: string,
+    key?: Ref<string[] | undefined>,
 ) => {
     return useQuery(
-        [key ?? 'contact-persons', refValue],
+        [refValue, key],
         async () => {
             const response = await $api.get(`persons`, {
                 params: { q: refValue.value, selected: selectedRef.value },
