@@ -77,7 +77,10 @@ const handleDelete = async (id: number) => {
 
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
-                    <div :class="cls.buttonWrapper">
+                    <Flex
+                        gap="8"
+                        :class="cls.buttonWrapper"
+                    >
                         <DeleteButton
                             :class="cls.button"
                             @click="handleDelete(user.id)"
@@ -91,7 +94,7 @@ const handleDelete = async (id: number) => {
                         >
                             Zaktualizuj hasło
                         </UpdatePassUserButton>
-                    </div>
+                    </Flex>
                 </tr>
             </tbody>
         </table>

@@ -2,11 +2,6 @@ import * as yup from 'yup'
 
 export const addMunicipalityValidationSchema = yup.object().shape({
     name: yup.string().required('Pole jest obowiązkowe'),
-    taxIncrease: yup
-        .number()
-        .integer()
-        .min(0, 'Pole musi być powyżej 0')
-        .required('Pole jest obowiązkowe'),
     tractorRate: yup
         .number()
         .integer()
@@ -18,6 +13,11 @@ export const addMunicipalityValidationSchema = yup.object().shape({
         .min(0, 'Pole musi być powyżej 0')
         .required('Pole jest obowiązkowe'),
     otherRate: yup
+        .number()
+        .integer()
+        .min(0, 'Pole musi być powyżej 0')
+        .required('Pole jest obowiązkowe'),
+    year: yup
         .number()
         .integer()
         .min(0, 'Pole musi być powyżej 0')

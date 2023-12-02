@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { computed, h, ref, watch } from 'vue'
+import { computed, h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { StatusSelect } from '@/entities/Status'

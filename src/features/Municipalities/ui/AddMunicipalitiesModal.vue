@@ -62,13 +62,19 @@ const onSubmit = (values: unknown) => {
                     <Input
                         name="trailerRate"
                         label="Stawka naczepy"
-                        placeholder="xxx"
+                        placeholder="xxxx"
                         type="number"
                     />
                     <Input
                         name="otherRate"
                         label="Inne"
-                        placeholder="xxx"
+                        placeholder="xxxx"
+                        type="number"
+                    />
+                    <Input
+                        name="year"
+                        label="Rok stawek"
+                        placeholder="xxxx"
                         type="number"
                     />
                 </Flex>

@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import cls from './MunicipalitiesFilter.module.scss'
-import Button from '@/shared/ui/Button/Button.vue'
-import AddIcon from '@/shared/assets/icons/Add.vue'
-import Icon from '@/shared/ui/Icon/Icon.vue'
 import Input from '@/shared/ui/Input/Input.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import { useMunicipalityFilterStore } from '@/features/MunicipalitiesFilter/model/store/municipalitiesFilterStore'
