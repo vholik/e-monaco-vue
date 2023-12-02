@@ -23,7 +23,7 @@ export interface Company {
     contactPersons: ContactPerson[]
     markDeleted: boolean
     frugality: number
-    theirsTaxes: number
-    ourTaxes: number
+    theirstaxes: number
+    ourtaxes: number
     supply: number
 }

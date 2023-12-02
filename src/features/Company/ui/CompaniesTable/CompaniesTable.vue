@@ -229,7 +229,8 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row, {
             id: 'taxIncrease',
-            cell: (info) => `${info.row.original.municipality?.taxIncrease} zł`,
+            cell: (info) =>
+                `${info.row.original.municipality?.taxIncrease ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Wzrost podatku',
@@ -244,7 +245,8 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row, {
             id: 'kitRate',
-            cell: (info) => `${info.row.original.municipality?.kitRate} zł`,
+            cell: (info) =>
+                `${info.row.original.municipality?.kitRate ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Zestaw',
@@ -325,16 +327,17 @@ let columns = computed(() => {
                 return h(SortHeader, {
                     name: 'Tabor',
                     value:
-                        companyFilterStore.getOrderBy === 'company.supply'
+                        companyFilterStore.getOrderBy === 'supply'
                             ? companyFilterStore.getOrder
                             : null,
-                    onUpdate: changeOrder('company.supply'),
+                    onUpdate: changeOrder('supply'),
                 })
             },
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'tractorRate',
-            cell: (info) => `${info.row.original.municipality?.tractorRate} zł`,
+            cell: (info) =>
+                `${info.row.original.municipality?.tractorRate ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka ciągnik',
@@ -349,7 +352,8 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'trailerRate',
-            cell: (info) => `${info.row.original.municipality?.trailerRate} zł`,
+            cell: (info) =>
+                `${info.row.original.municipality?.trailerRate ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka naczepa',
@@ -364,13 +368,16 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row?.trailerAmount, {
             id: 'theirsTaxes',
-            cell: (info) => `${info.row.original.theirsTaxes} zł`,
+            cell: (info) =>
+                info.row.original.theirstaxes
+                    ? `${info.row.original.theirstaxes} zł`
+                    : 'N/A',
             header: () => {
                 return h(SortHeader, {
                     name: 'Podatek u nich',
-                    onUpdate: changeOrder('company.theirsTaxes'),
+                    onUpdate: changeOrder('theirstaxes'),
                     value:
-                        companyFilterStore.getOrderBy === 'company.theirsTaxes'
+                        companyFilterStore.getOrderBy === 'theirstaxes'
                             ? companyFilterStore.getOrder
                             : null,
                 })
@@ -378,13 +385,16 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'ourTaxes',
-            cell: (info) => `${info.row.original.ourTaxes} zł`,
+            cell: (info) =>
+                info.row.original.ourtaxes
+                    ? `${info.row.original.ourtaxes} zł`
+                    : 'N/A',
             header: () => {
                 return h(SortHeader, {
                     name: 'Podatek u nas',
-                    onUpdate: changeOrder('company.ourTaxes'),
+                    onUpdate: changeOrder('ourtaxes'),
                     value:
-                        companyFilterStore.getOrderBy === 'company.ourTaxes'
+                        companyFilterStore.getOrderBy === 'ourtaxes'
                             ? companyFilterStore.getOrder
                             : null,
                 })
@@ -396,9 +406,9 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Oszczędność',
-                    onUpdate: changeOrder('company.frugality'),
+                    onUpdate: changeOrder('frugality'),
                     value:
-                        companyFilterStore.getOrderBy === 'company.frugality'
+                        companyFilterStore.getOrderBy === 'frugality'
                             ? companyFilterStore.getOrder
                             : null,
                 })
