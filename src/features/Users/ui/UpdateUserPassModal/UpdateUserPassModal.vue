@@ -9,6 +9,7 @@ import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
 import { useUsers } from '../../model/services/useUsers'
 import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
+import { useUpdatePersons } from '@/features/ContactPersons'
 
 interface Props {
     isModalOpen: boolean
@@ -19,7 +20,7 @@ function setIsModalOpen(value: boolean) {
 }
 
 const { mutate, isLoading, error } = useUsers(setIsModalOpen)
-
+const showPassword = ref(false)
 defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
@@ -50,16 +51,32 @@ const onSubmit = (values: unknown) => {
                         później.
                     </Note>
                     <Input
-                        name="pass"
-                        label="Imię"
-                        placeholder="Jan"
+                        name="password"
+                        label="Nowe hasło"
+                        placeholder="Wpisz nowe hasło"
+                        :type="showPassword ? 'text' : 'password'"
                     />
+                    <Flex>
+                        <label
+                            for="showPassword"
+                            :class="cls.labelCheckbox"
+                            >Pokaż hasło</label
+                        >
+                        <input
+                            style="width: fit-contect"
+                            type="checkbox"
+                            v-model="showPassword"
+                            id="showPassword"
+                            :class="cls.checkbox"
+                        />
+                    </Flex>
                 </Flex>
                 <div :class="cls.footer">
                     <Button
                         :class="cls.button"
                         :disabled="isLoading"
                     >
+                        Aktualizuj
                     </Button>
                 </div>
             </Form>
