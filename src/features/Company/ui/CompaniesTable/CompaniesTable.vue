@@ -342,10 +342,10 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka ciągnik',
-                    onUpdate: changeOrder('municipality.tractorRate'),
+                    onUpdate: changeOrder('currentYearRate.tractorRate'),
                     value:
                         companyFilterStore.getOrderBy ===
-                        'municipality.tractorRate'
+                        'currentYearRate.tractorRate'
                             ? companyFilterStore.getOrder
                             : null,
                 })
@@ -361,10 +361,10 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka naczepa',
-                    onUpdate: changeOrder('municipality.trailerRate'),
+                    onUpdate: changeOrder('currentYearRate.trailerRate'),
                     value:
                         companyFilterStore.getOrderBy ===
-                        'municipality.trailerRate'
+                        'currentYearRate.trailerRate'
                             ? companyFilterStore.getOrder
                             : null,
                 })
@@ -422,7 +422,10 @@ let columns = computed(() => {
             id: 'activation',
             cell: (info) =>
                 h(PriceInput, {
-                    onUpdate: onDataChange(info.row.original.id, 'activation'),
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'company.activation',
+                    ),
                     defaultValue: info.row.original.activation,
                     withPrice: true,
                 }),
@@ -431,7 +434,7 @@ let columns = computed(() => {
                     name: 'Aktywacja',
                     onUpdate: changeOrder('company.activation'),
                     value:
-                        companyFilterStore.getOrderBy === 'activation'
+                        companyFilterStore.getOrderBy === 'company.activation'
                             ? companyFilterStore.getOrder
                             : null,
                 })
@@ -441,7 +444,10 @@ let columns = computed(() => {
             id: 'rentalFee',
             cell: (info) =>
                 h(PriceInput, {
-                    onUpdate: onDataChange(info.row.original.id, 'rentalFee'),
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'company.rentalFee',
+                    ),
                     defaultValue: info.row.original.rentalFee,
                     withPrice: true,
                 }),
