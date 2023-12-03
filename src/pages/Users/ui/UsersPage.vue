@@ -14,16 +14,29 @@ import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import { useDeleteUser } from '@/features/Users/model/services/useDeleteUsers'
 import { useToast } from 'vue-toastification'
 import UpdatePassUserButton from '@/shared/ui/UpdatePassUserButton/UpdatePassUserButton.vue'
+import { defineProps, defineEmits } from 'vue'
+import { Form, useForm } from 'vee-validate'
+import UpdateUserPassModal from '@/features/Users/ui/UpdateUserPassModal/UpdateUserPassModal.vue'
 
-const toast = useToast()
-
-let modalOpen = ref(false)
-
-function openModal() {
-    modalOpen.value = true
+interface Props {
+    isModalOpen: boolean
 }
+const userNameToUpdate = ref('Nazwa użytkownika')
+const addUserModalOpen = ref(false)
+const updateUserPassModalOpen = ref(false)
+
+const openAddUserModal = () => {
+    addUserModalOpen.value = true
+}
+
+const openUpdateUserPassModal = () => {
+    updateUserPassModalOpen.value = true
+}
+
+defineProps<Props>()
+
 const { mutate } = useDeleteUser()
-const { data: users, refetch: refetchUsers } = useOwners()
+const { data: users } = useOwners()
 
 const handleDelete = async (id: number) => {
     mutate(id)
@@ -40,7 +53,7 @@ const handleDelete = async (id: number) => {
         <Button
             variant="secondary"
             :max="false"
-            @click="openModal"
+            @click="openAddUserModal"
         >
             <Icon
                 color="primary-variant"
@@ -48,7 +61,11 @@ const handleDelete = async (id: number) => {
             />
             Dodaj Użytkownika
         </Button>
-        <AddUsersModal v-model:isModalOpen="modalOpen"></AddUsersModal>
+        <AddUsersModal v-model:isModalOpen="addUserModalOpen"></AddUsersModal>
+        <UpdateUserPassModal
+            v-model:isModalOpen="updateUserPassModalOpen"
+            :selectedUserFullName="selectedUserFullName"
+        ></UpdateUserPassModal>
         <table :class="[cls['user-table']]">
             <thead>
                 <tr>
@@ -89,8 +106,8 @@ const handleDelete = async (id: number) => {
                         </DeleteButton>
 
                         <UpdatePassUserButton
-                            :class="(cls.UpdatePassUserButton, cls.button)"
-                            @click="handleDelete(user.id)"
+                            :class="cls.button"
+                            @click="openUpdateUserPassModal"
                         >
                             Zaktualizuj hasło
                         </UpdatePassUserButton>
