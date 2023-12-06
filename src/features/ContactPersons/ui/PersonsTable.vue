@@ -14,7 +14,7 @@ import Text from '@/shared/ui/Text/Text.vue'
 import type { Order } from '@/shared/types/order'
 import type { ContactPerson } from '@/entities/ContactPerson/model/types/contactPerson'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
-import CompaniesPagination from '@/features/Company/ui/CompaniesPagination/CompaniesPagination.vue'
+import PersonPagination from '@/features/ContactPersons/ui/PersonPagination.vue/PersonPagination.vue'
 import { useDeletePersons } from '@/features/ContactPersons/model/services/useDeletePersons'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import Switch from '@/shared/ui/Switch/Switch.vue'
@@ -40,12 +40,6 @@ const changeOrder = (name: string) => (value: Order) => {
 }
 
 const columnHelper = createColumnHelper<ContactPerson>()
-for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i)
-    if (key && key.startsWith('switch_')) {
-        console.log(`Key: ${key}, Value: ${localStorage.getItem(key)}`)
-    }
-}
 const toggleTop = (newValue, id) => {
     try {
         onDataChange(id, 'top')(newValue)
@@ -198,6 +192,6 @@ const table = useVueTable({
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
-        <CompaniesPagination :count="data?.count || 0" />
+        <PersonPagination :count="data?.count || 0" />
     </div>
 </template>
