@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, toRefs, onMounted } from 'vue'
 import cls from './Switch.module.scss'
-import { useField } from 'vee-validate'
 
 interface Props {
     size?: 'size_s' | 'size_m'
@@ -15,7 +14,6 @@ const { error, name, label, modelValue } = defineProps<Props>()
 
 const emit = defineEmits(['update:modelValue'])
 
-let isFocused = ref(false)
 const checked = ref(modelValue || false)
 
 function updateInput(e: Event) {
