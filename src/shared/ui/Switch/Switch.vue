@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, onMounted } from 'vue'
 import cls from './Switch.module.scss'
 import { useField } from 'vee-validate'
-import Flex from '@/shared/ui/Flex/Flex.vue'
-
-const modelValue = ref(false)
 
 interface Props {
     size?: 'size_s' | 'size_m'
@@ -26,8 +23,6 @@ const { error, name, label } = toRefs(props)
 
 const emit = defineEmits(['update:modelValue'])
 
-let isFocused = ref(false)
-let checked = false
 const {
     value: inputValue,
     errorMessage,
@@ -36,6 +31,10 @@ const {
     initialValue: props.value,
 })
 
+let isFocused = ref(false)
+
+const checked = ref(props.modelValue || false)
+
 function onBlur(e: Event) {
     handleBlur(e)
     isFocused.value = false
@@ -43,11 +42,16 @@ function onBlur(e: Event) {
 
 function updateInput(e: Event) {
     e.preventDefault()
-    const newValue = !modelValue.value
-    modelValue.value = newValue
-    checked = !checked
-    emit('update:modelValue', newValue)
+    checked.value = !checked.value
+    emit('update:modelValue', checked.value)
 }
+
+onMounted(() => {
+    const localStorageValue = localStorage.getItem(`switch_${name.value}`)
+    if (localStorageValue !== null) {
+        checked.value = localStorageValue === 'true'
+    }
+})
 </script>
 
 <template>
@@ -57,11 +61,11 @@ function updateInput(e: Event) {
             <button
                 :class="{
                     [cls.customSwitch]: true,
-                    [cls.checked]: modelValue,
+                    [cls.checked]: checked,
                 }"
                 @click.prevent="updateInput"
             >
-                <span :class="{ [cls.active]: modelValue }" />
+                <span :class="{ [cls.active]: checked }" />
             </button>
         </div>
         <div

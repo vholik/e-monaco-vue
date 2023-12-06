@@ -40,12 +40,16 @@ const changeOrder = (name: string) => (value: Order) => {
 }
 
 const columnHelper = createColumnHelper<ContactPerson>()
-
-const toggleTop = (newValue, info) => {
+for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (key && key.startsWith('switch_')) {
+        console.log(`Key: ${key}, Value: ${localStorage.getItem(key)}`)
+    }
+}
+const toggleTop = (newValue, id) => {
     try {
-        const updatedRow = { ...info.row.original }
-        updatedRow.top = newValue
-        onDataChange(updatedRow.id, 'top')(newValue)
+        onDataChange(id, 'top')(newValue)
+        localStorage.setItem(`switch_${id}`, newValue)
     } catch (error) {
         toast.error('Wystąpił błąd podczas aktualizacji wartości "top"')
     }
@@ -119,14 +123,22 @@ const columns = [
     columnHelper.accessor((row) => row.top, {
         id: 'top',
         cell: (info) => {
-            const isTop = info.getValue()
+            const id = info.row.original.id
+            let isTop = localStorage.getItem(`switch_${id}`)
+
+            if (isTop === null) {
+                isTop = info.getValue()
+                localStorage.setItem(`switch_${id}`, info.getValue().toString())
+            }
 
             return h(Switch, {
-                modelValue: isTop,
-                class: { checked: isTop },
+                modelValue: isTop === 'true',
+                class: { checked: isTop === 'true' },
                 name: 'top',
                 'onUpdate:modelValue': (newValue) => {
-                    toggleTop(newValue, info)
+                    toggleTop(newValue, id)
+
+                    localStorage.setItem(`switch_${id}`, newValue.toString())
                 },
             })
         },
