@@ -6,6 +6,8 @@ export interface Rate {
     tractorRate: number
     trailerRate: number
     otherRate: number
+    minTrailerRate: number
+    minTractorRate: number
 }
 
 export interface Municipality {
@@ -13,5 +15,6 @@ export interface Municipality {
     name: string
     companies: Company[]
     currentYearRate: Rate
-    kitRate: number
+    kitrate: number
+    taxincrease: number
 }

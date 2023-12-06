@@ -12,7 +12,6 @@ import type { Municipality } from '@/entities/Municipality/model/types/municipal
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 import { useDeleteMunicipalities } from '@/features/Municipalities/model/services/useDeleteMunicipalities'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
-import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
 import MunicaplitiesPagination from '@/features/Municipalities/ui/MunicipalitiesPagination/MunicipalitiesPagination.vue'
 
@@ -42,10 +41,27 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Nazwa gminy', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.kitRate, {
+    columnHelper.accessor((row) => row.kitrate, {
         id: 'kitRate',
         cell: (info) => info.getValue() ?? 'N/A',
         header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.taxincrease, {
+        id: 'taxIncrease',
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () => h(SortHeader, { name: 'Wzrost podatku', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.currentYearRate?.minTractorRate, {
+        id: 'minTractorRate',
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () =>
+            h(SortHeader, { name: 'Min. stawka ciągnik', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.currentYearRate?.minTrailerRate, {
+        id: 'minTrailerRate',
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () =>
+            h(SortHeader, { name: 'Min. stawka naczepa', canSort: false }),
     }),
     columnHelper.accessor((row) => row.currentYearRate?.trailerRate, {
         id: 'trailerRate',
