@@ -39,6 +39,7 @@ export const useContactPersonsFilterStore = defineStore(
                 this.owners = owners
                 this.page = 1
             },
+
             setOrder(value: null | Order) {
                 this.order = value
                 this.page = 1

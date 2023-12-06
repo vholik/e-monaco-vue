@@ -12,14 +12,13 @@ import { storeToRefs } from 'pinia'
 interface Props {
     count: number
 }
+const props = defineProps<Props>()
 
 const filterStore = useContactPersonsFilterStore()
 
-const { page } = storeToRefs(filterStore)
-
-const props = defineProps<Props>()
-
 const { count } = toRefs(props)
+
+const { page } = storeToRefs(filterStore)
 
 let pagesCount = computed(() => Math.ceil(count.value / PAGE_SIZE))
 </script>
