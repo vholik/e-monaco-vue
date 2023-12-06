@@ -124,21 +124,13 @@ const columns = [
         id: 'top',
         cell: (info) => {
             const id = info.row.original.id
-            let isTop = localStorage.getItem(`switch_${id}`)
-
-            if (isTop === null) {
-                isTop = info.getValue()
-                localStorage.setItem(`switch_${id}`, info.getValue().toString())
-            }
+            const isTop = info.getValue()
 
             return h(Switch, {
-                modelValue: isTop === 'true',
-                class: { checked: isTop === 'true' },
-                name: 'top',
+                modelValue: isTop,
+                name: `top_${id}`,
                 'onUpdate:modelValue': (newValue) => {
                     toggleTop(newValue, id)
-
-                    localStorage.setItem(`switch_${id}`, newValue.toString())
                 },
             })
         },
