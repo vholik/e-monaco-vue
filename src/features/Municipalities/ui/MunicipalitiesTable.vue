@@ -52,18 +52,18 @@ const columns = [
         header: () => h(SortHeader, { name: 'Wzrost podatku', canSort: false }),
     }),
     columnHelper.accessor((row) => row.currentYearRate?.minTractorRate, {
-        id: 'taxIncrease',
+        id: 'minTractorRate',
         cell: (info) => info.getValue() ?? 'N/A',
         header: () =>
             h(SortHeader, { name: 'Min. stawka ciągnik', canSort: false }),
     }),
     columnHelper.accessor((row) => row.currentYearRate?.minTrailerRate, {
-        id: 'taxIncrease',
+        id: 'minTrailerRate',
         cell: (info) => info.getValue() ?? 'N/A',
         header: () =>
             h(SortHeader, { name: 'Min. stawka naczepa', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.currentYearRate?.tractorRate, {
+    columnHelper.accessor((row) => row.currentYearRate?.trailerRate, {
         id: 'trailerRate',
         cell: (info) => info.getValue() ?? 'N/A',
         header: () => h(SortHeader, { name: 'Stawka naczepa', canSort: false }),
