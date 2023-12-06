@@ -22,4 +22,14 @@ export const addMunicipalityValidationSchema = yup.object().shape({
         .integer()
         .min(0, 'Pole musi być powyżej 0')
         .required('Pole jest obowiązkowe'),
+    minTrailerRate: yup
+        .number()
+        .integer()
+        .min(0, 'Pole musi być powyżej 0')
+        .required('Pole jest obowiązkowe'),
+    minTractorRate: yup
+        .number()
+        .integer()
+        .min(0, 'Pole musi być powyżej 0')
+        .required('Pole jest obowiązkowe'),
 })
