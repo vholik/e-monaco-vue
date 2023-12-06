@@ -9,7 +9,7 @@ import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
 import { useUsers } from '../../model/services/useUsers'
 import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
-import { useUpdatePersons } from '@/features/ContactPersons'
+import { useUpdateUsers } from '@/features/Users/model/services/useUpdateUsers'
 
 interface Props {
     isModalOpen: boolean
@@ -20,12 +20,20 @@ function setIsModalOpen(value: boolean) {
 }
 
 const { mutate, isLoading, error } = useUsers(setIsModalOpen)
+
 const showPassword = ref(false)
+
 defineProps<Props>()
+
 const emit = defineEmits(['update:isModalOpen'])
 
-const onSubmit = (values: unknown) => {
-    mutate(values)
+const onDataChange = useUpdateUsers()
+
+const onSubmit = async (values: { password: string }) => {
+    if (userId) {
+        await onDataChange({ id: userId, password: values.password })
+        mutate(values)
+    }
 }
 </script>
 

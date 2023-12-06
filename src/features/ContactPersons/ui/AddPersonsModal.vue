@@ -27,7 +27,6 @@ defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = (values: unknown) => {
-    console.log('AddPersonsModal - onSubmit - values:', values)
     values.top = modelValue.value
 
     mutate(values)

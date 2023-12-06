@@ -27,7 +27,7 @@ const { error, name, label } = toRefs(props)
 const emit = defineEmits(['update:modelValue'])
 
 let isFocused = ref(false)
-
+let checked = false
 const {
     value: inputValue,
     errorMessage,
@@ -45,6 +45,7 @@ function updateInput(e: Event) {
     e.preventDefault()
     const newValue = !modelValue.value
     modelValue.value = newValue
+    checked = !checked
     emit('update:modelValue', newValue)
 }
 </script>
@@ -52,10 +53,7 @@ function updateInput(e: Event) {
 <template>
     <label :class="cls.label">
         {{ label }}
-        <div
-            :class="[{ [cls.inputError]: error }, { [cls.focused]: isFocused }]"
-            gap="6"
-        >
+        <div :class="[{ [cls.inputError]: error }]">
             <button
                 :class="{
                     [cls.customSwitch]: true,
@@ -67,10 +65,10 @@ function updateInput(e: Event) {
             </button>
         </div>
         <div
-            v-if="errorMessage"
+            v-if="error"
             class="error-message"
         >
-            {{ errorMessage }}
+            {{ error }}
         </div>
     </label>
 </template>

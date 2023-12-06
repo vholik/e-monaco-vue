@@ -21,7 +21,6 @@ import UpdateUserPassModal from '@/features/Users/ui/UpdateUserPassModal/UpdateU
 interface Props {
     isModalOpen: boolean
 }
-const userNameToUpdate = ref('Nazwa użytkownika')
 const addUserModalOpen = ref(false)
 const updateUserPassModalOpen = ref(false)
 
@@ -64,7 +63,6 @@ const handleDelete = async (id: number) => {
         <AddUsersModal v-model:isModalOpen="addUserModalOpen"></AddUsersModal>
         <UpdateUserPassModal
             v-model:isModalOpen="updateUserPassModalOpen"
-            :selectedUserFullName="selectedUserFullName"
         ></UpdateUserPassModal>
         <table :class="[cls['user-table']]">
             <thead>

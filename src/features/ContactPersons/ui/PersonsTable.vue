@@ -17,6 +17,7 @@ import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 import CompaniesPagination from '@/features/Company/ui/CompaniesPagination/CompaniesPagination.vue'
 import { useDeletePersons } from '@/features/ContactPersons/model/services/useDeletePersons'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
+import Switch from '@/shared/ui/Switch/Switch.vue'
 
 const { mutateAsync } = useDeletePersons()
 
@@ -39,6 +40,16 @@ const changeOrder = (name: string) => (value: Order) => {
 }
 
 const columnHelper = createColumnHelper<ContactPerson>()
+
+const toggleTop = (newValue, info) => {
+    try {
+        const updatedRow = { ...info.row.original }
+        updatedRow.top = newValue
+        onDataChange(updatedRow.id, 'top')(newValue)
+    } catch (error) {
+        toast.error('Wystąpił błąd podczas aktualizacji wartości "top"')
+    }
+}
 
 const columns = [
     columnHelper.accessor((row) => row.firstName, {
@@ -109,7 +120,15 @@ const columns = [
         id: 'top',
         cell: (info) => {
             const isTop = info.getValue()
-            return isTop ? 'Tak' : 'Nie'
+
+            return h(Switch, {
+                modelValue: isTop,
+                class: { checked: isTop },
+                name: 'top',
+                'onUpdate:modelValue': (newValue) => {
+                    toggleTop(newValue, info)
+                },
+            })
         },
         header: () => h(SortHeader, { name: 'Top', canSort: false }),
     }),
