@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, type Ref, watch } from 'vue'
-import { Form, useForm } from 'vee-validate'
+import { Form } from 'vee-validate'
 import cls from './UpdateUserPassModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
@@ -8,7 +8,7 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
 import { useUpdateUsers } from '@/features/Users/model/services/useUpdateUsers'
-import { toRefs } from '@vueuse/core'
+import { toRefs } from 'vue'
 
 interface Props {
     isModalOpen: boolean
