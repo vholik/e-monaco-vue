@@ -17,13 +17,14 @@ interface Props {
 
 const props = defineProps<Props>()
 const { mutate, isLoading, error } = useUpdateUsers()
-const { userId } = toRefs(props)
+const { userId, isModalOpen } = toRefs(props)
 
 const showPassword = ref(false)
 
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = (value) => {
+    emit('update:isModalOpen', false)
     mutate({ id: userId.value, password: value.password })
 }
 </script>
