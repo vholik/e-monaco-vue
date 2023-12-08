@@ -18,9 +18,13 @@ const userStore = useUserStore()
 async function getUser() {
     const res = await $api.get<User>('authentication/me')
 
+    const pathname = router.currentRoute.value.fullPath
+
     if (res.data) {
         userStore.setUser(res.data)
-        await router.push('/dashboard')
+        if (pathname === '/') {
+            await router.push('/dashboard')
+        }
     } else {
         localStorage.removeItem(USER_ACCESS_LOCALSTORAGE_KEY)
         localStorage.removeItem(USER_REFRESH_LOCALSTORAGE_KEY)
