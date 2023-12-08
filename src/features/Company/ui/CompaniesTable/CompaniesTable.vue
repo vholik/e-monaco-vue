@@ -182,6 +182,34 @@ let columns = computed(() => {
                 })
             },
         }),
+        columnHelper.accessor((row) => row?.trailerAmount, {
+            id: 'supply',
+            cell: (info) => info.row.original.supply,
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Tabor',
+                    value:
+                        companyFilterStore.getOrderBy === 'supply'
+                            ? companyFilterStore.getOrder
+                            : null,
+                    onUpdate: changeOrder('supply'),
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'frugality',
+            cell: (info) => `${info.row.original.frugality} zł`,
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Oszczędność',
+                    onUpdate: changeOrder('frugality'),
+                    value:
+                        companyFilterStore.getOrderBy === 'frugality'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
         columnHelper.accessor((row) => row.status, {
             id: 'status',
             cell: (info) => {
@@ -203,7 +231,6 @@ let columns = computed(() => {
                 })
             },
         }),
-
         columnHelper.accessor((row) => row.municipality, {
             id: 'manicipality',
             cell: (info) =>
@@ -241,269 +268,30 @@ let columns = computed(() => {
                 })
             },
         }),
-        // columnHelper.accessor((row) => row, {
-        //     id: 'kitRate',
-        //     cell: (info) =>
-        //         `${info.row.original.municipality?.kitRate ?? 'N/A'} zł`,
-        //     header: () => {
-        //         return h(SortHeader, {
-        //             name: 'Zestaw',
-        //             onUpdate: changeOrder('municipality.kitRate'),
-        //             value:
-        //                 companyFilterStore.getOrderBy === 'municipality.kitRate'
-        //                     ? companyFilterStore.getOrder
-        //                     : null,
-        //         })
-        //     },
-        // }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'tractorAmount',
-            cell: (info) =>
-                h(PriceInput, {
-                    onUpdate: onDataChange(
-                        info.row.original.id,
-                        'tractorAmount',
-                    ),
-                    defaultValue: info.row.original.tractorAmount,
-                }),
+        columnHelper.accessor((row) => row, {
+            id: 'kitRate',
+            cell: (info) => `${info.row.original.kitrate ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
-                    name: 'Ciągniki',
-                    onUpdate: changeOrder('company.tractorAmount'),
+                    name: 'Zestaw',
+                    onUpdate: changeOrder('kitrate'),
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'company.tractorAmount'
+                        companyFilterStore.getOrderBy === 'kitrate'
                             ? companyFilterStore.getOrder
                             : null,
                 })
             },
         }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'trailerAmount',
-            cell: (info) =>
-                h(PriceInput, {
-                    onUpdate: onDataChange(
-                        info.row.original.id,
-                        'trailerAmount',
-                    ),
-                    defaultValue: info.row.original.trailerAmount,
-                }),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Naczepy',
-                    onUpdate: changeOrder('company.trailerAmount'),
-                    value:
-                        companyFilterStore.getOrderBy ===
-                        'company.trailerAmount'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'otherAmount',
-            cell: (info) =>
-                h(PriceInput, {
-                    onUpdate: onDataChange(info.row.original.id, 'otherAmount'),
-                    defaultValue: info.row.original.otherAmount,
-                }),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Inne',
-                    onUpdate: changeOrder('company.otherAmount'),
-                    value:
-                        companyFilterStore.getOrderBy === 'company.otherAmount'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row?.trailerAmount, {
-            id: 'supply',
-            cell: (info) => info.row.original.supply,
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Tabor',
-                    value:
-                        companyFilterStore.getOrderBy === 'supply'
-                            ? companyFilterStore.getOrder
-                            : null,
-                    onUpdate: changeOrder('supply'),
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'tractorRate',
+        columnHelper.accessor((row) => row, {
+            id: 'kitRate',
             cell: (info) =>
                 `${
-                    info.row.original.municipality?.currentYearRate
-                        ?.tractorRate ?? 'N/A'
-                } zł`,
+                    info.row.original.municipality.currentYearRate?.year ??
+                    'N/A'
+                }`,
             header: () => {
                 return h(SortHeader, {
-                    name: 'Stawka ciągnik',
-                    onUpdate: changeOrder('currentYearRate.tractorRate'),
-                    value:
-                        companyFilterStore.getOrderBy ===
-                        'currentYearRate.tractorRate'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'trailerRate',
-            cell: (info) =>
-                `${
-                    info.row.original.municipality?.currentYearRate
-                        ?.trailerRate ?? 'N/A'
-                } zł`,
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Stawka naczepa',
-                    onUpdate: changeOrder('currentYearRate.trailerRate'),
-                    value:
-                        companyFilterStore.getOrderBy ===
-                        'currentYearRate.trailerRate'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row?.trailerAmount, {
-            id: 'theirsTaxes',
-            cell: (info) =>
-                info.row.original.theirstaxes
-                    ? `${info.row.original.theirstaxes} zł`
-                    : 'N/A',
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Podatek u nich',
-                    onUpdate: changeOrder('theirstaxes'),
-                    value:
-                        companyFilterStore.getOrderBy === 'theirstaxes'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'ourTaxes',
-            cell: (info) =>
-                info.row.original.ourtaxes
-                    ? `${info.row.original.ourtaxes} zł`
-                    : 'N/A',
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Podatek u nas',
-                    onUpdate: changeOrder('ourtaxes'),
-                    value:
-                        companyFilterStore.getOrderBy === 'ourtaxes'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'frugality',
-            cell: (info) => `${info.row.original.frugality} zł`,
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Oszczędność',
-                    onUpdate: changeOrder('frugality'),
-                    value:
-                        companyFilterStore.getOrderBy === 'frugality'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'activation',
-            cell: (info) =>
-                h(PriceInput, {
-                    onUpdate: onDataChange(
-                        info.row.original.id,
-                        'company.activation',
-                    ),
-                    defaultValue: info.row.original.activation,
-                    withPrice: true,
-                }),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Aktywacja',
-                    onUpdate: changeOrder('company.activation'),
-                    value:
-                        companyFilterStore.getOrderBy === 'company.activation'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'rentalFee',
-            cell: (info) =>
-                h(PriceInput, {
-                    onUpdate: onDataChange(
-                        info.row.original.id,
-                        'company.rentalFee',
-                    ),
-                    defaultValue: info.row.original.rentalFee,
-                    withPrice: true,
-                }),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Czynsz',
-                    onUpdate: changeOrder('company.rentalFee'),
-                    value:
-                        companyFilterStore.getOrderBy === 'company.rentalFee'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'statement',
-            cell: (info) =>
-                h(PriceInput, {
-                    onUpdate: onDataChange(info.row.original.id, 'statement'),
-                    defaultValue: info.row.original.statement,
-                    withPrice: true,
-                }),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Deklaracja',
-                    onUpdate: changeOrder('company.statement'),
-                    value:
-                        companyFilterStore.getOrderBy === 'company.statement'
-                            ? companyFilterStore.getOrder
-                            : null,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.contactPersons, {
-            id: 'contactPersons',
-            cell: (info) =>
-                h(ContactPersonSelect, {
-                    name: 'contactPersons',
-                    defaultValue: info.row.original.contactPersons.map(
-                        (it) => it.id,
-                    ),
-                    onUpdate: onDataChange(
-                        info.row.original.id,
-                        'contactPersonsIds',
-                    ),
-                }),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Osoby kontaktowe',
-                    onUpdate: changeOrder('contactPersons.firstName'),
-                    value:
-                        companyFilterStore.getOrderBy ===
-                        'contactPersons.firstName'
-                            ? companyFilterStore.getOrder
-                            : null,
-                    filter: ContactPersonsFilter,
+                    name: 'Rok',
                 })
             },
         }),
@@ -588,6 +376,230 @@ let columns = computed(() => {
                     name: 'E-mail',
                     onUpdate: changeOrder('contactPersons.firstName'),
                     canSort: false,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'activation',
+            cell: (info) =>
+                h(PriceInput, {
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'company.activation',
+                    ),
+                    defaultValue: info.row.original.activation,
+                    withPrice: true,
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Aktywacja',
+                    onUpdate: changeOrder('company.activation'),
+                    value:
+                        companyFilterStore.getOrderBy === 'company.activation'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'rentalFee',
+            cell: (info) =>
+                h(PriceInput, {
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'company.rentalFee',
+                    ),
+                    defaultValue: info.row.original.rentalFee,
+                    withPrice: true,
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Czynsz',
+                    onUpdate: changeOrder('company.rentalFee'),
+                    value:
+                        companyFilterStore.getOrderBy === 'company.rentalFee'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'statement',
+            cell: (info) =>
+                h(PriceInput, {
+                    onUpdate: onDataChange(info.row.original.id, 'statement'),
+                    defaultValue: info.row.original.statement,
+                    withPrice: true,
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Deklaracja',
+                    onUpdate: changeOrder('company.statement'),
+                    value:
+                        companyFilterStore.getOrderBy === 'company.statement'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'tractorRate',
+            cell: (info) =>
+                `${
+                    info.row.original.municipality?.currentYearRate
+                        ?.tractorRate ?? 'N/A'
+                } zł`,
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Stawka ciągnik',
+                    onUpdate: changeOrder('currentYearRate.tractorRate'),
+                    value:
+                        companyFilterStore.getOrderBy ===
+                        'currentYearRate.tractorRate'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'trailerRate',
+            cell: (info) =>
+                `${
+                    info.row.original.municipality?.currentYearRate
+                        ?.trailerRate ?? 'N/A'
+                } zł`,
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Stawka naczepa',
+                    onUpdate: changeOrder('currentYearRate.trailerRate'),
+                    value:
+                        companyFilterStore.getOrderBy ===
+                        'currentYearRate.trailerRate'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row?.trailerAmount, {
+            id: 'theirsTaxes',
+            cell: (info) =>
+                info.row.original.theirstaxes
+                    ? `${info.row.original.theirstaxes} zł`
+                    : 'N/A',
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Podatek u nich',
+                    onUpdate: changeOrder('theirstaxes'),
+                    value:
+                        companyFilterStore.getOrderBy === 'theirstaxes'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'ourTaxes',
+            cell: (info) =>
+                info.row.original.ourtaxes
+                    ? `${info.row.original.ourtaxes} zł`
+                    : 'N/A',
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Podatek u nas',
+                    onUpdate: changeOrder('ourtaxes'),
+                    value:
+                        companyFilterStore.getOrderBy === 'ourtaxes'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'tractorAmount',
+            cell: (info) =>
+                h(PriceInput, {
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'tractorAmount',
+                    ),
+                    defaultValue: info.row.original.tractorAmount,
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Ciągniki',
+                    onUpdate: changeOrder('company.tractorAmount'),
+                    value:
+                        companyFilterStore.getOrderBy ===
+                        'company.tractorAmount'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'trailerAmount',
+            cell: (info) =>
+                h(PriceInput, {
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'trailerAmount',
+                    ),
+                    defaultValue: info.row.original.trailerAmount,
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Naczepy',
+                    onUpdate: changeOrder('company.trailerAmount'),
+                    value:
+                        companyFilterStore.getOrderBy ===
+                        'company.trailerAmount'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.trailerAmount, {
+            id: 'otherAmount',
+            cell: (info) =>
+                h(PriceInput, {
+                    onUpdate: onDataChange(info.row.original.id, 'otherAmount'),
+                    defaultValue: info.row.original.otherAmount,
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Inne',
+                    onUpdate: changeOrder('company.otherAmount'),
+                    value:
+                        companyFilterStore.getOrderBy === 'company.otherAmount'
+                            ? companyFilterStore.getOrder
+                            : null,
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.contactPersons, {
+            id: 'contactPersons',
+            cell: (info) =>
+                h(ContactPersonSelect, {
+                    name: 'contactPersons',
+                    defaultValue: info.row.original.contactPersons.map(
+                        (it) => it.id,
+                    ),
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'contactPersonsIds',
+                    ),
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Osoby kontaktowe',
+                    onUpdate: changeOrder('contactPersons.firstName'),
+                    value:
+                        companyFilterStore.getOrderBy ===
+                        'contactPersons.firstName'
+                            ? companyFilterStore.getOrder
+                            : null,
+                    filter: ContactPersonsFilter,
                 })
             },
         }),

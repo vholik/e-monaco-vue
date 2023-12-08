@@ -27,4 +27,5 @@ export interface Company {
     ourtaxes: number
     supply: number
     taxincrease: number
+    kitrate: number
 }
