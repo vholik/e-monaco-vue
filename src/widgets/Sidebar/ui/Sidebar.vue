@@ -5,8 +5,12 @@ import Text from '@/shared/ui/Text/Text.vue'
 import { sidebarItems } from '../model/consts/sidebarItems'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/entities/User'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { UserRoles } from '@/entities/User/model/types/roles'
+import { SidebarModal } from '@/features/SidebarModal'
+import Settings from '@/shared/assets/icons/Settings.vue'
+
+import Icon from '@/shared/ui/Icon/Icon.vue'
 import {
     USER_ACCESS_LOCALSTORAGE_KEY,
     USER_REFRESH_LOCALSTORAGE_KEY,
@@ -20,6 +24,7 @@ const allowedPaths: Record<UserRoles, string[]> = {
 
 const router = useRouter()
 let currentPath = computed(() => router.currentRoute.value.path)
+let settingsModalOpen = ref(false)
 
 const userStore = useUserStore()
 
@@ -48,6 +53,7 @@ function logout() {
 
 <template>
     <div :class="cls.Sidebar">
+        <SidebarModal v-model:is-modal-open="settingsModalOpen" />
         <Flex
             direction="column"
             gap="8"
@@ -109,6 +115,24 @@ function logout() {
                             </Flex>
                         </template>
                     </template>
+                    <Flex
+                        v-if="userStore.loggedInUser.role !== 'user'"
+                        :max="true"
+                        gap="4"
+                        :class="cls.sidebarItem"
+                        @click="settingsModalOpen = true"
+                    >
+                        <Icon
+                            :icon="Settings"
+                            color="quatinary"
+                        />
+                        <Text
+                            size="size_s"
+                            weight="medium"
+                            color="secondary"
+                            >Ustawienia</Text
+                        >
+                    </Flex>
                 </template>
             </Flex>
         </Flex>
