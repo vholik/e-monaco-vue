@@ -8,40 +8,24 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
 import { useUpdateUsers } from '@/features/Users/model/services/useUpdateUsers'
+import { toRefs } from '@vueuse/core'
 
 interface Props {
     isModalOpen: boolean
     userId: string
 }
 
-const { userId } = defineProps<Props>()
-const userIdRef = ref(userId)
-const modelValue = ref('')
+const props = defineProps<Props>()
 const { mutate, isLoading, error } = useUpdateUsers()
+const { userId, isModalOpen } = toRefs(props)
 
 const showPassword = ref(false)
 
 const emit = defineEmits(['update:isModalOpen'])
 
-watch(
-    () => userId,
-    (newValue) => {
-        userIdRef.value = newValue
-    },
-)
-
-const onSubmit = async () => {
-    console.log('UserID in onSubmit:', userIdRef.value)
-    try {
-        if (userIdRef.value) {
-            await mutate({ id: userIdRef.value, password: modelValue.value })
-            console.log('Pomyślnie zaktualizowano hasło!')
-        } else {
-            console.error('Brak wybranego użytkownika')
-        }
-    } catch (error) {
-        console.error('Błąd podczas aktualizacji hasła:', error)
-    }
+const onSubmit = (value) => {
+    emit('update:isModalOpen', false)
+    mutate({ id: userId.value, password: value.password })
 }
 </script>
 
@@ -64,11 +48,11 @@ const onSubmit = async () => {
                         później.
                     </Note>
                     <Input
+                        v-model="modelValue"
                         name="password"
                         label="Nowe hasło"
                         placeholder="Wpisz nowe hasło"
                         :type="showPassword ? 'text' : 'password'"
-                        v-model="modelValue"
                     />
                     <Flex>
                         <label
@@ -77,9 +61,9 @@ const onSubmit = async () => {
                             >Pokaż hasło</label
                         >
                         <input
-                            type="checkbox"
-                            v-model="showPassword"
                             id="showPassword"
+                            v-model="showPassword"
+                            type="checkbox"
                             :class="cls.checkbox"
                         />
                     </Flex>
@@ -88,7 +72,7 @@ const onSubmit = async () => {
                     <Button
                         :class="cls.button"
                         :disabled="isLoading"
-                        isModalOpen="false"
+                        is-modal-open="false"
                     >
                         Aktualizuj
                     </Button>
