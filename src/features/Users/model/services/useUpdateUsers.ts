@@ -3,13 +3,13 @@ import { $api } from '@/shared/api/api'
 import { useMutation } from 'vue-query'
 import { useToast } from 'vue-toastification'
 
-export const useUpdateUsers = () => {
+export const useUpdateUsers = (setIsModalOpen?: (value: boolean) => void) => {
     const toast = useToast()
     return useMutation(
         ['update-user'],
         async (data: Partial<User>) => {
             const { id, ...body } = data
-            const response = await $api.put(`user/${id}`, body)
+            const response = await $api.put(`users/password/${id}`, body)
             return response.data
         },
         {
@@ -21,6 +21,7 @@ export const useUpdateUsers = () => {
                         flag = true
                     }
                 })
+                setIsModalOpen?.(false)
 
                 if (flag) {
                     toast.success('Pomyślnie zaktualizowano użytkownika')

@@ -23,7 +23,9 @@ const { data } = useCompanies()
 const { mutate, isLoading, error } = usePersons(setIsModalOpen)
 
 const modelValue = ref(false)
+
 defineProps<Props>()
+
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = (values: unknown) => {

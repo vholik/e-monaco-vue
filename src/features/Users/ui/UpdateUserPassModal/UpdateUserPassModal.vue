@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, watch } from 'vue'
+import { defineProps, defineEmits, ref, type Ref, watch } from 'vue'
 import { Form, useForm } from 'vee-validate'
 import cls from './UpdateUserPassModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
@@ -7,32 +7,31 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 import Input from '@/shared/ui/Input/Input.vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import Note from '@/shared/ui/Note/Note.vue'
-import { useUsers } from '../../model/services/useUsers'
-import { addUsersModalValidationSchema } from '../../model/lib/addUsersSchema'
 import { useUpdateUsers } from '@/features/Users/model/services/useUpdateUsers'
 
 interface Props {
     isModalOpen: boolean
+    userId: string
 }
 
-function setIsModalOpen(value: boolean) {
-    emit('update:isModalOpen', value)
-}
-
-const { mutate, isLoading, error } = useUsers(setIsModalOpen)
+const { userId } = defineProps<Props>()
+const modelValue = ref('')
+const { mutate, isLoading, error } = useUpdateUsers()
 
 const showPassword = ref(false)
 
-defineProps<Props>()
-
 const emit = defineEmits(['update:isModalOpen'])
-
-const onDataChange = useUpdateUsers()
-
-const onSubmit = async (values: { password: string }) => {
-    if (userId) {
-        await onDataChange({ id: userId, password: values.password })
-        mutate(values)
+const onSubmit = async () => {
+    console.log('UserID in onSubmit:', userId)
+    try {
+        if (userId) {
+            await mutate({ id: userId, password: modelValue.value })
+            console.log('Pomyślnie zaktualizowano hasło!')
+        } else {
+            console.error('Brak wybranego użytkownika')
+        }
+    } catch (error) {
+        console.error('Błąd podczas aktualizacji hasła:', error)
     }
 }
 </script>
@@ -44,10 +43,7 @@ const onSubmit = async (values: { password: string }) => {
             title="Zaktualizuj hasło"
             @update:isOpen="emit('update:isModalOpen', $event)"
         >
-            <Form
-                :validation-schema="addUsersModalValidationSchema"
-                @submit="onSubmit"
-            >
+            <Form @submit="onSubmit">
                 <Flex
                     gap="8"
                     direction="column"
@@ -63,6 +59,7 @@ const onSubmit = async (values: { password: string }) => {
                         label="Nowe hasło"
                         placeholder="Wpisz nowe hasło"
                         :type="showPassword ? 'text' : 'password'"
+                        v-model="modelValue"
                     />
                     <Flex>
                         <label
@@ -71,7 +68,6 @@ const onSubmit = async (values: { password: string }) => {
                             >Pokaż hasło</label
                         >
                         <input
-                            style="width: fit-contect"
                             type="checkbox"
                             v-model="showPassword"
                             id="showPassword"
@@ -83,6 +79,7 @@ const onSubmit = async (values: { password: string }) => {
                     <Button
                         :class="cls.button"
                         :disabled="isLoading"
+                        isModalOpen="false"
                     >
                         Aktualizuj
                     </Button>

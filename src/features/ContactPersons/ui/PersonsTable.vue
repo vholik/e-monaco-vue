@@ -40,6 +40,7 @@ const changeOrder = (name: string) => (value: Order) => {
 }
 
 const columnHelper = createColumnHelper<ContactPerson>()
+
 const toggleTop = (newValue, id) => {
     try {
         onDataChange(id, 'top')(newValue)

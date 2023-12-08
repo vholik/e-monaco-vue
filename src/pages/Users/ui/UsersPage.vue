@@ -27,9 +27,18 @@ const updateUserPassModalOpen = ref(false)
 const openAddUserModal = () => {
     addUserModalOpen.value = true
 }
+let selectedUserId = ref<string | null>(null)
 
-const openUpdateUserPassModal = () => {
+const openUpdateUserPassModal = (userId: string) => {
+    console.log('Selected User ID in openUpdateUserPassModal:', userId)
     updateUserPassModalOpen.value = true
+    selectedUserId.value = userId
+    console.log('Selected User ID after setting:', selectedUserId.value)
+
+    console.log(
+        'Selected User ID in openUpdateUserPassModal:',
+        selectedUserId.value,
+    )
 }
 
 defineProps<Props>()
@@ -63,7 +72,9 @@ const handleDelete = async (id: number) => {
         <AddUsersModal v-model:isModalOpen="addUserModalOpen"></AddUsersModal>
         <UpdateUserPassModal
             v-model:isModalOpen="updateUserPassModalOpen"
+            :userId="selectedUserId !== null ? selectedUserId : ''"
         ></UpdateUserPassModal>
+
         <table :class="[cls['user-table']]">
             <thead>
                 <tr>
@@ -105,7 +116,8 @@ const handleDelete = async (id: number) => {
 
                         <UpdatePassUserButton
                             :class="cls.button"
-                            @click="openUpdateUserPassModal"
+                            :userId="user.id"
+                            @click="openUpdateUserPassModal(user.id)"
                         >
                             Zaktualizuj hasło
                         </UpdatePassUserButton>
