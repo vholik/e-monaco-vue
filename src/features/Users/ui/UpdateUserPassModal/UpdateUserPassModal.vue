@@ -15,17 +15,26 @@ interface Props {
 }
 
 const { userId } = defineProps<Props>()
+const userIdRef = ref(userId)
 const modelValue = ref('')
 const { mutate, isLoading, error } = useUpdateUsers()
 
 const showPassword = ref(false)
 
 const emit = defineEmits(['update:isModalOpen'])
+
+watch(
+    () => userId,
+    (newValue) => {
+        userIdRef.value = newValue
+    },
+)
+
 const onSubmit = async () => {
-    console.log('UserID in onSubmit:', userId)
+    console.log('UserID in onSubmit:', userIdRef.value)
     try {
-        if (userId) {
-            await mutate({ id: userId, password: modelValue.value })
+        if (userIdRef.value) {
+            await mutate({ id: userIdRef.value, password: modelValue.value })
             console.log('Pomyślnie zaktualizowano hasło!')
         } else {
             console.error('Brak wybranego użytkownika')

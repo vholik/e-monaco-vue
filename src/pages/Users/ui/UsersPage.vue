@@ -34,7 +34,6 @@ const openUpdateUserPassModal = (userId: string) => {
     updateUserPassModalOpen.value = true
     selectedUserId.value = userId
     console.log('Selected User ID after setting:', selectedUserId.value)
-
     console.log(
         'Selected User ID in openUpdateUserPassModal:',
         selectedUserId.value,
