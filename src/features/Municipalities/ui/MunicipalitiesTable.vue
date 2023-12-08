@@ -51,21 +51,25 @@ const columns = [
         cell: (info) => info.getValue() ?? 'N/A',
         header: () => h(SortHeader, { name: 'Wzrost podatku', canSort: false }),
     }),
+    columnHelper.accessor((row) => row.currentYearRate?.tractorRate, {
+        id: 'tractorRate',
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () => h(SortHeader, { name: 'Stawka ciągnik', canSort: false }),
+    }),
     columnHelper.accessor((row) => row.currentYearRate?.trailerRate, {
         id: 'trailerRate',
         cell: (info) => info.getValue() ?? 'N/A',
         header: () => h(SortHeader, { name: 'Stawka naczepa', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.currentYearRate?.tractorRate, {
-        id: 'tractorRate',
-        cell: (info) => info.getValue() ?? 'N/A',
-        header: () =>
-            h(SortHeader, { name: 'Stawka ciągniki', canSort: false }),
-    }),
     columnHelper.accessor((row) => row.currentYearRate?.otherRate, {
         id: 'otherRate',
         cell: (info) => info.getValue() ?? 'N/A',
         header: () => h(SortHeader, { name: 'Stawka inne', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.currentYearRate?.year, {
+        id: 'year',
+        cell: (info) => info.getValue() ?? 'N/A',
+        header: () => h(SortHeader, { name: 'Z roku', canSort: false }),
     }),
 ]
 const table = useVueTable({
