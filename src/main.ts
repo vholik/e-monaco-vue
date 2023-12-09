@@ -20,6 +20,7 @@ app.use(VueQueryPlugin, {
             queries: {
                 refetchOnWindowFocus: false,
                 refetchOnMount: false,
+                
             },
         },
     },

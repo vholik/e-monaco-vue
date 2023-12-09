@@ -31,6 +31,7 @@ export const useUpdateCompany = () => {
                 } else {
                     toast.success('Pomyślnie usunięte dane')
                 }
+                refetch.value()
             },
             onError: () => {
                 toast.error('Wystąpił błąd. Spróbuj póżniej')

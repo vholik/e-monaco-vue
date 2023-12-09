@@ -442,7 +442,6 @@ let columns = computed(() => {
                 })
             },
         }),
-
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'tractorRate',
             cell: (info) =>

@@ -7,7 +7,7 @@ export const useMunicipalities = (
     q?: Ref<string>,
 ) => {
     return useQuery(
-        [selected, q],
+        ['municipalities', selected, q],
         async () => {
             const response = await $api.get('municipalities', {
                 params: {
