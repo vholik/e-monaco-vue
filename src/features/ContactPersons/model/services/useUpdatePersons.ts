@@ -1,10 +1,12 @@
+import { useMutation, useQueryClient } from 'vue-query'
+import { useToast } from 'vue-toastification'
 import type { ContactPerson } from '@/entities/ContactPerson'
 import { $api } from '@/shared/api/api'
-import { useMutation } from 'vue-query'
-import { useToast } from 'vue-toastification'
 
 export const useUpdatePersons = () => {
+    const queryClient = useQueryClient()
     const toast = useToast()
+
     return useMutation(
         ['update-person'],
         async (data: Partial<ContactPerson>) => {
@@ -28,6 +30,8 @@ export const useUpdatePersons = () => {
                 } else {
                     toast.success('Pomyślnie usunięte dane')
                 }
+
+                queryClient.invalidateQueries('persons')
             },
             onError: () => {
                 toast.error('Wystąpił błąd. Spróbuj później')

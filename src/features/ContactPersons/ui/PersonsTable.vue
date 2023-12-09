@@ -119,7 +119,10 @@ const columns = [
         id: 'top',
         cell: (info) => {
             const id = info.row.original.id
-            const isTop = info.getValue()
+            const storedValue = localStorage.getItem(`switch_${id}`)
+            const isTop = storedValue
+                ? JSON.parse(storedValue)
+                : info.getValue()
 
             return h(Switch, {
                 modelValue: isTop,
