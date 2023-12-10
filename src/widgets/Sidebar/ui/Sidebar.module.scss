@@ -60,4 +60,7 @@
     display: flex;
     cursor: pointer;
     width: 5rem;
+    &:hover {
+        color: var(--primary-variant-hover-color);
+    }
 }
