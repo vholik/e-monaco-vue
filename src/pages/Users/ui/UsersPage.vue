@@ -107,7 +107,7 @@ const handleDelete = async (id: number) => {
                         :class="cls.buttonWrapper"
                     >
                         <DeleteButton
-                            :class="cls.button"
+                            :class="(cls.button, cls.buttonUpdate)"
                             @click="handleDelete(user.id)"
                         >
                             Usuń
