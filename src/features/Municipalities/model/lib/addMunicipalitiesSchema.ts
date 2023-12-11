@@ -22,14 +22,4 @@ export const addMunicipalityValidationSchema = yup.object().shape({
         .typeError('Pole jest oboiązkowe')
         .min(0, 'Pole musi być powyżej 0')
         .required('Pole jest obowiązkowe'),
-    minTrailerRate: yup
-        .number()
-        .typeError('Pole jest oboiązkowe')
-        .min(0, 'Pole musi być powyżej 0')
-        .required('Pole jest obowiązkowe'),
-    minTractorRate: yup
-        .number()
-        .typeError('Pole jest oboiązkowe')
-        .min(0, 'Pole musi być powyżej 0')
-        .required('Pole jest obowiązkowe'),
 })

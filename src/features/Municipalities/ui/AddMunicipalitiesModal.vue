@@ -77,18 +77,6 @@ const onSubmit = (values: unknown) => {
                         placeholder="xxxx"
                         type="number"
                     />
-                    <Input
-                        name="minTractorRate"
-                        label="Min. stawka ciągnika"
-                        placeholder="xxxx"
-                        type="number"
-                    />
-                    <Input
-                        name="minTrailerRate"
-                        label="Min. stawka naczepy"
-                        placeholder="xxxx"
-                        type="number"
-                    />
                 </Flex>
                 <div :class="cls.footer">
                     <Button

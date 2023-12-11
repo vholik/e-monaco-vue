@@ -31,6 +31,8 @@ export const useUpdateCompany = () => {
                 } else {
                     toast.success('Pomyślnie usunięte dane')
                 }
+            },
+            onSettled: () => {
                 refetch.value()
             },
             onError: () => {
