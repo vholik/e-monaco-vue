@@ -5,7 +5,7 @@ import UsersIcon from '@/shared/assets/icons/Users.vue'
 
 export const sidebarItems = [
     {
-        name: 'Strona główna',
+        name: 'Lista Leadów',
         icon: HomeIcon,
         path: '/dashboard',
     },
