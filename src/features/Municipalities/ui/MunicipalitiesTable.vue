@@ -53,22 +53,22 @@ const columns = [
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Wzrost podatku', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.currentYearRate?.tractorRate, {
+    columnHelper.accessor((row) => row.tractorRate, {
         id: 'tractorRate',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Stawka ciągnik', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.currentYearRate?.trailerRate, {
+    columnHelper.accessor((row) => row.trailerRate, {
         id: 'trailerRate',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Stawka naczepa', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.currentYearRate?.otherRate, {
+    columnHelper.accessor((row) => row.otherRate, {
         id: 'otherRate',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Stawka inne', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.currentYearRate?.year, {
+    columnHelper.accessor((row) => row.year, {
         id: 'year',
         cell: (info) => info.getValue() ?? 'N/A',
         header: () => h(SortHeader, { name: 'Z roku', canSort: false }),
