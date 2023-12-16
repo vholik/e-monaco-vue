@@ -313,7 +313,11 @@ let columns = computed(() => {
                 return h(SortHeader, {
                     name: 'Imię i nazwisko',
                     onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    value:
+                        companyFilterStore.getOrderBy ===
+                        'contactPersons.firstName'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -333,8 +337,11 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Rola',
-                    onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    onUpdate: changeOrder('contactPersons.role'),
+                    value:
+                        companyFilterStore.getOrderBy === 'contactPersons.role'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -354,8 +361,11 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Telefon',
-                    onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    onUpdate: changeOrder('contactPersons.phone'),
+                    value:
+                        companyFilterStore.getOrderBy === 'contactPersons.phone'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -375,8 +385,11 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'E-mail',
-                    onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    onUpdate: changeOrder('contactPersons.email'),
+                    value:
+                        companyFilterStore.getOrderBy === 'contactPersons.email'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
