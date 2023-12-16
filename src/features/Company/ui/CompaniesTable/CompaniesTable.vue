@@ -284,11 +284,7 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row, {
             id: 'kitRate',
-            cell: (info) =>
-                `${
-                    info.row.original.municipality.currentYearRate?.year ??
-                    'N/A'
-                }`,
+            cell: (info) => `${info.row.original?.year ?? 'N/A'}`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Rok',
@@ -444,18 +440,13 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'tractorRate',
-            cell: (info) =>
-                `${
-                    info.row.original.municipality?.currentYearRate
-                        ?.tractorRate ?? 'N/A'
-                } zł`,
+            cell: (info) => `${info.row.original?.tractorRate ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka ciągnik',
-                    onUpdate: changeOrder('currentYearRate.tractorRate'),
+                    onUpdate: changeOrder('tractorRate'),
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'currentYearRate.tractorRate'
+                        companyFilterStore.getOrderBy === 'tractorRate'
                             ? companyFilterStore.getOrder
                             : null,
                 })
@@ -463,18 +454,13 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.trailerAmount, {
             id: 'trailerRate',
-            cell: (info) =>
-                `${
-                    info.row.original.municipality?.currentYearRate
-                        ?.trailerRate ?? 'N/A'
-                } zł`,
+            cell: (info) => `${info.row.original?.trailerRate ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka naczepa',
-                    onUpdate: changeOrder('currentYearRate.trailerRate'),
+                    onUpdate: changeOrder('trailerRate'),
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'currentYearRate.trailerRate'
+                        companyFilterStore.getOrderBy === 'trailerRate'
                             ? companyFilterStore.getOrder
                             : null,
                 })
