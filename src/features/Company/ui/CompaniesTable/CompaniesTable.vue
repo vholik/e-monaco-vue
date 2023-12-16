@@ -283,11 +283,16 @@ let columns = computed(() => {
             },
         }),
         columnHelper.accessor((row) => row, {
-            id: 'kitRate',
+            id: 'year',
             cell: (info) => `${info.row.original?.year ?? 'N/A'}`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Rok',
+                    onUpdate: changeOrder('year'),
+                    value:
+                        companyFilterStore.getOrderBy === 'year'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
