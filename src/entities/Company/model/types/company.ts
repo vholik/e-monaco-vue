@@ -16,6 +16,8 @@ export interface Company {
     municipality: Municipality
     tractorAmount?: number
     trailerAmount?: number
+    tractor?: number
+    trailer?: number
     otherAmount?: number
     activation?: number
     rentalFee?: number
@@ -28,4 +30,5 @@ export interface Company {
     supply: number
     taxincrease: number
     kitrate: number
+    year: number
 }

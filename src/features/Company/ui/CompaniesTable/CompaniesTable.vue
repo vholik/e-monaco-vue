@@ -443,29 +443,29 @@ let columns = computed(() => {
                 })
             },
         }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'tractorRate',
-            cell: (info) => `${info.row.original?.tractorRate ?? 'N/A'} zł`,
+        columnHelper.accessor((row) => row.tractor, {
+            id: 'tractor',
+            cell: (info) => `${info.row.original?.tractor ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka ciągnik',
-                    onUpdate: changeOrder('tractorRate'),
+                    onUpdate: changeOrder('tractor'),
                     value:
-                        companyFilterStore.getOrderBy === 'tractorRate'
+                        companyFilterStore.getOrderBy === 'tractor'
                             ? companyFilterStore.getOrder
                             : null,
                 })
             },
         }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'trailerRate',
-            cell: (info) => `${info.row.original?.trailerRate ?? 'N/A'} zł`,
+        columnHelper.accessor((row) => row.trailer, {
+            id: 'trailer',
+            cell: (info) => `${info.row.original?.trailer ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka naczepa',
-                    onUpdate: changeOrder('trailerRate'),
+                    onUpdate: changeOrder('trailer'),
                     value:
-                        companyFilterStore.getOrderBy === 'trailerRate'
+                        companyFilterStore.getOrderBy === 'trailer'
                             ? companyFilterStore.getOrder
                             : null,
                 })
