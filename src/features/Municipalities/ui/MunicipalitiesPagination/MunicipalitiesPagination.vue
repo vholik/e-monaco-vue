@@ -9,6 +9,7 @@ import { PAGE_SIZE } from '@/shared/const/pagination'
 import { useMunicipalityFilterStore } from '@/features/MunicipalitiesFilter/model/store/municipalitiesFilterStore'
 import { storeToRefs } from 'pinia'
 import { useMunicipalityData } from '@/features/Municipalities/model/services/useMunicipalitiesData'
+
 interface Props {
     count: number
 }

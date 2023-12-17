@@ -24,8 +24,6 @@ const props = defineProps<Props>()
 
 const { count } = toRefs(props)
 
-let pagesCount = computed(() => Math.ceil(count.value / PAGE_SIZE))
-
 const selectedPageSize = ref(PAGE_SIZE)
 
 const pageSizeOptions = [10, 20, 50, 100]
@@ -33,6 +31,7 @@ const pageSizeOptions = [10, 20, 50, 100]
 const changePageSize = () => {
     handleSetPageSize(selectedPageSize.value)
 }
+let pagesCount = computed(() => Math.ceil(count.value / selectedPageSize.value))
 </script>
 
 <template>
