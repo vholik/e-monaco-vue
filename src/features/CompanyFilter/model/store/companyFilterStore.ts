@@ -1,6 +1,7 @@
 import type { CompanyStatus } from '@/entities/Status'
 import type { Order } from '@/shared/types/order'
 import { defineStore } from 'pinia'
+import { PAGE_SIZE } from '@/shared/const/pagination'
 
 export const useCompanyFilterStore = defineStore('companyFilter', {
     state: () => ({
@@ -13,6 +14,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         page: 1,
         q: '',
         freeText: {} as Record<string, string[]>,
+        take: PAGE_SIZE,
     }),
     getters: {
         getOwners(state) {

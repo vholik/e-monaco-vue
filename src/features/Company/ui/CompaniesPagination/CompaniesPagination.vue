@@ -4,16 +4,19 @@ import Text from '@/shared/ui/Text/Text.vue'
 import ArrowUp from '@/shared/assets/icons/ArrowUp.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
-import { computed, toRefs } from 'vue'
+import { computed, toRefs, ref } from 'vue'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { useCompanyFilterStore } from '@/features/CompanyFilter'
 import { storeToRefs } from 'pinia'
+import { useCompaniesData } from '@/features/Company/model/services/useCompanyData'
 
 interface Props {
     count: number
 }
 
 const filterStore = useCompanyFilterStore()
+
+const { setPageSize: handleSetPageSize } = useCompaniesData()
 
 const { page } = storeToRefs(filterStore)
 
@@ -22,6 +25,14 @@ const props = defineProps<Props>()
 const { count } = toRefs(props)
 
 let pagesCount = computed(() => Math.ceil(count.value / PAGE_SIZE))
+
+const selectedPageSize = ref(PAGE_SIZE)
+
+const pageSizeOptions = [10, 20, 50, 100]
+
+const changePageSize = () => {
+    handleSetPageSize(selectedPageSize.value)
+}
 </script>
 
 <template>
@@ -36,6 +47,18 @@ let pagesCount = computed(() => Math.ceil(count.value / PAGE_SIZE))
             >
                 Strona {{ page }} / {{ pagesCount }}</Text
             >
+            <select
+                v-model="selectedPageSize"
+                @change="changePageSize"
+            >
+                <option
+                    v-for="option in pageSizeOptions"
+                    :key="option"
+                    :value="option"
+                >
+                    {{ option }}
+                </option>
+            </select>
             <Flex gap="4">
                 <Icon
                     :disabled="page === 1"
