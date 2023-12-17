@@ -46,6 +46,18 @@ const sortNameMap: Record<string, string> = {
     comment: 'Komentarz',
     nip: 'NIP',
     name: 'Nazwa firmy',
+    supply: 'Tabor',
+    frugality: 'Oszczędność',
+    taxincrease: 'Wzrost podatku',
+    kitrate: 'Zestaw',
+    year: 'Rok',
+    'contactPersons.role': 'Rola',
+    'contactPersons.phone': 'Telefon',
+    'contactPersons.email': 'Email',
+    tractor: 'Stawka ciągnik',
+    trailer: 'Stawka naczepa',
+    theirstaxes: 'Podatek u nich',
+    ourtaxes: 'Podatek u nas',
 }
 </script>
 
