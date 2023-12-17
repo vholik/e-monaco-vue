@@ -2,7 +2,7 @@ import { useCompanyFilterStore } from '@/features/CompanyFilter'
 import { $api } from '@/shared/api/api'
 import { debounce } from 'lodash'
 import { ref, type Ref } from 'vue'
-import { useQuery, useQueryClient, type UseQueryOptions } from 'vue-query'
+import { useQueryClient, type UseQueryOptions } from 'vue-query'
 import type { Company } from '@/entities/Company'
 
 interface CompaniesData {
@@ -47,12 +47,6 @@ export const useCompaniesData = (): UseCompaniesData => {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
     }
-
-    const query = useQuery<CompaniesData>(
-        ['companies', filters],
-        fetchData,
-        queryOptions,
-    )
 
     const setPageSize = async (pageSize: number) => {
         filters.value.take = pageSize
