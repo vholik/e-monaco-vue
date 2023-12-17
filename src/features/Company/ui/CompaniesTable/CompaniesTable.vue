@@ -283,15 +283,16 @@ let columns = computed(() => {
             },
         }),
         columnHelper.accessor((row) => row, {
-            id: 'kitRate',
-            cell: (info) =>
-                `${
-                    info.row.original.municipality.currentYearRate?.year ??
-                    'N/A'
-                }`,
+            id: 'year',
+            cell: (info) => `${info.row.original?.year ?? 'N/A'}`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Rok',
+                    onUpdate: changeOrder('year'),
+                    value:
+                        companyFilterStore.getOrderBy === 'year'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -312,7 +313,11 @@ let columns = computed(() => {
                 return h(SortHeader, {
                     name: 'Imię i nazwisko',
                     onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    value:
+                        companyFilterStore.getOrderBy ===
+                        'contactPersons.firstName'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -332,8 +337,11 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Rola',
-                    onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    onUpdate: changeOrder('contactPersons.role'),
+                    value:
+                        companyFilterStore.getOrderBy === 'contactPersons.role'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -353,8 +361,11 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Telefon',
-                    onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    onUpdate: changeOrder('contactPersons.phone'),
+                    value:
+                        companyFilterStore.getOrderBy === 'contactPersons.phone'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -374,8 +385,11 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'E-mail',
-                    onUpdate: changeOrder('contactPersons.firstName'),
-                    canSort: false,
+                    onUpdate: changeOrder('contactPersons.email'),
+                    value:
+                        companyFilterStore.getOrderBy === 'contactPersons.email'
+                            ? companyFilterStore.getOrder
+                            : null,
                 })
             },
         }),
@@ -442,39 +456,29 @@ let columns = computed(() => {
                 })
             },
         }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'tractorRate',
-            cell: (info) =>
-                `${
-                    info.row.original.municipality?.currentYearRate
-                        ?.tractorRate ?? 'N/A'
-                } zł`,
+        columnHelper.accessor((row) => row.tractor, {
+            id: 'tractor',
+            cell: (info) => `${info.row.original?.tractor ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka ciągnik',
-                    onUpdate: changeOrder('currentYearRate.tractorRate'),
+                    onUpdate: changeOrder('tractor'),
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'currentYearRate.tractorRate'
+                        companyFilterStore.getOrderBy === 'tractor'
                             ? companyFilterStore.getOrder
                             : null,
                 })
             },
         }),
-        columnHelper.accessor((row) => row.trailerAmount, {
-            id: 'trailerRate',
-            cell: (info) =>
-                `${
-                    info.row.original.municipality?.currentYearRate
-                        ?.trailerRate ?? 'N/A'
-                } zł`,
+        columnHelper.accessor((row) => row.trailer, {
+            id: 'trailer',
+            cell: (info) => `${info.row.original?.trailer ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
                     name: 'Stawka naczepa',
-                    onUpdate: changeOrder('currentYearRate.trailerRate'),
+                    onUpdate: changeOrder('trailer'),
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'currentYearRate.trailerRate'
+                        companyFilterStore.getOrderBy === 'trailer'
                             ? companyFilterStore.getOrder
                             : null,
                 })
