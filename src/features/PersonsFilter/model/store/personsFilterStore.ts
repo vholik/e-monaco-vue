@@ -1,5 +1,6 @@
 import type { Order } from '@/shared/types/order'
 import { defineStore } from 'pinia'
+import { PAGE_SIZE } from '@/shared/const/pagination'
 
 export const useContactPersonsFilterStore = defineStore(
     'contactPersonsFilter',
@@ -10,6 +11,7 @@ export const useContactPersonsFilterStore = defineStore(
             orderBy: null as null | string,
             page: 1,
             q: '',
+            take: PAGE_SIZE,
         }),
         getters: {
             getOwners(state) {

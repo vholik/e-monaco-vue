@@ -38,7 +38,7 @@ function openModal() {
                 color="primary-variant"
                 :icon="AddIcon"
             />
-            Dodaj firmę
+            Dodaj gminę
         </Button>
         <Input
             :with-search-icon="true"

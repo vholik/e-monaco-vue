@@ -1,5 +1,6 @@
 import type { Order } from '@/shared/types/order'
 import { defineStore } from 'pinia'
+import { PAGE_SIZE } from '@/shared/const/pagination'
 
 export const useMunicipalityFilterStore = defineStore('municipalityFilter', {
     state: () => ({
@@ -9,6 +10,7 @@ export const useMunicipalityFilterStore = defineStore('municipalityFilter', {
         orderBy: null as null | string,
         page: 1,
         q: '',
+        take: PAGE_SIZE,
     }),
     getters: {
         getOwners(state) {
