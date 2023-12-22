@@ -7,6 +7,8 @@ import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '../Flex/Flex.vue'
 import { toRefs, type Component } from 'vue'
 import type { Order } from '@/shared/types/order'
+// @ts-ignore
+import Loader from 'vue-spinner/src/MoonLoader.vue'
 
 interface Props {
     name: string
@@ -14,6 +16,7 @@ interface Props {
     state?: boolean
     canSort?: boolean
     filter?: Component
+    loading?: boolean
 }
 
 const emit = defineEmits(['update'])
@@ -65,5 +68,11 @@ function changeOrder() {
                 color="quatinary"
             />
         </Flex>
+        <Loader
+            v-if="loading"
+            color="var(--primary-variant-color)"
+            :height="15"
+            size="18px"
+        />
     </Flex>
 </template>

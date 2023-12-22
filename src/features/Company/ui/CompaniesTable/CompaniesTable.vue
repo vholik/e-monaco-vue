@@ -34,7 +34,7 @@ import NipInput from '@/shared/ui/NipInput/NipInput.vue'
 import CompanyFreeSelect from '@/features/CompanyFreeSelect/ui/CompanyFreeSelect.vue'
 
 const companyFilterStore = useCompanyFilterStore()
-const { data, isLoading } = useCompanies()
+const { data, isLoading, isFetching } = useCompanies()
 const toast = useToast()
 const { onDataChange } = useCompanyActions()
 const isCompanyHistoriesModalOpen = ref(false)
@@ -54,6 +54,10 @@ function changeOrder(name: string) {
     }
 }
 
+function isSortHeaderLoading(name: string) {
+    return companyFilterStore.getOrderBy === name && isFetching.value
+}
+
 const columnHelper = createColumnHelper<Company>()
 let columns = computed(() => {
     const rows = [
@@ -71,14 +75,15 @@ let columns = computed(() => {
                     defaultValue: info.getValue(),
                 }),
             header: () => {
+                const key = 'company.nextContactDate'
                 return h(SortHeader, {
                     name: 'Nast. kontakt',
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'company.nextContactDate'
+                        companyFilterStore.getOrderBy === key
                             ? companyFilterStore.getOrder
                             : null,
-                    onUpdate: changeOrder('company.nextContactDate'),
+                    onUpdate: changeOrder(key),
+                    loading: isSortHeaderLoading(key),
                 })
             },
         }),
@@ -96,18 +101,18 @@ let columns = computed(() => {
                     },
                 ),
             header: () => {
+                const key = 'contactHistories.contactDate'
                 return h(SortHeader, {
                     name: 'Historia kontaktów',
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'contactHistories.contactDate'
+                        companyFilterStore.getOrderBy === key
                             ? companyFilterStore.getOrder
                             : null,
-                    onUpdate: changeOrder('contactHistories.contactDate'),
+                    onUpdate: changeOrder(key),
+                    loading: isSortHeaderLoading(key),
                 })
             },
         }),
-
         columnHelper.accessor((row) => row.comment, {
             id: 'comment',
             cell: (info) =>
@@ -127,6 +132,7 @@ let columns = computed(() => {
                     filter: h(CompanyFreeSelect, {
                         column: 'comment',
                     }),
+                    loading: isSortHeaderLoading('company.comment'),
                 })
             },
         }),
@@ -157,6 +163,7 @@ let columns = computed(() => {
                     filter: h(CompanyFreeSelect, {
                         column: 'nip',
                     }),
+                    loading: isSortHeaderLoading('company.nip'),
                 })
             },
         }),
@@ -179,6 +186,7 @@ let columns = computed(() => {
                     filter: h(CompanyFreeSelect, {
                         column: 'name',
                     }),
+                    loading: isSortHeaderLoading('company.name'),
                 })
             },
         }),
@@ -207,6 +215,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'frugality'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('frugality'),
                 })
             },
         }),
@@ -228,6 +237,7 @@ let columns = computed(() => {
                             ? companyFilterStore.getOrder
                             : null,
                     onUpdate: changeOrder('company.status'),
+                    loading: isSortHeaderLoading('company.status'),
                 })
             },
         }),
@@ -251,6 +261,7 @@ let columns = computed(() => {
                             ? companyFilterStore.getOrder
                             : null,
                     onUpdate: changeOrder('municipality.name'),
+                    loading: isSortHeaderLoading('municipality.name'),
                 })
             },
         }),
@@ -265,6 +276,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'taxincrease'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('taxincrease'),
                 })
             },
         }),
@@ -279,6 +291,8 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'kitrate'
                             ? companyFilterStore.getOrder
                             : null,
+
+                    loading: isSortHeaderLoading('kitrate'),
                 })
             },
         }),
@@ -293,6 +307,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'year'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('year'),
                 })
             },
         }),
@@ -318,6 +333,7 @@ let columns = computed(() => {
                         'contactPersons.firstName'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('contactPersons.firstName'),
                 })
             },
         }),
@@ -342,6 +358,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'contactPersons.role'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('contactPersons.role'),
                 })
             },
         }),
@@ -366,6 +383,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'contactPersons.phone'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('contactPersons.phone'),
                 })
             },
         }),
@@ -390,6 +408,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'contactPersons.email'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('contactPersons.email'),
                 })
             },
         }),
@@ -412,6 +431,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'company.activation'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('company.activation'),
                 })
             },
         }),
@@ -434,6 +454,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'company.rentalFee'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('company.rentalFee'),
                 })
             },
         }),
@@ -453,6 +474,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'company.statement'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('company.statement'),
                 })
             },
         }),
@@ -467,6 +489,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'tractor'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('tractor'),
                 })
             },
         }),
@@ -481,6 +504,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'trailer'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('trailer'),
                 })
             },
         }),
@@ -498,6 +522,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'theirstaxes'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('theirstaxes'),
                 })
             },
         }),
@@ -515,6 +540,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'ourtaxes'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('ourtaxes'),
                 })
             },
         }),
@@ -537,6 +563,7 @@ let columns = computed(() => {
                         'company.tractorAmount'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('company.tractorAmount'),
                 })
             },
         }),
@@ -559,6 +586,7 @@ let columns = computed(() => {
                         'company.trailerAmount'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('company.trailerAmount'),
                 })
             },
         }),
@@ -577,6 +605,7 @@ let columns = computed(() => {
                         companyFilterStore.getOrderBy === 'company.otherAmount'
                             ? companyFilterStore.getOrder
                             : null,
+                    loading: isSortHeaderLoading('company.otherAmount'),
                 })
             },
         }),
@@ -603,6 +632,7 @@ let columns = computed(() => {
                             ? companyFilterStore.getOrder
                             : null,
                     filter: ContactPersonsFilter,
+                    loading: isSortHeaderLoading('contactPersons.firstName'),
                 })
             },
         }),
