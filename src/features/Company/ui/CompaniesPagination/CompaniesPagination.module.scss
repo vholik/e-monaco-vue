@@ -10,3 +10,10 @@
 .arrowRight {
     transform: rotate(90deg);
 }
+.pageLabel {
+    margin-right: 8px;
+    font: var(--font-s);
+    font-weight: 400;
+    color: var(--quatinary-color);
+    margin-left: 1rem;
+}

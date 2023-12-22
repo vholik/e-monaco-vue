@@ -9,10 +9,13 @@ import { PAGE_SIZE } from '@/shared/const/pagination'
 import { useCompanyFilterStore } from '@/features/CompanyFilter'
 import { storeToRefs } from 'pinia'
 import { useCompaniesData } from '@/features/Company/model/services/useCompanyData'
+import { useToast } from 'vue-toastification'
 
 interface Props {
     count: number
 }
+
+const toast = useToast()
 
 const filterStore = useCompanyFilterStore()
 
@@ -32,6 +35,17 @@ const changePageSize = () => {
     handleSetPageSize(selectedPageSize.value)
 }
 let pagesCount = computed(() => Math.ceil(count.value / selectedPageSize.value))
+
+const inputPage = ref(1)
+
+const goToPage = () => {
+    const pageNumber = parseInt(inputPage.value)
+    if (pageNumber >= 1 && pageNumber <= pagesCount.value) {
+        filterStore.page = pageNumber
+    } else {
+        toast.error('Nieprawidłowy numer strony')
+    }
+}
 </script>
 
 <template>
@@ -74,6 +88,18 @@ let pagesCount = computed(() => Math.ceil(count.value / selectedPageSize.value))
                     :icon="ArrowUp"
                     :class="cls.arrowRight"
                     @click="filterStore.toNextPage"
+                />
+                <label
+                    for="pageNumber"
+                    :class="cls.pageLabel"
+                    >Wpisz numer strony:</label
+                >
+                <input
+                    type="number"
+                    v-model.number="inputPage"
+                    @keyup.enter="goToPage"
+                    min="1"
+                    :max="pagesCount"
                 />
             </Flex>
         </Flex>
