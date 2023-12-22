@@ -9,7 +9,7 @@ import AddPersonsModal from '@/features/ContactPersons/ui/AddPersonsModal.vue'
 import { ref, onMounted } from 'vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
-
+import ContactPersonsFilter from '@/features/ContactPersons/ui/ContactPersonFilter/ContactPersonFilter.vue'
 let modalOpen = ref(false)
 
 function openModal() {
@@ -25,24 +25,13 @@ function openModal() {
             align="start"
         >
             <Breadcrumbs :items="breadcrumbs" />
-            <h1 :class="cls.title">Lista wszystkich osób kontaktowych</h1>
-            <Button
-                variant="secondary"
-                :max="false"
-                @click="openModal"
-            >
-                <Icon
-                    color="primary-variant"
-                    :icon="AddIcon"
-                />
-                Dodaj osobę kontaktową
-            </Button>
-            <AddPersonsModal v-model:isModalOpen="modalOpen"></AddPersonsModal>
+            <h1 :class="cls.title">Lista osób kontaktowych</h1>
             <Flex
                 gap="16"
                 direction="column"
                 align="start"
             >
+                <ContactPersonsFilter />
                 <PersonsTable />
             </Flex>
         </Flex>
