@@ -6,12 +6,12 @@ import Icon from '@/shared/ui/Icon/Icon.vue'
 import Input from '@/shared/ui/Input/Input.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import { ref } from 'vue'
-import { useMunicipalityFilterStore } from '@/features/MunicipalitiesFilter'
 import { debounce } from 'lodash'
 import { storeToRefs } from 'pinia'
 import AddPersonsModal from '../AddPersonsModal.vue'
+import { useContactPersonsFilterStore } from '@/features/PersonsFilter'
 
-const companyFilterStore = useMunicipalityFilterStore()
+const companyFilterStore = useContactPersonsFilterStore()
 let modalOpen = ref(false)
 
 const changeInputValue = debounce((value: string) => {
