@@ -122,7 +122,6 @@ const table = useVueTable({
                     </td>
                     <td :class="cls.bodyValue">
                         <DeleteButton
-                            :class="cls.button"
                             :disabled="isLoading"
                             @click="handleDelete(row.original.id)"
                         >

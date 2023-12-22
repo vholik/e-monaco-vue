@@ -22,6 +22,10 @@
     color: var(--quatinary-color);
     font: var(--font-s);
     font-weight: 500;
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-color);
+    z-index: var(--table-z-index);
 }
 
 .headerTitle,
@@ -35,7 +39,6 @@
 }
 
 .header {
-    border-top: 1px solid var(--stroke-color);
     border-bottom: 1px solid var(--stroke-color);
 }
 

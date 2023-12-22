@@ -179,13 +179,14 @@ const table = useVueTable({
                             :props="cell.getContext()"
                         />
                     </td>
-                    <DeleteButton
-                        :class="cls.button"
-                        :disabled="isLoading"
-                        @click="handleDelete(row.original.id)"
-                    >
-                        Usuń
-                    </DeleteButton>
+                    <td :class="cls.bodyValue">
+                        <DeleteButton
+                            :disabled="isLoading"
+                            @click="handleDelete(row.original.id)"
+                        >
+                            Usuń
+                        </DeleteButton>
+                    </td>
                 </tr>
             </tbody>
         </table>
