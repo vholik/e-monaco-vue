@@ -319,7 +319,7 @@ let columns = computed(() => {
                 )
 
                 if (find) {
-                    return find.firstName + ' ' + find.lastName
+                    return (find.firstName || '') + ' ' + (find.lastName || '')
                 }
 
                 return ''
