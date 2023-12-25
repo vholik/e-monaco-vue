@@ -626,13 +626,7 @@ let columns = computed(() => {
                 return h(SortHeader, {
                     name: 'Osoby kontaktowe',
                     onUpdate: changeOrder('contactPersons.firstName'),
-                    value:
-                        companyFilterStore.getOrderBy ===
-                        'contactPersons.firstName'
-                            ? companyFilterStore.getOrder
-                            : null,
-                    filter: ContactPersonsFilter,
-                    loading: isSortHeaderLoading('contactPersons.firstName'),
+                canSort: false
                 })
             },
         }),

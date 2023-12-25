@@ -45,7 +45,11 @@ watch(defaultValue!, () => {
         :options="
             data.map((it: ContactPerson) => ({
                 id: it.id,
-                name: it.firstName ? `${it.firstName} ${it.lastName}` : it.phone ? it.phone : it.email,
+                name: it.firstName
+                    ? `${it.firstName} ${it.lastName ?? ''}`
+                    : it.phone
+                    ? it.phone
+                    : it.email,
                 info: `Telefon: ${it.phone}, E-Mail: ${it.email}, Rola: ${it.role}`,
             }))
         "
