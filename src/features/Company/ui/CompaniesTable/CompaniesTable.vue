@@ -311,104 +311,63 @@ let columns = computed(() => {
                 })
             },
         }),
-        columnHelper.accessor((row) => row.contactPersons, {
+        columnHelper.accessor((row) => row.full_name, {
             id: 'fullName',
-            cell: (info) => {
-                const find = info.row.original.contactPersons.find(
-                    (it) => it.top,
-                )
-
-                if (find) {
-                    return (find.firstName || '') + ' ' + (find.lastName || '')
-                }
-
-                return ''
-            },
+            cell: (info) => info.getValue(),
             header: () => {
                 return h(SortHeader, {
                     name: 'Imię i nazwisko',
-                    onUpdate: changeOrder('contactPersons.firstName'),
+                    onUpdate: changeOrder('first_name'),
                     value:
-                        companyFilterStore.getOrderBy ===
-                        'contactPersons.firstName'
+                        companyFilterStore.getOrderBy === 'first_name'
                             ? companyFilterStore.getOrder
                             : null,
-                    loading: isSortHeaderLoading('contactPersons.firstName'),
+                    loading: isSortHeaderLoading('first_name'),
                 })
             },
         }),
-        columnHelper.accessor((row) => row.contactPersons, {
+        columnHelper.accessor((row) => row.role, {
             id: 'role',
-            cell: (info) => {
-                const find = info.row.original.contactPersons.find(
-                    (it) => it.top,
-                )
-
-                if (find) {
-                    return find.role || ''
-                }
-
-                return ''
-            },
+            cell: (info) => info.getValue(),
             header: () => {
                 return h(SortHeader, {
                     name: 'Rola',
-                    onUpdate: changeOrder('contactPersons.role'),
+                    onUpdate: changeOrder('role'),
                     value:
-                        companyFilterStore.getOrderBy === 'contactPersons.role'
+                        companyFilterStore.getOrderBy === 'role'
                             ? companyFilterStore.getOrder
                             : null,
-                    loading: isSortHeaderLoading('contactPersons.role'),
+                    loading: isSortHeaderLoading('role'),
                 })
             },
         }),
-        columnHelper.accessor((row) => row.contactPersons, {
+        columnHelper.accessor((row) => row.phone, {
             id: 'phone',
-            cell: (info) => {
-                const find = info.row.original.contactPersons.find(
-                    (it) => it.top,
-                )
-
-                if (find) {
-                    return find.phone || ''
-                }
-
-                return ''
-            },
+            cell: (info) => info.getValue(),
             header: () => {
                 return h(SortHeader, {
                     name: 'Telefon',
-                    onUpdate: changeOrder('contactPersons.phone'),
+                    onUpdate: changeOrder('phone'),
                     value:
-                        companyFilterStore.getOrderBy === 'contactPersons.phone'
+                        companyFilterStore.getOrderBy === 'phone'
                             ? companyFilterStore.getOrder
                             : null,
-                    loading: isSortHeaderLoading('contactPersons.phone'),
+                    loading: isSortHeaderLoading('phone'),
                 })
             },
         }),
-        columnHelper.accessor((row) => row.contactPersons, {
+        columnHelper.accessor((row) => row.email, {
             id: 'email',
-            cell: (info) => {
-                const find = info.row.original.contactPersons.find(
-                    (it) => it.top,
-                )
-
-                if (find) {
-                    return find.email || ''
-                }
-
-                return ''
-            },
+            cell: (info) => info.getValue(),
             header: () => {
                 return h(SortHeader, {
                     name: 'E-mail',
-                    onUpdate: changeOrder('contactPersons.email'),
+                    onUpdate: changeOrder('email'),
                     value:
-                        companyFilterStore.getOrderBy === 'contactPersons.email'
+                        companyFilterStore.getOrderBy === 'email'
                             ? companyFilterStore.getOrder
                             : null,
-                    loading: isSortHeaderLoading('contactPersons.email'),
+                    loading: isSortHeaderLoading('email'),
                 })
             },
         }),
@@ -626,7 +585,7 @@ let columns = computed(() => {
                 return h(SortHeader, {
                     name: 'Osoby kontaktowe',
                     onUpdate: changeOrder('contactPersons.firstName'),
-                canSort: false
+                    canSort: false,
                 })
             },
         }),

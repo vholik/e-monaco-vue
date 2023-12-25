@@ -31,4 +31,8 @@ export interface Company {
     taxincrease: number
     kitrate: number
     year: number
+    full_name: string
+    role: string
+    phone: string
+    email: string
 }
