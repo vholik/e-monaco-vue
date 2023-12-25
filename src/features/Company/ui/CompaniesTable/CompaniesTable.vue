@@ -317,12 +317,12 @@ let columns = computed(() => {
             header: () => {
                 return h(SortHeader, {
                     name: 'Imię i nazwisko',
-                    onUpdate: changeOrder('first_name'),
+                    onUpdate: changeOrder('full_name'),
                     value:
-                        companyFilterStore.getOrderBy === 'first_name'
+                        companyFilterStore.getOrderBy === 'full_name'
                             ? companyFilterStore.getOrder
                             : null,
-                    loading: isSortHeaderLoading('first_name'),
+                    loading: isSortHeaderLoading('full_name'),
                 })
             },
         }),
