@@ -9,6 +9,10 @@ export const useMunicipalities = (
     return useQuery(
         ['municipalities', selected, q],
         async () => {
+            if (!q?.value.length) {
+                return { municipalities: [], count: 0 }
+            }
+
             const response = await $api.get('municipalities', {
                 params: {
                     q: q?.value,
@@ -23,7 +27,7 @@ export const useMunicipalities = (
             return response.data
         },
         {
-            initialData: [],
+            initialData: { municipalities: [], count: 0 },
             keepPreviousData: true,
         },
     )

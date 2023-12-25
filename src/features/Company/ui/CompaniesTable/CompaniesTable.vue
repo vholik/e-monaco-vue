@@ -246,7 +246,7 @@ let columns = computed(() => {
             cell: (info) =>
                 h(MunicipalitySelect, {
                     name: 'municipality',
-                    defaultValue: info.row.original.municipality?.id,
+                    defaultValue: info.row.original.municipality,
                     onUpdate: onDataChange(
                         info.row.original.id,
                         'municipalityId',
