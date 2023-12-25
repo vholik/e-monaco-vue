@@ -40,6 +40,10 @@ function onUpdate(value: string) {
 }
 
 watch(defaultValue!, () => {
+    if (typeof defaultValue?.value === 'object') {
+        handleChange((defaultValue.value as Municipality)?.id)
+        return
+    }
     handleChange(defaultValue?.value)
 })
 
