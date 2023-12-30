@@ -7,4 +7,5 @@ export interface Municipality {
     tractorRate: number
     otherRate: number
     year: number
+    rates: []
 }

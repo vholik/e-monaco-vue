@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import cls from './MunicipalitiesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { useToast } from 'vue-toastification'
@@ -14,8 +14,16 @@ import { useDeleteMunicipalities } from '@/features/Municipalities/model/service
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
 import MunicaplitiesPagination from '@/features/Municipalities/ui/MunicipalitiesPagination/MunicipalitiesPagination.vue'
+import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
+import MunicipalitieUpdateRatesModal from './MunicipalitieUpdateRatesModal/MunicipalitieUpdateRatesModal.vue'
+import UpdatePassUserButton from '@/shared/ui/UpdatePassUserButton/UpdatePassUserButton.vue'
+import Flex from '@/shared/ui/Flex/Flex.vue'
+import { defineProps, defineEmits } from 'vue'
 
 const { mutateAsync } = useDeleteMunicipalities()
+
+const updateMunicipalityRatesModalOpen = ref(false)
+
 const handleDelete = async (id: string) => {
     try {
         await mutateAsync(id)
@@ -24,13 +32,30 @@ const handleDelete = async (id: string) => {
     }
 }
 
+let selectedMunicipalityId = ref<string | null>(null)
+
+const openUpdateMunicipalityRatesModal = (municipalityId: string) => {
+    console.log(
+        'Selected Municipality ID in openUpdateMunicipalityRatesModal:',
+        municipalityId,
+    )
+    updateMunicipalityRatesModalOpen.value = true
+    selectedMunicipalityId.value = municipalityId
+}
+
 const { data, isLoading } = useMunicipality()
+console.log('Data from useMunicipality:', data.value)
+console.log('Is Loading:', isLoading)
 const toast = useToast()
+
 const { onDataChange } = useMunicipalityActions()
 
 const columnHelper = createColumnHelper<Municipality>()
 
 const formatValue = (value) => (value !== null ? value + ' zł' : 'N/A')
+
+console.log('Data from useMunicipality:', data.value)
+console.log('Is Loading:', isLoading)
 
 const columns = [
     columnHelper.accessor((row) => row.name, {
@@ -87,6 +112,12 @@ const table = useVueTable({
 
 <template>
     <div :class="cls.tableWrapper">
+        <MunicipalitieUpdateRatesModal
+            v-model:isModalOpen="updateMunicipalityRatesModalOpen"
+            :municipalityId="selectedMunicipalityId"
+            :rates="data?.municipalities || []"
+        ></MunicipalitieUpdateRatesModal>
+
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
                 <tr>
@@ -121,12 +152,29 @@ const table = useVueTable({
                         />
                     </td>
                     <td :class="cls.bodyValue">
-                        <DeleteButton
-                            :disabled="isLoading"
-                            @click="handleDelete(row.original.id)"
+                        <Flex
+                            direction="row"
+                            align="start"
+                            gap="6"
                         >
-                            Usuń
-                        </DeleteButton>
+                            <DeleteButton
+                                :disabled="isLoading"
+                                @click="handleDelete(row.original.id)"
+                            >
+                                Usuń
+                            </DeleteButton>
+                            <UpdatePassUserButton
+                                :class="cls.button"
+                                :municipalityId="row.original.id"
+                                @click="
+                                    openUpdateMunicipalityRatesModal(
+                                        row.original.id,
+                                    )
+                                "
+                            >
+                                Zaktualizuj stawki
+                            </UpdatePassUserButton>
+                        </Flex>
                     </td>
                 </tr>
             </tbody>

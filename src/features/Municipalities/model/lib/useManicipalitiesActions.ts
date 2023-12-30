@@ -4,10 +4,8 @@ import { useUpdateMunicipality } from '../services/useUpdateMunicipalities'
 export function useMunicipalityActions() {
     const { mutate } = useUpdateMunicipality()
 
-    const onDataChange = (id: string, key: string) =>
-        debounce((value: unknown) => {
-            mutate({ [key]: value, id })
-        }, 500)
-
+    const onDataChange = (id: string, key: string) => (value: unknown) => {
+        mutate({ [key]: value, id })
+    }
     return { onDataChange }
 }

@@ -16,7 +16,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
 const { mutate, isLoading, error } = useUpdateUsers()
+
 const { userId, isModalOpen } = toRefs(props)
 
 const showPassword = ref(false)

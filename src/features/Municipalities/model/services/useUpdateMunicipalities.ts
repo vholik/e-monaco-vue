@@ -33,7 +33,7 @@ export const useUpdateMunicipality = () => {
                 }
                 console.log(refetch.value())
             },
-            onError: () => {
+            onError: (error) => {
                 toast.error('Wystąpił błąd. Spróbuj później')
             },
         },
