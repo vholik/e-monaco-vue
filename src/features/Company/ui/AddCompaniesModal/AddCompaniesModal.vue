@@ -60,7 +60,7 @@ const onSubmit = (values: any) => {
                     <Datepicker
                         name="nextContactDate"
                         label="Następna data kontaktu"
-                        placeholder="15/09/2023, 14:00"
+                        placeholder="15/09/2023"
                     />
                     <UserSelect
                         v-if="user?.role !== 'user'"

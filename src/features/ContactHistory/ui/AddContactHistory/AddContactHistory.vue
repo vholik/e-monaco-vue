@@ -42,7 +42,7 @@ function submit(values: Record<string, string>) {
                 <Datepicker
                     name="contactDate"
                     label="Datowanie"
-                    placeholder="15/09/2023, 14:00"
+                    placeholder="15/09/2023"
                 />
                 <ContactHistorySelect
                     name="contactResult"
