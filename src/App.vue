@@ -9,11 +9,13 @@ import {
 } from '@/shared/const/localStorage'
 import { useRouter } from 'vue-router'
 import 'floating-vue/dist/style.css'
+import { storeToRefs } from 'pinia'
 
 useQueryProvider()
 
 const router = useRouter()
 const userStore = useUserStore()
+const { inited } = storeToRefs(userStore)
 
 async function getUser() {
     const res = await $api.get<User>('authentication/me')
@@ -41,7 +43,7 @@ onMounted(() => {
 
 <template>
     <router-view name="sidebar"></router-view>
-    <router-view></router-view>
+    <router-view v-if="inited"></router-view>
 </template>
 
 <style scoped></style>

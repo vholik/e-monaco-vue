@@ -1,4 +1,4 @@
-import { defineStore, type _GettersTree } from 'pinia'
+import { defineStore } from 'pinia'
 import { type User } from '../types/user'
 
 export const useUserStore = defineStore('user', {

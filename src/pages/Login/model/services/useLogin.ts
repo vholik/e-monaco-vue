@@ -33,12 +33,12 @@ export const useLogin = () => {
                     data.refreshToken,
                 )
                 userStore.setIsLoggedIn(true)
-                router.push('/dashboard')
 
                 const res = await $api.get<User>('authentication/me')
 
                 userStore.setUser(res.data)
                 userStore.setInited()
+                router.push('/dashboard')
             },
         },
     )
