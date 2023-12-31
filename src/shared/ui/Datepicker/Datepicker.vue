@@ -58,7 +58,8 @@ watch(defaultValue!, () => {
             locale="pl-PL"
             select-text="Wybierz"
             cancel-text="Anuluj"
-            format="dd.MM.yyyy HH:mm"
+            format="dd.MM.yyyy"
+            :enable-time-picker="false"
             :placeholder="placeholder"
             :style="{
                 '--dp-input-padding': '0.5em 0.75em',
