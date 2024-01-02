@@ -21,7 +21,7 @@ const {
 
 const sortNameMap: Record<string, string> = {
     'company.nextContactDate': 'Nast. kontakt',
-    'contactHistories.contactDate': 'Historia kontaktów',
+    last_contact_date: 'Historia kontaktów',
     'owner.firstName': 'Właściciel',
     'company.comment': 'Komentarz',
     'company.nip': 'NIP',

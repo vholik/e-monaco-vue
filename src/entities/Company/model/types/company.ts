@@ -35,4 +35,6 @@ export interface Company {
     role: string
     phone: string
     email: string
+    last_contact_date: string
+    last_contact_comment: string
 }

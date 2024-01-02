@@ -101,7 +101,7 @@ let columns = computed(() => {
                     },
                 ),
             header: () => {
-                const key = 'contactHistories.contactDate'
+                const key = 'last_contact_date'
                 return h(SortHeader, {
                     name: 'Historia kontaktów',
                     value:
@@ -113,19 +113,9 @@ let columns = computed(() => {
                 })
             },
         }),
-        columnHelper.accessor((row) => row.contactHistories, {
+        columnHelper.accessor((row) => row.last_contact_comment, {
             id: 'contactHistories.comment',
-            cell: (info) => {
-                const comments = info.row.original.contactHistories
-                    .map((it) => ({ ...it }))
-                    .sort(
-                        (a, b) =>
-                            new Date(b.contactDate).getTime() -
-                            new Date(a.contactDate).getTime(),
-                    )
-
-                return comments?.[0]?.comment ?? ''
-            },
+            cell: (info) => info.getValue(),
             header: () => {
                 return h(SortHeader, {
                     name: 'Komentarz ostatniej hist. kontaktu',
