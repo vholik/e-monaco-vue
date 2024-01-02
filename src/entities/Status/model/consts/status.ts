@@ -5,6 +5,10 @@ export const companyStatusMap = {
     [CompanyStatus.TO_BE_VERIFIED]: 'DO WERYFIKACJI',
     [CompanyStatus.CALL_BACK]: 'ZADZWOŃ',
     [CompanyStatus.UNREACHABLE]: 'NIE DODZWONIONO SIĘ',
+
+    [CompanyStatus.DOESNT_ANSWER]: 'NIE ODBIERA',
+    [CompanyStatus.CANNOT_BE_CALLED]: 'NIE DA SIĘ DODZWONIĆ',
+
     [CompanyStatus.CONVERSATION]: 'ROZMOWA',
     [CompanyStatus.AGREEMENT]: 'UMOWA',
     [CompanyStatus.DOCUMENTS]: 'DOKUMENTY',
@@ -28,6 +32,7 @@ export const companyStatusMap = {
     [CompanyStatus.PARTNER]: 'PARTNER',
     [CompanyStatus.OFFER]: 'OFERTA',
     [CompanyStatus.OTHER]: 'INNY',
+    [CompanyStatus.LOCAL_PATRIOT]: 'LOKALNY PATRIOTA',
 }
 
 export const options: SelectOption[] = [
@@ -186,5 +191,23 @@ export const options: SelectOption[] = [
         name: companyStatusMap[CompanyStatus.OTHER],
         bgColor: 'var(--status-blue-bg-color)',
         color: 'var(--status-blue-color)',
+    },
+    {
+        id: CompanyStatus.LOCAL_PATRIOT,
+        name: companyStatusMap[CompanyStatus.LOCAL_PATRIOT],
+        bgColor: 'var(--status-blue-bg-color)',
+        color: 'var(--status-blue-color)',
+    },
+    {
+        id: CompanyStatus.DOESNT_ANSWER,
+        name: companyStatusMap[CompanyStatus.DOESNT_ANSWER],
+        bgColor: 'var(--status-red-bg-color)',
+        color: 'var(--status-red-color)',
+    },
+    {
+        id: CompanyStatus.CANNOT_BE_CALLED,
+        name: companyStatusMap[CompanyStatus.CANNOT_BE_CALLED],
+        bgColor: 'var(--status-red-bg-color)',
+        color: 'var(--status-orange-color)',
     },
 ]

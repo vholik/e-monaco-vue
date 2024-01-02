@@ -18,7 +18,7 @@ import {
 
 const allowedPaths: Record<UserRoles, string[]> = {
     admin: ['/dashboard', '/users', '/persons', '/municipalities'],
-    user: ['/dashboard'],
+    user: ['/dashboard', '/persons', '/municipalities'],
     superadmin: ['/dashboard', '/users', '/persons', '/municipalities'],
 }
 

@@ -25,4 +25,7 @@ export enum CompanyStatus {
     PARTNER = 'partner',
     OFFER = 'offer',
     OTHER = 'other',
+    LOCAL_PATRIOT = 'local_patriot',
+    DOESNT_ANSWER = 'doesnt_answer',
+    CANNOT_BE_CALLED = 'cannot_be_called',
 }
