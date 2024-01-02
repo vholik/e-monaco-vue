@@ -4,7 +4,7 @@ import { useToast } from 'vue-toastification'
 import type { Municipality } from '@/entities/Municipality'
 import { useMunicipality } from '@/features/Municipalities/model/services/useMunicipality'
 
-export const useUpdateMunicipality = () => {
+export const useUpdateMunicipality = (refetchMunicipality?: any) => {
     const toast = useToast()
     const { refetch } = useMunicipality()
 
@@ -31,7 +31,8 @@ export const useUpdateMunicipality = () => {
                 } else {
                     toast.success('Pomyślnie usunięte dane')
                 }
-                console.log(refetch.value())
+                refetch.value()
+                refetchMunicipality?.value?.()
             },
             onError: (error) => {
                 toast.error('Wystąpił błąd. Spróbuj później')

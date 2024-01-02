@@ -7,6 +7,7 @@ import {
     toRefs,
     defineProps,
     defineEmits,
+    watch,
 } from 'vue'
 import cls from '../AddMunicipalitiesModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
@@ -25,7 +26,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { municipalityId } = toRefs(props)
+const { municipalityId, isModalOpen } = toRefs(props)
 
 const emit = defineEmits(['update:isModalOpen'])
 
@@ -40,11 +41,14 @@ const formState = ref<{
     trailerRate: null,
     otherRate: null,
 })
-const { mutate, isLoading, error } = useUpdateMunicipality()
+const { data: municipalityData, refetch } = useGetMunicipality(municipalityId)
+const { mutate, isLoading, error } = useUpdateMunicipality(refetch)
 
-const { data: municipalityData } = useGetMunicipality(municipalityId)
+const rates = ref(municipalityData.value?.rates)
 
-console.log('Municipality Data:', municipalityData.value)
+watch(municipalityData, () => {
+    rates.value = municipalityData.value?.rates
+})
 
 onMounted(() => {
     if (
@@ -59,65 +63,81 @@ onMounted(() => {
 const getUniqueYearsForMunicipality = computed(() => {
     return municipalityData.value?.rates.map((rate) => rate.year)
 })
-const onSubmit = () => {
-    emit('update:isModalOpen', false)
-
-    const dataToMutate = {
-        id: municipalityId.value,
-        rates: municipalityData.value?.rates,
-    }
-    mutate(dataToMutate)
-}
 
 const generateTabPanelsForMunicipality = computed(() => {
     return municipalityData.value?.rates.map((ratesForYear) => {
-        const clonedRates = { ...ratesForYear }
         return () => [
             h(Input, {
-                modelValue: clonedRates.tractorRate,
-                'onUpdate:modelValue': (value) => {
-                    clonedRates.tractorRate = value
-                },
                 name: `tractorRate`,
                 label: 'Stawka ciągnika',
                 placeholder: 'xxx',
                 type: 'number',
-                customId: ratesForYear.id,
                 value: ratesForYear.tractorRate,
+                'onUpdate:modelValue': (value: number) => {
+                    const mappedRates = rates.value?.map((it) => ({ ...it }))
+                    const find = mappedRates?.find(
+                        (it) => it.year === ratesForYear.year,
+                    )
+                    if (find) {
+                        find.tractorRate = parseInt(value)
+                    }
+
+                    rates.value = mappedRates
+                },
             }),
             h(Input, {
-                modelValue: clonedRates.trailerRate,
-                'onUpdate:modelValue': (value) => {
-                    clonedRates.trailerRate = value
-                },
                 name: `trailerRate`,
                 label: 'Stawka naczepy',
                 placeholder: 'xxxx',
                 type: 'number',
                 value: ratesForYear.trailerRate,
+                'onUpdate:modelValue': (value: number) => {
+                    const mappedRates = rates.value?.map((it) => ({ ...it }))
+                    const find = mappedRates?.find(
+                        (it) => it.year === ratesForYear.year,
+                    )
+                    if (find) {
+                        find.trailerRate = parseInt(value)
+                    }
+
+                    rates.value = mappedRates
+                },
             }),
             h(Input, {
-                modelValue: clonedRates.otherRate,
-                'onUpdate:modelValue': (value) => {
-                    clonedRates.otherRate = value
-                },
                 name: `otherRate`,
                 label: 'Inne',
                 placeholder: 'xxxx',
                 type: 'number',
                 value: ratesForYear.otherRate,
+                'onUpdate:modelValue': (value: number) => {
+                    ratesForYear.value = value
+                },
+                'onUpdate:modelValue': (value: number) => {
+                    const mappedRates = rates.value?.map((it) => ({ ...it }))
+                    const find = mappedRates?.find(
+                        (it) => it.year === ratesForYear.year,
+                    )
+                    if (find) {
+                        find.otherRate = parseInt(value)
+                    }
+
+                    rates.value = mappedRates
+                },
             }),
         ]
     })
 })
+
+const onSubmit = () => {
+    mutate({ rates: rates.value, id: municipalityId.value })
+    emit('update:isModalOpen', false)
+}
 
 const generateTabOptions = computed(() => {
     return getUniqueYearsForMunicipality.value?.map((year) => String(year))
 })
 
 const tabIndex = ref(0)
-console.log('Tab Panels:', generateTabPanelsForMunicipality.value)
-console.log('Tab Options:', generateTabOptions.value)
 </script>
 
 <template>

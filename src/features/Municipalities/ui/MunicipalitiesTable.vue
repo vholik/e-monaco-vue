@@ -35,17 +35,11 @@ const handleDelete = async (id: string) => {
 let selectedMunicipalityId = ref<string | null>(null)
 
 const openUpdateMunicipalityRatesModal = (municipalityId: string) => {
-    console.log(
-        'Selected Municipality ID in openUpdateMunicipalityRatesModal:',
-        municipalityId,
-    )
     updateMunicipalityRatesModalOpen.value = true
     selectedMunicipalityId.value = municipalityId
 }
 
 const { data, isLoading } = useMunicipality()
-console.log('Data from useMunicipality:', data.value)
-console.log('Is Loading:', isLoading)
 const toast = useToast()
 
 const { onDataChange } = useMunicipalityActions()
@@ -53,9 +47,6 @@ const { onDataChange } = useMunicipalityActions()
 const columnHelper = createColumnHelper<Municipality>()
 
 const formatValue = (value) => (value !== null ? value + ' zł' : 'N/A')
-
-console.log('Data from useMunicipality:', data.value)
-console.log('Is Loading:', isLoading)
 
 const columns = [
     columnHelper.accessor((row) => row.name, {
@@ -114,7 +105,7 @@ const table = useVueTable({
     <div :class="cls.tableWrapper">
         <MunicipalitieUpdateRatesModal
             v-model:isModalOpen="updateMunicipalityRatesModalOpen"
-            :municipalityId="selectedMunicipalityId"
+            :municipality-id="selectedMunicipalityId"
             :rates="data?.municipalities || []"
         ></MunicipalitieUpdateRatesModal>
 
@@ -165,7 +156,7 @@ const table = useVueTable({
                             </DeleteButton>
                             <UpdatePassUserButton
                                 :class="cls.button"
-                                :municipalityId="row.original.id"
+                                :municipality-id="row.original.id"
                                 @click="
                                     openUpdateMunicipalityRatesModal(
                                         row.original.id,

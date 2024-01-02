@@ -117,8 +117,14 @@ let columns = computed(() => {
             id: 'contactHistories.comment',
             cell: (info) => {
                 const comments = info.row.original.contactHistories
+                    .map((it) => ({ ...it }))
+                    .sort(
+                        (a, b) =>
+                            new Date(b.contactDate).getTime() -
+                            new Date(a.contactDate).getTime(),
+                    )
 
-                return comments[comments.length - 1]?.comment ?? ''
+                return comments?.[0]?.comment ?? ''
             },
             header: () => {
                 return h(SortHeader, {

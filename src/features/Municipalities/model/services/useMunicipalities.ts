@@ -3,7 +3,9 @@ import { useToast } from 'vue-toastification'
 import { Ref } from 'vue'
 import { $api } from '@/shared/api/api'
 
-export const useMunicipalities = (setIsModalOpen: (value: boolean) => void) => {
+export const useMunicipalities = (
+    setIsModalOpen?: (value: boolean) => void,
+) => {
     const queryClient = useQueryClient()
     const toast = useToast()
 
@@ -21,7 +23,7 @@ export const useMunicipalities = (setIsModalOpen: (value: boolean) => void) => {
         {
             onSuccess: () => {
                 toast.success('Pomyślnie dodano gminę')
-                setIsModalOpen(false)
+                setIsModalOpen?.(false)
                 queryClient.invalidateQueries('municipalities')
             },
         },
