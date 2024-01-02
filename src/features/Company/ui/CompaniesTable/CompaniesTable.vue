@@ -113,6 +113,20 @@ let columns = computed(() => {
                 })
             },
         }),
+        columnHelper.accessor((row) => row.contactHistories, {
+            id: 'contactHistories.comment',
+            cell: (info) => {
+                const comments = info.row.original.contactHistories
+
+                return comments[comments.length - 1]?.comment ?? ''
+            },
+            header: () => {
+                return h(SortHeader, {
+                    name: 'Komentarz ostatniej hist. kontaktu',
+                    canSort: false,
+                })
+            },
+        }),
         columnHelper.accessor((row) => row.comment, {
             id: 'comment',
             cell: (info) =>

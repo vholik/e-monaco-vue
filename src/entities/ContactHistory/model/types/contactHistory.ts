@@ -17,4 +17,5 @@ export interface ContactHistory {
     owner: User
     comment?: string
     company: Company
+    createdAt: Date
 }
