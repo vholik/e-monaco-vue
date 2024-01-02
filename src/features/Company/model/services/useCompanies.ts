@@ -28,7 +28,7 @@ export const useCompanies = (): UseCompaniesData => {
             const response = await $api.get('companies', {
                 params: {
                     ...filters.value,
-                    skip: (page - 1) * PAGE_SIZE,
+                    skip: (page - 1) * (filters.value?.take || PAGE_SIZE),
                     page: undefined,
                 },
             })
