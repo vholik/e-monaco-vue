@@ -2,6 +2,7 @@ import type { CompanyStatus } from '@/entities/Status'
 import type { Order } from '@/shared/types/order'
 import { defineStore } from 'pinia'
 import { PAGE_SIZE } from '@/shared/const/pagination'
+import { companyTableOptions } from '@/features/Company/model/consts/options'
 
 export const useCompanyFilterStore = defineStore('companyFilter', {
     state: () => ({
@@ -17,7 +18,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         take: PAGE_SIZE,
         tables: localStorage.getItem('company-tables')
             ? localStorage.getItem('company-tables')?.split(',')
-            : undefined,
+            : companyTableOptions.map((option) => option.id),
     }),
     getters: {
         getTables(state) {
