@@ -21,7 +21,6 @@ import CompanyHistoriesModal from '../CompanyHistoriesModal/CompanyHistoriesModa
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import {
-    ContactPersonsFilter,
     MunicipalitiesFilter,
     UserFilter,
     useCompanyFilterStore,
@@ -32,6 +31,7 @@ import type { Order } from '@/shared/types/order'
 import { storeToRefs } from 'pinia'
 import NipInput from '@/shared/ui/NipInput/NipInput.vue'
 import CompanyFreeSelect from '@/features/CompanyFreeSelect/ui/CompanyFreeSelect.vue'
+import TextBlock from '@/shared/ui/TextBlock/TextBlock.vue'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading, isFetching } = useCompanies()
@@ -115,37 +115,40 @@ let columns = computed(() => {
         }),
         columnHelper.accessor((row) => row.last_contact_comment, {
             id: 'contactHistories.comment',
-            cell: (info) => info.getValue(),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'Komentarz ostatniej hist. kontaktu',
-                    canSort: false,
-                })
-            },
-        }),
-        columnHelper.accessor((row) => row.comment, {
-            id: 'comment',
             cell: (info) =>
-                h(CommentInput, {
-                    onUpdate: onDataChange(info.row.original.id, 'comment'),
-                    defaultValue: info.getValue(),
-                    placeholder: 'Pole tekstowe',
+                h(TextBlock, null, {
+                    default: () => info.getValue(),
                 }),
             header: () => {
                 return h(SortHeader, {
                     name: 'Komentarz',
-                    value:
-                        companyFilterStore.getOrderBy === 'company.comment'
-                            ? companyFilterStore.getOrder
-                            : null,
-                    onUpdate: changeOrder('company.comment'),
-                    filter: h(CompanyFreeSelect, {
-                        column: 'comment',
-                    }),
-                    loading: isSortHeaderLoading('company.comment'),
+                    canSort: false,
                 })
             },
         }),
+        // columnHelper.accessor((row) => row.comment, {
+        //     id: 'comment',
+        //     cell: (info) =>
+        //         h(CommentInput, {
+        //             onUpdate: onDataChange(info.row.original.id, 'comment'),
+        //             defaultValue: info.getValue(),
+        //             placeholder: 'Pole tekstowe',
+        //         }),
+        //     header: () => {
+        //         return h(SortHeader, {
+        //             name: 'Komentarz',
+        //             value:
+        //                 companyFilterStore.getOrderBy === 'company.comment'
+        //                     ? companyFilterStore.getOrder
+        //                     : null,
+        //             onUpdate: changeOrder('company.comment'),
+        //             filter: h(CompanyFreeSelect, {
+        //                 column: 'comment',
+        //             }),
+        //             loading: isSortHeaderLoading('company.comment'),
+        //         })
+        //     },
+        // }),
         columnHelper.accessor((row) => row.nip, {
             id: 'nip',
             cell: (info) =>
