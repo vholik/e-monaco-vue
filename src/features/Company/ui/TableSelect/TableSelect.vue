@@ -13,6 +13,7 @@ const store = useCompanyFilterStore()
         :options="companyTableOptions"
         :multiple="true"
         v-bind="$props"
+        hide-values
         name="table-select"
         placeholder="Pola do wyśw."
         as-input

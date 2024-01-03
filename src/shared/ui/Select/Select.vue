@@ -37,7 +37,7 @@ interface Props {
     modelValue: string | string[]
     withInput?: boolean
     inputValue?: string
-    showValues?: boolean
+    hideValues?: boolean
 }
 
 const props = defineProps<Props>()
@@ -141,7 +141,7 @@ const debouncedInputChange = debounce((value) => {
                         >
 
                         <Flex
-                            v-if="Array.isArray(currentOption) && showValues"
+                            v-if="Array.isArray(currentOption) && !hideValues"
                             align="start"
                             gap="2"
                         >
@@ -160,7 +160,7 @@ const debouncedInputChange = debounce((value) => {
                         </Flex>
                         <span
                             v-else-if="
-                                !showValues &&
+                                hideValues &&
                                 Array.isArray(currentOption) &&
                                 currentOption.length
                             "
