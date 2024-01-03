@@ -4,6 +4,14 @@
     background-color: var(--primary-invert-color);
     padding: 1.6rem 1.1rem;
     box-shadow: var(--box-shadow);
+    transition: width 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Sidebar.screwed {
+    width: 5rem;
 }
 
 .userIcon {
@@ -41,7 +49,6 @@
         }
     }
 }
-
 .activeItem {
     background-color: var(--primary-variant-bg-color);
 
@@ -63,4 +70,43 @@
     &:hover {
         color: var(--primary-variant-hover-color);
     }
+}
+
+.sidebarItem.screwed {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.screwButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    transition: background var(--transition);
+    border-radius: var(--default-border-radius);
+    padding: 0.35rem 0.75rem;
+
+    &:hover {
+        background-color: var(--primary-variant-bg-color);
+
+        svg {
+            path {
+                fill: var(--primary-variant-color) !important;
+            }
+        }
+
+        p {
+            color: var(--primary-variant-color) !important;
+        }
+    }
+}
+
+.screwButton.screwed {
+    padding: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

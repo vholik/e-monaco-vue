@@ -9,6 +9,7 @@ import { computed, ref } from 'vue'
 import type { UserRoles } from '@/entities/User/model/types/roles'
 import { SidebarModal } from '@/features/SidebarModal'
 import Settings from '@/shared/assets/icons/Settings.vue'
+import Outline from '@/shared/assets/icons/Outline.vue'
 
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import {
@@ -42,6 +43,8 @@ const filteredSidebarItems = computed(() => {
     }))
 })
 
+const screwedSidebar = ref(localStorage.getItem('screwedSidebar') === 'true')
+
 function logout() {
     userStore.setUser(null)
     localStorage.removeItem(USER_ACCESS_LOCALSTORAGE_KEY)
@@ -49,11 +52,22 @@ function logout() {
 
     router.push('/login')
 }
+
+function screw() {
+    screwedSidebar.value = !screwedSidebar.value
+    localStorage.setItem('screwedSidebar', screwedSidebar.value.toString())
+}
 </script>
 
 <template>
-    <div :class="cls.Sidebar">
-        <SidebarModal v-model:is-modal-open="settingsModalOpen" />
+    <div
+        :class="[
+            cls.Sidebar,
+            {
+                [cls.screwed]: screwedSidebar,
+            },
+        ]"
+    >
         <Flex
             direction="column"
             gap="8"
@@ -65,6 +79,7 @@ function logout() {
                     }}{{ userStore.loggedInUser?.lastName[0] }}
                 </div>
                 <Text
+                    v-if="!screwedSidebar"
                     size="size_s"
                     weight="bold"
                     :class="cls.name"
@@ -73,6 +88,7 @@ function logout() {
                     {{ userStore.loggedInUser?.lastName }}
                 </Text>
                 <Text
+                    v-if="!screwedSidebar"
                     :class="cls.logoutButton"
                     color="primary-variant"
                     size="size_s"
@@ -99,6 +115,7 @@ function logout() {
                                     {
                                         [cls.activeItem]:
                                             item.path === currentPath,
+                                        [cls.screwed]: screwedSidebar,
                                     },
                                 ]"
                                 :max="true"
@@ -107,6 +124,7 @@ function logout() {
                             >
                                 <component :is="item.icon" />
                                 <Text
+                                    v-if="!screwedSidebar"
                                     size="size_s"
                                     weight="medium"
                                     color="secondary"
@@ -119,7 +137,12 @@ function logout() {
                         v-if="userStore.loggedInUser.role !== 'user'"
                         :max="true"
                         gap="4"
-                        :class="cls.sidebarItem"
+                        :class="[
+                            cls.sidebarItem,
+                            {
+                                [cls.screwed]: screwedSidebar,
+                            },
+                        ]"
                         @click="settingsModalOpen = true"
                     >
                         <Icon
@@ -127,6 +150,7 @@ function logout() {
                             color="quatinary"
                         />
                         <Text
+                            v-if="!screwedSidebar"
                             size="size_s"
                             weight="medium"
                             color="secondary"
@@ -135,6 +159,28 @@ function logout() {
                     </Flex>
                 </template>
             </Flex>
+
+            <SidebarModal v-model:is-modal-open="settingsModalOpen" />
         </Flex>
+        <button
+            :class="[
+                cls.screwButton,
+                {
+                    [cls.screwed]: screwedSidebar,
+                },
+            ]"
+            @click="screw"
+        >
+            <Outline />
+            <Text
+                v-if="!screwedSidebar"
+                size="size_s"
+                weight="bold"
+                color="secondary"
+                :class="cls.name"
+            >
+                Zwiń
+            </Text>
+        </button>
     </div>
 </template>
