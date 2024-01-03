@@ -3,6 +3,12 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 import cls from './ContactHistoryRow.module.scss'
 import Text from '@/shared/ui/Text/Text.vue'
 import { formatDateLikeFacebook } from '@/shared/lib/date'
+import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
+import { useDeleteHistory } from '@/features/Company/model/services/useDeleteHistory'
+import { useToast } from 'vue-toastification'
+import { useUpdateContactHistory } from '@/features/Company/model/services/useUpdateHistory'
+import { useContactHistories } from '@/entities/ContactHistory/model/services/useContactHistories'
+import { ref, toRefs } from 'vue'
 
 interface Props {
     id: string
@@ -11,7 +17,25 @@ interface Props {
     comment: string
 }
 
-defineProps<Props>()
+let selectedHistoryId = ref<string | null>(null)
+
+const props = defineProps<Props>()
+
+const { id } = toRefs(props)
+
+const { data, isLoading } = useContactHistories(id.value)
+
+const toast = useToast()
+
+const { mutateAsync } = useDeleteHistory()
+
+const handleDelete = async (id: string) => {
+    try {
+        await mutateAsync(id)
+    } catch (error) {
+        toast.error('Błąd podczas usuwania rekordu:', error)
+    }
+}
 </script>
 
 <template>
@@ -33,13 +57,26 @@ defineProps<Props>()
                         weight="medium"
                         >{{ contactResult }}</Text
                     >
+                    <DeleteButton
+                        :class="cls.deleteButton"
+                        @click="handleDelete(id)"
+                    >
+                        Usuń
+                    </DeleteButton>
                 </Flex>
-                <Text
-                    size="size_s"
-                    color="quinary"
+                <Flex
+                    direction="row"
+                    gap="8"
                 >
-                    {{ formatDateLikeFacebook(new Date(contactDate)) }}</Text
-                >
+                    <Text
+                        size="size_s"
+                        color="quinary"
+                    >
+                        {{
+                            formatDateLikeFacebook(new Date(contactDate))
+                        }}</Text
+                    >
+                </Flex>
             </Flex>
 
             <div
