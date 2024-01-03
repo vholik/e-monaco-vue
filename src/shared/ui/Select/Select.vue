@@ -27,6 +27,7 @@ interface Props {
     /**
      * @note do not work with `hasColor`
      */
+    placeholder?: string
     multiple?: boolean
     asInput?: boolean
     label?: string
@@ -36,6 +37,7 @@ interface Props {
     modelValue: string | string[]
     withInput?: boolean
     inputValue?: string
+    hideValues?: boolean
 }
 
 const props = defineProps<Props>()
@@ -135,11 +137,11 @@ const debouncedInputChange = debounce((value) => {
                             size="size_s"
                             weight="medium"
                             color="secondary"
-                            >Wybierz</Text
+                            >{{ placeholder ?? 'Wybierz' }}</Text
                         >
 
                         <Flex
-                            v-if="Array.isArray(currentOption)"
+                            v-if="Array.isArray(currentOption) && !hideValues"
                             align="start"
                             gap="2"
                         >
@@ -156,6 +158,15 @@ const debouncedInputChange = debounce((value) => {
                                 </template>
                             </VTooltip>
                         </Flex>
+                        <span
+                            v-else-if="
+                                hideValues &&
+                                Array.isArray(currentOption) &&
+                                currentOption.length
+                            "
+                        >
+                            Wybrano: {{ currentOption?.length }}
+                        </span>
                         <span v-else>
                             {{ currentOption?.name }}
                         </span>

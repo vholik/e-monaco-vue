@@ -49,11 +49,10 @@ watch(defaultValue!, () => {
             :options="
                 data.map((it: User) => ({
                     id: it.id,
-                    name: [it.firstName, it.lastName || ''].join(' '),
+                    name: it.firstName,
                     role: it.role,
                 }))
             "
-            :with-avatar="true"
             :as-input="asInput"
             :label="label"
             v-bind="$props"
