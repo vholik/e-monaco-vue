@@ -15,8 +15,14 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         q: '',
         freeText: {} as Record<string, string[]>,
         take: PAGE_SIZE,
+        tables: localStorage.getItem('company-tables')
+            ? localStorage.getItem('company-tables')?.split(',')
+            : [],
     }),
     getters: {
+        getTables(state) {
+            return state.tables
+        },
         getOwners(state) {
             return state.owners
         },
@@ -49,6 +55,10 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         },
     },
     actions: {
+        setTables(tables: string[]) {
+            this.tables = tables
+            localStorage.setItem('company-tables', tables.join(','))
+        },
         toPreviousPage() {
             this.page -= 1
         },

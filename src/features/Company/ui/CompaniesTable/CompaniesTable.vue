@@ -42,6 +42,7 @@ const isCompanyHistoriesModalOpen = ref(false)
 const currentCompanyId = ref('')
 const userStore = useUserStore()
 const { loggedInUser } = storeToRefs(userStore)
+const { tables } = storeToRefs(companyFilterStore)
 
 function onContactHistoriesClick(companyId: string) {
     isCompanyHistoriesModalOpen.value = true
@@ -117,7 +118,7 @@ let columns = computed(() => {
             },
         }),
         columnHelper.accessor((row) => row.last_contact_comment, {
-            id: 'contactHistories.comment',
+            id: 'comment',
             cell: (info) =>
                 h(TextBlock, null, {
                     default: () => info.getValue(),
@@ -258,7 +259,7 @@ let columns = computed(() => {
             },
         }),
         columnHelper.accessor((row) => row.municipality, {
-            id: 'manicipality',
+            id: 'municipality',
             cell: (info) =>
                 h(MunicipalitySelect, {
                     name: 'municipality',
@@ -282,7 +283,7 @@ let columns = computed(() => {
             },
         }),
         columnHelper.accessor((row) => row, {
-            id: 'taxIncrease',
+            id: 'taxincrease',
             cell: (info) => `${info.row.original.taxincrease ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
@@ -297,7 +298,7 @@ let columns = computed(() => {
             },
         }),
         columnHelper.accessor((row) => row, {
-            id: 'kitRate',
+            id: 'kitrate',
             cell: (info) => `${info.row.original.kitrate ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
@@ -617,7 +618,9 @@ const table = useVueTable({
         const value = columns.value || []
 
         if (isAdmin.value) {
-            const rows = [...value]
+            const rows = [...value].filter(
+                (it) => tables.value?.includes(it.id!),
+            )
             rows.splice(
                 2,
                 0,

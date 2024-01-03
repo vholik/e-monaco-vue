@@ -9,12 +9,10 @@ import AddCompaniesModalVue from '../AddCompaniesModal/AddCompaniesModal.vue'
 import { ref } from 'vue'
 import { CurrentFilter, useCompanyFilterStore } from '@/features/CompanyFilter'
 import { debounce } from 'lodash'
-import { useUserStore } from '@/entities/User'
-import { storeToRefs } from 'pinia'
+import TableSelect from '../TableSelect/TableSelect.vue'
 
 const companyFilterStore = useCompanyFilterStore()
 let modalOpen = ref(false)
-const store = useUserStore()
 
 const changeInputValue = debounce((value: string) => {
     companyFilterStore.setSearchTerm(value)
@@ -31,6 +29,7 @@ function openModal() {
         align="center"
         :class="cls.CompaniesFilter"
     >
+        <TableSelect />
         <Button
             variant="secondary"
             :max="false"
@@ -51,6 +50,7 @@ function openModal() {
             placeholder="Szukaj według słowa kluczowego..."
             @update:modelValue="changeInputValue"
         />
+
         <AddCompaniesModalVue v-model:isModalOpen="modalOpen" />
     </Flex>
 </template>
