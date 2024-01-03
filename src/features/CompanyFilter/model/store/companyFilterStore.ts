@@ -17,7 +17,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         take: PAGE_SIZE,
         tables: localStorage.getItem('company-tables')
             ? localStorage.getItem('company-tables')?.split(',')
-            : [],
+            : undefined,
     }),
     getters: {
         getTables(state) {

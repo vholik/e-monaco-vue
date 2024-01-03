@@ -8,7 +8,6 @@ const store = useCompanyFilterStore()
 const options = [
     { id: 'nextContactDate', name: 'Nast. konakt' },
     { id: 'contactHistories', name: 'Historia kontaktów' },
-    { id: 'owner', name: 'Właściciel' },
     { id: 'comment', name: 'Komentarz' },
     { id: 'nip', name: 'NIP' },
     { id: 'name', name: 'Nazwa firmy' },
