@@ -70,7 +70,7 @@ let columns = computed(() => {
             cell: (info) =>
                 h(Datepicker, {
                     name: 'nextContactDate',
-                    width: '160px',
+                    width: '110px',
                     placeholder: 'Wybierz datę',
                     onChange: onDataChange(
                         info.row.original.id,
@@ -101,13 +101,13 @@ let columns = computed(() => {
                             onContactHistoriesClick(info.row.original.id),
                     },
                     {
-                        default: () => 'Zobacz',
+                        default: () => '📖',
                     },
                 ),
             header: () => {
                 const key = 'last_contact_date'
                 return h(SortHeader, {
-                    name: 'Historia kontaktów',
+                    name: 'His',
                     value:
                         companyFilterStore.getOrderBy === key
                             ? companyFilterStore.getOrder
@@ -153,37 +153,7 @@ let columns = computed(() => {
         //         })
         //     },
         // }),
-        columnHelper.accessor((row) => row.nip, {
-            id: 'nip',
-            cell: (info) =>
-                h(NipInput, {
-                    placeholder: '123-456-78-90',
-                    onUpdate: onDataChange(info.row.original.id, 'nip'),
-                    defaultValue: info.getValue(),
-                    validateFn: (value: string) => {
-                        const isValid = validateNip(value)
-                        if (!isValid) {
-                            toast.error('Niepoprawny NIP')
-                            return isValid
-                        }
-                        return isValid
-                    },
-                }),
-            header: () => {
-                return h(SortHeader, {
-                    name: 'NIP',
-                    value:
-                        companyFilterStore.getOrderBy === 'company.nip'
-                            ? companyFilterStore.getOrder
-                            : null,
-                    onUpdate: changeOrder('company.nip'),
-                    filter: h(CompanyFreeSelect, {
-                        column: 'nip',
-                    }),
-                    loading: isSortHeaderLoading('company.nip'),
-                })
-            },
-        }),
+
         columnHelper.accessor((row) => row.name, {
             id: 'name',
             cell: (info) =>
@@ -226,7 +196,7 @@ let columns = computed(() => {
             cell: (info) => `${info.row.original.frugality} zł`,
             header: () => {
                 return h(SortHeader, {
-                    name: 'Oszczędność',
+                    name: 'Oszcz',
                     onUpdate: changeOrder('frugality'),
                     value:
                         companyFilterStore.getOrderBy === 'frugality'
@@ -287,7 +257,7 @@ let columns = computed(() => {
             cell: (info) => `${info.row.original.taxincrease ?? 'N/A'} zł`,
             header: () => {
                 return h(SortHeader, {
-                    name: 'Wzrost podatku',
+                    name: 'Wzrost',
                     onUpdate: changeOrder('taxincrease'),
                     value:
                         companyFilterStore.getOrderBy === 'taxincrease'
@@ -343,9 +313,14 @@ let columns = computed(() => {
                 })
             },
         }),
+
         columnHelper.accessor((row) => row.role, {
             id: 'role',
-            cell: (info) => info.getValue(),
+            cell: (info) =>
+                h(TextBlock, null, {
+                    default: () => info.getValue(),
+                }),
+
             header: () => {
                 return h(SortHeader, {
                     name: 'Rola',
@@ -385,6 +360,37 @@ let columns = computed(() => {
                             ? companyFilterStore.getOrder
                             : null,
                     loading: isSortHeaderLoading('email'),
+                })
+            },
+        }),
+        columnHelper.accessor((row) => row.nip, {
+            id: 'nip',
+            cell: (info) =>
+                h(NipInput, {
+                    placeholder: '123-456-78-90',
+                    onUpdate: onDataChange(info.row.original.id, 'nip'),
+                    defaultValue: info.getValue(),
+                    validateFn: (value: string) => {
+                        const isValid = validateNip(value)
+                        if (!isValid) {
+                            toast.error('Niepoprawny NIP')
+                            return isValid
+                        }
+                        return isValid
+                    },
+                }),
+            header: () => {
+                return h(SortHeader, {
+                    name: 'NIP',
+                    value:
+                        companyFilterStore.getOrderBy === 'company.nip'
+                            ? companyFilterStore.getOrder
+                            : null,
+                    onUpdate: changeOrder('company.nip'),
+                    filter: h(CompanyFreeSelect, {
+                        column: 'nip',
+                    }),
+                    loading: isSortHeaderLoading('company.nip'),
                 })
             },
         }),
@@ -638,7 +644,7 @@ const table = useVueTable({
                         }),
                     header: () => {
                         return h(SortHeader, {
-                            name: 'Właściciel',
+                            name: 'U',
                             filter: UserFilter,
                             onUpdate: changeOrder('owner.firstName'),
                             value:
