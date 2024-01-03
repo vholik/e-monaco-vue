@@ -32,6 +32,7 @@ import { storeToRefs } from 'pinia'
 import NipInput from '@/shared/ui/NipInput/NipInput.vue'
 import CompanyFreeSelect from '@/features/CompanyFreeSelect/ui/CompanyFreeSelect.vue'
 import TextBlock from '@/shared/ui/TextBlock/TextBlock.vue'
+import { useSidebarStore } from '@/widgets/Sidebar/model/store/sidebarStore'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading, isFetching } = useCompanies()
@@ -57,6 +58,8 @@ function changeOrder(name: string) {
 function isSortHeaderLoading(name: string) {
     return companyFilterStore.getOrderBy === name && isFetching.value
 }
+const sidebarStore = useSidebarStore()
+const { screwed: screwedSidebar } = storeToRefs(sidebarStore)
 
 const columnHelper = createColumnHelper<Company>()
 let columns = computed(() => {
@@ -658,7 +661,14 @@ const table = useVueTable({
 </script>
 
 <template>
-    <div :class="cls.tableWrapper">
+    <div
+        :class="[
+            cls.tableWrapper,
+            {
+                [cls.screwed]: screwedSidebar,
+            },
+        ]"
+    >
         <CompanyHistoriesModal
             v-model:isModalOpen="isCompanyHistoriesModalOpen"
             :current-company-id="currentCompanyId"

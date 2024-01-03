@@ -16,6 +16,8 @@ import {
     USER_ACCESS_LOCALSTORAGE_KEY,
     USER_REFRESH_LOCALSTORAGE_KEY,
 } from '@/shared/const/localStorage'
+import { useSidebarStore } from '../model/store/sidebarStore'
+import { storeToRefs } from 'pinia'
 
 const allowedPaths: Record<UserRoles, string[]> = {
     admin: ['/dashboard', '/users', '/persons', '/municipalities'],
@@ -28,6 +30,8 @@ let currentPath = computed(() => router.currentRoute.value.path)
 let settingsModalOpen = ref(false)
 
 const userStore = useUserStore()
+const sidebarStore = useSidebarStore()
+const { screwed: screwedSidebar } = storeToRefs(sidebarStore)
 
 const filteredSidebarItems = computed(() => {
     const userRole = userStore.loggedInUser?.role || 'user'
@@ -43,19 +47,12 @@ const filteredSidebarItems = computed(() => {
     }))
 })
 
-const screwedSidebar = ref(localStorage.getItem('screwedSidebar') === 'true')
-
 function logout() {
     userStore.setUser(null)
     localStorage.removeItem(USER_ACCESS_LOCALSTORAGE_KEY)
     localStorage.removeItem(USER_REFRESH_LOCALSTORAGE_KEY)
 
     router.push('/login')
-}
-
-function screw() {
-    screwedSidebar.value = !screwedSidebar.value
-    localStorage.setItem('screwedSidebar', screwedSidebar.value.toString())
 }
 </script>
 
@@ -169,7 +166,7 @@ function screw() {
                     [cls.screwed]: screwedSidebar,
                 },
             ]"
-            @click="screw"
+            @click="sidebarStore.toggle"
         >
             <Outline />
             <Text

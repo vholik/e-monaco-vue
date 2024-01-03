@@ -11,7 +11,7 @@
 }
 
 .Sidebar.screwed {
-    width: 5rem;
+    width: var(--sidebar-width-screwed);
 }
 
 .userIcon {

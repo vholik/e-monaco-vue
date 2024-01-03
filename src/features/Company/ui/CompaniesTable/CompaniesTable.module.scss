@@ -6,6 +6,10 @@
     height: 83vh;
 }
 
+.tableWrapper.screwed {
+    width: calc(100vw - var(--sidebar-width-screwed) - 2rem);
+}
+
 .CompaniesTable {
     width: max-content;
     border-collapse: collapse;
