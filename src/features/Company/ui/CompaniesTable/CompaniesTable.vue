@@ -101,7 +101,7 @@ let columns = computed(() => {
                             onContactHistoriesClick(info.row.original.id),
                     },
                     {
-                        default: () => 'Kliknij aby zobaczyć',
+                        default: () => 'Zobacz',
                     },
                 ),
             header: () => {
