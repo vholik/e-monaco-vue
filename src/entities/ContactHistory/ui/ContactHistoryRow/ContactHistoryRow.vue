@@ -60,10 +60,12 @@ watch(
 
 const emit = defineEmits(['update:isModalOpen'])
 
+const comment = ref(props.comment)
+
 const onSubmit = async () => {
     if (id.value) {
         try {
-            await mutate({ ...values.value, id: id.value })
+            await mutate({ comment: comment.value, id: id.value })
             toast.success('Pomyślnie zaktualizowano historię kontaktu')
         } catch (error) {
             toast.error('Błąd aktualizacji danych:', error)
@@ -117,8 +119,8 @@ const onSubmit = async () => {
                         name="comment"
                         placeholder="Komentarz"
                         as-input
-                        :value="values.comment"
-                        v-model="values.comment"
+                        :value="comment"
+                        v-model="comment"
                         :default-value="comment"
                         @keydown.enter.prevent="onSubmit"
                         @click.stop=""

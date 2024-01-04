@@ -1,11 +1,12 @@
 import { $api } from '@/shared/api/api'
-import { useMutation } from 'vue-query'
+import { useMutation, useQueryClient } from 'vue-query'
 import { useToast } from 'vue-toastification'
 import type { ContactHistory } from '@/entities/ContactHistory'
 
 export const useUpdateContactHistory = (
     setIsModalOpen?: (value: boolean) => void,
 ) => {
+    const queryClient = useQueryClient()
     const toast = useToast()
     return useMutation(
         ['update-contact-history'],
@@ -23,6 +24,7 @@ export const useUpdateContactHistory = (
                         flag = true
                     }
                 })
+                queryClient.invalidateQueries('contact-histories')
                 setIsModalOpen?.(false)
 
                 if (flag) {
