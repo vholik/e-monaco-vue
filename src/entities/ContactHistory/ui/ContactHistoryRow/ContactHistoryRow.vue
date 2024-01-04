@@ -121,16 +121,21 @@ const onSubmit = async () => {
                     <Flex
                         direction="row"
                         gap="8"
-                    >
-                        <CommentInput
-                            name="comment"
-                            placeholder="Komentarz"
-                            :value="comment"
-                            @keydown.enter.stop.prevent="onSubmit"
-                            @click.stop=""
-                            :default-value="values.comment"
-                            @input="updateComment($event.target.value)"
-                        />
+                        ><Text
+                            size="size_s"
+                            color="quinary"
+                        >
+                            <CommentInput
+                                name="comment"
+                                placeholder="Komentarz"
+                                :value="comment"
+                                @keydown.enter.stop.prevent="onSubmit"
+                                @click.stop=""
+                                :default-value="values.comment"
+                                @input="updateComment($event.target.value)"
+                                :class="cls.test123"
+                            />
+                        </Text>
                     </Flex>
                 </Form>
             </Flex>

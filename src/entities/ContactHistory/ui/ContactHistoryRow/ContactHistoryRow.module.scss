@@ -19,8 +19,16 @@
     border-radius: var(--default-border-radius);
     font: var(--font-s);
 }
-/* ContactHistoryRow.module.scss */
 
 .deleteButton {
-    margin-left: auto; /* To przesunie przycisk "Usuń" na prawą stronę */
+    margin-left: auto;
+}
+
+.test123 {
+    overflow-wrap: break-word;
+
+    max-width: 300px;
+    text {
+        max-width: 300px;
+    }
 }
