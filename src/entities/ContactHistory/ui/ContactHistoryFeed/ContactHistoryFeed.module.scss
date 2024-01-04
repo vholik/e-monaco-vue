@@ -10,3 +10,8 @@
     align-items: center;
     justify-content: center;
 }
+/* ContactHistoryRow.module.scss */
+
+.deleteButton {
+    margin-left: auto; /* To przesunie przycisk "Usuń" na prawą stronę */
+}

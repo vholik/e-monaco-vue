@@ -14,6 +14,7 @@ import { useField } from 'vee-validate'
 import { ContactHistorySelect } from '@/entities/ContactHistory'
 import { useContactHistoryActions } from '@/features/Company/model/services/useContactHistoryAction'
 import Button from '@/shared/ui/Button/Button.vue'
+import CommentInput from '@/shared/ui/CommentInput/CommentInput.vue'
 
 interface Props {
     id: string
@@ -23,7 +24,6 @@ interface Props {
     isLoading: boolean
     error?: boolean
 }
-
 const props = defineProps<Props>()
 
 const { id } = toRefs(props)
@@ -44,6 +44,7 @@ const handleDelete = async (id: string) => {
 }
 const values = ref({
     contactResult: props.contactResult,
+    comment: props.comment,
 })
 watch(
     () => values.value,
@@ -51,18 +52,22 @@ watch(
         if (id.value) {
             mutate({ ...newValues, id: id.value })
         } else {
-            console.error('Brak identyfikatora - nie można wykonać mutacji')
-            console.log('id komentarza', id.value)
+            toast.error('Błąd aktualizacji danych:', error)
         }
     },
     { deep: true },
 )
 
 const emit = defineEmits(['update:isModalOpen'])
-console.log('id komentarza poza submitem', id.value)
-const onSubmit = () => {
+
+const onSubmit = async () => {
     if (id.value) {
-        mutate({ ...values.value, id: id.value })
+        try {
+            await mutate({ ...values.value, id: id.value })
+            toast.success('Pomyślnie zaktualizowano historię kontaktu')
+        } catch (error) {
+            toast.error('Błąd aktualizacji danych:', error)
+        }
     } else {
         console.error('Brak identyfikatora - nie można wykonać mutacji')
         console.log('id komentarza', id.value)
@@ -84,18 +89,16 @@ const onSubmit = () => {
             >
                 <Form @submit.prevent="onSubmit">
                     <Flex gap="4">
-                        <Text color="quatinary">Dodano historię: </Text>
+                        <Text
+                            :class="cls.text"
+                            color="quatinary"
+                            >Dodano historię:
+                        </Text>
                         <ContactHistorySelect
                             name="contactResult"
                             as-input
                             v-model="values.contactResult"
                         />
-                        <DeleteButton
-                            :class="cls.deleteButton"
-                            @click="handleDelete(id)"
-                        >
-                            Usuń
-                        </DeleteButton>
                     </Flex>
                     <Flex
                         direction="row"
@@ -110,15 +113,25 @@ const onSubmit = () => {
                             }}</Text
                         >
                     </Flex>
+                    <CommentInput
+                        name="comment"
+                        placeholder="Komentarz"
+                        as-input
+                        :value="values.comment"
+                        v-model="values.comment"
+                        :default-value="comment"
+                        @keydown.enter.prevent="onSubmit"
+                        @click.stop=""
+                    />
                 </Form>
             </Flex>
-
-            <div
-                v-if="comment"
-                :class="cls.comment"
+            <DeleteButton
+                :class="cls.deleteButton"
+                @click="handleDelete(id)"
+                @keydown.enter.prevent
             >
-                {{ comment }}
-            </div>
+                Usuń
+            </DeleteButton>
         </Flex>
     </div>
 </template>

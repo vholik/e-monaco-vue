@@ -7,6 +7,9 @@
         padding-bottom: 2rem;
         border: none;
     }
+    .text {
+        white-space: nowrap;
+    }
 }
 
 .comment {
@@ -15,4 +18,9 @@
     padding: 0.5rem 0.625rem;
     border-radius: var(--default-border-radius);
     font: var(--font-s);
+}
+/* ContactHistoryRow.module.scss */
+
+.deleteButton {
+    margin-left: auto; /* To przesunie przycisk "Usuń" na prawą stronę */
 }

@@ -26,7 +26,6 @@ export const useUpdateContactHistory = (
                 setIsModalOpen?.(false)
 
                 if (flag) {
-                    toast.success('Pomyślnie zaktualizowano historię kontaktu')
                 } else {
                     toast.success('Pomyślnie usunięto dane')
                 }
