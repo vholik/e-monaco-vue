@@ -26,9 +26,8 @@
 
 .test123 {
     overflow-wrap: break-word;
-
     max-width: 300px;
-    text {
-        max-width: 300px;
+    p {
+        max-width: 260px;
     }
 }
