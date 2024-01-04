@@ -11,8 +11,7 @@ export const useDeleteHistory = () => {
         async (id: number) => {
             try {
                 const response = await $api.delete(`/contact-histories/${id}`)
-                console.log('Delete response data:', response.data)
-                console.log('Delete response status:', response.status)
+
                 return response.data
             } catch (error) {
                 console.error(

@@ -46,26 +46,29 @@ const values = ref({
     contactResult: props.contactResult,
     comment: props.comment,
 })
+const selectedContactResult = ref(props.contactResult)
 watch(
-    () => values.value,
-    (newValues) => {
+    () => selectedContactResult.value,
+    (newContactResult) => {
         if (id.value) {
-            mutate({ ...newValues, id: id.value })
+            mutate({ contactResult: newContactResult, id: id.value })
         } else {
             toast.error('Błąd aktualizacji danych:', error)
         }
     },
-    { deep: true },
 )
 
 const emit = defineEmits(['update:isModalOpen'])
 
 const comment = ref(props.comment)
 
+const updateComment = (value) => {
+    values.comment = value
+}
 const onSubmit = async () => {
     if (id.value) {
         try {
-            await mutate({ comment: comment.value, id: id.value })
+            await mutate({ comment: values.comment, id: id.value })
             toast.success('Pomyślnie zaktualizowano historię kontaktu')
         } catch (error) {
             toast.error('Błąd aktualizacji danych:', error)
@@ -99,7 +102,7 @@ const onSubmit = async () => {
                         <ContactHistorySelect
                             name="contactResult"
                             as-input
-                            v-model="values.contactResult"
+                            v-model="selectedContactResult"
                         />
                     </Flex>
                     <Flex
@@ -115,16 +118,20 @@ const onSubmit = async () => {
                             }}</Text
                         >
                     </Flex>
-                    <CommentInput
-                        name="comment"
-                        placeholder="Komentarz"
-                        as-input
-                        :value="comment"
-                        v-model="comment"
-                        :default-value="comment"
-                        @keydown.enter.prevent="onSubmit"
-                        @click.stop=""
-                    />
+                    <Flex
+                        direction="row"
+                        gap="8"
+                    >
+                        <CommentInput
+                            name="comment"
+                            placeholder="Komentarz"
+                            :value="comment"
+                            @keydown.enter.stop.prevent="onSubmit"
+                            @click.stop=""
+                            :default-value="values.comment"
+                            @input="updateComment($event.target.value)"
+                        />
+                    </Flex>
                 </Form>
             </Flex>
             <DeleteButton
