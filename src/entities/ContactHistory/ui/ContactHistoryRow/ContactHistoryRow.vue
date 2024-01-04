@@ -8,22 +8,28 @@ import { useDeleteHistory } from '@/features/Company/model/services/useDeleteHis
 import { useToast } from 'vue-toastification'
 import { useUpdateContactHistory } from '@/features/Company/model/services/useUpdateHistory'
 import { useContactHistories } from '@/entities/ContactHistory/model/services/useContactHistories'
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, watch } from 'vue'
+import Select from '@/shared/assets/icons/Select.vue'
+import { useField } from 'vee-validate'
+import { ContactHistorySelect } from '@/entities/ContactHistory'
+import { useContactHistoryActions } from '@/features/Company/model/services/useContactHistoryAction'
+import Button from '@/shared/ui/Button/Button.vue'
 
 interface Props {
     id: string
     contactDate: string
     contactResult: string
     comment: string
+    isLoading: boolean
+    error?: boolean
 }
-
-let selectedHistoryId = ref<string | null>(null)
 
 const props = defineProps<Props>()
 
 const { id } = toRefs(props)
 
 const { data, isLoading } = useContactHistories(id.value)
+const { mutate } = useUpdateContactHistory()
 
 const toast = useToast()
 
@@ -34,6 +40,32 @@ const handleDelete = async (id: string) => {
         await mutateAsync(id)
     } catch (error) {
         toast.error('Błąd podczas usuwania rekordu:', error)
+    }
+}
+const values = ref({
+    contactResult: props.contactResult,
+})
+watch(
+    () => values.value,
+    (newValues) => {
+        if (id.value) {
+            mutate({ ...newValues, id: id.value })
+        } else {
+            console.error('Brak identyfikatora - nie można wykonać mutacji')
+            console.log('id komentarza', id.value)
+        }
+    },
+    { deep: true },
+)
+
+const emit = defineEmits(['update:isModalOpen'])
+console.log('id komentarza poza submitem', id.value)
+const onSubmit = () => {
+    if (id.value) {
+        mutate({ ...values.value, id: id.value })
+    } else {
+        console.error('Brak identyfikatora - nie można wykonać mutacji')
+        console.log('id komentarza', id.value)
     }
 }
 </script>
@@ -50,33 +82,35 @@ const handleDelete = async (id: string) => {
                 align="start"
                 gap="2"
             >
-                <Flex gap="4">
-                    <Text color="quatinary">Dodano historię: </Text>
-                    <Text
-                        color="primary"
-                        weight="medium"
-                        >{{ contactResult }}</Text
+                <Form @submit.prevent="onSubmit">
+                    <Flex gap="4">
+                        <Text color="quatinary">Dodano historię: </Text>
+                        <ContactHistorySelect
+                            name="contactResult"
+                            as-input
+                            v-model="values.contactResult"
+                        />
+                        <DeleteButton
+                            :class="cls.deleteButton"
+                            @click="handleDelete(id)"
+                        >
+                            Usuń
+                        </DeleteButton>
+                    </Flex>
+                    <Flex
+                        direction="row"
+                        gap="8"
                     >
-                    <DeleteButton
-                        :class="cls.deleteButton"
-                        @click="handleDelete(id)"
-                    >
-                        Usuń
-                    </DeleteButton>
-                </Flex>
-                <Flex
-                    direction="row"
-                    gap="8"
-                >
-                    <Text
-                        size="size_s"
-                        color="quinary"
-                    >
-                        {{
-                            formatDateLikeFacebook(new Date(contactDate))
-                        }}</Text
-                    >
-                </Flex>
+                        <Text
+                            size="size_s"
+                            color="quinary"
+                        >
+                            {{
+                                formatDateLikeFacebook(new Date(contactDate))
+                            }}</Text
+                        >
+                    </Flex>
+                </Form>
             </Flex>
 
             <div
