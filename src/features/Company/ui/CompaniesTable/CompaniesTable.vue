@@ -623,10 +623,9 @@ const table = useVueTable({
     get columns() {
         const value = columns.value || []
 
+        const rows = [...value].filter((it) => tables.value?.includes(it.id!))
+
         if (isAdmin.value) {
-            const rows = [...value].filter(
-                (it) => tables.value?.includes(it.id!),
-            )
             rows.splice(
                 2,
                 0,
@@ -656,11 +655,9 @@ const table = useVueTable({
                     },
                 }),
             )
-
-            return rows
         }
 
-        return value
+        return rows
     },
     get data() {
         return data.value?.companies || []
