@@ -28,8 +28,6 @@ export function formatDateLikeFacebook(date: Date): string | undefined {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
         }
 
         // @ts-ignore
@@ -41,10 +39,7 @@ export function formatDateLikeFacebook(date: Date): string | undefined {
         if (hoursAgo === 0) {
             return `Wczoraj`
         } else {
-            return `Wczoraj o ${date.toLocaleTimeString('pl-PL', {
-                hour: '2-digit',
-                minute: '2-digit',
-            })}`
+            return `Wczoraj`
         }
     } else if (hours >= 2) {
         return `${hours} godzin temu`
