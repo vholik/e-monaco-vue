@@ -36,6 +36,23 @@ function onUpdate(value: string[]) {
 watch(defaultValue!, () => {
     handleChange(defaultValue?.value)
 })
+
+function getInfo(person: ContactPerson) {
+    const value = []
+
+    if (person.phone) {
+        value.push(`Telefon: ${person.phone}`)
+    }
+    if (person.email) {
+        value.push(`E-Mail: ${person.email}`)
+    }
+
+    if (person.role) {
+        value.push(`Rola: ${person.role}`)
+    }
+
+    return value.join(', ')
+}
 </script>
 
 <template>
@@ -50,7 +67,7 @@ watch(defaultValue!, () => {
                     : it.phone
                     ? it.phone
                     : it.email,
-                info: `Telefon: ${it.phone}, E-Mail: ${it.email}, Rola: ${it.role}`,
+                info: getInfo(it),
             }))
         "
         :multiple="true"
