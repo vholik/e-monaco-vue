@@ -1,4 +1,5 @@
 export const companyTableOptions = [
+    { id: '#id', name: 'ID' },
     { id: 'nextContactDate', name: 'Nast. konakt' },
     { id: 'contactHistories', name: 'Historia kontaktów' },
     { id: 'comment', name: 'Komentarz' },

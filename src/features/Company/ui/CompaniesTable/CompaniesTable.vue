@@ -67,6 +67,27 @@ const columnHelper = createColumnHelper<Company>()
 const isAdmin = ref(loggedInUser.value?.role !== 'user')
 
 const columns = ref([
+    columnHelper.accessor((row) => row.id, {
+        id: '#id',
+        cell: (info) => {
+            const startPoint =
+                (companyFilterStore.page - 1) * companyFilterStore.take
+
+            const index = info.row.index + 1 + startPoint
+
+            return h(
+                Text,
+                { color: 'secondary', size: 'size_s' },
+                { default: () => index.toString() },
+            )
+        },
+        header: () => {
+            return h(SortHeader, {
+                name: '#',
+                canSort: false,
+            })
+        },
+    }),
     columnHelper.accessor((row) => row.nextContactDate, {
         id: 'nextContactDate',
         cell: (info) => {
@@ -159,7 +180,6 @@ const columns = ref([
             })
         },
     }),
-
     columnHelper.accessor((row) => row.name, {
         id: 'name',
         cell: (info) =>
