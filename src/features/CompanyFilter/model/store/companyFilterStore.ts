@@ -7,7 +7,7 @@ import { companyTableOptions } from '@/features/Company/model/consts/options'
 export const useCompanyFilterStore = defineStore('companyFilter', {
     state: () => ({
         owners: [] as string[],
-        status: null as null | CompanyStatus,
+        status: [] as CompanyStatus[],
         municipalities: [] as string[],
         contactPersons: [] as string[],
         order: null as null | Order,
@@ -74,7 +74,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
             this.contactPersons = value
             this.page = 1
         },
-        setStatus(status: CompanyStatus | null) {
+        setStatus(status: CompanyStatus[]) {
             this.status = status
             this.page = 1
         },

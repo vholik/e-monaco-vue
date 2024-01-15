@@ -113,17 +113,17 @@ const sortNameMap: Record<string, string> = {
             />
         </div>
         <div
-            v-if="getStatus"
+            v-if="!!getStatus.length"
             :class="cls.filterBtn"
         >
-            Status: {{ companyStatusMap[getStatus] }}
+            Statusy
 
             <Icon
                 :icon="CloseIcon"
                 cursor-pointer
                 @click="
                     () => {
-                        store.setStatus(null)
+                        store.setStatus([])
                     }
                 "
             />
