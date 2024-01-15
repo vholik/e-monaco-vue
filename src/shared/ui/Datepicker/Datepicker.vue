@@ -34,9 +34,8 @@ function onUpdate(value: string) {
     emit('change', value)
 }
 
-watch(defaultValue!, (newValue) => {
-    console.log('defaultValue', newValue)
-    handleChange(newValue)
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
 })
 </script>
 

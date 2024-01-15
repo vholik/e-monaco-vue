@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { computed, h, ref, watch } from 'vue'
+import { h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { StatusSelect } from '@/entities/Status'
@@ -71,6 +71,7 @@ const columns = ref([
         id: 'nextContactDate',
         cell: (info) => {
             return h(Datepicker, {
+                key: info.row.original.id,
                 name: 'nextContactDate',
                 width: '110px',
                 placeholder: 'Wybierz datę',
@@ -97,6 +98,7 @@ const columns = ref([
             h(
                 ActionLink,
                 {
+                    key: info.row.original.id,
                     onClickFn: () =>
                         onContactHistoriesClick(info.row.original.id),
                 },
@@ -121,6 +123,7 @@ const columns = ref([
         id: 'owner',
         cell: (info) =>
             h(UserSelect, {
+                key: info.row.original.id,
                 name: 'owner',
                 defaultValue: info.row.original.owner?.id,
                 onUpdate: onDataChange(info.row.original.id, 'ownerId'),
@@ -140,9 +143,15 @@ const columns = ref([
     columnHelper.accessor((row) => row.last_contact_comment, {
         id: 'comment',
         cell: (info) =>
-            h(TextBlock, null, {
-                default: () => info.getValue(),
-            }),
+            h(
+                TextBlock,
+                {
+                    key: info.row.original.id,
+                },
+                {
+                    default: () => info.getValue(),
+                },
+            ),
         header: () => {
             return h(SortHeader, {
                 name: 'Komentarz',
@@ -150,34 +159,12 @@ const columns = ref([
             })
         },
     }),
-    // columnHelper.accessor((row) => row.comment, {
-    //     id: 'comment',
-    //     cell: (info) =>
-    //         h(CommentInput, {
-    //             onUpdate: onDataChange(info.row.original.id, 'comment'),
-    //             defaultValue: info.getValue(),
-    //             placeholder: 'Pole tekstowe',
-    //         }),
-    //     header: () => {
-    //         return h(SortHeader, {
-    //             name: 'Komentarz',
-    //             value:
-    //                 companyFilterStore.getOrderBy === 'company.comment'
-    //                     ? companyFilterStore.getOrder
-    //                     : null,
-    //             onUpdate: changeOrder('company.comment'),
-    //             filter: h(CompanyFreeSelect, {
-    //                 column: 'comment',
-    //             }),
-    //             loading: isSortHeaderLoading('company.comment'),
-    //         })
-    //     },
-    // }),
 
     columnHelper.accessor((row) => row.name, {
         id: 'name',
         cell: (info) =>
             h(CommentInput, {
+                key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'name'),
                 defaultValue: info.getValue(),
                 placeholder: 'Firma XYZ',
@@ -217,6 +204,7 @@ const columns = ref([
         header: () => {
             return h(SortHeader, {
                 name: 'Oszcz',
+                key: info.row.original.id,
                 onUpdate: changeOrder('frugality'),
                 value:
                     companyFilterStore.getOrderBy === 'frugality'
@@ -231,6 +219,7 @@ const columns = ref([
         cell: (info) => {
             return h(StatusSelect, {
                 name: 'status',
+                key: info.row.original.id,
                 defaultValue: info.row.original.status,
                 onUpdate: onDataChange(info.row.original.id, 'status'),
             })
@@ -253,6 +242,7 @@ const columns = ref([
         cell: (info) =>
             h(MunicipalitySelect, {
                 name: 'municipality',
+                key: info.row.original.id,
                 defaultValue: info.row.original.municipality?.id,
                 onUpdate: onDataChange(info.row.original.id, 'municipalityId'),
             }),
@@ -334,9 +324,15 @@ const columns = ref([
     columnHelper.accessor((row) => row.role, {
         id: 'role',
         cell: (info) =>
-            h(TextBlock, null, {
-                default: () => info.getValue(),
-            }),
+            h(
+                TextBlock,
+                {
+                    key: info.row.original.id,
+                },
+                {
+                    default: () => info.getValue(),
+                },
+            ),
 
         header: () => {
             return h(SortHeader, {
@@ -386,6 +382,7 @@ const columns = ref([
             h(NipInput, {
                 placeholder: '123-456-78-90',
                 onUpdate: onDataChange(info.row.original.id, 'nip'),
+                key: info.row.original.id,
                 defaultValue: info.getValue(),
                 validateFn: (value: string) => {
                     const isValid = validateNip(value)
@@ -419,6 +416,7 @@ const columns = ref([
                     info.row.original.id,
                     'company.activation',
                 ),
+                key: info.row.original.id,
                 defaultValue: info.row.original.activation,
                 withPrice: true,
             }),
@@ -442,6 +440,7 @@ const columns = ref([
                     info.row.original.id,
                     'company.rentalFee',
                 ),
+                key: info.row.original.id,
                 defaultValue: info.row.original.rentalFee,
                 withPrice: true,
             }),
@@ -461,6 +460,7 @@ const columns = ref([
         id: 'statement',
         cell: (info) =>
             h(PriceInput, {
+                key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'statement'),
                 defaultValue: info.row.original.statement,
                 withPrice: true,
@@ -547,6 +547,7 @@ const columns = ref([
         id: 'tractorAmount',
         cell: (info) =>
             h(PriceInput, {
+                key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'tractorAmount'),
                 defaultValue: info.row.original.tractorAmount,
             }),
@@ -566,6 +567,7 @@ const columns = ref([
         id: 'trailerAmount',
         cell: (info) =>
             h(PriceInput, {
+                key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'trailerAmount'),
                 defaultValue: info.row.original.trailerAmount,
             }),
@@ -585,6 +587,7 @@ const columns = ref([
         id: 'otherAmount',
         cell: (info) =>
             h(PriceInput, {
+                key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'otherAmount'),
                 defaultValue: info.row.original.otherAmount,
             }),
@@ -604,6 +607,7 @@ const columns = ref([
         id: 'contactPersons',
         cell: (info) =>
             h(ContactPersonSelect, {
+                key: info.row.original.id,
                 name: 'contactPersons',
                 defaultValue: info.row.original.contactPersons.map(
                     (it) => it.id,
@@ -623,14 +627,12 @@ const columns = ref([
     }),
 ])
 
-const companies = computed(() => data.value?.companies || [])
-
 const table = useVueTable({
     get columns() {
         return columns.value
     },
     get data() {
-        return companies.value
+        return data.value?.companies || []
     },
     state: {
         get columnVisibility() {
@@ -699,6 +701,7 @@ const table = useVueTable({
                         :class="cls.bodyValue"
                     >
                         <FlexRender
+                            :key="cell.id"
                             :render="cell.column.columnDef.cell"
                             :props="cell.getContext()"
                         />
