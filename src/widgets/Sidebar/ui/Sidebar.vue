@@ -157,7 +157,10 @@ function logout() {
                 </template>
             </Flex>
 
-            <SidebarModal v-model:is-modal-open="settingsModalOpen" />
+            <SidebarModal
+                v-if="settingsModalOpen"
+                v-model:is-modal-open="settingsModalOpen"
+            />
         </Flex>
         <button
             :class="[
