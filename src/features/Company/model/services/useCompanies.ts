@@ -19,7 +19,9 @@ interface UseCompaniesData {
 
 export const useCompanies = (): UseCompaniesData => {
     const companyFilterStore = useCompanyFilterStore()
-    const filters = ref<typeof companyFilterStore.$state | null>(null)
+    const filters = ref<typeof companyFilterStore.$state | null>(
+        companyFilterStore.$state ?? null,
+    )
 
     const query = useQuery(
         ['companies', filters],
