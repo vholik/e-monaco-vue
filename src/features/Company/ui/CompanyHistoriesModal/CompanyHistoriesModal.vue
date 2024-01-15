@@ -16,6 +16,7 @@ import { useAddCompanyHistory } from '../../model/services/useAddCompanyHistory'
 interface Props {
     isModalOpen: boolean
     currentCompanyId: string
+    refetch: () => void
 }
 
 function setIsModalOpen(value: boolean) {
@@ -24,11 +25,12 @@ function setIsModalOpen(value: boolean) {
 
 const props = defineProps<Props>()
 
-const { currentCompanyId } = toRefs(props)
+const { currentCompanyId, refetch } = toRefs(props)
 
 const { mutate, isLoading, isError } = useAddCompanyHistory(
     setIsModalOpen,
     currentCompanyId,
+    refetch,
 )
 
 const emit = defineEmits(['update:isModalOpen'])

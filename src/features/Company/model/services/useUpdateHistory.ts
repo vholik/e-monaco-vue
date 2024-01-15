@@ -16,24 +16,13 @@ export const useUpdateContactHistory = (
             return response.data
         },
         {
-            onSuccess: (_, data) => {
-                let flag = false
-                delete data.id
-                Object.keys(data).forEach((name) => {
-                    if (data[name as keyof ContactHistory]) {
-                        flag = true
-                    }
-                })
-                queryClient.invalidateQueries('contact-histories')
+            onSuccess: () => {
+                queryClient.refetchQueries({ queryKey: 'contact-histories' })
+                queryClient.refetchQueries({ queryKey: 'companies' })
                 setIsModalOpen?.(false)
-
-                if (flag) {
-                } else {
-                    toast.success('Pomyślnie usunięto dane')
-                }
             },
             onError: () => {
-                toast.error('Wystąpił błąd. Spróbuj później')
+                // toast.error('Wystąpił błąd. Spróbuj później')
             },
         },
     )

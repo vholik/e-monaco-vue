@@ -6,6 +6,7 @@ import { useToast } from 'vue-toastification'
 export const useAddCompanyHistory = (
     setIsModalOpen: (value: boolean) => void,
     companyId: Ref<string>,
+    refetch: Ref<() => void>,
 ) => {
     const toast = useToast()
     return useMutation(
@@ -20,6 +21,7 @@ export const useAddCompanyHistory = (
         {
             onSuccess: () => {
                 toast.success('Pomyślnie dodano firmę')
+                refetch.value()
                 setIsModalOpen(false)
             },
         },

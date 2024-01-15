@@ -35,7 +35,7 @@ import TextBlock from '@/shared/ui/TextBlock/TextBlock.vue'
 import { useSidebarStore } from '@/widgets/Sidebar/model/store/sidebarStore'
 
 const companyFilterStore = useCompanyFilterStore()
-const { data, isLoading, isFetching } = useCompanies()
+const { data, isLoading, isFetching, refetch } = useCompanies()
 const toast = useToast()
 const { onDataChange } = useCompanyActions()
 const isCompanyHistoriesModalOpen = ref(false)
@@ -678,6 +678,7 @@ const table = useVueTable({
         <CompanyHistoriesModal
             v-model:isModalOpen="isCompanyHistoriesModalOpen"
             :current-company-id="currentCompanyId"
+            :refetch="refetch"
         />
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
