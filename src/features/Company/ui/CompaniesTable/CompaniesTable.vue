@@ -204,7 +204,6 @@ const columns = ref([
         header: () => {
             return h(SortHeader, {
                 name: 'Oszcz',
-                key: info.row.original.id,
                 onUpdate: changeOrder('frugality'),
                 value:
                     companyFilterStore.getOrderBy === 'frugality'
