@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import cls from './Datepicker.module.scss'
+import cls from './DatepickerRange.module.scss'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import { useField } from 'vee-validate'
-import { toRefs, watch } from 'vue'
+import { toRefs, watch, onMounted, ref } from 'vue'
 import Error from '@/shared/ui/Error/Error.vue'
 
 interface Props {
@@ -13,30 +13,31 @@ interface Props {
     name: string
     placeholder?: string
     width?: string
-    defaultValue?: string
+    defaultValue?: string[]
 }
 
 const props = defineProps<Props>()
-
-const emit = defineEmits(['change'])
+const emit = defineEmits(['update'])
 
 const { name, defaultValue } = toRefs(props)
 
-const { errorMessage, value, handleChange } = useField<string>(
+const { errorMessage, value, handleChange } = useField<string | string[]>(
     name,
     undefined,
     {
         initialValue: defaultValue?.value,
     },
 )
+function onUpdate(value: string | string[]) {
+    const dateStrings = Array.isArray(value)
+        ? value.map((date) => new Date(date).toISOString())
+        : new Date(value).toISOString()
 
-function onUpdate(value: string) {
-    emit('change', value)
+    emit('update', [dateStrings[0], dateStrings[1]])
 }
 
-watch(defaultValue!, (newValue) => {
-    console.log('defaultValue', newValue)
-    handleChange(newValue)
+watch(defaultValue!, () => {
+    handleChange(defaultValue?.value)
 })
 </script>
 
@@ -73,8 +74,8 @@ watch(defaultValue!, (newValue) => {
                 '--dp-border-color': 'var(--stroke-color)',
                 '--dp-primary-color': 'var(--primary-variant-color)',
             }"
-            hide-input-icon
             @update:model-value="onUpdate"
+            range
         ></VueDatePicker>
         <Error
             v-if="errorMessage"

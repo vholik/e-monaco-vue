@@ -19,6 +19,9 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         tables: localStorage.getItem('company-tables')
             ? localStorage.getItem('company-tables')?.split(',')
             : companyTableOptions.map((option) => option.id),
+        dateRange: [] as string[],
+        from_next_date: '' as string,
+        to_next_date: '' as string,
     }),
     getters: {
         getTables(state) {
@@ -54,8 +57,16 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         getFreeTextColumn(state) {
             return (column: string) => state.freeText[column] || []
         },
+        getDateRange(state) {
+            return state.dateRange
+        },
     },
     actions: {
+        setDateRange(dateRange: string[]) {
+            this.from_next_date = dateRange[0]
+            this.to_next_date = dateRange[1]
+            this.page = 1
+        },
         setTables(tables: string[]) {
             this.tables = tables
             localStorage.setItem('company-tables', tables.join(','))
