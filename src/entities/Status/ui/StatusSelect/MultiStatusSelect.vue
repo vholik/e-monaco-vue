@@ -35,6 +35,7 @@ watch(defaultValue!, () => {
     <Select
         v-bind="$props"
         v-model="value"
+        hide-values
         multiple
         :options="options"
         :error-message="errorMessage"
