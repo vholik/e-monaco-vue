@@ -92,10 +92,6 @@ const columns = ref([
     columnHelper.accessor((row) => row.nextContactDate, {
         id: 'nextContactDate',
         cell: (info) => {
-            console.log(
-                'nextContactDate cell - original date:',
-                info.row.original.nextContactDate,
-            )
             return h(Datepicker, {
                 key: info.row.original.id,
                 name: 'nextContactDate',
@@ -119,7 +115,6 @@ const columns = ref([
             })
         },
     }),
-
     columnHelper.accessor((row) => row.contactHistories, {
         id: 'contactHistories',
         cell: (info) =>

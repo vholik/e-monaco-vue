@@ -28,6 +28,8 @@ const { errorMessage, value, handleChange } = useField<string | string[]>(
         initialValue: defaultValue?.value,
     },
 )
+const prevSelectedDates = ref<string[] | null>(null)
+
 function onUpdate(value: string | string[]) {
     const dateStrings = Array.isArray(value)
         ? value.map((date) => new Date(date).toISOString())
@@ -40,10 +42,17 @@ function onUpdate(value: string | string[]) {
         dateStrings[1] = dateStrings[0]
     }
 
-    console.log('DATA 2 :', dateStrings[1])
-
-    emit('update', [dateStrings[0], dateStrings[1]])
+    prevSelectedDates.value = [dateStrings[0], dateStrings[1]]
+    if (
+        dateStrings[0] !== '1970-01-01T00:00:00.000Z' &&
+        dateStrings[1] !== '1970-01-01T00:00:00.000Z'
+    ) {
+        emit('update', [dateStrings[0], dateStrings[1]])
+    } else {
+        emit('update', null)
+    }
 }
+
 watch(defaultValue!, () => {
     handleChange(defaultValue?.value)
 })
