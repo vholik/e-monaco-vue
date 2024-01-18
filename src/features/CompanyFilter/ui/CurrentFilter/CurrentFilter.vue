@@ -8,6 +8,16 @@ import { companyStatusMap } from '@/entities/Status/model/consts/status'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 
 const store = useCompanyFilterStore()
+const formatDate = (dateString: string | null) => {
+    if (!dateString) return ''
+
+    const date = new Date(dateString)
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear()
+
+    return `${day}/${month}/${year}`
+}
 
 const {
     getContactPersons,
@@ -17,9 +27,13 @@ const {
     getStatus,
     getMunicipalities,
     freeText,
+    from_next_date,
+    to_next_date,
 } = storeToRefs(store)
 
 const sortNameMap: Record<string, string> = {
+    from_next_date: 'Data kontaktu (od)',
+    to_next_date: 'Data kontaktu (do)',
     'company.nextContactDate': 'Nast. kontakt',
     last_contact_date: 'Historia kontaktów',
     'owner.firstName': 'Właściciel',
@@ -81,6 +95,25 @@ const sortNameMap: Record<string, string> = {
                 "
             />
         </div>
+        <div
+            v-if="from_next_date || to_next_date"
+            :class="cls.filterBtn"
+        >
+            Data kontaktu: od {{ formatDate(from_next_date) }}
+            {{ from_next_date && to_next_date ? ' ' : '' }}
+            do {{ formatDate(to_next_date) }}
+            <Icon
+                :icon="CloseIcon"
+                cursor-pointer
+                @click="
+                    () => {
+                        store.from_next_date = ''
+                        store.to_next_date = ''
+                    }
+                "
+            />
+        </div>
+
         <div
             v-if="getOwners?.length"
             :class="cls.filterBtn"
