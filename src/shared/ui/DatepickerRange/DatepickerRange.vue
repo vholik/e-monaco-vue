@@ -31,11 +31,19 @@ const { errorMessage, value, handleChange } = useField<string | string[]>(
 function onUpdate(value: string | string[]) {
     const dateStrings = Array.isArray(value)
         ? value.map((date) => new Date(date).toISOString())
-        : new Date(value).toISOString()
+        : ([new Date(value).toISOString(), new Date(value).toISOString()] as [
+              string,
+              string,
+          ])
+
+    if (dateStrings[1] === '1970-01-01T00:00:00.000Z') {
+        dateStrings[1] = dateStrings[0]
+    }
+
+    console.log('DATA 2 :', dateStrings[1])
 
     emit('update', [dateStrings[0], dateStrings[1]])
 }
-
 watch(defaultValue!, () => {
     handleChange(defaultValue?.value)
 })
