@@ -51,6 +51,12 @@ const toggleTop = (newValue, id) => {
 }
 
 const columns = [
+    columnHelper.accessor((row) => row.company, {
+        id: 'company',
+        cell: (info) => info.getValue()?.name,
+
+        header: () => h(SortHeader, { name: 'Nazwa firmy', canSort: false }),
+    }),
     columnHelper.accessor((row) => row.firstName, {
         id: 'firstName',
         cell: (info) =>
@@ -108,12 +114,6 @@ const columns = [
                 defaultValue: info.getValue(),
             }),
         header: () => h(SortHeader, { name: 'Email', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.company, {
-        id: 'company',
-        cell: (info) => info.getValue()?.name,
-
-        header: () => h(SortHeader, { name: 'Nazwa firmy', canSort: false }),
     }),
     columnHelper.accessor((row) => row.top, {
         id: 'top',
