@@ -441,6 +441,7 @@ const columns = ref([
                 key: info.row.original.id,
                 defaultValue: info.row.original.activation,
                 withPrice: true,
+                placeholder: 'Kwota',
             }),
         header: () => {
             return h(SortHeader, {
@@ -465,6 +466,7 @@ const columns = ref([
                 key: info.row.original.id,
                 defaultValue: info.row.original.rentalFee,
                 withPrice: true,
+                placeholder: 'Kwota',
             }),
         header: () => {
             return h(SortHeader, {
@@ -486,6 +488,7 @@ const columns = ref([
                 onUpdate: onDataChange(info.row.original.id, 'statement'),
                 defaultValue: info.row.original.statement,
                 withPrice: true,
+                placeholder: 'Kwota',
             }),
         header: () => {
             return h(SortHeader, {
@@ -572,6 +575,7 @@ const columns = ref([
                 key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'tractorAmount'),
                 defaultValue: info.row.original.tractorAmount,
+                placeholder: 'Ile',
             }),
         header: () => {
             return h(SortHeader, {
@@ -592,6 +596,7 @@ const columns = ref([
                 key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'trailerAmount'),
                 defaultValue: info.row.original.trailerAmount,
+                placeholder: 'Ile',
             }),
         header: () => {
             return h(SortHeader, {
@@ -612,6 +617,7 @@ const columns = ref([
                 key: info.row.original.id,
                 onUpdate: onDataChange(info.row.original.id, 'otherAmount'),
                 defaultValue: info.row.original.otherAmount,
+                placeholder: 'Ile',
             }),
         header: () => {
             return h(SortHeader, {
