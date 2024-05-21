@@ -61,6 +61,7 @@ function isSortHeaderLoading(name: string) {
     return companyFilterStore.getOrderBy === name && isFetching.value
 }
 const sidebarStore = useSidebarStore()
+
 const { screwed: screwedSidebar } = storeToRefs(sidebarStore)
 
 const columnHelper = createColumnHelper<Company>()
