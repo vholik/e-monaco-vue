@@ -433,18 +433,20 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'activation',
         cell: (info) =>
-            h(PriceInput, {
-                onUpdate: onDataChange(
-                    info.row.original.id,
-                    'company.activation',
-                ),
-                key: info.row.original.id,
-                defaultValue: info.row.original.activation,
-                withPrice: true,
-                placeholder: 'Kwota',
-            }),
-        header: () => {
-            return h(SortHeader, {
+            h('div', { class: cls.narrowColumn }, [
+                h(PriceInput, {
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'company.activation',
+                    ),
+                    key: info.row.original.id,
+                    defaultValue: info.row.original.activation,
+                    withPrice: true,
+                    placeholder: 'Kwota',
+                }),
+            ]),
+        header: () =>
+            h(SortHeader, {
                 name: 'Aktywacja',
                 onUpdate: changeOrder('company.activation'),
                 value:
@@ -452,22 +454,23 @@ const columns = ref([
                         ? companyFilterStore.getOrder
                         : null,
                 loading: isSortHeaderLoading('company.activation'),
-            })
-        },
+            }),
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'rentalFee',
         cell: (info) =>
-            h(PriceInput, {
-                onUpdate: onDataChange(
-                    info.row.original.id,
-                    'company.rentalFee',
-                ),
-                key: info.row.original.id,
-                defaultValue: info.row.original.rentalFee,
-                withPrice: true,
-                placeholder: 'Kwota',
-            }),
+            h('div', { class: cls.narrowColumn }, [
+                h(PriceInput, {
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'company.rentalFee',
+                    ),
+                    key: info.row.original.id,
+                    defaultValue: info.row.original.rentalFee,
+                    withPrice: true,
+                    placeholder: 'Kwota',
+                }),
+            ]),
         header: () => {
             return h(SortHeader, {
                 name: 'Czynsz',
@@ -483,13 +486,15 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'statement',
         cell: (info) =>
-            h(PriceInput, {
-                key: info.row.original.id,
-                onUpdate: onDataChange(info.row.original.id, 'statement'),
-                defaultValue: info.row.original.statement,
-                withPrice: true,
-                placeholder: 'Kwota',
-            }),
+            h('div', { class: cls.narrowColumn }, [
+                h(PriceInput, {
+                    key: info.row.original.id,
+                    onUpdate: onDataChange(info.row.original.id, 'statement'),
+                    defaultValue: info.row.original.statement,
+                    withPrice: true,
+                    placeholder: 'Kwota',
+                }),
+            ]),
         header: () => {
             return h(SortHeader, {
                 name: 'Deklaracja',
@@ -571,12 +576,17 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'tractorAmount',
         cell: (info) =>
-            h(PriceInput, {
-                key: info.row.original.id,
-                onUpdate: onDataChange(info.row.original.id, 'tractorAmount'),
-                defaultValue: info.row.original.tractorAmount,
-                placeholder: 'Ile',
-            }),
+            h('div', { class: cls.narrowColumn }, [
+                h(PriceInput, {
+                    key: info.row.original.id,
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'tractorAmount',
+                    ),
+                    defaultValue: info.row.original.tractorAmount,
+                    placeholder: 'Ile',
+                }),
+            ]),
         header: () => {
             return h(SortHeader, {
                 name: 'Ciągniki',
@@ -592,12 +602,17 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'trailerAmount',
         cell: (info) =>
-            h(PriceInput, {
-                key: info.row.original.id,
-                onUpdate: onDataChange(info.row.original.id, 'trailerAmount'),
-                defaultValue: info.row.original.trailerAmount,
-                placeholder: 'Ile',
-            }),
+            h('div', { class: cls.narrowColumn }, [
+                h(PriceInput, {
+                    key: info.row.original.id,
+                    onUpdate: onDataChange(
+                        info.row.original.id,
+                        'trailerAmount',
+                    ),
+                    defaultValue: info.row.original.trailerAmount,
+                    placeholder: 'Ile',
+                }),
+            ]),
         header: () => {
             return h(SortHeader, {
                 name: 'Naczepy',
@@ -613,12 +628,14 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'otherAmount',
         cell: (info) =>
-            h(PriceInput, {
-                key: info.row.original.id,
-                onUpdate: onDataChange(info.row.original.id, 'otherAmount'),
-                defaultValue: info.row.original.otherAmount,
-                placeholder: 'Ile',
-            }),
+            h('div', { class: cls.narrowColumn }, [
+                h(PriceInput, {
+                    key: info.row.original.id,
+                    onUpdate: onDataChange(info.row.original.id, 'otherAmount'),
+                    defaultValue: info.row.original.otherAmount,
+                    placeholder: 'Ile',
+                }),
+            ]),
         header: () => {
             return h(SortHeader, {
                 name: 'Inne',

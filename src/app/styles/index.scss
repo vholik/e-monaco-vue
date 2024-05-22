@@ -28,23 +28,21 @@ body {
 }
 
 ::-webkit-scrollbar {
-    max-width: 349px;
-    height: 10px;
-    width: 10px;
+    width: 1rem;
+    height: 1rem;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 12px;
-    background: #e0e0eb;
+    border-radius: 1rem;
+    background: #b0b0c4;
 }
 
 * {
-    scrollbar-width: thin;
-    scrollbar-color: #e0e0eb transparent;
+    scrollbar-width: 1rem;
 }
 
 /* Thumb */
 *::-webkit-scrollbar-thumb {
-    border-radius: 14px;
-    background: #d9d9e4;
+    border-radius: 1rem;
+    background: #b0b0c4;
 }
