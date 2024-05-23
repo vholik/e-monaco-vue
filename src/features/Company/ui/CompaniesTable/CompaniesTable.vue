@@ -3,6 +3,7 @@ import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
 import { h, ref } from 'vue'
 import cls from './CompaniesTable.module.scss'
+import propcls from '@/shared/ui/CommentInput/CommentInput.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { StatusSelect } from '@/entities/Status'
 import { UserSelect, useUserStore } from '@/entities/User'
@@ -188,6 +189,7 @@ const columns = ref([
         cell: (info) =>
             h(CommentInput, {
                 key: info.row.original.id,
+                className: propcls.largeFont,
                 onUpdate: onDataChange(info.row.original.id, 'name'),
                 defaultValue: info.getValue(),
                 placeholder: 'Firma XYZ',

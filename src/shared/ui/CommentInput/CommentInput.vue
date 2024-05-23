@@ -14,11 +14,12 @@ interface Props {
     defaultValue?: string
     validateFn?: (value: string) => boolean
     placeholder?: string
+    className?: string
 }
 
 const props = defineProps<Props>()
 
-const { defaultValue, validateFn } = toRefs(props)
+const { defaultValue, validateFn, className } = toRefs(props)
 
 const emit = defineEmits(['update'])
 
@@ -55,7 +56,7 @@ function removeText() {
     <Input
         v-if="!isSelected"
         v-model="inputValue"
-        :class="cls.CommentInput"
+        :class="[cls.CommentInput, className]"
         name="price"
         size="size_s"
         :placeholder="placeholder || 'Wpisz'"
@@ -67,7 +68,7 @@ function removeText() {
     >
         <Text
             size="size_s"
-            :class="cls.text"
+            :class="[cls.text, className]"
             >{{ inputValue }}</Text
         >
         <Icon
