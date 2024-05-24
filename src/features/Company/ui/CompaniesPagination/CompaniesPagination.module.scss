@@ -10,10 +10,24 @@
 .arrowRight {
     transform: rotate(90deg);
 }
+
 .pageLabel {
     margin-right: 8px;
     font: var(--font-s);
     font-weight: 400;
     color: var(--quatinary-color);
     margin-left: 1rem;
+}
+
+.colorSquare {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.colorSquareContainer {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1rem;
 }

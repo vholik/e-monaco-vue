@@ -1,0 +1,13 @@
+.colorSquare {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 8px;
+    border-radius: 10px;
+}
+
+.colorSquareContainer {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1rem;
+}

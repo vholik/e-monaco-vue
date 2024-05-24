@@ -4,7 +4,8 @@ import Text from '@/shared/ui/Text/Text.vue'
 import ArrowUp from '@/shared/assets/icons/ArrowUp.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
-import { computed, toRefs, ref } from 'vue'
+import ColorSquares from '@/shared/ui/ColorSquares/ColorSquares.vue'
+import { computed, toRefs, ref, onMounted } from 'vue'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { useCompanyFilterStore } from '@/features/CompanyFilter'
 import { storeToRefs } from 'pinia'
@@ -34,6 +35,7 @@ const pageSizeOptions = [10, 20, 50, 100]
 const changePageSize = () => {
     handleSetPageSize(selectedPageSize.value)
 }
+
 let pagesCount = computed(() => Math.ceil(count.value / selectedPageSize.value))
 
 const inputPage = ref(1)
@@ -45,6 +47,24 @@ const goToPage = () => {
     } else {
         toast.error('Nieprawidłowy numer strony')
     }
+}
+
+onMounted(() => {
+    const savedColor = localStorage.getItem('--primaty-variant-bg-marked-color')
+    if (savedColor) {
+        document.documentElement.style.setProperty(
+            '--primaty-variant-bg-marked-color',
+            savedColor,
+        )
+    }
+})
+
+const handleColorSelected = (color: string) => {
+    document.documentElement.style.setProperty(
+        '--primaty-variant-bg-marked-color',
+        color,
+    )
+    localStorage.setItem('--primaty-variant-bg-marked-color', color)
 }
 </script>
 
@@ -58,8 +78,8 @@ const goToPage = () => {
                 color="quatinary"
                 size="size_s"
             >
-                Strona {{ page }} / {{ pagesCount }}</Text
-            >
+                Strona {{ page }} / {{ pagesCount }}
+            </Text>
             <select
                 v-model="selectedPageSize"
                 @change="changePageSize"
@@ -102,6 +122,17 @@ const goToPage = () => {
                     :max="pagesCount"
                 />
             </Flex>
+            <ColorSquares @colorSelected="handleColorSelected" />
         </Flex>
+
+        <div class="tableWrapper">
+            <table class="CompaniesTable">
+                <tr
+                    v-for="(row, index) in 10"
+                    :key="index"
+                    :class="{ marked: row.isMarked }"
+                ></tr>
+            </table>
+        </div>
     </div>
 </template>
