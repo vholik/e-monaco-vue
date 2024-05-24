@@ -4,10 +4,16 @@
     cursor: pointer;
     margin-right: 8px;
     border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.colorSquare:hover {
+    transform: scale(1.33);
 }
 
 .colorSquareContainer {
     display: flex;
     gap: 4px;
     margin-bottom: 1rem;
+    padding-left: 1rem;
 }

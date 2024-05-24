@@ -50,10 +50,10 @@ const goToPage = () => {
 }
 
 onMounted(() => {
-    const savedColor = localStorage.getItem('--primaty-variant-bg-marked-color')
+    const savedColor = localStorage.getItem('--primary-variant-bg-marked-color')
     if (savedColor) {
         document.documentElement.style.setProperty(
-            '--primaty-variant-bg-marked-color',
+            '--primary-variant-bg-marked-color',
             savedColor,
         )
     }
@@ -61,10 +61,10 @@ onMounted(() => {
 
 const handleColorSelected = (color: string) => {
     document.documentElement.style.setProperty(
-        '--primaty-variant-bg-marked-color',
+        '--primary-variant-bg-marked-color',
         color,
     )
-    localStorage.setItem('--primaty-variant-bg-marked-color', color)
+    localStorage.setItem('--primary-variant-bg-marked-color', color)
 }
 </script>
 

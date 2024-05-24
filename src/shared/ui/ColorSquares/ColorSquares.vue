@@ -17,7 +17,7 @@ const emits = defineEmits(['colorSelected'])
 const selectColor = (color: string) => {
     selectedColor.value = color
     document.documentElement.style.setProperty(
-        '--primaty-variant-bg-marked-color',
+        '--primary-variant-bg-marked-color',
         color,
     )
     emits('colorSelected', color)
