@@ -73,7 +73,11 @@ const handleColorSelected = (color: string) => {
         v-if="count"
         :class="cls.CompaniesPagination"
     >
-        <Flex gap="4">
+        <Flex
+            gap="4"
+            align="center"
+            class="paginationContainer"
+        >
             <Text
                 color="quatinary"
                 size="size_s"
@@ -83,6 +87,7 @@ const handleColorSelected = (color: string) => {
             <select
                 v-model="selectedPageSize"
                 @change="changePageSize"
+                :class="cls.pageSizeSelect"
             >
                 <option
                     v-for="option in pageSizeOptions"
@@ -92,7 +97,10 @@ const handleColorSelected = (color: string) => {
                     {{ option }}
                 </option>
             </select>
-            <Flex gap="4">
+            <Flex
+                gap="4"
+                align="center"
+            >
                 <Icon
                     :disabled="page === 1"
                     :color="page === 1 ? 'quinary' : 'quatinary'"
@@ -120,6 +128,7 @@ const handleColorSelected = (color: string) => {
                     @keyup.enter="goToPage"
                     min="1"
                     :max="pagesCount"
+                    :class="cls.pageInput"
                 />
             </Flex>
             <ColorSquares @colorSelected="handleColorSelected" />
