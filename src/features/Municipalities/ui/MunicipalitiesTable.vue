@@ -59,27 +59,27 @@ const columns = [
             }),
         header: () => h(SortHeader, { name: 'Nazwa gminy', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.kitrate, {
+    columnHelper.accessor((row) => row.kitrate.toLocaleString('pl-PL'), {
         id: 'kitRate',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Zestaw', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.taxincrease, {
+    columnHelper.accessor((row) => row.taxincrease.toLocaleString('pl-PL'), {
         id: 'taxIncrease',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Wzrost podatku', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.tractorRate, {
+    columnHelper.accessor((row) => row.tractorRate.toLocaleString('pl-PL'), {
         id: 'tractorRate',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Stawka ciągnik', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.trailerRate, {
+    columnHelper.accessor((row) => row.trailerRate.toLocaleString('pl-PL'), {
         id: 'trailerRate',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Stawka naczepa', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.otherRate, {
+    columnHelper.accessor((row) => row.otherRate.toLocaleString('pl-PL'), {
         id: 'otherRate',
         cell: (info) => formatValue(info.getValue()),
         header: () => h(SortHeader, { name: 'Stawka inne', canSort: false }),

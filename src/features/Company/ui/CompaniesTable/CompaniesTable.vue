@@ -225,7 +225,8 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'frugality',
-        cell: (info) => `${info.row.original.frugality} zł`,
+        cell: (info) =>
+            `${info.row.original.frugality.toLocaleString('pl-PL')} zł`,
         header: () => {
             return h(SortHeader, {
                 name: 'Oszcz',
@@ -238,6 +239,7 @@ const columns = ref([
             })
         },
     }),
+
     columnHelper.accessor((row) => row.status, {
         id: 'status',
         cell: (info) => {
@@ -285,7 +287,9 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row, {
         id: 'taxincrease',
-        cell: (info) => `${info.row.original.taxincrease ?? 'N/A'} zł`,
+        cell: (info) =>
+            `${info.row.original.taxincrease.toLocaleString('pl-PL')} zł` ??
+            'N/A',
         header: () => {
             return h(SortHeader, {
                 name: 'Wzrost',
@@ -300,7 +304,8 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row, {
         id: 'kitrate',
-        cell: (info) => `${info.row.original.kitrate ?? 'N/A'} zł`,
+        cell: (info) =>
+            `${info.row.original.kitrate.toLocaleString('pl-PL') ?? 'N/A'} zł`,
         header: () => {
             return h(SortHeader, {
                 name: 'Zestaw',
@@ -511,7 +516,8 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row.tractor, {
         id: 'tractor',
-        cell: (info) => `${info.row.original?.tractor ?? 'N/A'} zł`,
+        cell: (info) =>
+            `${info.row.original?.tractor.toLocaleString('pl-PL') ?? 'N/A'} zł`,
         header: () => {
             return h(SortHeader, {
                 name: 'Stawka ciągnik',
@@ -526,7 +532,8 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row.trailer, {
         id: 'trailer',
-        cell: (info) => `${info.row.original?.trailer ?? 'N/A'} zł`,
+        cell: (info) =>
+            `${info.row.original?.trailer.toLocaleString('pl-PL') ?? 'N/A'} zł`,
         header: () => {
             return h(SortHeader, {
                 name: 'Stawka naczepa',
@@ -542,8 +549,8 @@ const columns = ref([
     columnHelper.accessor((row) => row?.trailerAmount, {
         id: 'theirsTaxes',
         cell: (info) =>
-            info.row.original.theirstaxes
-                ? `${info.row.original.theirstaxes} zł`
+            info.row.original.theirstaxes.toLocaleString('pl-PL')
+                ? `${info.row.original.theirstaxes.toLocaleString('pl-PL')} zł`
                 : 'N/A',
         header: () => {
             return h(SortHeader, {
@@ -560,8 +567,8 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'ourTaxes',
         cell: (info) =>
-            info.row.original.ourtaxes
-                ? `${info.row.original.ourtaxes} zł`
+            info.row.original.ourtaxes.toLocaleString('pl-PL')
+                ? `${info.row.original.ourtaxes.toLocaleString('pl-PL')} zł`
                 : 'N/A',
         header: () => {
             return h(SortHeader, {
