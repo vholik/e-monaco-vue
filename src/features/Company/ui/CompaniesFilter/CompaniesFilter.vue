@@ -10,9 +10,11 @@ import { ref } from 'vue'
 import { CurrentFilter, useCompanyFilterStore } from '@/features/CompanyFilter'
 import { debounce } from 'lodash'
 import TableSelect from '../TableSelect/TableSelect.vue'
+import { $api } from '@/shared/api/api'
 
 const companyFilterStore = useCompanyFilterStore()
 let modalOpen = ref(false)
+let exportLoading = ref(false)
 
 const changeInputValue = debounce((value: string) => {
     companyFilterStore.setSearchTerm(value)
@@ -20,6 +22,20 @@ const changeInputValue = debounce((value: string) => {
 
 function openModal() {
     modalOpen.value = true
+}
+
+async function onExport() {
+    const now = new Date().toISOString()
+    exportLoading.value = true
+    const el = document.createElement('a')
+    const response = await $api.get('/companies/export', {
+        responseType: 'blob',
+    })
+    let blobFile = await response.data
+    el.href = window.URL.createObjectURL(blobFile)
+    el.download = `export-leady-${now}.xlsx`
+    el.click()
+    exportLoading.value = false
 }
 </script>
 
@@ -29,6 +45,13 @@ function openModal() {
         align="center"
         :class="cls.CompaniesFilter"
     >
+        <Button
+            @click="onExport"
+            variant="secondary"
+            :max="false"
+        >
+            {{ exportLoading ? 'Ładowanie...' : 'Eksportuj' }}
+        </Button>
         <TableSelect />
         <Button
             variant="secondary"
