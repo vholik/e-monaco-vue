@@ -38,7 +38,7 @@ function openModal() {
                 color="primary-variant"
                 :icon="AddIcon"
             />
-            Dodaj gminę
+            Dodaj Kontakt
         </Button>
         <Input
             :with-search-icon="true"
