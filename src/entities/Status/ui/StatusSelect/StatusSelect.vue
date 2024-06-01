@@ -44,6 +44,7 @@ const statusFilters: Record<CompanyStatus, CompanyStatus[]> = {
         CompanyStatus.CALL_BACK,
         CompanyStatus.OTHER,
         CompanyStatus.CANNOT_BE_CALLED,
+        CompanyStatus.DOESNT_EXIST,
     ],
     [CompanyStatus.DOESNT_EXIST]: [
         CompanyStatus.DOESNT_EXIST,
