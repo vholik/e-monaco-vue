@@ -43,15 +43,27 @@ function getInfo(person: ContactPerson) {
     if (person.phone) {
         value.push(`Telefon: ${person.phone}`)
     }
+    if (person.firstName) {
+        value.push(`Imię: ${person.firstName} ${person.lastName ?? ''}`)
+    }
     if (person.email) {
         value.push(`E-Mail: ${person.email}`)
     }
-
     if (person.role) {
         value.push(`Rola: ${person.role}`)
     }
 
     return value.join(', ')
+}
+
+function formatName(person: ContactPerson) {
+    if (person.phone) {
+        return person.phone
+    }
+    if (person.firstName || person.lastName) {
+        return `${person.firstName ?? ''} ${person.lastName ?? ''}`.trim()
+    }
+    return person.email ?? ''
 }
 </script>
 
@@ -62,11 +74,7 @@ function getInfo(person: ContactPerson) {
         :options="
             data.map((it: ContactPerson) => ({
                 id: it.id,
-                name: it.firstName
-                    ? `${it.firstName} ${it.lastName ?? ''}`
-                    : it.phone
-                    ? it.phone
-                    : it.email,
+                name: formatName(it),
                 info: getInfo(it),
             }))
         "
