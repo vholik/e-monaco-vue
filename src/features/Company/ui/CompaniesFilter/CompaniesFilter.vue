@@ -24,12 +24,19 @@ function openModal() {
     modalOpen.value = true
 }
 
+const companiesFilters = ref<typeof companyFilterStore.$state | null>(
+    companyFilterStore.$state ?? null,
+)
+
 async function onExport() {
     const now = new Date().toISOString()
     exportLoading.value = true
     const el = document.createElement('a')
     const response = await $api.get('/companies/export', {
         responseType: 'blob',
+        params: {
+            ...companiesFilters.value,
+        },
     })
     let blobFile = await response.data
     el.href = window.URL.createObjectURL(blobFile)
