@@ -442,10 +442,7 @@ const columns = ref([
         cell: (info) =>
             h('div', { class: cls.narrowColumn }, [
                 h(PriceInput, {
-                    onUpdate: onDataChange(
-                        info.row.original.id,
-                        'company.activation',
-                    ),
+                    onUpdate: onDataChange(info.row.original.id, 'activation'),
                     key: info.row.original.id,
                     defaultValue: info.row.original.activation,
                     withPrice: true,
@@ -468,10 +465,7 @@ const columns = ref([
         cell: (info) =>
             h('div', { class: cls.narrowColumn }, [
                 h(PriceInput, {
-                    onUpdate: onDataChange(
-                        info.row.original.id,
-                        'company.rentalFee',
-                    ),
+                    onUpdate: onDataChange(info.row.original.id, 'rentalFee'),
                     key: info.row.original.id,
                     defaultValue: info.row.original.rentalFee,
                     withPrice: true,
