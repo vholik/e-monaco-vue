@@ -58,7 +58,7 @@ function handleInput(event: InputEvent) {
 
     if (/^\d+$/.test(unformattedValue)) {
         const formattedValue = unformattedValue.replace(
-            /^(\d{3})(\d{3})?(\d{2})?(\d{2})?$/,
+            /^(\d{3})(\d{3})(\d{2})(\d{2})$/,
             (match, p1, p2, p3, p4) => {
                 let result = p1
                 if (p2) result += '-' + p2

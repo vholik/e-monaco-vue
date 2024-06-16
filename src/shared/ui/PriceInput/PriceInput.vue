@@ -7,7 +7,7 @@ import CrossIcon from '@/shared/assets/icons/Cross.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 
-const { defaultValue, withPrice } = defineProps({
+const props = defineProps({
     defaultValue: Number,
     withPrice: Boolean,
 })
@@ -18,13 +18,19 @@ const inputValue = ref<number | null>(null)
 const isSelected = ref(false)
 
 const initDefaultValue = () => {
-    isSelected.value = defaultValue !== null && defaultValue !== undefined
-    inputValue.value = defaultValue ?? null
+    isSelected.value =
+        props.defaultValue !== null && props.defaultValue !== undefined
+    inputValue.value = props.defaultValue ?? null
 }
 
 onMounted(initDefaultValue)
+watch(() => props.defaultValue, initDefaultValue)
 
-watch(defaultValue, initDefaultValue)
+watch(isSelected, (newValue) => {
+    if (!newValue) {
+        inputValue.value = props.defaultValue ?? null
+    }
+})
 
 function submit() {
     emit('update', inputValue.value)
@@ -38,7 +44,6 @@ const removePrice = () => {
 }
 
 const editPrice = () => {
-    inputValue.value = defaultValue ?? null
     isSelected.value = false
 }
 </script>
