@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
+import { ref, defineProps, defineEmits, watch } from 'vue'
 import cls from './Input.module.scss'
 import { useField } from 'vee-validate'
 import SearchIcon from '@/shared/assets/icons/Search.vue'
@@ -7,42 +7,55 @@ import Icon from '@/shared/ui/Icon/Icon.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Error from '@/shared/ui/Error/Error.vue'
 
-interface Props {
-    size?: 'size_s' | 'size_m'
-    modelValue?: string | number
-    type?: string
-    value?: string | number
-    name: string
-    label?: string
-    error?: string
-    placeholder?: string
-    variant?: 'primary' | 'secondary'
-    withSearchIcon?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-    type: 'text',
-    placeholder: '',
-    error: '',
-    variant: 'primary',
-    size: 'size_m',
+const props = defineProps({
+    size: {
+        type: String as () => 'size_s' | 'size_m',
+        default: 'size_m',
+    },
+    modelValue: {
+        type: [String, Number],
+        default: '',
+    },
+    type: {
+        type: String,
+        default: 'text',
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    label: String,
+    error: String,
+    placeholder: {
+        type: String,
+        default: '',
+    },
+    variant: {
+        type: String as () => 'primary' | 'secondary',
+        default: 'primary',
+    },
+    withSearchIcon: Boolean,
 })
-
-const { error, name, placeholder, type, variant, label, withSearchIcon } =
-    toRefs(props)
 
 const emit = defineEmits(['update:modelValue', 'onEnter'])
 
-let isFocused = ref(false)
+const isFocused = ref(false)
 
 const {
     value: inputValue,
     errorMessage,
     handleBlur,
     handleChange,
-} = useField(name, undefined, {
-    initialValue: props.value,
+} = useField(props.name, undefined, {
+    initialValue: props.modelValue,
 })
+
+watch(
+    () => props.modelValue,
+    (newValue) => {
+        inputValue.value = newValue
+    },
+)
 
 function updateInput(e: Event) {
     emit('update:modelValue', (e.target as HTMLInputElement).value)
@@ -53,6 +66,7 @@ function onBlur(e: Event) {
     handleBlur(e)
     isFocused.value = false
 }
+
 function onFocus() {
     isFocused.value = true
 }
@@ -92,7 +106,7 @@ function onEnter() {
                 :placeholder="placeholder"
                 :name="name"
                 :type="type"
-                :value="inputValue"
+                v-model="inputValue"
                 @keydown="(e) => e.stopPropagation()"
                 @input="updateInput"
                 @blur="onBlur"
@@ -106,5 +120,3 @@ function onEnter() {
         />
     </label>
 </template>
-
-<style scoped></style>

@@ -7,8 +7,8 @@ import CrossIcon from '@/shared/assets/icons/Cross.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 
-let inputValue = ref('')
-let isSelected = ref(false)
+const inputValue = ref<string>('')
+const isSelected = ref(false)
 
 interface Props {
     defaultValue?: string
@@ -17,7 +17,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 const { defaultValue, validateFn } = toRefs(props)
 
 const emit = defineEmits(['update'])
@@ -25,7 +24,7 @@ const emit = defineEmits(['update'])
 function initDefaultValue() {
     if (defaultValue?.value) {
         isSelected.value = true
-        inputValue.value = defaultValue?.value
+        inputValue.value = defaultValue.value
     } else {
         isSelected.value = false
         inputValue.value = ''
@@ -33,8 +32,7 @@ function initDefaultValue() {
 }
 
 onMounted(initDefaultValue)
-
-watch(defaultValue!, initDefaultValue)
+watch(defaultValue, initDefaultValue)
 
 function submit() {
     if (validateFn?.value && !validateFn.value(inputValue.value)) {
@@ -47,6 +45,11 @@ function submit() {
 
 function removeText() {
     emit('update', null)
+    inputValue.value = ''
+    isSelected.value = false
+}
+
+function editNip() {
     isSelected.value = false
 }
 
@@ -80,9 +83,9 @@ function formatNip(value: string) {
             v-if="!isSelected"
             v-model="inputValue"
             :class="cls.NipInput"
-            name="price"
+            name="nip"
             size="size_s"
-            :placeholder="placeholder || 'Wpisz'"
+            :placeholder="placeholder || 'Wpisz NIP'"
             @input="handleInput"
             @onEnter="submit"
         />
@@ -93,6 +96,7 @@ function formatNip(value: string) {
             <Text
                 size="size_s"
                 :class="cls.text"
+                @dblclick="editNip"
                 >{{ formatNip(inputValue) }}</Text
             >
             <Icon

@@ -7,8 +7,8 @@ import CrossIcon from '@/shared/assets/icons/Cross.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 
-let inputValue = ref('')
-let isSelected = ref(false)
+const inputValue = ref<string>('')
+const isSelected = ref(false)
 
 interface Props {
     defaultValue?: string
@@ -18,7 +18,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 const { defaultValue, validateFn, className } = toRefs(props)
 
 const emit = defineEmits(['update'])
@@ -26,7 +25,7 @@ const emit = defineEmits(['update'])
 function initDefaultValue() {
     if (defaultValue?.value) {
         isSelected.value = true
-        inputValue.value = defaultValue?.value
+        inputValue.value = defaultValue.value
     } else {
         isSelected.value = false
         inputValue.value = ''
@@ -34,8 +33,7 @@ function initDefaultValue() {
 }
 
 onMounted(initDefaultValue)
-
-watch(defaultValue!, initDefaultValue)
+watch(defaultValue, initDefaultValue)
 
 function submit() {
     if (validateFn?.value && !validateFn.value(inputValue.value)) {
@@ -48,6 +46,11 @@ function submit() {
 
 function removeText() {
     emit('update', null)
+    inputValue.value = ''
+    isSelected.value = false
+}
+
+function editComment() {
     isSelected.value = false
 }
 </script>
@@ -57,7 +60,7 @@ function removeText() {
         v-if="!isSelected"
         v-model="inputValue"
         :class="[cls.CommentInput, className]"
-        name="price"
+        name="comment"
         size="size_s"
         :placeholder="placeholder || 'Wpisz'"
         @onEnter="submit"
@@ -69,6 +72,7 @@ function removeText() {
         <Text
             size="size_s"
             :class="[cls.text, className]"
+            @dblclick="editComment"
             >{{ inputValue }}</Text
         >
         <Icon
