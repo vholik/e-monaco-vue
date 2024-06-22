@@ -1,14 +1,13 @@
 import { $api } from '@/shared/api/api'
-import { useMutation, useQueryClient } from 'vue-query'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { useToast } from 'vue-toastification'
 
 export const useDeletePersons = () => {
     const queryClient = useQueryClient()
     const toast = useToast()
 
-    return useMutation(
-        'delete-user',
-        async (id: number) => {
+    return useMutation({
+        mutationFn: async (id: number) => {
             try {
                 const response = await $api.delete(`persons/${id}`)
                 console.log('Delete response data:', response.data)
@@ -22,12 +21,10 @@ export const useDeletePersons = () => {
                 throw error
             }
         },
-        {
-            onSuccess: () => {
-                toast.success('Pomyślnie usunięto użytkownika')
-                console.log('Delete onSuccess - Invalidate queries')
-                queryClient.invalidateQueries('persons')
-            },
+        onSuccess: () => {
+            toast.success('Pomyślnie usunięto użytkownika')
+            console.log('Delete onSuccess - Invalidate queries')
+            queryClient.invalidateQueries({ queryKey: ['persons'] })
         },
-    )
+    })
 }

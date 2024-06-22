@@ -4,25 +4,19 @@ import { $api } from '@/shared/api/api'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { debounce } from 'lodash'
 import { ref, type Ref } from 'vue'
-import { useQuery } from 'vue-query'
+import { keepPreviousData, useQuery } from '@tanstack/vue-query'
 
 export type MunicipalityData = Ref<
     { count?: number; municipalities?: Municipality[] } | undefined
 >
 
-interface UseMunicipalityData {
-    data: MunicipalityData
-    isLoading: Ref<boolean>
-    refetch: Ref<() => void>
-}
-
-export const useMunicipality = (): UseMunicipalityData => {
+export const useMunicipality = () => {
     const municipalitiesFilterStore = useMunicipalityFilterStore()
     const filters = ref<typeof municipalitiesFilterStore.$state | null>(null)
 
-    const query = useQuery(
-        ['municipalities', filters],
-        async () => {
+    const query = useQuery({
+        queryKey: ['municipalities', filters],
+        queryFn: async () => {
             const page = filters.value?.page || 1
             const response = await $api.get('municipalities', {
                 params: {
@@ -34,8 +28,8 @@ export const useMunicipality = (): UseMunicipalityData => {
 
             return response.data
         },
-        { keepPreviousData: true },
-    )
+        placeholderData: (previous) => previous,
+    })
 
     municipalitiesFilterStore.$subscribe(
         debounce((_, state) => {

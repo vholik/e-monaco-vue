@@ -1,11 +1,11 @@
 import { $api } from '@/shared/api/api'
 import type { Ref } from 'vue'
-import { useQuery } from 'vue-query'
+import { keepPreviousData, useQuery } from '@tanstack/vue-query'
 
 export const useFreeTextOptions = (column: Ref<string>) => {
-    const query = useQuery(
-        ['free-text-options', column],
-        async () => {
+    const query = useQuery({
+        queryKey: ['free-text-options', column],
+        queryFn: async () => {
             if (!column.value) return []
 
             const response = await $api.get(
@@ -14,8 +14,8 @@ export const useFreeTextOptions = (column: Ref<string>) => {
             )
             return response.data
         },
-        { keepPreviousData: true },
-    )
+        placeholderData: (previous) => previous,
+    })
 
     return query
 }

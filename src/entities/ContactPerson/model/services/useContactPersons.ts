@@ -1,25 +1,22 @@
 import { $api } from '@/shared/api/api'
 import type { Ref } from 'vue'
-import { useQuery } from 'vue-query'
+import { keepPreviousData, useQuery } from '@tanstack/vue-query'
 
 export const useContactPersons = (
     refValue: Ref<string>,
     selectedRef: Ref<string[]>,
     key?: Ref<string[] | undefined>,
 ) => {
-    return useQuery(
-        [refValue, key],
-        async () => {
+    return useQuery({
+        queryKey: ['contact-persons', refValue, key],
+        queryFn: async () => {
             const response = await $api.get(`persons`, {
                 params: { q: refValue.value, selected: selectedRef.value },
             })
 
             return response.data
         },
-        {
-            initialData: [],
-            keepPreviousData: true,
-            refetchOnWindowFocus: false,
-        },
-    )
+        initialData: [],
+        placeholderData: (previous) => previous,
+    })
 }

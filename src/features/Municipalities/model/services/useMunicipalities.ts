@@ -1,6 +1,5 @@
-import { useMutation, useQueryClient } from 'vue-query'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { useToast } from 'vue-toastification'
-import { Ref } from 'vue'
 import { $api } from '@/shared/api/api'
 
 export const useMunicipalities = (
@@ -9,9 +8,8 @@ export const useMunicipalities = (
     const queryClient = useQueryClient()
     const toast = useToast()
 
-    return useMutation(
-        'add-municipalities',
-        async (data) => {
+    return useMutation({
+        mutationFn: async (data) => {
             try {
                 const response = await $api.post('municipalities', data)
                 return response.data
@@ -20,12 +18,10 @@ export const useMunicipalities = (
                 throw error
             }
         },
-        {
-            onSuccess: () => {
-                toast.success('Pomyślnie dodano gminę')
-                setIsModalOpen?.(false)
-                queryClient.invalidateQueries('municipalities')
-            },
+        onSuccess: () => {
+            toast.success('Pomyślnie dodano gminę')
+            setIsModalOpen?.(false)
+            queryClient.invalidateQueries({ queryKey: ['municipalities'] })
         },
-    )
+    })
 }

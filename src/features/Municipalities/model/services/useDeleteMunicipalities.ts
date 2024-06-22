@@ -1,15 +1,14 @@
 import { $api } from '@/shared/api/api'
-import { useMutation } from 'vue-query'
+import { useMutation } from '@tanstack/vue-query'
 import { useToast } from 'vue-toastification'
-import { useQueryClient } from 'vue-query'
+import { useQueryClient } from '@tanstack/vue-query'
 
 export const useDeleteMunicipalities = () => {
     const toast = useToast()
     const queryClient = useQueryClient()
 
-    return useMutation(
-        'delete-municipality',
-        async (id: number) => {
+    return useMutation({
+        mutationFn: async (id: number) => {
             try {
                 const response = await $api.delete(`municipalities/${id}`)
                 return response.data
@@ -18,11 +17,9 @@ export const useDeleteMunicipalities = () => {
                 throw error
             }
         },
-        {
-            onSuccess: () => {
-                toast.success('Pomyślnie usunięto gminę')
-                queryClient.invalidateQueries('municipalities')
-            },
+        onSuccess: () => {
+            toast.success('Pomyślnie usunięto gminę')
+            queryClient.invalidateQueries({ queryKey: ['municipalities'] })
         },
-    )
+    })
 }

@@ -4,28 +4,21 @@ import { $api } from '@/shared/api/api'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { debounce } from 'lodash'
 import { ref, type Ref } from 'vue'
-import { useQuery } from 'vue-query'
+import { keepPreviousData, useQuery } from '@tanstack/vue-query'
 
 export type CompaniesData = Ref<
     { count?: number; companies?: Company[] } | undefined
 >
 
-interface UseCompaniesData {
-    data: CompaniesData
-    isLoading: Ref<boolean>
-    isFetching: Ref<boolean>
-    refetch: Ref<() => void>
-}
-
-export const useCompanies = (): UseCompaniesData => {
+export const useCompanies = () => {
     const companyFilterStore = useCompanyFilterStore()
     const filters = ref<typeof companyFilterStore.$state | null>(
         companyFilterStore.$state ?? null,
     )
 
-    const query = useQuery(
-        ['companies', filters],
-        async () => {
+    const query = useQuery({
+        queryKey: ['companies', filters],
+        queryFn: async () => {
             const page = filters.value?.page || 1
             const response = await $api.get('companies', {
                 params: {
@@ -37,8 +30,8 @@ export const useCompanies = (): UseCompaniesData => {
 
             return response.data
         },
-        { keepPreviousData: true },
-    )
+        placeholderData: (previous) => previous,
+    })
 
     companyFilterStore.$subscribe(
         debounce((_, state) => {

@@ -24,7 +24,7 @@ const initDefaultValue = () => {
 
 onMounted(initDefaultValue)
 
-watch(defaultValue, initDefaultValue)
+watch(() => defaultValue, initDefaultValue)
 
 function submit() {
     emit('update', inputValue.value)

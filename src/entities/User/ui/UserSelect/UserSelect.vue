@@ -25,7 +25,7 @@ const { errorMessage, value, handleChange } = useField<string | string[]>(
     name,
     undefined,
     {
-        initialValue: defaultValue?.value,
+        initialValue: defaultValue?.value ?? [],
     },
 )
 

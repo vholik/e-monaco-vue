@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useQueryProvider } from 'vue-query'
 import { onMounted } from 'vue'
 import { $api } from '@/shared/api/api'
 import { useUserStore, type User } from './entities/User'
@@ -10,8 +9,6 @@ import {
 import { useRouter } from 'vue-router'
 import 'floating-vue/dist/style.css'
 import { storeToRefs } from 'pinia'
-
-useQueryProvider()
 
 const router = useRouter()
 const userStore = useUserStore()

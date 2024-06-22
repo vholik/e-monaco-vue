@@ -4,7 +4,7 @@ import { $api } from '@/shared/api/api'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { debounce } from 'lodash'
 import { ref, type Ref } from 'vue'
-import { useQuery } from 'vue-query'
+import { useQuery } from '@tanstack/vue-query'
 
 export type PersonsData = Ref<
     { count?: number; persons?: ContactPerson[] } | undefined
@@ -19,9 +19,9 @@ export const usePersons = (): UsePersonsData => {
     const personFilterStore = useContactPersonsFilterStore()
     const filters = ref<typeof personFilterStore.$state | null>(null)
 
-    const query = useQuery(
-        ['persons', filters],
-        async () => {
+    const query = useQuery({
+        queryKey: ['persons', filters],
+        queryFn: async () => {
             const page = filters.value?.page || 1
             const response = await $api.get('persons/filtered', {
                 params: {
@@ -33,8 +33,8 @@ export const usePersons = (): UsePersonsData => {
 
             return response.data
         },
-        { keepPreviousData: true },
-    )
+        placeholderData: (previous) => previous,
+    })
 
     personFilterStore.$subscribe(
         debounce((_, state) => {

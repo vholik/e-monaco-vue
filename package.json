@@ -14,6 +14,7 @@
     "dependencies": {
         "@headlessui-float/vue": "^0.11.3",
         "@headlessui/vue": "^0.0.0-insiders.bfacb64",
+        "@tanstack/vue-query": "^5.45.0",
         "@tanstack/vue-table": "^8.9.3",
         "@types/lodash": "^4.14.198",
         "@vuepic/vue-datepicker": "^6.1.0",
@@ -24,7 +25,6 @@
         "pinia": "^2.1.6",
         "vee-validate": "^4.11.3",
         "vue": "^3.3.4",
-        "vue-query": "^1.26.0",
         "vue-router": "^4.2.4",
         "vue-spinner": "^1.0.4",
         "vue-toastification": "^2.0.0-rc.5",

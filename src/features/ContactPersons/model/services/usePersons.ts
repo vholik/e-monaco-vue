@@ -1,17 +1,14 @@
 import { AxiosError } from 'axios'
 import { $api } from '@/shared/api/api'
-import { useMutation, useQueryClient } from 'vue-query'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { useToast } from 'vue-toastification'
 
 export const usePersons = (setIsModalOpen?: (value: boolean) => void) => {
     const queryClient = useQueryClient()
     const toast = useToast()
 
-    return useMutation(
-        ['add-contact-persons'],
-        async (data) => {
-            const requestData = { data, top: true }
-
+    return useMutation({
+        mutationFn: async (data) => {
             try {
                 const response = await $api.post(
                     '/persons',
@@ -32,13 +29,11 @@ export const usePersons = (setIsModalOpen?: (value: boolean) => void) => {
                 throw error
             }
         },
-        {
-            onSuccess: () => {
-                console.log('Mutation success - onSuccess')
-                toast.success('Pomyślnie dodano osoby kontaktowe')
-                setIsModalOpen?.(false)
-                queryClient.invalidateQueries('persons')
-            },
+        onSuccess: () => {
+            console.log('Mutation success - onSuccess')
+            toast.success('Pomyślnie dodano osoby kontaktowe')
+            setIsModalOpen?.(false)
+            queryClient.invalidateQueries({ queryKey: ['persons'] })
         },
-    )
+    })
 }

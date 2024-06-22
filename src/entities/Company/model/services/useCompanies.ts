@@ -1,6 +1,6 @@
 import { $api } from '@/shared/api/api'
 import type { Ref } from 'vue'
-import { useQuery } from 'vue-query'
+import { useQuery, keepPreviousData } from '@tanstack/vue-query'
 
 export const useCompanies = (
     selected?: Ref<string | string[]>,
@@ -12,9 +12,9 @@ export const useCompanies = (
             : selected?.value
         : ''
 
-    const { data, ...rest } = useQuery(
-        ['companies' + key, q],
-        async () => {
+    const { data, ...rest } = useQuery({
+        queryKey: ['companies', key, q],
+        queryFn: async () => {
             const response = await $api.get('companies', {
                 params: {
                     q: q?.value,
@@ -28,11 +28,9 @@ export const useCompanies = (
 
             return response.data
         },
-        {
-            initialData: [],
-            keepPreviousData: true,
-        },
-    )
+        initialData: [],
+        placeholderData: (previous) => previous,
+    })
 
     return { data, ...rest }
 }

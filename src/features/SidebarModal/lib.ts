@@ -1,5 +1,5 @@
 import { $api } from '@/shared/api/api'
-import { useMutation, useQuery } from 'vue-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { useToast } from 'vue-toastification'
 import * as yup from 'yup'
 
@@ -10,27 +10,27 @@ export const updateSettingsSchema = yup.object().shape({
 
 export const useUpdateSettings = (setIsModalOpen: (value: boolean) => void) => {
     const toast = useToast()
-    const { refetch: refetchSettings } = useSettings()
+    const queryClient = useQueryClient()
 
-    return useMutation(
-        ['update-settings'],
-        async (data) => {
+    return useMutation({
+        mutationFn: async (data) => {
             const response = await $api.put('settings', data)
             return response.data
         },
-        {
-            onSuccess: () => {
-                toast.success('Pomyślnie aktualizowano ustawienia')
-                setIsModalOpen(false)
-                refetchSettings.value()
-            },
+        onSuccess: () => {
+            toast.success('Pomyślnie aktualizowano ustawienia')
+            setIsModalOpen(false)
+            queryClient.invalidateQueries({ queryKey: ['settings'] })
         },
-    )
+    })
 }
 
 export const useSettings = () => {
-    return useQuery(['settings'], async (data) => {
-        const response = await $api.get('settings', data)
-        return response.data
+    return useQuery({
+        queryKey: ['settings'],
+        queryFn: async (data) => {
+            const response = await $api.get('settings', data)
+            return response.data
+        },
     })
 }

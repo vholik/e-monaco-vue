@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import '@/app/styles/index.scss'
 import { router } from '@/app/config/router'
-import { VueQueryPlugin } from 'vue-query'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import { createPinia } from 'pinia'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
@@ -14,17 +14,7 @@ const pinia = createPinia()
 
 app.use(router)
 app.use(pinia)
-app.use(VueQueryPlugin, {
-    queryClientConfig: {
-        defaultOptions: {
-            queries: {
-                refetchOnWindowFocus: false,
-                refetchOnMount: false,
-                
-            },
-        },
-    },
-})
+app.use(VueQueryPlugin)
 app.use(FloatingVue)
 
 app.use(Toast)

@@ -1,14 +1,14 @@
 import { $api } from '@/shared/api/api'
 import type { Ref } from 'vue'
-import { useQuery } from 'vue-query'
+import { keepPreviousData, useQuery } from '@tanstack/vue-query'
 
 export const useMunicipalities = (
     selected?: Ref<string | string[]>,
     q?: Ref<string>,
 ) => {
-    return useQuery(
-        ['municipalities', selected, q],
-        async () => {
+    return useQuery({
+        queryKey: ['municipalities', selected, q],
+        queryFn: async () => {
             const response = await $api.get('municipalities', {
                 params: {
                     q: q?.value,
@@ -22,9 +22,7 @@ export const useMunicipalities = (
 
             return response.data
         },
-        {
-            initialData: [],
-            keepPreviousData: true,
-        },
-    )
+        initialData: { municipalities: [] },
+        placeholderData: (previous) => previous,
+    })
 }

@@ -2,7 +2,11 @@ import { useMunicipalityFilterStore } from '@/features/MunicipalitiesFilter'
 import { $api } from '@/shared/api/api'
 import { debounce } from 'lodash'
 import { ref, type Ref } from 'vue'
-import { useQuery, useQueryClient, type UseQueryOptions } from 'vue-query'
+import {
+    useQuery,
+    useQueryClient,
+    type UseQueryOptions,
+} from '@tanstack/vue-query'
 import type { Municipality } from '@/entities/Municipality'
 
 interface MunicipalityData {
@@ -23,50 +27,19 @@ export const useMunicipalityData = (): UseMunicipalityData => {
     const isLoading = ref(false)
     const queryClient = useQueryClient()
 
-    const fetchData = async (): Promise<MunicipalityData> => {
-        try {
-            const page = filters.value?.page || 1
-            const take = filters.value?.take || 1
-            const response = await $api.get('municipalities', {
-                params: {
-                    ...filters.value,
-                    skip: (page - 1) * take,
-                    take,
-                    page: undefined,
-                },
-            })
-            return response.data
-        } catch (error) {
-            console.error('Error fetching data:', error)
-            throw error
-        }
-    }
-
-    const queryOptions: UseQueryOptions<MunicipalityData> = {
-        keepPreviousData: true,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-    }
-
-    const query = useQuery<MunicipalityData>(
-        ['municipalities', filters],
-        fetchData,
-        queryOptions,
-    )
-
     const setPageSize = async (pageSize: number) => {
         filters.value.take = pageSize
-        await queryClient.invalidateQueries('municipalities')
+        await queryClient.invalidateQueries({ queryKey: ['municipalities'] })
 
         setTimeout(() => {
-            queryClient.invalidateQueries('municipalities')
+            queryClient.invalidateQueries({ queryKey: ['municipalities'] })
         }, 1000)
     }
 
     municipalitiesFilterStore.$subscribe(
         debounce((_, state) => {
             Object.assign(filters.value, state)
-            queryClient.invalidateQueries('municipalities')
+            queryClient.invalidateQueries({ queryKey: ['municipalities'] })
         }, 500),
     )
 
