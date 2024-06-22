@@ -1,0 +1,45 @@
+.tableWrapper {
+    // sidebar width - gap between sidebar and page
+    min-height: 400px;
+    padding: 0 2rem;
+}
+
+.table {
+    width: 900px;
+    border-collapse: collapse;
+}
+
+.headerTitle {
+    text-align: left;
+    color: var(--quatinary-color);
+    font: var(--font-s);
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+    z-index: var(--table-z-index);
+}
+
+.headerTitle,
+.bodyValue {
+    padding: 0.6rem 1.5rem 0.6rem 0.5rem;
+}
+
+.bodyValue {
+    font: var(--font-s);
+}
+
+.header {
+    border-bottom: 1px solid var(--stroke-color);
+}
+
+.row {
+    border-bottom: 1px solid var(--stroke-color);
+}
+
+.noData {
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

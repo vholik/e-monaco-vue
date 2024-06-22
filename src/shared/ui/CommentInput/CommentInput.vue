@@ -7,9 +7,6 @@ import CrossIcon from '@/shared/assets/icons/Cross.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 
-const inputValue = ref<string>('')
-const isSelected = ref(false)
-
 interface Props {
     defaultValue?: string
     validateFn?: (value: string) => boolean
@@ -21,6 +18,9 @@ const props = defineProps<Props>()
 const { defaultValue, validateFn, className } = toRefs(props)
 
 const emit = defineEmits(['update'])
+
+const inputValue = ref<string>('')
+const isSelected = ref(false)
 
 function initDefaultValue() {
     if (defaultValue?.value) {
@@ -44,7 +44,8 @@ function submit() {
     isSelected.value = true
 }
 
-function removeText() {
+function removeText(e: Event) {
+    e.stopPropagation()
     emit('update', null)
     inputValue.value = ''
     isSelected.value = false
