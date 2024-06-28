@@ -32,6 +32,7 @@ export const useUpdatePersons = () => {
                 }
 
                 queryClient.invalidateQueries('persons')
+                queryClient.invalidateQueries('companies')
             },
             onError: () => {
                 toast.error('Wystąpił błąd. Spróbuj później')

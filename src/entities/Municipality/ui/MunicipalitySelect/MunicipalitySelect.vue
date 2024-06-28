@@ -49,7 +49,7 @@ watch(defaultValue!, () => {
             data?.municipalities?.map((it: Municipality) => ({
                 id: it.id,
                 name: it.name,
-            }))
+            })) ?? []
         "
         with-input
         :as-input="asInput"

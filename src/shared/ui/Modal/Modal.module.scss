@@ -2,7 +2,6 @@
     background-color: var(--primary-invert-color);
     border-radius: var(--default-border-radius);
     min-width: 450px;
-    max-width: 450px;
     max-height: 60%;
     overflow-y: auto;
     position: relative;
@@ -54,6 +53,6 @@
 }
 
 .inner {
-    padding-top: 0.25rem;
+    // padding-top: 0.25rem;
     padding-bottom: 0;
 }

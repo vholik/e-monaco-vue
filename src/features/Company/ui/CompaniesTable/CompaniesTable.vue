@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { h, ref } from 'vue'
+import { h, ref, watch } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import propcls from '@/shared/ui/CommentInput/CommentInput.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import { StatusSelect } from '@/entities/Status'
 import { UserSelect, useUserStore } from '@/entities/User'
 import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
-import { ContactPersonSelect } from '@/entities/ContactPerson'
+import {
+    ContactPersonSelect,
+    type ContactPerson,
+} from '@/entities/ContactPerson'
 import { useCompanies } from '../../model/services/useCompanies'
 import type { Company } from '@/entities/Company'
 import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
@@ -36,6 +39,7 @@ import CompanyFreeSelect from '@/features/CompanyFreeSelect/ui/CompanyFreeSelect
 import TextBlock from '@/shared/ui/TextBlock/TextBlock.vue'
 import { useSidebarStore } from '@/widgets/Sidebar/model/store/sidebarStore'
 import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect.vue'
+import EditContactPersonsModal from '@/features/EditContactPersonsModal/EditContactPersonsModal.vue'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading, isFetching, refetch } = useCompanies()
@@ -43,6 +47,10 @@ const toast = useToast()
 const { onDataChange } = useCompanyActions()
 const isCompanyHistoriesModalOpen = ref(false)
 const currentCompanyId = ref('')
+
+const isEditContactPersonsModalOpen = ref(false)
+const editContactPersonsCompanyId = ref<string | null>(null)
+
 const userStore = useUserStore()
 const { loggedInUser } = storeToRefs(userStore)
 const { tables } = storeToRefs(companyFilterStore)
@@ -50,6 +58,11 @@ const { tables } = storeToRefs(companyFilterStore)
 function onContactHistoriesClick(companyId: string) {
     isCompanyHistoriesModalOpen.value = true
     currentCompanyId.value = companyId
+}
+
+function onEditContactPersonsClick(companyId: string) {
+    isEditContactPersonsModalOpen.value = true
+    editContactPersonsCompanyId.value = companyId
 }
 
 function changeOrder(name: string) {
@@ -689,7 +702,39 @@ const columns = ref([
             })
         },
     }),
+    columnHelper.accessor((row) => row.contactPersons, {
+        id: 'contactPersons',
+        cell: (info) =>
+            h(
+                ActionLink,
+                {
+                    key: info.row.original.id,
+                    onClickFn: () =>
+                        onEditContactPersonsClick(info.row.original.id),
+                },
+                {
+                    default: () => 'Edytuj',
+                },
+            ),
+        header: () => {
+            return h(SortHeader, {
+                name: 'Edyt. os. kont.',
+                canSort: false,
+            })
+        },
+    }),
 ])
+
+const editModalContactPersons = ref<ContactPerson[]>([])
+
+watch(data, () => {
+    if (editContactPersonsCompanyId) {
+        editModalContactPersons.value =
+            data.value?.companies.find(
+                (it) => it.id === editContactPersonsCompanyId.value,
+            )?.contactPersons ?? []
+    }
+})
 
 const table = useVueTable({
     get columns() {
@@ -735,6 +780,14 @@ const table = useVueTable({
             v-model:isModalOpen="isCompanyHistoriesModalOpen"
             :current-company-id="currentCompanyId"
             :refetch="refetch"
+        />
+        <EditContactPersonsModal
+            v-model:isModalOpen="isEditContactPersonsModalOpen"
+            :contact-persons="
+                data?.companies?.find(
+                    (it) => it.id === editContactPersonsCompanyId,
+                )?.contactPersons ?? []
+            "
         />
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
