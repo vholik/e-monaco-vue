@@ -110,6 +110,12 @@ const table = useVueTable({
                 </tr>
             </tbody>
         </table>
+        <div
+            v-if="!data?.campaigns?.length && !isLoading"
+            :class="cls.noData"
+        >
+            <Text color="quinary">Nie znaleziono danych</Text>
+        </div>
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
     </div>
 </template>
