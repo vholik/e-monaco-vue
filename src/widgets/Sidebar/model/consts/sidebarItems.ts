@@ -24,4 +24,9 @@ export const sidebarItems = [
         icon: UsersIcon,
         path: '/municipalities',
     },
+    {
+        name: 'Podsumowanie kampanii',
+        icon: UsersIcon,
+        path: '/campaign',
+    },
 ]

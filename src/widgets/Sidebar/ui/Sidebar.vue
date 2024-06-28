@@ -20,9 +20,15 @@ import { useSidebarStore } from '../model/store/sidebarStore'
 import { storeToRefs } from 'pinia'
 
 const allowedPaths: Record<UserRoles, string[]> = {
-    admin: ['/dashboard', '/users', '/persons', '/municipalities'],
     user: ['/dashboard', '/persons', '/municipalities'],
-    superadmin: ['/dashboard', '/users', '/persons', '/municipalities'],
+    admin: ['/dashboard', '/users', '/persons', '/municipalities', '/campaign'],
+    superadmin: [
+        '/dashboard',
+        '/users',
+        '/persons',
+        '/municipalities',
+        '/campaign',
+    ],
 }
 
 const router = useRouter()

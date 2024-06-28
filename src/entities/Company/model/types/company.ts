@@ -37,4 +37,5 @@ export interface Company {
     email: string
     last_contact_date: string
     last_contact_comment: string
+    campaignId: string | null
 }

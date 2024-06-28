@@ -35,6 +35,7 @@ import NipInput from '@/shared/ui/NipInput/NipInput.vue'
 import CompanyFreeSelect from '@/features/CompanyFreeSelect/ui/CompanyFreeSelect.vue'
 import TextBlock from '@/shared/ui/TextBlock/TextBlock.vue'
 import { useSidebarStore } from '@/widgets/Sidebar/model/store/sidebarStore'
+import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect.vue'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading, isFetching, refetch } = useCompanies()
@@ -239,7 +240,6 @@ const columns = ref([
             })
         },
     }),
-
     columnHelper.accessor((row) => row.status, {
         id: 'status',
         cell: (info) => {
@@ -651,6 +651,22 @@ const columns = ref([
             })
         },
     }),
+    columnHelper.accessor((row) => row.campaignId, {
+        id: 'campaignId',
+        cell: (info) =>
+            h(CampaignSelect, {
+                key: info.row.original.id,
+                name: 'campaigns',
+                defaultValue: info.row.original.campaignId,
+                onUpdate: onDataChange(info.row.original.id, 'campaignId'),
+            }),
+        header: () =>
+            h(SortHeader, {
+                name: 'Kampania',
+                onUpdate: changeOrder('campaignId'),
+                canSort: false,
+            }),
+    }),
     columnHelper.accessor((row) => row.contactPersons, {
         id: 'contactPersons',
         cell: (info) =>
@@ -698,7 +714,6 @@ const table = useVueTable({
                 } else {
                     acc[it.id] = false
                 }
-
                 return acc
             }, {})
         },

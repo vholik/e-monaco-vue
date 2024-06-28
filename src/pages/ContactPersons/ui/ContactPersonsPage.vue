@@ -10,11 +10,6 @@ import { ref, onMounted } from 'vue'
 import Button from '@/shared/ui/Button/Button.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
 import ContactPersonsFilter from '@/features/ContactPersons/ui/ContactPersonFilter/ContactPersonFilter.vue'
-let modalOpen = ref(false)
-
-function openModal() {
-    modalOpen.value = true
-}
 </script>
 
 <template>

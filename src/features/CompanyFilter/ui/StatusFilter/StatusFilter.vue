@@ -19,6 +19,7 @@ const { getStatus } = storeToRefs(filterStore)
             as-input
             name="status-select"
             :default-value="filterStore.getStatus ?? undefined"
+            multiple
             @update="onChangeFn"
         />
     </FilterHeader>

@@ -27,4 +27,5 @@ export const companyTableOptions = [
     { id: 'trailerAmount', name: 'Naczepy' },
     { id: 'otherAmount', name: 'Inne' },
     { id: 'contactPersons', name: 'Osoby kontaktowe' },
+    { id: 'campaignId', name: 'Kampania' },
 ]

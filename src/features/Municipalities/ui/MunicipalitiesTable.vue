@@ -18,7 +18,6 @@ import PriceInput from '@/shared/ui/PriceInput/PriceInput.vue'
 import MunicipalitieUpdateRatesModal from './MunicipalitieUpdateRatesModal/MunicipalitieUpdateRatesModal.vue'
 import UpdatePassUserButton from '@/shared/ui/UpdatePassUserButton/UpdatePassUserButton.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
-import { defineProps, defineEmits } from 'vue'
 
 const { mutateAsync } = useDeleteMunicipalities()
 

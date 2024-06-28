@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import cls from './UserSelect.module.scss'
+import cls from './CampaignSelect.module.scss'
+import { ref, watch, toRefs } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
-import { toRefs, watch } from 'vue'
 import { useField } from 'vee-validate'
-import { useOwners } from '../../model/services/useOwners'
-import type { User } from '../../model/types/user'
+import { useCampaigns } from '@/features/Campaign/model/services/useCampaign'
+import type { Campaign } from '@/entities/Campaign/model/types/campaign'
 
-const { data } = useOwners()
+const { data } = useCampaigns()
 
 interface Props {
     asInput?: boolean
     label?: string
     name: string
     defaultValue?: string | string[]
-    mutiple?: boolean
+    multiple?: boolean
 }
 
 const props = defineProps<Props>()
@@ -33,7 +33,6 @@ const { errorMessage, value, handleChange } = useField<string | string[]>(
 function onUpdate(value: string | string[]) {
     emit('update', value)
 }
-
 watch(defaultValue!, () => {
     handleChange(defaultValue?.value)
 })
@@ -42,16 +41,15 @@ watch(defaultValue!, () => {
 <template>
     <div
         v-if="data"
-        :class="cls.UserSelect"
+        :class="cls.CampaignSelect"
     >
         <Select
             v-model="value"
-            :multiple="mutiple"
+            :multiple="false"
             :options="
-                data.map((it: User) => ({
+                data.map((it: Campaign) => ({
                     id: it.id,
-                    name: it.firstName,
-                    role: it.role,
+                    name: it.title,
                 }))
             "
             :as-input="asInput"

@@ -144,6 +144,7 @@ const debouncedInputChange = debounce((value) => {
                             v-if="Array.isArray(currentOption) && !hideValues"
                             align="start"
                             gap="2"
+                            style="display: block"
                         >
                             <VTooltip
                                 v-for="(item, index) in currentOption"

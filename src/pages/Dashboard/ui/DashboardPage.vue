@@ -3,7 +3,7 @@ import cls from './DashboardPage.module.scss'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Breadcrumbs from '@/shared/ui/Breadcrumbs/Breadcrumbs.vue'
 import { breadcrumbs } from '../model/consts/breadcrumbs'
-import { CompaniesFilter, CompaniesTable } from '@/features/Company'
+import { CompaniesFilter, CompaniesTable } from '@/features/Company/index'
 </script>
 
 <template>

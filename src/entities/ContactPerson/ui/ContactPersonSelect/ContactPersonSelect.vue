@@ -66,7 +66,6 @@ function formatName(person: ContactPerson) {
     return person.email ?? ''
 }
 </script>
-
 <template>
     <Select
         v-model="value"

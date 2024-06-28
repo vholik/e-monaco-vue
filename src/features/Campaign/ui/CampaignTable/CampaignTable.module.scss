@@ -2,16 +2,22 @@
     width: calc(100vw - var(--sidebar-width) - 2rem);
     overflow-x: scroll;
     overflow-y: scroll;
-    height: 83vh;
+    height: 75vh;
 }
 
-.tableWrapper.screwed {
-    width: calc(100vw - var(--sidebar-width-screwed) - 2rem);
+.currency {
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: middle;
 }
 
-.CompaniesTable {
+.CampaignTable {
     width: max-content;
     border-collapse: collapse;
+}
+
+.flexRender {
+    display: inline-flex;
 }
 
 .headerTitle {
@@ -27,17 +33,12 @@
 
 .headerTitle,
 .bodyValue {
-    padding: 0.6rem 0.25rem 0.6rem 0rem;
+    padding: 0.4rem 1.5rem 0.6rem 0.5rem;
 }
 
 .bodyValue {
     font: var(--font-s);
-    overflow-wrap: break-word;
-}
-.contactPersons {
-    white-space: pre-wrap;
-    font: var(--font-s);
-    line-height: 1.5;
+    white-space: nowrap;
 }
 
 .header {
@@ -49,13 +50,7 @@
 }
 
 .marked {
-    background-color: var(--primary-variant-bg-marked-color);
-    transition: background-color 0.3s ease;
-}
-.contactPersons {
-    white-space: normal;
-    font: var(--font-s);
-    line-height: 1.5;
+    background-color: var(--primaty-variant-bg-marked-color);
 }
 
 .noData {
@@ -66,14 +61,6 @@
     align-items: center;
 }
 
-.narrowColumn {
-    max-width: 7vh;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.contactPersons {
-    white-space: pre-wrap;
-    font: var(--font-s);
+.boldText {
+    font-weight: bold;
 }
