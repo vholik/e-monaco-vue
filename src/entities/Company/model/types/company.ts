@@ -38,4 +38,7 @@ export interface Company {
     last_contact_date: string
     last_contact_comment: string
     campaignId: string | null
+    topContactPersonId: string | null
+    firstName: string | null
+    lastName: string | null
 }
