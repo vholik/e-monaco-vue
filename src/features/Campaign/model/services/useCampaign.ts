@@ -12,6 +12,8 @@ export const useCampaigns = () => {
         },
         {
             initialData: [],
+            keepPreviousData: true,
+            refetchOnWindowFocus: false,
         },
     )
 }

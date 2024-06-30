@@ -2,7 +2,7 @@
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
 import cls from './CampaignTable.module.scss'
-import { h, computed, ref } from 'vue'
+import { h } from 'vue'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
@@ -66,7 +66,7 @@ const columns = [
 const table = useVueTable({
     columns,
     get data() {
-        return data.value || []
+        return data.value?.campaigns || []
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -111,7 +111,7 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="!data?.length && !isLoading"
+            v-if="!data?.campaigns?.length && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
