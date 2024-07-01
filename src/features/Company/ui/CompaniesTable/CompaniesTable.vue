@@ -40,11 +40,13 @@ import TextBlock from '@/shared/ui/TextBlock/TextBlock.vue'
 import { useSidebarStore } from '@/widgets/Sidebar/model/store/sidebarStore'
 import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect.vue'
 import EditContactPersonsModal from '@/features/EditContactPersonsModal/EditContactPersonsModal.vue'
+import { useUpdatePersons } from '@/features/ContactPersons/model/services/useUpdatePersons'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading, isFetching, refetch } = useCompanies()
 const toast = useToast()
 const { onDataChange } = useCompanyActions()
+const { mutate: updateContactPerson } = useUpdatePersons()
 const isCompanyHistoriesModalOpen = ref(false)
 const currentCompanyId = ref('')
 
@@ -347,35 +349,102 @@ const columns = ref([
             })
         },
     }),
-    columnHelper.accessor((row) => row.full_name, {
-        id: 'fullName',
-        cell: (info) => info.getValue(),
+    columnHelper.accessor((row) => row.firstName, {
+        id: 'firstName',
+        cell: (info) =>
+            h(CommentInput, {
+                key: info.row.original.id,
+                className: propcls.largeFont,
+                onUpdate: (newValue: string) =>
+                    updateContactPerson({
+                        id: info.row.original.topContactPersonId!,
+                        firstName: newValue,
+                    }),
+                defaultValue: info.getValue(),
+                placeholder: 'Jan',
+                validateFn: () => {
+                    const isValid = !!info.row.original.topContactPersonId
+                    if (!isValid) {
+                        toast.error(
+                            'Firma nie posiada głównej osoby kontaktowej (z włączoną wartością TOP).',
+                        )
+                        return isValid
+                    }
+                    return isValid
+                },
+            }),
         header: () => {
             return h(SortHeader, {
-                name: 'Imię i nazwisko',
-                onUpdate: changeOrder('full_name'),
+                name: 'Imię',
+                onUpdate: changeOrder('firstName'),
                 value:
-                    companyFilterStore.getOrderBy === 'full_name'
+                    companyFilterStore.getOrderBy === 'firstName'
                         ? companyFilterStore.getOrder
                         : null,
-                loading: isSortHeaderLoading('full_name'),
+                loading: isSortHeaderLoading('firstName'),
             })
         },
     }),
-
+    columnHelper.accessor((row) => row.lastName, {
+        id: 'lastName',
+        cell: (info) =>
+            h(CommentInput, {
+                key: info.row.original.id,
+                className: propcls.largeFont,
+                onUpdate: (newValue: string) =>
+                    updateContactPerson({
+                        id: info.row.original.topContactPersonId!,
+                        lastName: newValue,
+                    }),
+                defaultValue: info.getValue(),
+                placeholder: 'Kowalski',
+                validateFn: () => {
+                    const isValid = !!info.row.original.topContactPersonId
+                    if (!isValid) {
+                        toast.error(
+                            'Firma nie posiada głównej osoby kontaktowej (z włączoną wartością TOP).',
+                        )
+                        return isValid
+                    }
+                    return isValid
+                },
+            }),
+        header: () => {
+            return h(SortHeader, {
+                name: 'Nazwisko',
+                onUpdate: changeOrder('lastName'),
+                value:
+                    companyFilterStore.getOrderBy === 'lastName'
+                        ? companyFilterStore.getOrder
+                        : null,
+                loading: isSortHeaderLoading('lastName'),
+            })
+        },
+    }),
     columnHelper.accessor((row) => row.role, {
         id: 'role',
         cell: (info) =>
-            h(
-                TextBlock,
-                {
-                    key: info.row.original.id,
+            h(CommentInput, {
+                key: info.row.original.id,
+                className: propcls.largeFont,
+                onUpdate: (newRole: string) =>
+                    updateContactPerson({
+                        id: info.row.original.topContactPersonId!,
+                        role: newRole,
+                    }),
+                defaultValue: info.getValue(),
+                placeholder: 'Rola',
+                validateFn: () => {
+                    const isValid = !!info.row.original.topContactPersonId
+                    if (!isValid) {
+                        toast.error(
+                            'Firma nie posiada głównej osoby kontaktowej (z włączoną wartością TOP).',
+                        )
+                        return isValid
+                    }
+                    return isValid
                 },
-                {
-                    default: () => info.getValue(),
-                },
-            ),
-
+            }),
         header: () => {
             return h(SortHeader, {
                 name: 'Rola',
@@ -390,7 +459,28 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row.phone, {
         id: 'phone',
-        cell: (info) => info.getValue(),
+        cell: (info) =>
+            h(CommentInput, {
+                key: info.row.original.id,
+                className: propcls.largeFont,
+                onUpdate: (newValue: string) =>
+                    updateContactPerson({
+                        id: info.row.original.topContactPersonId!,
+                        phone: newValue,
+                    }),
+                defaultValue: info.getValue(),
+                placeholder: 'Telefon',
+                validateFn: () => {
+                    const isValid = !!info.row.original.topContactPersonId
+                    if (!isValid) {
+                        toast.error(
+                            'Firma nie posiada głównej osoby kontaktowej (z włączoną wartością TOP).',
+                        )
+                        return isValid
+                    }
+                    return isValid
+                },
+            }),
         header: () => {
             return h(SortHeader, {
                 name: 'Telefon',
@@ -405,7 +495,28 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row.email, {
         id: 'email',
-        cell: (info) => info.getValue(),
+        cell: (info) =>
+            h(CommentInput, {
+                key: info.row.original.id,
+                className: propcls.largeFont,
+                onUpdate: (newValue: string) =>
+                    updateContactPerson({
+                        id: info.row.original.topContactPersonId!,
+                        email: newValue,
+                    }),
+                defaultValue: info.getValue(),
+                placeholder: 'E-mail',
+                validateFn: () => {
+                    const isValid = !!info.row.original.topContactPersonId
+                    if (!isValid) {
+                        toast.error(
+                            'Firma nie posiada głównej osoby kontaktowej (z włączoną wartością TOP).',
+                        )
+                        return isValid
+                    }
+                    return isValid
+                },
+            }),
         header: () => {
             return h(SortHeader, {
                 name: 'E-mail',
@@ -524,7 +635,9 @@ const columns = ref([
     columnHelper.accessor((row) => row.tractor, {
         id: 'tractor',
         cell: (info) =>
-            `${info.row.original?.tractor.toLocaleString('pl-PL') ?? 'N/A'} zł`,
+            `${
+                info.row.original?.tractor?.toLocaleString('pl-PL') ?? 'N/A'
+            } zł`,
         header: () => {
             return h(SortHeader, {
                 name: 'Stawka ciągnik',
@@ -540,7 +653,9 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailer, {
         id: 'trailer',
         cell: (info) =>
-            `${info.row.original?.trailer.toLocaleString('pl-PL') ?? 'N/A'} zł`,
+            `${
+                info.row.original?.trailer?.toLocaleString('pl-PL') ?? 'N/A'
+            } zł`,
         header: () => {
             return h(SortHeader, {
                 name: 'Stawka naczepa',
