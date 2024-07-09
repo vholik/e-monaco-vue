@@ -3,6 +3,12 @@ import type { Order } from '@/shared/types/order'
 import { defineStore } from 'pinia'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { companyTableOptions } from '@/features/Company/model/consts/options'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export const useCompanyFilterStore = defineStore('companyFilter', {
     state: () => ({
@@ -63,8 +69,27 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
     },
     actions: {
         setDateRange(dateRange: string[]) {
-            this.from_next_date = dateRange[0]
-            this.to_next_date = dateRange[1]
+            const localTimeZone = dayjs.tz.guess()
+
+            const from = dateRange[0]
+                ? dayjs
+                      .tz(dateRange[0], localTimeZone)
+                      .startOf('day')
+                      .utc()
+                      .format()
+                : dateRange[0]
+
+            const to = dateRange[1]
+                ? dayjs
+                      .tz(dateRange[1], localTimeZone)
+                      .endOf('day')
+                      .utc()
+                      .format()
+                : dateRange[1]
+
+            this.from_next_date = from
+            this.to_next_date = to
+
             this.page = 1
         },
         setTables(tables: string[]) {
