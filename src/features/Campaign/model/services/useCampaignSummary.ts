@@ -1,7 +1,7 @@
-import { ref, type Ref } from 'vue'
+import { ref, Ref, watch } from 'vue'
 import { $api } from '@/shared/api/api'
+import { useQueryClient } from 'vue-query'
 import { useToast } from 'vue-toastification'
-import { useQuery } from 'vue-query'
 import type { CampaignSummary } from '@/entities/Campaign/model/types/campaignSummary'
 
 export interface CampaignSummaryData {
@@ -13,20 +13,26 @@ export interface useCampaignSummary {
     data: Ref<CampaignSummaryData | undefined>
     isLoading: Ref<boolean>
     error: Ref<any>
+    fetchCampaignSummaries: (id: string) => Promise<void>
 }
 
-export const useCampaignSummaries = (): useCampaignSummary => {
+export const useCampaignSummaries = (
+    campaignId: Ref<string | null>,
+): useCampaignSummary => {
     const data = ref<CampaignSummaryData | undefined>(undefined)
     const isLoading = ref(false)
-    const error = ref(null)
+    const error = ref<any>(null)
     const toast = useToast()
+    const queryClient = useQueryClient()
 
-    const fetchAllCampaignSummaries = async () => {
+    const fetchCampaignSummaries = async (id: string) => {
         isLoading.value = true
         try {
-            const response = await $api.get('/companies/campaign')
+            const response = await $api.get(`/companies/campaigns/${id}`)
             const summaries = response.data.campaignSummary || []
             data.value = { campaigns: summaries }
+
+            queryClient.invalidateQueries('campaigns')
         } catch (err: any) {
             if (err.response && err.response.status === 404) {
                 data.value = { campaigns: [] }
@@ -39,14 +45,14 @@ export const useCampaignSummaries = (): useCampaignSummary => {
         }
     }
 
-    useQuery('allCampaignSummaries', fetchAllCampaignSummaries, {
-        refetchOnWindowFocus: false,
-        keepPreviousData: true,
+    watch(campaignId, (newId) => {
+        if (newId) fetchCampaignSummaries(newId)
     })
 
     return {
         data,
         isLoading,
         error,
+        fetchCampaignSummaries,
     }
 }

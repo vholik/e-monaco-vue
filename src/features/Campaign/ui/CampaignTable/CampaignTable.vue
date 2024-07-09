@@ -6,10 +6,14 @@ import { h } from 'vue'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
 import Text from '@/shared/ui/Text/Text.vue'
 import LoaderContainer from '@/shared/ui/LoaderContainer/LoaderContainer.vue'
-import { useCampaignSummaries } from '@/features/Campaign/model/services/useCampaignSummary'
 import type { CampaignSummary } from '@/entities/Campaign/model/types/campaignSummary'
 
-const { data, isLoading } = useCampaignSummaries()
+interface Props {
+    campaignSummaries: CampaignSummary[]
+    isLoading: boolean
+}
+
+const props = defineProps<Props>()
 
 const columnHelper = createColumnHelper<CampaignSummary>()
 
@@ -66,7 +70,7 @@ const columns = [
 const table = useVueTable({
     columns,
     get data() {
-        return data.value?.campaigns || []
+        return props.campaignSummaries
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -111,11 +115,11 @@ const table = useVueTable({
             </tbody>
         </table>
         <div
-            v-if="!data?.campaigns?.length && !isLoading"
-            :class="cls.noData"
+            v-if="!props.campaignSummaries?.length && !props.isLoading"
+            class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
-        <LoaderContainer :is-loading="isLoading"></LoaderContainer>
+        <LoaderContainer :is-loading="props.isLoading"></LoaderContainer>
     </div>
 </template>

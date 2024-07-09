@@ -33,6 +33,7 @@ const { errorMessage, value, handleChange } = useField<string | string[]>(
 function onUpdate(value: string | string[]) {
     emit('update', value)
 }
+
 watch(defaultValue!, () => {
     handleChange(defaultValue?.value)
 })
@@ -47,10 +48,7 @@ watch(defaultValue!, () => {
             v-model="value"
             :multiple="false"
             :options="
-                data.map((it: Campaign) => ({
-                    id: it.id,
-                    name: it.title,
-                }))
+                data.map((it: Campaign) => ({ id: it.id, name: it.title }))
             "
             :as-input="asInput"
             :label="label"
