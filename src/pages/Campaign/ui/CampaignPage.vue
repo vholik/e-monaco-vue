@@ -71,15 +71,16 @@ onMounted(() => {
                 />
                 Dodaj kampanię
             </Button>
+            <CampaignSelect
+                :class="cls.campaignSelect"
+                name="campaignName"
+                @update="handleCampaignSelect"
+            />
             <Flex
                 direction="column"
                 align="start"
                 gap="8"
             >
-                <CampaignSelect
-                    name="campaignName"
-                    @update="handleCampaignSelect"
-                />
                 <CampaignTable
                     v-if="data && data.campaigns"
                     key="campaign-table"
