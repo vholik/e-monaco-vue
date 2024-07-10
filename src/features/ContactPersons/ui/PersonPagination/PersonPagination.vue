@@ -4,7 +4,7 @@ import Text from '@/shared/ui/Text/Text.vue'
 import ArrowUp from '@/shared/assets/icons/ArrowUp.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
-import { computed, toRefs, ref } from 'vue'
+import { computed, toRefs, ref, onMounted } from 'vue'
 import { PAGE_SIZE } from '@/shared/const/pagination'
 import { useContactPersonsFilterStore } from '@/features/PersonsFilter/model/store/personsFilterStore'
 import { storeToRefs } from 'pinia'
@@ -48,13 +48,16 @@ const goToPage = () => {
     }
 }
 </script>
-
 <template>
     <div
         v-if="count"
         :class="cls.PersonPagination"
     >
-        <Flex gap="4">
+        <Flex
+            gap="4"
+            align="center"
+            class="paginationContainer"
+        >
             <Text
                 color="quatinary"
                 size="size_s"
@@ -64,6 +67,7 @@ const goToPage = () => {
             <select
                 v-model="selectedPageSize"
                 @change="changePageSize"
+                :class="cls.pageSizeSelect"
             >
                 <option
                     v-for="option in pageSizeOptions"
@@ -73,7 +77,10 @@ const goToPage = () => {
                     {{ option }}
                 </option>
             </select>
-            <Flex gap="4">
+            <Flex
+                gap="4"
+                align="center"
+            >
                 <Icon
                     :disabled="page === 1"
                     :color="page === 1 ? 'quinary' : 'quatinary'"
@@ -101,8 +108,19 @@ const goToPage = () => {
                     @keyup.enter="goToPage"
                     min="1"
                     :max="pagesCount"
+                    :class="cls.pageInput"
                 />
             </Flex>
         </Flex>
+
+        <div class="tableWrapper">
+            <table class="PersonsTable">
+                <tr
+                    v-for="(row, index) in 10"
+                    :key="index"
+                    :class="{ marked: row.isMarked }"
+                ></tr>
+            </table>
+        </div>
     </div>
 </template>

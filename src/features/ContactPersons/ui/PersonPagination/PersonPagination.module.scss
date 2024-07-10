@@ -10,10 +10,55 @@
 .arrowRight {
     transform: rotate(90deg);
 }
+
 .pageLabel {
     margin-right: 8px;
     font: var(--font-s);
     font-weight: 400;
     color: var(--quatinary-color);
     margin-left: 1rem;
+}
+
+.pageInput {
+    padding: 4px 8px;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    font-size: var(--font-s);
+    width: 60px;
+}
+
+.pageSizeSelect {
+    padding: 4px 8px;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    font-size: var(--font-s);
+}
+
+.colorSquare {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition:
+        width 0.3s ease,
+        height 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.colorSquare:hover {
+    width: 40px;
+    height: 40px;
+}
+
+.colorSquareContainer {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1rem;
+}
+
+.paginationContainer {
+    align-items: center;
+    display: flex;
 }
