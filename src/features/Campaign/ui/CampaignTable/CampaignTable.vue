@@ -29,43 +29,51 @@ const columns1 = [
     }),
     columnHelper.accessor((row) => row.suma_leadow, {
         id: 'suma_leadow',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Suma Leadów', canSort: false }),
     }),
     columnHelper.accessor((row) => row.pozostalo, {
         id: 'pozostalo',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Pozostało', canSort: false }),
     }),
     columnHelper.accessor((row) => row.przerobiono, {
         id: 'przerobiono',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Przerobiono', canSort: false }),
     }),
     columnHelper.accessor((row) => row.nie_odbiera, {
         id: 'nie_odbiera',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Nie Odbiera', canSort: false }),
     }),
     columnHelper.accessor((row) => row.negatywni, {
         id: 'negatywni',
-        cell: (info) => info.getValue(),
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Negatywni', canSort: false }),
     }),
     columnHelper.accessor((row) => row.nastepna_kampania, {
         id: 'nastepna_kampania',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
             h(SortHeader, { name: 'Następna Kampania', canSort: false }),
     }),
     columnHelper.accessor((row) => row.rozmowy, {
         id: 'rozmowy',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Rozmowy', canSort: false }),
     }),
     columnHelper.accessor((row) => row.nowy_klient, {
         id: 'nowy_klient',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Nowy Klient', canSort: false }),
     }),
 ]
@@ -110,40 +118,47 @@ const columns2 = [
     }),
     columnHelper.accessor((row) => row.mala_oszczednosc, {
         id: 'mala_oszczednosc',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
             h(SortHeader, { name: 'Mała Oszczędność', canSort: false }),
     }),
     columnHelper.accessor((row) => row.brak_kontaktu, {
         id: 'brak_kontaktu',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Brak Kontaktu', canSort: false }),
     }),
     columnHelper.accessor((row) => row.dzialalnosc, {
         id: 'dzialalnosc',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Działalność', canSort: false }),
     }),
     columnHelper.accessor((row) => row.lokalny_patriota, {
         id: 'lokalny_patriota',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
             h(SortHeader, { name: 'Lokalny Patriota', canSort: false }),
     }),
     columnHelper.accessor((row) => row.nie_target, {
         id: 'nie_target',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Nie Target', canSort: false }),
     }),
     columnHelper.accessor((row) => row.niezainteresowani, {
         id: 'niezainteresowani',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
             h(SortHeader, { name: 'Niezainteresowani', canSort: false }),
     }),
     columnHelper.accessor((row) => row.tylko_leasing, {
         id: 'tylko_leasing',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Tylko Leasing', canSort: false }),
     }),
 ]
@@ -165,12 +180,14 @@ const columns3 = [
     }),
     columnHelper.accessor((row) => row.zrezygnowali, {
         id: 'zrezygnowali',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Zrezygnowali', canSort: false }),
     }),
     columnHelper.accessor((row) => row.inne, {
         id: 'inne',
-        cell: (info) => info.getValue() ?? 'N/A',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Inne', canSort: false }),
     }),
 ]
@@ -187,8 +204,8 @@ const table3 = useVueTable({
 <template>
     <div :class="cls.campaignTables">
         <h2 :class="cls.headerTitle">Kampania: {{ campaign.title }}</h2>
-        <div class="tableWrapper">
-            <div class="scrollable-table">
+        <div>
+            <div>
                 <h4 :class="cls.tableheader">Tabela główna</h4>
                 <table :class="cls.CampaignTable">
                     <thead :class="cls.header">
