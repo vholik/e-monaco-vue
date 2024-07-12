@@ -1,7 +1,17 @@
 .CampaignPage {
     padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-height: 100vh;
+
+    background-color: var(--bg-color);
+    font-family: var(--font-family);
+    color: var(--primary-color);
 }
-.campaignSelect {
-    max-width: 100%;
-    width: auto;
+.scollable {
+    width: calc(100vw - var(--sidebar-width) - 2rem);
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 75vh;
 }

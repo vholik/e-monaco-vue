@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import cls from './CampaignPage.module.scss'
+import { ref } from 'vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import Breadcrumbs from '@/shared/ui/Breadcrumbs/Breadcrumbs.vue'
@@ -8,17 +7,12 @@ import AddCampaignModal from '@/features/Campaign/ui/AddCampaignModal/AddCampaig
 import Button from '@/shared/ui/Button/Button.vue'
 import AddIcon from '@/shared/assets/icons/Add.vue'
 import CampaignTable from '@/features/Campaign/ui/CampaignTable/CampaignTable.vue'
-import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect.vue'
-import { useCampaignSummaries } from '@/features/Campaign/model/services/useCampaignSummary'
 import { useCampaigns } from '@/features/Campaign/model/services/useCampaign'
 import { breadcrumbs } from '../model/const/breadcrumbs'
+import cls from './CampaignPage.module.scss'
 
 const isModalOpen = ref(false)
-const selectedCampaignId = ref<string | null>(null)
-
-const { data: campaigns } = useCampaigns()
-const { data, isLoading, error, fetchCampaignSummaries } =
-    useCampaignSummaries(selectedCampaignId)
+const { data, isLoading } = useCampaigns()
 
 function openModal() {
     isModalOpen.value = true
@@ -27,26 +21,6 @@ function openModal() {
 function setIsModalOpen(value: boolean) {
     isModalOpen.value = value
 }
-
-const handleCampaignSelect = (id: string) => {
-    selectedCampaignId.value = id
-    fetchCampaignSummaries(id)
-}
-
-const selectedCampaignTitle = computed(() => {
-    const campaign = campaigns.value.find(
-        (campaign) => campaign.id === selectedCampaignId.value,
-    )
-    return campaign ? campaign.title : ''
-})
-
-onMounted(() => {
-    if (!selectedCampaignId.value && campaigns.value.length > 0) {
-        const latestCampaignId = campaigns.value[campaigns.value.length - 1].id
-        selectedCampaignId.value = latestCampaignId
-        fetchCampaignSummaries(latestCampaignId)
-    }
-})
 </script>
 
 <template>
@@ -57,9 +31,7 @@ onMounted(() => {
             align="start"
         >
             <Breadcrumbs :items="breadcrumbs" />
-            <h1 :class="cls.title">
-                Podsumowanie kampanii: {{ selectedCampaignTitle }}
-            </h1>
+            <h1 :class="cls.title">Kampanie</h1>
             <Button
                 variant="secondary"
                 :max="false"
@@ -71,27 +43,27 @@ onMounted(() => {
                 />
                 Dodaj kampanię
             </Button>
-            <CampaignSelect
-                :class="cls.campaignSelect"
-                name="campaignName"
-                @update="handleCampaignSelect"
-            />
+
             <Flex
                 direction="column"
                 align="start"
                 gap="8"
+                v-if="data?.length"
+                :class="cls.scollable"
             >
-                <CampaignTable
-                    v-if="data && data.campaigns"
-                    key="campaign-table"
-                    :campaignSummaries="data.campaigns"
-                    :isLoading="isLoading"
-                />
-                <AddCampaignModal
-                    :is-modal-open="isModalOpen"
-                    @update:is-modal-open="setIsModalOpen"
-                />
+                <div class="scrollable-wrapper">
+                    <CampaignTable
+                        v-for="campaign in data"
+                        :key="campaign.id"
+                        :campaign="campaign"
+                    />
+                </div>
             </Flex>
+
+            <AddCampaignModal
+                :is-modal-open="isModalOpen"
+                @update:is-modal-open="setIsModalOpen"
+            />
         </Flex>
     </div>
 </template>
