@@ -135,7 +135,7 @@ const columns1 = [
         header: () => h(SortHeader, { name: 'Nowy Klient', canSort: false }),
     }),
     columnHelper.accessor((row) => row.suma, {
-        id: 'suma_leadow',
+        id: 'suma',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Suma', canSort: false }),
@@ -201,12 +201,6 @@ const columns2 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Tylko Leasing', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.suma, {
-        id: 'suma',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Suma', canSort: false }),
-    }),
 ]
 const table2 = useVueTable({
     columns: columns2,
@@ -243,12 +237,6 @@ const columns3 = [
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Zrezygnowali', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.suma, {
-        id: 'suma_leadow',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Suma', canSort: false }),
     }),
 ]
 

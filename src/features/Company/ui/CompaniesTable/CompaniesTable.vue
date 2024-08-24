@@ -793,9 +793,9 @@ const columns = ref([
             h(SortHeader, {
                 name: 'Kampania',
                 filter: CampaignFilter,
-                onUpdate: changeOrder('campaignId'),
+                onUpdate: changeOrder('campaign_title'),
                 value:
-                    companyFilterStore.getOrderBy === 'campaignId'
+                    companyFilterStore.getOrderBy === 'campaign_title'
                         ? companyFilterStore.getOrder
                         : null,
             }),

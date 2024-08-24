@@ -75,6 +75,7 @@ const sortNameMap: Record<string, string> = {
     theirstaxes: 'Podatek u nich',
     ourtaxes: 'Podatek u nas',
     campaigns: 'Kampania',
+    campaign_title: 'Kampania',
 }
 </script>
 
