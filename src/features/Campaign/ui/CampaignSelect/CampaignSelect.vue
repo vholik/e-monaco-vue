@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import cls from './CampaignSelect.module.scss'
-import { ref, watch, toRefs } from 'vue'
+import { watch, toRefs } from 'vue'
 import Select from '@/shared/ui/Select/Select.vue'
 import { useField } from 'vee-validate'
 import { useCampaigns } from '@/features/Campaign/model/services/useCampaign'
@@ -20,7 +20,7 @@ const props = defineProps<Props>()
 
 const emit = defineEmits(['update'])
 
-const { name, defaultValue } = toRefs(props)
+const { name, defaultValue, multiple } = toRefs(props)
 
 const { errorMessage, value, handleChange } = useField<string | string[]>(
     name,
@@ -46,7 +46,7 @@ watch(defaultValue!, () => {
     >
         <Select
             v-model="value"
-            :multiple="false"
+            :multiple="multiple"
             :options="
                 data.map((it: Campaign) => ({ id: it.id, name: it.title }))
             "
