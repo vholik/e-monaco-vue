@@ -11,9 +11,11 @@
     margin-left: 4px;
     vertical-align: middle;
 }
+
 .tableheader {
     margin-bottom: 1rem;
 }
+
 .CampaignTable {
     width: max-content;
     border-collapse: collapse;
@@ -66,35 +68,36 @@
     height: 2rem;
 }
 
+/* Kolory tła */
+
 .greyBackground {
-    background-color: grey;
+    background-color: #c4bd97;
 }
-
 .yellowBackground {
-    background-color: yellow;
+    background-color: #ffff00;
 }
-
 .greenBackground {
-    background-color: green;
+    background-color: #00b050;
 }
-
 .darkGreyBackground {
-    background-color: darkgrey;
+    background-color: #d3d3d3;
 }
-
-.limeBackground {
-    background-color: lime;
-}
-.whiteText {
-    color: white;
-}
-
 .redBackground {
-    background-color: red;
+    background-color: #ff0000;
     color: white;
 }
-
-.purpleBackground {
-    background-color: purple;
-    color: white;
+.limeBackground {
+    background-color: #92d050;
+}
+.whiteBackground {
+    background-color: #ffffff;
+}
+.noBackground {
+    background-color: transparent !important;
+}
+.blueBackground {
+    background-color: #8db3e2;
+}
+.beigeBackground {
+    background-color: #c4bd97;
 }

@@ -20,6 +20,70 @@ const { isLoading, data } = useCampaignSummary(campaign.id)
 
 const columnHelper = createColumnHelper<CampaignSummary>()
 
+const getColorClass = (columnId: string, tableName?: string) => {
+    if (columnId === 'suma') {
+        return ''
+    }
+
+    if (tableName === 'Użytkownik') {
+        return cls.noBackground
+    } else if (tableName === 'Negatywni') {
+        if (columnId === 'owner.firstName') {
+            return cls.noBackground
+        }
+        return cls.redBackground
+    } else if (tableName === 'Suma') {
+        if (columnId === 'owner.firstName') {
+            return cls.noBackground
+        }
+        return cls.blueBackground
+    } else {
+        switch (columnId) {
+            case 'pozostalo':
+                return cls.beigeBackground
+            case 'przerobiono':
+                return cls.noBackground
+            case 'nowy_klient':
+                return cls.greenBackground
+            case 'szansa':
+                return cls.limeBackground
+            case 'naPozniej':
+                return cls.blueBackground
+            case 'nie_odbiera':
+                return cls.darkGreyBackground
+            case 'brakKontaktu':
+                return cls.redBackground
+            case 'dzialalnosc':
+                return cls.redBackground
+            case 'lokalnyPatriota':
+                return cls.redBackground
+            case 'nieIstnieje':
+                return cls.redBackground
+            case 'Negat':
+                return cls.redBackground
+            case 'nieZainteresowani':
+                return cls.redBackground
+            case 'nieTarget':
+                return cls.redBackground
+            case 'tylkoLeasing':
+                return cls.redBackground
+            case 'Nastepna Kampania':
+                return cls.blueBackground
+            case 'Mała Oszczędność':
+                return cls.blueBackground
+            case 'rozmowy':
+                return cls.yellowBackground
+            case 'lokalny_patriota':
+                return cls.redBackground
+            case 'inne':
+                return cls.whiteBackground
+            default:
+                return ''
+        }
+    }
+}
+
+///////////////// tabela 1
 const columns1 = [
     columnHelper.accessor((row) => row.owner?.firstName, {
         id: 'owner.firstName',
@@ -27,11 +91,12 @@ const columns1 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Użytkownik', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.suma_leadow, {
-        id: 'suma_leadow',
+
+    columnHelper.accessor((row) => row.przerobiono, {
+        id: 'przerobiono',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Suma Leadów', canSort: false }),
+        header: () => h(SortHeader, { name: 'Przerobiono', canSort: false }),
     }),
     columnHelper.accessor((row) => row.pozostalo, {
         id: 'pozostalo',
@@ -39,76 +104,52 @@ const columns1 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Pozostało', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.przerobiono, {
-        id: 'przerobiono',
+    columnHelper.accessor((row) => row.naPozniej, {
+        id: 'naPozniej',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Przerobiono', canSort: false }),
+        header: () => h(SortHeader, { name: 'Na później', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.nie_odbiera, {
-        id: 'nie_odbiera',
+    columnHelper.accessor((row) => row.negat, {
+        id: 'Negat',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Nie Odbiera', canSort: false }),
+        header: () => h(SortHeader, { name: 'Negat', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.negatywni, {
-        id: 'negatywni',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Negatywni', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.nastepna_kampania, {
-        id: 'nastepna_kampania',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () =>
-            h(SortHeader, { name: 'Następna Kampania', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.rozmowy, {
+    columnHelper.accessor((row) => row.wTrakcie, {
         id: 'rozmowy',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Rozmowy', canSort: false }),
+        header: () => h(SortHeader, { name: 'W Trakcie', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.nowy_klient, {
+    columnHelper.accessor((row) => row.szansa, {
+        id: 'szansa',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () => h(SortHeader, { name: 'Szansa', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.nowyKlient, {
         id: 'nowy_klient',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Nowy Klient', canSort: false }),
     }),
+    columnHelper.accessor((row) => row.suma, {
+        id: 'suma_leadow',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () => h(SortHeader, { name: 'Suma', canSort: false }),
+    }),
 ]
-
 const table1 = useVueTable({
     columns: columns1,
     get data() {
-        return data.value?.campaignSummary ?? []
+        return data.value?.summary ?? []
     },
     getCoreRowModel: getCoreRowModel(),
 })
 
-const getColorClass = (columnId: string, value: any) => {
-    switch (columnId) {
-        case 'suma_leadow':
-            return cls.greyBackground
-        case 'pozostalo':
-            return cls.yellowBackground
-        case 'przerobiono':
-            return cls.greenBackground
-        case 'nie_odbiera':
-            return cls.darkGreyBackground
-        case 'negatywni':
-            return cls.redBackground
-        case 'nastepna_kampania':
-            return cls.purpleBackground
-        case 'rozmowy':
-            return cls.limeBackground
-        case 'nowy_klient':
-            return cls.greenBackground
-        default:
-            return ''
-    }
-}
-
+///////////////// tabela 2
 const columns2 = [
     columnHelper.accessor((row) => row.owner?.firstName, {
         id: 'owner.firstName',
@@ -116,15 +157,8 @@ const columns2 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Użytkownik', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.mala_oszczednosc, {
+    columnHelper.accessor((row) => row.brakKontaktu, {
         id: 'mala_oszczednosc',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () =>
-            h(SortHeader, { name: 'Mała Oszczędność', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.brak_kontaktu, {
-        id: 'brak_kontaktu',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Brak Kontaktu', canSort: false }),
@@ -135,42 +169,54 @@ const columns2 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Działalność', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.lokalny_patriota, {
+    columnHelper.accessor((row) => row.lokalnyPatriota, {
         id: 'lokalny_patriota',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
             h(SortHeader, { name: 'Lokalny Patriota', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.nie_target, {
+    columnHelper.accessor((row) => row.nieIstnieje, {
+        id: 'nie_istnieje',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () => h(SortHeader, { name: 'Nie Istnieje', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.nieZainteresowani, {
+        id: 'nie_zainteresowani',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () =>
+            h(SortHeader, { name: 'Nie Zainteresowani', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.nieTarget, {
         id: 'nie_target',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Nie Target', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.niezainteresowani, {
-        id: 'niezainteresowani',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () =>
-            h(SortHeader, { name: 'Niezainteresowani', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.tylko_leasing, {
+    columnHelper.accessor((row) => row.tylkoLeasing, {
         id: 'tylko_leasing',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Tylko Leasing', canSort: false }),
     }),
+    columnHelper.accessor((row) => row.suma, {
+        id: 'suma',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () => h(SortHeader, { name: 'Suma', canSort: false }),
+    }),
 ]
-
 const table2 = useVueTable({
     columns: columns2,
     get data() {
-        return data.value?.campaignSummary ?? []
+        return data.value?.summary ?? []
     },
     getCoreRowModel: getCoreRowModel(),
 })
 
+///////////////// tabela 3
 const columns3 = [
     columnHelper.accessor((row) => row.owner?.firstName, {
         id: 'owner.firstName',
@@ -178,24 +224,38 @@ const columns3 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Użytkownik', canSort: false }),
     }),
+    columnHelper.accessor((row) => row.malaOszczednosc, {
+        id: 'Mała Oszczędność',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () =>
+            h(SortHeader, { name: 'Mała Oszczędność', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.nastepnaKampania, {
+        id: 'Nastepna Kampania',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () =>
+            h(SortHeader, { name: 'Następna Kampania', canSort: false }),
+    }),
     columnHelper.accessor((row) => row.zrezygnowali, {
         id: 'zrezygnowali',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Zrezygnowali', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.inne, {
-        id: 'inne',
+    columnHelper.accessor((row) => row.suma, {
+        id: 'suma_leadow',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () => h(SortHeader, { name: 'Inne', canSort: false }),
+        header: () => h(SortHeader, { name: 'Suma', canSort: false }),
     }),
 ]
 
 const table3 = useVueTable({
     columns: columns3,
     get data() {
-        return data.value?.campaignSummary ?? []
+        return data.value?.summary ?? []
     },
     getCoreRowModel: getCoreRowModel(),
 })
@@ -204,58 +264,46 @@ const table3 = useVueTable({
 <template>
     <div :class="cls.campaignTables">
         <h2 :class="cls.headerTitle">Kampania: {{ campaign.title }}</h2>
-        <div>
-            <div>
-                <h4 :class="cls.tableheader">Tabela główna</h4>
-                <table :class="cls.CampaignTable">
-                    <thead :class="cls.header">
-                        <tr>
-                            <th
-                                :class="cls.headerTitle"
-                                v-for="header in table1.getFlatHeaders()"
-                                :key="header.id"
-                            >
-                                <FlexRender
-                                    :render="header.column.columnDef.header"
-                                    :props="header.getContext()"
-                                />
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="(row, index) in table1.getRowModel().rows"
-                            :key="row.id"
-                            :class="[
-                                cls.row,
-                                { [cls.marked]: index % 2 === 0 },
-                            ]"
-                        >
-                            <td
-                                v-for="cell in row.getVisibleCells()"
-                                :key="cell.id"
-                                :class="[
-                                    cls.bodyValue,
-                                    getColorClass(
-                                        cell.column.id,
-                                        cell.getValue(),
-                                    ),
-                                ]"
-                            >
-                                <FlexRender
-                                    :render="cell.column.columnDef.cell"
-                                    :props="cell.getContext()"
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <table :class="cls.CampaignTable">
+            <thead :class="cls.header">
+                <tr>
+                    <th
+                        :class="cls.headerTitle"
+                        v-for="header in table1.getFlatHeaders()"
+                        :key="header.id"
+                    >
+                        <FlexRender
+                            :render="header.column.columnDef.header"
+                            :props="header.getContext()"
+                        />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    v-for="(row, index) in table1.getRowModel().rows"
+                    :key="row.id"
+                    :class="[cls.row, { [cls.marked]: index % 2 === 0 }]"
+                >
+                    <td
+                        v-for="cell in row.getVisibleCells()"
+                        :key="cell.id"
+                        :class="[cls.bodyValue, getColorClass(cell.column.id)]"
+                    >
+                        <FlexRender
+                            :render="cell.column.columnDef.cell"
+                            :props="cell.getContext()"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
         <div class="tableSpacing"></div>
+
         <div class="tableWrapper">
             <div class="scrollable-table">
-                <h4 :class="cls.tableheader">Tabela negatywni</h4>
+                <h4 :class="cls.tableheader">Negatywni</h4>
                 <table :class="cls.CampaignTable">
                     <thead :class="cls.header">
                         <tr>
@@ -283,7 +331,10 @@ const table3 = useVueTable({
                             <td
                                 v-for="cell in row.getVisibleCells()"
                                 :key="cell.id"
-                                :class="cls.bodyValue"
+                                :class="[
+                                    cls.bodyValue,
+                                    getColorClass(cell.column.id, 'Negatywni'),
+                                ]"
                             >
                                 <FlexRender
                                     :render="cell.column.columnDef.cell"
@@ -297,9 +348,10 @@ const table3 = useVueTable({
         </div>
 
         <div class="tableSpacing"></div>
+
         <div class="tableWrapper">
             <div class="scrollable-table">
-                <h4 :class="cls.tableheader">Tabela inne</h4>
+                <h4 :class="cls.tableheader">Pozostałe</h4>
                 <table :class="cls.CampaignTable">
                     <thead :class="cls.header">
                         <tr>
@@ -315,7 +367,6 @@ const table3 = useVueTable({
                             </th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr
                             v-for="(row, index) in table3.getRowModel().rows"
@@ -328,7 +379,10 @@ const table3 = useVueTable({
                             <td
                                 v-for="cell in row.getVisibleCells()"
                                 :key="cell.id"
-                                :class="cls.bodyValue"
+                                :class="[
+                                    cls.bodyValue,
+                                    getColorClass(cell.column.id),
+                                ]"
                             >
                                 <FlexRender
                                     :render="cell.column.columnDef.cell"
