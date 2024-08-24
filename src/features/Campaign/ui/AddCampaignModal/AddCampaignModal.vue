@@ -21,7 +21,7 @@ const emit = defineEmits(['update:isModalOpen'])
 const { mutate, isLoading, error } = useAddCampaign(setIsModalOpen)
 
 const onSubmit = (values: string) => {
-    mutate(values)
+    mutate({ title: parseInt(values.title) })
 }
 </script>
 <template>
@@ -44,8 +44,10 @@ const onSubmit = (values: string) => {
                     </Note>
                     <Input
                         name="title"
-                        label="Nazwa kampanii"
-                        placeholder="Wprowadź nazwę kampanii"
+                        type="number"
+                        label="Numer kampanii"
+                        required
+                        placeholder="Wprowadź numer kampanii"
                     />
                 </Flex>
                 <div :class="cls.footer">
