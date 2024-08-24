@@ -41,6 +41,7 @@ import { useSidebarStore } from '@/widgets/Sidebar/model/store/sidebarStore'
 import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect.vue'
 import EditContactPersonsModal from '@/features/EditContactPersonsModal/EditContactPersonsModal.vue'
 import { useUpdatePersons } from '@/features/ContactPersons/model/services/useUpdatePersons'
+import CampaignFilter from '@/features/CompanyFilter/ui/CampaignFilter/CampaignFilter.vue'
 
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading, isFetching, refetch } = useCompanies()
@@ -791,8 +792,12 @@ const columns = ref([
         header: () =>
             h(SortHeader, {
                 name: 'Kampania',
-                onUpdate: changeOrder('campaignId'),
-                canSort: false,
+                filter: CampaignFilter,
+                onUpdate: changeOrder('campaign_title'),
+                value:
+                    companyFilterStore.getOrderBy === 'campaign_title'
+                        ? companyFilterStore.getOrder
+                        : null,
             }),
     }),
     columnHelper.accessor((row) => row.contactPersons, {

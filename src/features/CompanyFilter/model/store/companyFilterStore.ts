@@ -28,6 +28,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         dateRange: [] as string[],
         from_next_date: '' as string,
         to_next_date: '' as string,
+        campaigns: [] as string[],
     }),
     getters: {
         getTables(state) {
@@ -65,6 +66,9 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         },
         getDateRange(state) {
             return state.dateRange
+        },
+        getCampaigns(state) {
+            return state.campaigns
         },
     },
     actions: {
@@ -132,6 +136,10 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         },
         setFreeTextColumn(column: string, value: string[]) {
             this.freeText[column] = value
+            this.page = 1
+        },
+        setCampaigns(campaigns: string[]) {
+            this.campaigns = campaigns
             this.page = 1
         },
     },

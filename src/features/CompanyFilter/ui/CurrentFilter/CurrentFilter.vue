@@ -4,7 +4,6 @@ import { useCompanyFilterStore } from '../../model/store/companyFilterStore'
 import CloseIcon from '@/shared/assets/icons/Close.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import { storeToRefs } from 'pinia'
-import { companyStatusMap } from '@/entities/Status/model/consts/status'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 
 const store = useCompanyFilterStore()
@@ -29,6 +28,7 @@ const {
     freeText,
     from_next_date,
     to_next_date,
+    campaigns,
 } = storeToRefs(store)
 
 const sortNameMap: Record<string, string> = {
@@ -74,6 +74,8 @@ const sortNameMap: Record<string, string> = {
     trailer: 'Stawka naczepa',
     theirstaxes: 'Podatek u nich',
     ourtaxes: 'Podatek u nas',
+    campaigns: 'Kampania',
+    campaign_title: 'Kampania',
 }
 </script>
 
@@ -97,6 +99,7 @@ const sortNameMap: Record<string, string> = {
                 "
             />
         </div>
+
         <div
             v-if="from_next_date || to_next_date"
             :class="cls.filterBtn"
@@ -131,12 +134,12 @@ const sortNameMap: Record<string, string> = {
                 "
             />
         </div>
+
         <div
             v-if="getContactPersons?.length"
             :class="cls.filterBtn"
         >
             Osoby kontaktowe
-
             <Icon
                 :icon="CloseIcon"
                 cursor-pointer
@@ -147,12 +150,12 @@ const sortNameMap: Record<string, string> = {
                 "
             />
         </div>
+
         <div
             v-if="!!getStatus.length"
             :class="cls.filterBtn"
         >
             Statusy
-
             <Icon
                 :icon="CloseIcon"
                 cursor-pointer
@@ -163,12 +166,12 @@ const sortNameMap: Record<string, string> = {
                 "
             />
         </div>
+
         <div
             v-if="getMunicipalities?.length"
             :class="cls.filterBtn"
         >
             Gminy
-
             <Icon
                 :icon="CloseIcon"
                 cursor-pointer
@@ -179,6 +182,23 @@ const sortNameMap: Record<string, string> = {
                 "
             />
         </div>
+
+        <div
+            v-if="campaigns?.length"
+            :class="cls.filterBtn"
+        >
+            Kampanie
+            <Icon
+                :icon="CloseIcon"
+                cursor-pointer
+                @click="
+                    () => {
+                        store.setCampaigns([])
+                    }
+                "
+            />
+        </div>
+
         <Flex
             v-for="[key, value] in Object.entries(freeText)"
             :key="key"
