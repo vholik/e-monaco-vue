@@ -57,6 +57,8 @@ const sortNameMap: Record<string, string> = {
     'company.rentalFee': 'Czynsz',
     'company.statement': 'Deklaracja',
     full_name: 'Imię osoby kontaktowej',
+    first_name: 'Imię',
+    last_name: 'Nazwisko',
     comment: 'Komentarz',
     nip: 'NIP',
     name: 'Nazwa firmy',

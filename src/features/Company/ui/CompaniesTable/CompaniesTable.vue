@@ -349,7 +349,7 @@ const columns = ref([
             })
         },
     }),
-    columnHelper.accessor((row) => row.firstName, {
+    columnHelper.accessor((row) => row.first_name, {
         id: 'firstName',
         cell: (info) =>
             h(CommentInput, {
@@ -376,16 +376,16 @@ const columns = ref([
         header: () => {
             return h(SortHeader, {
                 name: 'Imię',
-                onUpdate: changeOrder('firstName'),
+                onUpdate: changeOrder('first_name'),
                 value:
-                    companyFilterStore.getOrderBy === 'firstName'
+                    companyFilterStore.getOrderBy === 'first_name'
                         ? companyFilterStore.getOrder
                         : null,
-                loading: isSortHeaderLoading('firstName'),
+                loading: isSortHeaderLoading('first_name'),
             })
         },
     }),
-    columnHelper.accessor((row) => row.lastName, {
+    columnHelper.accessor((row) => row.last_name, {
         id: 'lastName',
         cell: (info) =>
             h(CommentInput, {
@@ -412,12 +412,12 @@ const columns = ref([
         header: () => {
             return h(SortHeader, {
                 name: 'Nazwisko',
-                onUpdate: changeOrder('lastName'),
+                onUpdate: changeOrder('last_name'),
                 value:
-                    companyFilterStore.getOrderBy === 'lastName'
+                    companyFilterStore.getOrderBy === 'last_name'
                         ? companyFilterStore.getOrder
                         : null,
-                loading: isSortHeaderLoading('lastName'),
+                loading: isSortHeaderLoading('last_name'),
             })
         },
     }),
