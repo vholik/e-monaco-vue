@@ -42,7 +42,38 @@ import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect
 import EditContactPersonsModal from '@/features/EditContactPersonsModal/EditContactPersonsModal.vue'
 import { useUpdatePersons } from '@/features/ContactPersons/model/services/useUpdatePersons'
 import CampaignFilter from '@/features/CompanyFilter/ui/CampaignFilter/CampaignFilter.vue'
+import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
+import { useDeleteCompanies } from '../../model/services/useDeleteCompany.ts'
+import ConfirmDeleteModal from '@/shared/ui/ConfirmDeleteModal/ConfirmDeleteModal.vue'
 
+const isModalOpen = ref(false)
+const idToDelete = ref<number | null>(null)
+
+const { mutateAsync } = useDeleteCompanies(() => {
+    isModalOpen.value = false
+})
+
+const handleDelete = (id: number) => {
+    idToDelete.value = id
+    isModalOpen.value = true
+}
+
+const confirmDelete = async () => {
+    if (idToDelete.value !== null) {
+        try {
+            await mutateAsync(idToDelete.value)
+            console.log('Rekord został pomyślnie usunięty')
+        } catch (error) {
+            console.error('Błąd podczas usuwania:', error)
+        } finally {
+            isModalOpen.value = false
+        }
+    }
+}
+
+const handleModalUpdate = (value: boolean) => {
+    isModalOpen.value = value
+}
 const companyFilterStore = useCompanyFilterStore()
 const { data, isLoading, isFetching, refetch } = useCompanies()
 const toast = useToast()
@@ -50,10 +81,8 @@ const { onDataChange } = useCompanyActions()
 const { mutate: updateContactPerson } = useUpdatePersons()
 const isCompanyHistoriesModalOpen = ref(false)
 const currentCompanyId = ref('')
-
 const isEditContactPersonsModalOpen = ref(false)
 const editContactPersonsCompanyId = ref<string | null>(null)
-
 const userStore = useUserStore()
 const { loggedInUser } = storeToRefs(userStore)
 const { tables } = storeToRefs(companyFilterStore)
@@ -942,9 +971,19 @@ const table = useVueTable({
                             :props="cell.getContext()"
                         />
                     </td>
+                    <td :class="cls.bodyValue">
+                        <DeleteButton @click="handleDelete(row.original.id)"
+                            >Usuń</DeleteButton
+                        >
+                    </td>
                 </tr>
             </tbody>
         </table>
+        <ConfirmDeleteModal
+            :isOpen="isModalOpen"
+            @update:isOpen="handleModalUpdate"
+            @confirmDelete="confirmDelete"
+        />
         <div
             v-if="!data?.companies?.length && !isLoading"
             :class="cls.noData"

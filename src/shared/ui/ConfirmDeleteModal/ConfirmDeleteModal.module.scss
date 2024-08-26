@@ -1,0 +1,26 @@
+.ConfirmDeleteModal {
+}
+
+.footer {
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--modal-z-index);
+    border-top: 1px solid var(--stroke-color);
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.5rem;
+}
+.wrapper {
+    padding: var(--modal-padding);
+}
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.button {
+    width: fit-content;
+}
