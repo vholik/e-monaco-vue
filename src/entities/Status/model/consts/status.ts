@@ -33,8 +33,8 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.CALL_BACK,
         name: companyStatusMap[CompanyStatus.CALL_BACK],
-        bgColor: 'var(--status-orange-bg-color)',
-        color: 'var(--status-orange-color)',
+        bgColor: 'var(--status-green-light-color',
+        color: 'var(--status-green-color)',
     },
     {
         id: CompanyStatus.UNREACHABLE,
@@ -46,7 +46,7 @@ export const options: SelectOption[] = [
         id: CompanyStatus.CONVERSATION,
         name: companyStatusMap[CompanyStatus.CONVERSATION],
         bgColor: 'var(--status-red-bg-color)',
-        color: 'var(--status-red-color)',
+        color: 'var(--status-yellow-color)',
     },
     {
         id: CompanyStatus.AGREEMENT,
@@ -57,14 +57,14 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.DOCUMENTS,
         name: companyStatusMap[CompanyStatus.DOCUMENTS],
-        bgColor: 'var(--status-grey-bg-color)',
-        color: 'var(--status-grey-color)',
+        bgColor: 'var(--status-green-bg-color)',
+        color: 'var(--status-green-color)',
     },
     {
         id: CompanyStatus.DOESNT_EXIST,
         name: companyStatusMap[CompanyStatus.DOESNT_EXIST],
-        bgColor: 'var(--status-orange-bg-color)',
-        color: 'var(--status-orange-color)',
+        bgColor: 'var(--status-red-bg-color)',
+        color: 'var(--status-red-color)',
     },
     {
         id: CompanyStatus.OUR_CLIENT,
@@ -75,8 +75,8 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.NEXT_CAMPAIGN,
         name: companyStatusMap[CompanyStatus.NEXT_CAMPAIGN],
-        bgColor: 'var(--status-blue-bg-color)',
-        color: 'var(--status-blue-color)',
+        bgColor: 'var(--status-red-bg-color)',
+        color: 'var(--status-red-color)',
     },
     {
         id: CompanyStatus.LEASE_ONLY,
@@ -87,20 +87,20 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.NOT_A_TARGET,
         name: companyStatusMap[CompanyStatus.NOT_A_TARGET],
-        bgColor: 'var(--status-blue-bg-color)',
-        color: 'var(--status-blue-color)',
+        bgColor: 'var(--status-red-bg-color)',
+        color: 'var(--status-red-color)',
     },
     {
         id: CompanyStatus.OFFER,
         name: companyStatusMap[CompanyStatus.OFFER],
-        bgColor: 'var(--status-grey-bg-color)',
-        color: 'var(--status-grey-color)',
+        bgColor: 'var(--status-yellow-color)',
+        color: 'var(--status-red-color)',
     },
     {
         id: CompanyStatus.NOT_INTERESTED,
         name: companyStatusMap[CompanyStatus.NOT_INTERESTED],
-        bgColor: 'var(--status-orange-bg-color)',
-        color: 'var(--status-orange-color)',
+        bgColor: 'var(--status-red-bg-color)',
+        color: 'var(--status-red-color)',
     },
     {
         id: CompanyStatus.ACTIVITY,
@@ -130,12 +130,12 @@ export const options: SelectOption[] = [
         id: CompanyStatus.CANNOT_BE_CALLED,
         name: companyStatusMap[CompanyStatus.CANNOT_BE_CALLED],
         bgColor: 'var(--status-red-bg-color)',
-        color: 'var(--status-orange-color)',
+        color: 'var(--status-red-color)',
     },
     {
         id: CompanyStatus.SMALL_SAVINGS,
         name: companyStatusMap[CompanyStatus.SMALL_SAVINGS],
-        bgColor: 'var(--status-orange-bg-color)',
-        color: 'var(--status-orange-color)',
+        bgColor: 'var(--status-red-bg-color)',
+        color: 'var(--status-red-color)',
     },
 ]
