@@ -33,7 +33,7 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.CALL_BACK,
         name: companyStatusMap[CompanyStatus.CALL_BACK],
-        bgColor: 'var(--status-green-light-color',
+        bgColor: 'var(--status-green-bg-color',
         color: 'var(--status-green-color)',
     },
     {
@@ -46,7 +46,7 @@ export const options: SelectOption[] = [
         id: CompanyStatus.CONVERSATION,
         name: companyStatusMap[CompanyStatus.CONVERSATION],
         bgColor: 'var(--status-red-bg-color)',
-        color: 'var(--status-yellow-color)',
+        color: 'var(--status-red-color)',
     },
     {
         id: CompanyStatus.AGREEMENT,
@@ -75,8 +75,8 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.NEXT_CAMPAIGN,
         name: companyStatusMap[CompanyStatus.NEXT_CAMPAIGN],
-        bgColor: 'var(--status-red-bg-color)',
-        color: 'var(--status-red-color)',
+        bgColor: 'var(--status-blue-bg-color)',
+        color: 'var(--status-blue-color)',
     },
     {
         id: CompanyStatus.LEASE_ONLY,
@@ -111,7 +111,7 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.RESIGNED,
         name: companyStatusMap[CompanyStatus.RESIGNED],
-        bgColor: 'var(--status-grey-bg-color)',
+        bgColor: 'var(--status-gray-bg-color)',
         color: 'var(--status-grey-color)',
     },
     {
@@ -135,7 +135,7 @@ export const options: SelectOption[] = [
     {
         id: CompanyStatus.SMALL_SAVINGS,
         name: companyStatusMap[CompanyStatus.SMALL_SAVINGS],
-        bgColor: 'var(--status-red-bg-color)',
-        color: 'var(--status-red-color)',
+        bgColor: 'var(--status-blue-bg-color)',
+        color: 'var(--status-blue-color)',
     },
 ]
