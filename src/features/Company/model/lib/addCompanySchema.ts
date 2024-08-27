@@ -39,5 +39,13 @@ export const addCompanyValidationSchema = yup.object().shape({
         .nullable(),
     rentalFee: yup.number().min(0, 'Pole musi być powyżej 0').nullable(),
     statement: yup.number().min(0, 'Pole musi być powyżej 0').nullable(),
-    contactPersonsIds: yup.array().of(yup.string()).nullable(),
+    firstName: yup.string().nullable().optional(),
+    lastName: yup.string().nullable().optional(),
+    email: yup
+        .string()
+        .email('Nieprawidłowy format email')
+        .nullable()
+        .optional(),
+    phone: yup.string().nullable().optional(),
+    role: yup.string().nullable().optional(),
 })

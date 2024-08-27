@@ -4,7 +4,6 @@ import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Input from '@/shared/ui/Input/Input.vue'
 import { UserSelect, useUserStore } from '@/entities/User'
-import { ContactPersonSelect } from '@/entities/ContactPerson'
 import { StatusSelect } from '@/entities/Status'
 import { MunicipalitySelect } from '@/entities/Municipality'
 import { Form } from 'vee-validate'
@@ -32,8 +31,15 @@ const { mutate, isLoading, error } = useAddCompany(setIsModalOpen)
 defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
-const onSubmit = (values: any) => {
-    mutate(values)
+const onSubmit = async (values: any) => {
+    const { firstName, lastName, role, phone, email, ...other } = values
+
+    mutate({
+        ...other,
+        contactPersons: [
+            { firstName, lastName, role, phone, email: email || undefined },
+        ],
+    })
 }
 </script>
 
@@ -67,11 +73,6 @@ const onSubmit = (values: any) => {
                         as-input
                         name="ownerId"
                         label="Owners"
-                    />
-                    <Input
-                        name="comment"
-                        label="Komentarz"
-                        placeholder="Pole tekstowe do 500 znaków"
                     />
                     <InputNipModal
                         name="nip"
@@ -129,10 +130,35 @@ const onSubmit = (values: any) => {
                         placeholder="Kwota w PLN"
                         type="number"
                     />
-                    <ContactPersonSelect
-                        as-input
-                        label="Osoby kontaktowe"
-                        name="contactPersonsIds"
+                    <Input
+                        name="firstName"
+                        label="Imię"
+                        placeholder="Imię"
+                        type="text"
+                    />
+                    <Input
+                        name="lastName"
+                        label="Nazwisko"
+                        placeholder="Nazwisko"
+                        type="text"
+                    />
+                    <Input
+                        name="role"
+                        label="Rola"
+                        placeholder="Rola"
+                        type="text"
+                    />
+                    <Input
+                        name="email"
+                        label="E-mail"
+                        placeholder="adres@email.com"
+                        type="email"
+                    />
+                    <Input
+                        name="phone"
+                        label="Telefon"
+                        placeholder="Numer telefonu"
+                        type="tel"
                     />
                 </Flex>
                 <div :class="cls.footer">
