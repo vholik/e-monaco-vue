@@ -7,7 +7,7 @@ import Flex from '@/shared/ui/Flex/Flex.vue'
 import { addCompanyHistorySchema } from '../../model/lib/addContactHistorySchema'
 import Button from '@/shared/ui/Button/Button.vue'
 import { Form } from 'vee-validate'
-import { toRefs } from 'vue'
+import { ref, watch } from 'vue'
 import Note from '@/shared/ui/Note/Note.vue'
 
 interface Props {
@@ -18,10 +18,17 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { onSubmit } = toRefs(props)
+const todayDate = ref(new Date().toISOString().split('T')[0])
+const selectedDate = ref<string | null>(null)
+const comment = ref('')
 
 function submit(values: Record<string, string>) {
-    onSubmit.value(values)
+    const dateToUse = selectedDate.value || todayDate.value
+
+    const formattedDate = new Date(dateToUse).toLocaleDateString('pl-PL')
+
+    values.comment = `${formattedDate} - ${comment.value}`
+    props.onSubmit(values)
 }
 </script>
 
@@ -35,13 +42,15 @@ function submit(values: Record<string, string>) {
                 gap="8"
                 direction="column"
             >
-                <Note v-if="error"
-                    >Wystąpił błąd. Spróbuj ponownie później</Note
-                >
+                <Note v-if="error">
+                    Wystąpił błąd. Spróbuj ponownie później
+                </Note>
                 <Datepicker
                     name="contactDate"
                     label="Datowanie"
-                    placeholder="15/09/2023"
+                    v-model="selectedDate"
+                    :default-value="todayDate"
+                    placeholder="Wybierz datę"
                 />
                 <ContactHistorySelect
                     name="contactResult"
@@ -52,6 +61,7 @@ function submit(values: Record<string, string>) {
                     name="comment"
                     placeholder="Komentarz"
                     label="Komentarz"
+                    v-model="comment"
                 />
             </Flex>
             <div :class="cls.footer">
@@ -59,8 +69,9 @@ function submit(values: Record<string, string>) {
                     :class="cls.button"
                     variant="primary"
                     :disabled="isLoading || error"
-                    >Dodaj</Button
                 >
+                    Dodaj
+                </Button>
             </div>
         </Form>
     </div>

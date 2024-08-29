@@ -24,15 +24,14 @@ interface Props {
     isLoading: boolean
     error?: boolean
 }
-const props = defineProps<Props>()
 
+const props = defineProps<Props>()
 const { id } = toRefs(props)
 
 const { data, isLoading } = useContactHistories(id.value)
 const { mutate } = useUpdateContactHistory()
 
 const toast = useToast()
-
 const { mutateAsync } = useDeleteHistory()
 
 const handleDelete = async (id: string) => {
@@ -42,11 +41,14 @@ const handleDelete = async (id: string) => {
         toast.error('Błąd podczas usuwania rekordu:', error)
     }
 }
+
 const values = ref({
     contactResult: props.contactResult,
     comment: props.comment,
 })
+
 const selectedContactResult = ref(props.contactResult)
+
 watch(
     () => selectedContactResult.value,
     (newContactResult) => {
@@ -58,13 +60,12 @@ watch(
     },
 )
 
-const emit = defineEmits(['update:isModalOpen'])
-
 const comment = ref(props.comment)
 
-const updateComment = (value) => {
+const updateComment = (value: string) => {
     values.comment = value
 }
+
 const onSubmit = async () => {
     if (id.value) {
         try {
@@ -97,7 +98,8 @@ const onSubmit = async () => {
                         <Text
                             :class="cls.text"
                             color="quatinary"
-                            >Dodano historię:
+                        >
+                            Dodano historię:
                         </Text>
                         <ContactHistorySelect
                             name="contactResult"
@@ -113,15 +115,14 @@ const onSubmit = async () => {
                             size="size_s"
                             color="quinary"
                         >
-                            {{
-                                formatDateLikeFacebook(new Date(contactDate))
-                            }}</Text
-                        >
+                            {{ formatDateLikeFacebook(new Date(contactDate)) }}
+                        </Text>
                     </Flex>
                     <Flex
                         direction="row"
                         gap="8"
-                        ><Text
+                    >
+                        <Text
                             size="size_s"
                             color="quinary"
                         >
