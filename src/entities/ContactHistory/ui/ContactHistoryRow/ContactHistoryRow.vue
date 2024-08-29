@@ -2,7 +2,7 @@
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import cls from './ContactHistoryRow.module.scss'
 import Text from '@/shared/ui/Text/Text.vue'
-import { formatDateLikeFacebook } from '@/shared/lib/date'
+import { formatDate } from '@/shared/lib/date'
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import { useDeleteHistory } from '@/features/Company/model/services/useDeleteHistory'
 import { useToast } from 'vue-toastification'
@@ -115,7 +115,7 @@ const onSubmit = async () => {
                             size="size_s"
                             color="quinary"
                         >
-                            {{ formatDateLikeFacebook(new Date(contactDate)) }}
+                            {{ formatDate(new Date(contactDate)) }}
                         </Text>
                     </Flex>
                     <Flex

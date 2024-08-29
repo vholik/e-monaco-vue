@@ -45,7 +45,7 @@ import CampaignFilter from '@/features/CompanyFilter/ui/CampaignFilter/CampaignF
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import { useDeleteCompanies } from '../../model/services/useDeleteCompany.ts'
 import ConfirmDeleteModal from '@/shared/ui/ConfirmDeleteModal/ConfirmDeleteModal.vue'
-import { formatDateLikeFacebook } from '@/shared/lib/date'
+import { formatDate } from '@/shared/lib/date'
 
 const isModalOpen = ref(false)
 const idToDelete = ref<number | null>(null)
@@ -201,7 +201,7 @@ const columns = ref([
                 {
                     default: () =>
                         info.row.original.last_contact_date
-                            ? formatDateLikeFacebook(
+                            ? formatDate(
                                   new Date(info.row.original.last_contact_date),
                               )
                             : '📖',
