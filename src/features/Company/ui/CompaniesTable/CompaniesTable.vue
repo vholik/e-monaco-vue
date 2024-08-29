@@ -257,9 +257,15 @@ const columns = ref([
     }),
     columnHelper.accessor((row) => row?.trailerAmount, {
         id: 'supply',
-        cell: (info) => info.row.original.supply,
+        cell: (info) =>
+            h(
+                'span',
+                { className: propcls.largeFont },
+                info.row.original.supply,
+            ),
         header: () => {
             return h(SortHeader, {
+                className: propcls.largeFont,
                 name: 'Tabor',
                 value:
                     companyFilterStore.getOrderBy === 'supply'
@@ -272,9 +278,14 @@ const columns = ref([
     columnHelper.accessor((row) => row.trailerAmount, {
         id: 'frugality',
         cell: (info) =>
-            `${info.row.original.frugality.toLocaleString('pl-PL')} zł`,
+            h(
+                'span',
+                { className: propcls.largeFont },
+                `${info.row.original.frugality.toLocaleString('pl-PL')} zł`,
+            ),
         header: () => {
             return h(SortHeader, {
+                className: propcls.largeFont,
                 name: 'Oszcz',
                 onUpdate: changeOrder('frugality'),
                 value:
@@ -333,10 +344,14 @@ const columns = ref([
     columnHelper.accessor((row) => row, {
         id: 'taxincrease',
         cell: (info) =>
-            `${info.row.original.taxincrease.toLocaleString('pl-PL')} zł` ??
-            'N/A',
+            h(
+                'span',
+                { className: propcls.largeFont },
+                `${info.row.original.taxincrease.toLocaleString('pl-PL')} zł`,
+            ) ?? 'N/A',
         header: () => {
             return h(SortHeader, {
+                className: propcls.largeFont,
                 name: 'Wzrost',
                 onUpdate: changeOrder('taxincrease'),
                 value:
@@ -350,7 +365,13 @@ const columns = ref([
     columnHelper.accessor((row) => row, {
         id: 'kitrate',
         cell: (info) =>
-            `${info.row.original.kitrate.toLocaleString('pl-PL') ?? 'N/A'} zł`,
+            h(
+                'span',
+                { className: propcls.largeFont },
+                `${
+                    info.row.original.kitrate.toLocaleString('pl-PL') ?? 'N/A'
+                } zł`,
+            ),
         header: () => {
             return h(SortHeader, {
                 name: 'Zestaw',
@@ -359,7 +380,6 @@ const columns = ref([
                     companyFilterStore.getOrderBy === 'kitrate'
                         ? companyFilterStore.getOrder
                         : null,
-
                 loading: isSortHeaderLoading('kitrate'),
             })
         },
