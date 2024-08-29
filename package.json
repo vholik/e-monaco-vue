@@ -19,7 +19,7 @@
         "@vuepic/vue-datepicker": "^6.1.0",
         "@vueuse/core": "^10.6.0",
         "axios": "^1.5.0",
-        "dayjs": "^1.11.11",
+        "dayjs": "^1.11.13",
         "floating-vue": "^2.0.0-beta.24",
         "lodash": "^4.17.21",
         "pinia": "^2.1.6",

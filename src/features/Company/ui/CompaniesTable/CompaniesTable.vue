@@ -45,6 +45,7 @@ import CampaignFilter from '@/features/CompanyFilter/ui/CampaignFilter/CampaignF
 import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
 import { useDeleteCompanies } from '../../model/services/useDeleteCompany.ts'
 import ConfirmDeleteModal from '@/shared/ui/ConfirmDeleteModal/ConfirmDeleteModal.vue'
+import { formatDate } from '@/shared/lib/date'
 
 const isModalOpen = ref(false)
 const idToDelete = ref<number | null>(null)
@@ -198,7 +199,12 @@ const columns = ref([
                         onContactHistoriesClick(info.row.original.id),
                 },
                 {
-                    default: () => '📖',
+                    default: () =>
+                        info.row.original.last_contact_date
+                            ? formatDate(
+                                  new Date(info.row.original.last_contact_date),
+                              )
+                            : '📖',
                 },
             ),
         header: () => {
