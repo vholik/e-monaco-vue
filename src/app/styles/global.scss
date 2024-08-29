@@ -64,7 +64,32 @@
     --user-color: #5ac585;
 
     // Status colors
-    --status-green-color: #016626;
+
+    // Odcienie zielonego
+    --status-green-lightest: #e0f2e9;
+    --status-green-lighter: #a8d5ba;
+    --status-green-light: #6cb89c;
+    --status-green-medium: #4a8e6f;
+    --status-green-dark: #016626;
+
+    --text-color-lightest-green: #004d40;
+    --text-color-lighter-green: #004d40;
+    --text-color-light-green: #ffffff;
+    --text-color-medium-green: #ffffff;
+    --text-color-dark-green: #e0f2e9;
+
+    --status-purple-pastel: #d9c6e0;
+    --text-color-purple-pastel: #3f0d75;
+
+    --status-yellow-orange-medium: #ffb74d;
+    --text-color-yellow-orange-medium: #4a2c00;
+
+    --status-red-medium: #ff6f6f;
+    --text-color-red-medium: #4d0000;
+
+    --status-brown-red-medium: #a87d6f;
+    --text-color-brown-red-medium: #4b2e1b;
+
     --status-green-bg-color: #e1faea;
     --status-orange-color: #f25219;
     --status-orange-bg-color: #ffebe4;
@@ -75,8 +100,8 @@
     --status-grey-color: #4f4d55;
     --status-grey-bg-color: #ebe5ff;
     --status-yellow-color: #ffe6af;
-    --status-green-bg-color: #6cb89c;
     --status-gray-bg-color: #d2d2d2;
+    --status-light-grey-bg-color: #f2f2f2;
 }
 
 .dp__theme_light {

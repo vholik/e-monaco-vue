@@ -71,6 +71,30 @@ const confirmDelete = async () => {
     }
 }
 
+const getBackgroundColorClass = (value) => {
+    let numValue = Number(value)
+
+    if (typeof value === 'object' && value !== null) {
+        numValue = Number(value.kitrate || value.someOtherNumericProperty || 0)
+    }
+
+    console.log('Cell value:', value, 'Converted value:', numValue)
+
+    if (isNaN(numValue)) return ''
+    if (numValue >= 0 && numValue <= 99) return cls.bgColor0To99
+    if (numValue >= 100 && numValue <= 499) return cls.bgColor100To499
+    if (numValue >= 500 && numValue <= 999) return cls.bgColor500To999
+    if (numValue >= 1000 && numValue <= 1499) return cls.bgColor1000To1499
+    if (numValue >= 1500 && numValue <= 1999) return cls.bgColor1500To1999
+    if (numValue >= 2000 && numValue <= 2499) return cls.bgColor2000To2499
+    if (numValue >= 2500 && numValue <= 2999) return cls.bgColor2500To2999
+    if (numValue >= 3000 && numValue <= 3499) return cls.bgColor3000To3499
+    if (numValue >= 3500 && numValue <= 3999) return cls.bgColor3500To3999
+    if (numValue >= 4000 && numValue <= 4499) return cls.bgColor4000To4499
+    if (numValue >= 4500 && numValue <= 4999) return cls.bgColor4500To4999
+    return cls.bgColor5000Plus
+}
+
 const handleModalUpdate = (value: boolean) => {
     isModalOpen.value = value
 }
@@ -937,14 +961,7 @@ const table = useVueTable({
 </script>
 
 <template>
-    <div
-        :class="[
-            cls.tableWrapper,
-            {
-                [cls.screwed]: screwedSidebar,
-            },
-        ]"
-    >
+    <div :class="[cls.tableWrapper, { [cls.screwed]: screwedSidebar }]">
         <CompanyHistoriesModal
             v-model:isModalOpen="isCompanyHistoriesModalOpen"
             :current-company-id="currentCompanyId"
@@ -973,7 +990,6 @@ const table = useVueTable({
                     </th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr
                     v-for="(row, index) in table.getRowModel().rows"
@@ -983,7 +999,12 @@ const table = useVueTable({
                     <td
                         v-for="cell in row.getVisibleCells()"
                         :key="cell.id"
-                        :class="cls.bodyValue"
+                        :class="[
+                            cls.bodyValue,
+                            cell.column.id === 'kitrate'
+                                ? getBackgroundColorClass(cell.getValue())
+                                : '',
+                        ]"
                     >
                         <FlexRender
                             :key="cell.id"
@@ -991,6 +1012,7 @@ const table = useVueTable({
                             :props="cell.getContext()"
                         />
                     </td>
+
                     <td :class="cls.bodyValue">
                         <DeleteButton @click="handleDelete(row.original.id)"
                             >Usuń</DeleteButton
