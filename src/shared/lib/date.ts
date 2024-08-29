@@ -21,8 +21,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 dayjs.locale('pl')
 
-export function formatDateLikeFacebook(date: Date): string {
+export function formatDate(date: Date): string {
     const inputDate = dayjs(date)
 
-    return inputDate.format('D MMMM YYYY HH:mm')
+    return inputDate.format('DD.MM.YYYY')
 }
