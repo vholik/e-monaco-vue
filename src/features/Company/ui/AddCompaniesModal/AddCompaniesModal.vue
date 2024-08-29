@@ -85,6 +85,11 @@ const onSubmit = async (values: any) => {
                         placeholder="Firma XYZ Sp. z o.o."
                     />
                     <Input
+                        name="comment"
+                        label="Komentarz"
+                        placeholder="Komentarz"
+                    />
+                    <Input
                         name="tractorAmount"
                         label="Ciągniki"
                         type="number"
