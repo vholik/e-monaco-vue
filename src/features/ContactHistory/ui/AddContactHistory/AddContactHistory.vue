@@ -19,15 +19,12 @@ interface Props {
 const props = defineProps<Props>()
 
 const todayDate = ref(new Date().toISOString().split('T')[0])
+
 const selectedDate = ref<string | null>(null)
+
 const comment = ref('')
 
 function submit(values: Record<string, string>) {
-    const dateToUse = selectedDate.value || todayDate.value
-
-    const formattedDate = new Date(dateToUse).toLocaleDateString('pl-PL')
-
-    values.comment = `${formattedDate} - ${comment.value}`
     props.onSubmit(values)
 }
 </script>
@@ -48,15 +45,14 @@ function submit(values: Record<string, string>) {
                 <Datepicker
                     name="contactDate"
                     label="Datowanie"
-                    v-model="selectedDate"
                     :default-value="todayDate"
                     placeholder="Wybierz datę"
                 />
-                <ContactHistorySelect
+                <!-- <ContactHistorySelect
                     name="contactResult"
                     as-input
                     label="Rezultat"
-                />
+                /> -->
                 <Input
                     name="comment"
                     placeholder="Komentarz"

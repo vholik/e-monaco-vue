@@ -27,6 +27,7 @@ const { data, isLoading } = useContactHistories(companyId.value)
                 :contact-date="contact.contactDate"
                 :contact-result="contact.contactResult"
                 :comment="contact.comment"
+                :is-loading="isLoading"
             />
 
             <div

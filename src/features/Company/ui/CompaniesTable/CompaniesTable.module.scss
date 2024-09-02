@@ -79,6 +79,15 @@
 }
 // backgrounds colors for the table
 
+.kitrateWrapper {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+
+    min-width: 50px;
+    text-align: center;
+}
+
 .bgColor0To99 {
     background-color: #b2d8b8;
 }
@@ -109,20 +118,25 @@
 
 .bgColor3000To3499 {
     background-color: #ffb74d;
+    color: white;
 }
 
 .bgColor3500To3999 {
     background-color: #ff8a65;
+    color: white;
 }
 
 .bgColor4000To4499 {
     background-color: #ff6f6f;
+    color: white;
 }
 
 .bgColor4500To4999 {
     background-color: #ff5252;
+    color: white;
 }
 
 .bgColor5000Plus {
     background-color: #ff1744;
+    color: white;
 }

@@ -1005,18 +1005,30 @@ const table = useVueTable({
                     <td
                         v-for="cell in row.getVisibleCells()"
                         :key="cell.id"
-                        :class="[
-                            cls.bodyValue,
-                            cell.column.id === 'kitrate'
-                                ? getBackgroundColorClass(cell.getValue())
-                                : '',
-                        ]"
+                        :class="cls.bodyValue"
                     >
-                        <FlexRender
-                            :key="cell.id"
-                            :render="cell.column.columnDef.cell"
-                            :props="cell.getContext()"
-                        />
+                        <template v-if="cell.column.id === 'kitrate'">
+                            <div
+                                :class="[
+                                    getBackgroundColorClass(cell.getValue()),
+                                    cls.kitrateWrapper,
+                                ]"
+                            >
+                                <FlexRender
+                                    :key="cell.id"
+                                    :render="cell.column.columnDef.cell"
+                                    :props="cell.getContext()"
+                                />
+                            </div>
+                        </template>
+
+                        <template v-else>
+                            <FlexRender
+                                :key="cell.id"
+                                :render="cell.column.columnDef.cell"
+                                :props="cell.getContext()"
+                            />
+                        </template>
                     </td>
 
                     <td :class="cls.bodyValue">

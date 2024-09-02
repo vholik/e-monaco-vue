@@ -29,9 +29,11 @@ const props = defineProps<Props>()
 const { id } = toRefs(props)
 
 const { data, isLoading } = useContactHistories(id.value)
+
 const { mutate } = useUpdateContactHistory()
 
 const toast = useToast()
+
 const { mutateAsync } = useDeleteHistory()
 
 const handleDelete = async (id: string) => {
@@ -75,7 +77,7 @@ const onSubmit = async () => {
             toast.error('Błąd aktualizacji danych:', error)
         }
     } else {
-        console.error('Brak identyfikatora - nie można wykonać mutacji')
+        console.error('Brak identyfikatora')
         console.log('id komentarza', id.value)
     }
 }
@@ -95,7 +97,7 @@ const onSubmit = async () => {
             >
                 <Form @submit.prevent="onSubmit">
                     <Flex gap="4">
-                        <Text
+                        <!-- <Text
                             :class="cls.text"
                             color="quatinary"
                         >
@@ -105,7 +107,7 @@ const onSubmit = async () => {
                             name="contactResult"
                             as-input
                             v-model="selectedContactResult"
-                        />
+                        /> -->
                     </Flex>
                     <Flex
                         direction="row"
