@@ -3,22 +3,23 @@ import type { User } from '@/entities/User'
 export interface CampaignSummary {
     ownerId: string | null
     owner?: User
-    nowyKlient: number
-    szansa: number
-    wTrakcie: number
-    negat: number
-    naPozniej: number
-    pozostalo: number
-    przerobiono: number
     suma: number
+    pozostalo: number
+    nieOdbiera: number
+    przerobiono: number
+    malaOszczednosc: number
+    odpada: number
+    nadajeSie: number
+    nastepnaKampania: number
+    negat: number
+    wTrakcieRozmow: number
+    wTrakcieProcesowania: number
+    nowyKlient: number
     brakKontaktu: number
     dzialalnosc: number
-    lokalnyPatriota: number
     nieIstnieje: number
-    nieZainteresowani: number
     nieTarget: number
     tylkoLeasing: number
-    malaOszczednosc: number
-    nastepnaKampania: number
-    zrezygnowali: number
+    nieZainteresowani: number
+    lokalnyPatriota: number
 }

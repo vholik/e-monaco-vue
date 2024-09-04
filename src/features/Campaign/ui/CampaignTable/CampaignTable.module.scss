@@ -70,34 +70,42 @@
 
 /* Kolory tła */
 
-.greyBackground {
-    background-color: #c4bd97;
+.pastelGreyBackground {
+    background-color: #f0f0f0;
 }
-.yellowBackground {
-    background-color: #ffff00;
+.lightestGreenBackground {
+    background-color: #d6ecd2;
 }
-.greenBackground {
-    background-color: #00b050;
+.lighterGreenBackground {
+    background-color: #b7dbac;
 }
-.darkGreyBackground {
-    background-color: #d3d3d3;
+.mediumGreenBackground {
+    background-color: #8cc99b;
 }
-.redBackground {
-    background-color: #ff0000;
+.darkerGreenBackground {
+    background-color: #62b272;
+}
+.darkestGreenBackground {
+    background-color: #489b57;
+}
+
+.creamBackground {
+    background-color: #f5e6cc;
+}
+
+.pastelBlueBackground {
+    background-color: #a1c3dd;
+}
+
+.pastelYellowBackground {
+    background-color: #f4a261;
+}
+
+.pastelPurpleBackground {
+    background-color: #d1a7d3;
+}
+
+.pastelRedBackground {
+    background-color: #e76f51;
     color: white;
-}
-.limeBackground {
-    background-color: #92d050;
-}
-.whiteBackground {
-    background-color: #ffffff;
-}
-.noBackground {
-    background-color: transparent !important;
-}
-.blueBackground {
-    background-color: #8db3e2;
-}
-.beigeBackground {
-    background-color: #c4bd97;
 }
