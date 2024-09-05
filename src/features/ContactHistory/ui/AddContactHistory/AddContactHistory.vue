@@ -18,7 +18,18 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const todayDate = ref(new Date().toISOString().split('T')[0])
+const todayDate = ref(
+    new Intl.DateTimeFormat('pl-PL', {
+        timeZone: 'Europe/Warsaw',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    })
+        .format(new Date())
+        .split('.')
+        .reverse()
+        .join('-'),
+)
 
 const selectedDate = ref<string | null>(null)
 
@@ -48,11 +59,6 @@ function submit(values: Record<string, string>) {
                     :default-value="todayDate"
                     placeholder="Wybierz datę"
                 />
-                <!-- <ContactHistorySelect
-                    name="contactResult"
-                    as-input
-                    label="Rezultat"
-                /> -->
                 <Input
                     name="comment"
                     placeholder="Komentarz"
