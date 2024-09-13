@@ -8,6 +8,7 @@ import {
     defineProps,
     defineEmits,
     watch,
+    reactive,
 } from 'vue'
 import cls from '../AddMunicipalitiesModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
@@ -25,9 +26,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 const { municipalityId, isModalOpen } = toRefs(props)
-
 const emit = defineEmits(['update:isModalOpen'])
 
 const formState = ref<{
@@ -41,100 +40,97 @@ const formState = ref<{
     trailerRate: null,
     otherRate: null,
 })
+
 const { data: municipalityData, refetch } = useGetMunicipality(municipalityId)
 const { mutate, isLoading, error } = useUpdateMunicipality(refetch)
 
-const rates = ref(municipalityData.value?.rates)
+const rates = reactive(municipalityData.value?.rates || [])
 
 watch(municipalityData, () => {
-    rates.value = municipalityData.value?.rates
+    if (municipalityData.value && municipalityData.value.rates) {
+        Object.assign(rates, municipalityData.value.rates)
+    }
 })
 
 onMounted(() => {
-    if (
-        municipalityData.value &&
-        municipalityData.value.rates &&
-        municipalityData.value.rates.length > 0
-    ) {
+    if (municipalityData.value?.rates?.length > 0) {
         formState.value.selectedYear = municipalityData.value.rates[0].year
     }
 })
 
 const getUniqueYearsForMunicipality = computed(() => {
-    return municipalityData.value?.rates.map((rate) => rate.year)
+    return municipalityData.value?.rates.map((rate) => rate.year) || []
 })
 
 const generateTabPanelsForMunicipality = computed(() => {
-    return municipalityData.value?.rates.map((ratesForYear) => {
+    return rates.map((rate) => {
         return () => [
             h(Input, {
-                name: `tractorRate`,
+                name: `tractorRate-${rate.year}`,
                 label: 'Stawka ciągnika',
                 placeholder: 'xxx',
                 type: 'number',
-                value: ratesForYear.tractorRate,
+                modelValue: rate.tractorRate,
                 'onUpdate:modelValue': (value: number) => {
-                    const mappedRates = rates.value?.map((it) => ({ ...it }))
-                    const find = mappedRates?.find(
-                        (it) => it.year === ratesForYear.year,
-                    )
-                    if (find) {
-                        find.tractorRate = parseInt(value)
+                    const updatedRate = {
+                        ...rate,
+                        tractorRate: parseInt(value.toString(), 10),
                     }
-
-                    rates.value = mappedRates
+                    const index = rates.findIndex((r) => r.year === rate.year)
+                    if (index !== -1) {
+                        rates[index] = updatedRate
+                    }
                 },
             }),
             h(Input, {
-                name: `trailerRate`,
+                name: `trailerRate-${rate.year}`,
                 label: 'Stawka naczepy',
                 placeholder: 'xxxx',
                 type: 'number',
-                value: ratesForYear.trailerRate,
+                modelValue: rate.trailerRate,
                 'onUpdate:modelValue': (value: number) => {
-                    const mappedRates = rates.value?.map((it) => ({ ...it }))
-                    const find = mappedRates?.find(
-                        (it) => it.year === ratesForYear.year,
-                    )
-                    if (find) {
-                        find.trailerRate = parseInt(value)
+                    const updatedRate = {
+                        ...rate,
+                        trailerRate: parseInt(value.toString(), 10),
                     }
-
-                    rates.value = mappedRates
+                    const index = rates.findIndex((r) => r.year === rate.year)
+                    if (index !== -1) {
+                        rates[index] = updatedRate
+                    }
                 },
             }),
             h(Input, {
-                name: `otherRate`,
+                name: `otherRate-${rate.year}`,
                 label: 'Inne',
                 placeholder: 'xxxx',
                 type: 'number',
-                value: ratesForYear.otherRate,
+                modelValue: rate.otherRate,
                 'onUpdate:modelValue': (value: number) => {
-                    ratesForYear.value = value
-                },
-                'onUpdate:modelValue': (value: number) => {
-                    const mappedRates = rates.value?.map((it) => ({ ...it }))
-                    const find = mappedRates?.find(
-                        (it) => it.year === ratesForYear.year,
-                    )
-                    if (find) {
-                        find.otherRate = parseInt(value)
+                    const updatedRate = {
+                        ...rate,
+                        otherRate: parseInt(value.toString(), 10),
                     }
-
-                    rates.value = mappedRates
+                    const index = rates.findIndex((r) => r.year === rate.year)
+                    if (index !== -1) {
+                        rates[index] = updatedRate
+                    }
                 },
             }),
         ]
     })
 })
 
-const onSubmit = () => {
-    mutate({ rates: rates.value, id: municipalityId.value })
-    emit('update:isModalOpen', false)
+const onSubmit = async () => {
+    try {
+        await mutate({ rates, id: municipalityId.value })
+        emit('update:isModalOpen', false)
+    } catch (e) {
+        console.error('Update error:', e)
+    }
 }
 
 const generateTabOptions = computed(() => {
-    return getUniqueYearsForMunicipality.value?.map((year) => String(year))
+    return getUniqueYearsForMunicipality.value.map((year) => String(year))
 })
 
 const tabIndex = ref(0)
@@ -162,7 +158,8 @@ const tabIndex = ref(0)
                     </Tabs>
 
                     <Note v-if="error">
-                        Nie udało nam się dodać gminy. Spróbuj ponownie później.
+                        Nie udało nam się zaktualizować stawek. Spróbuj ponownie
+                        później.
                     </Note>
                 </Flex>
                 <div :class="cls.footer">
