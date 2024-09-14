@@ -21,7 +21,7 @@ const { isLoading, data } = useCampaignSummary(campaign.id)
 const columnHelper = createColumnHelper<CampaignSummary>()
 const getColorClass = (columnId: string, tableName?: string) => {
     if (columnId === 'suma') {
-        return cls.pastelGreyBackground // For the 'Suma' column
+        return cls.pastelGreyBackground
     }
     if (tableName === 'Użytkownik') {
         return cls.noBackground
@@ -144,20 +144,6 @@ const columns1 = [
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Negat', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.wTrakcieRozmow, {
-        id: 'wTrakcieRozmow',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () =>
-            h(SortHeader, { name: 'W Trakcie Rozmów', canSort: false }),
-    }),
-    columnHelper.accessor((row) => row.wTrakcieProcesowania, {
-        id: 'wTrakcieProcesowania',
-        cell: (info) =>
-            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
-        header: () =>
-            h(SortHeader, { name: 'W Trakcie Procesowania', canSort: false }),
     }),
     columnHelper.accessor((row) => row.nowyKlient, {
         id: 'nowyKlient',
