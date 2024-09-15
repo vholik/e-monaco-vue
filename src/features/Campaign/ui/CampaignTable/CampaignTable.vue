@@ -145,6 +145,20 @@ const columns1 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Negat', canSort: false }),
     }),
+    columnHelper.accessor((row) => row.wTrakcieRozmow, {
+        id: 'wTrakcieRozmow',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () =>
+            h(SortHeader, { name: 'W Trakcie Rozmów', canSort: false }),
+    }),
+    columnHelper.accessor((row) => row.wTrakcieProcesowania, {
+        id: 'wTrakcieProcesowania',
+        cell: (info) =>
+            h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
+        header: () =>
+            h(SortHeader, { name: 'W Trakcie Procesowania', canSort: false }),
+    }),
     columnHelper.accessor((row) => row.nowyKlient, {
         id: 'nowyKlient',
         cell: (info) =>
