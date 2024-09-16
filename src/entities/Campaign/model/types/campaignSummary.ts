@@ -12,8 +12,8 @@ export interface CampaignSummary {
     nadajeSie: number
     nastepnaKampania: number
     negat: number
-    wTrakcieRozmow: number
-    wTrakcieProcesowania: number
+    rozmowy: number
+    proces: number
     nowyKlient: number
     brakKontaktu: number
     dzialalnosc: number

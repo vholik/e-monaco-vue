@@ -69,9 +69,9 @@ const getColorClass = (columnId: string, tableName?: string) => {
                 return cls.pastelBlueBackground
             case 'lokalnyPatriota':
                 return cls.pastelRedBackground
-            case 'wTrakcieRozmow':
+            case 'rozmowy':
                 return cls.mediumGreenBackground
-            case 'wTrakcieProcesowania':
+            case 'proces':
                 return cls.darkerGreenBackground
 
             default:
@@ -145,15 +145,15 @@ const columns1 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Negat', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.wTrakcieRozmow, {
-        id: 'wTrakcieRozmow',
+    columnHelper.accessor((row) => row.rozmowy, {
+        id: 'rozmowy',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
             h(SortHeader, { name: 'W Trakcie Rozmów', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.wTrakcieProcesowania, {
-        id: 'wTrakcieProcesowania',
+    columnHelper.accessor((row) => row.proces, {
+        id: 'proces',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
