@@ -12,6 +12,7 @@ interface Props {
     type?: string
     name: string
     defaultValue?: CompanyStatus
+    showAllStatuses?: boolean
 }
 
 const props = defineProps<Props>()
@@ -224,6 +225,11 @@ const statusFilters: Record<CompanyStatus, CompanyStatus[]> = {
 const filteredOptions = ref<SelectOption[]>(options)
 
 function filterOptions() {
+    if (props.showAllStatuses) {
+        filteredOptions.value = options
+        return
+    }
+
     const selectedStatus = value.value
 
     if (Object.prototype.hasOwnProperty.call(statusFilters, selectedStatus)) {

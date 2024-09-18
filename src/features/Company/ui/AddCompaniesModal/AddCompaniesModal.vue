@@ -111,7 +111,9 @@ const onSubmit = async (values: any) => {
                         label="Status"
                         as-input
                         name="status"
+                        showAllStatuses
                     />
+
                     <MunicipalitySelect
                         label="Gmina*"
                         as-input

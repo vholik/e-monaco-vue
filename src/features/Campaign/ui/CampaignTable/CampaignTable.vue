@@ -50,7 +50,7 @@ const getColorClass = (columnId: string, tableName?: string) => {
             case 'brakKontaktu':
                 return cls.pastelYellowBackground
             case 'dzialalnosc':
-                return cls.pastelYellowBackground
+                return cls.pastelYellowBackground 
             case 'odpada':
                 return cls.pastelYellowBackground
             case 'nieIstnieje':
