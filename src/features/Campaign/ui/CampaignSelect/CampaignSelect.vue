@@ -7,7 +7,7 @@ import { useCampaigns } from '@/features/Campaign/model/services/useCampaign'
 import type { Campaign } from '@/entities/Campaign/model/types/campaign'
 
 const { data } = useCampaigns()
-
+console.log(data)
 interface Props {
     asInput?: boolean
     label?: string
