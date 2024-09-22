@@ -38,12 +38,12 @@ const onSubmit = async (values: any) => {
     const { firstName, lastName, role, phone, email, campaigns, ...other } =
         values
 
-    const campaignId = campaigns?.id || null
+    const campaignId = campaigns || null // Extract campaign ID from selected campaign
     const campaignTitle = campaigns?.title || null
 
     mutate({
         ...other,
-        campaignId,
+        campaignId, // Send the campaign ID in the request
         campaignTitle,
         contactPersons: [
             { firstName, lastName, role, phone, email: email || undefined },

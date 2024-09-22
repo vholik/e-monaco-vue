@@ -67,4 +67,5 @@ export const addCompanyValidationSchema = yup.object().shape({
         .optional(),
     phone: yup.string().nullable().optional(),
     role: yup.string().nullable().optional(),
+    campaignId: yup.string().nullable().optional(),
 })
