@@ -14,7 +14,7 @@ export const addCompanyValidationSchema = yup.object().shape({
     comment: yup.string().max(500, 'Pole musi mieć poniżej 500 znaków'),
     // @ts-ignore
     nip: yup.string().nip('NIP musi mieć format XXX-XXX-XX-XX').nullable(),
-    name: yup.string(),
+    name: yup.string().required('Pole gmina jest obowiązkowe'),
     status: yup.string().nullable(),
     municipalityId: yup.string().required('Pole gmina jest obowiązkowe'),
 
