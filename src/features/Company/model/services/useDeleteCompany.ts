@@ -7,7 +7,7 @@ export const useDeleteCompanies = () => {
     const toast = useToast()
 
     return useMutation(
-        async (id: number) => {
+        async (id: String) => {
             try {
                 const response = await $api.delete(`companies/${id}`)
                 console.log('Delete response data:', response.data)

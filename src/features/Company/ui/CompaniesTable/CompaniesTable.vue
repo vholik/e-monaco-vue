@@ -42,35 +42,10 @@ import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect
 import EditContactPersonsModal from '@/features/EditContactPersonsModal/EditContactPersonsModal.vue'
 import { useUpdatePersons } from '@/features/ContactPersons/model/services/useUpdatePersons'
 import CampaignFilter from '@/features/CompanyFilter/ui/CampaignFilter/CampaignFilter.vue'
-import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
-import { useDeleteCompanies } from '../../model/services/useDeleteCompany.ts'
-import ConfirmDeleteModal from '@/shared/ui/ConfirmDeleteModal/ConfirmDeleteModal.vue'
 import { formatDate } from '@/shared/lib/date'
+import CompaniesSettings from '../CompaniesSettings/CompaniesSettings.vue'
 
 const isModalOpen = ref(false)
-const idToDelete = ref<number | null>(null)
-
-const { mutateAsync } = useDeleteCompanies(() => {
-    isModalOpen.value = false
-})
-
-const handleDelete = (id: number) => {
-    idToDelete.value = id
-    isModalOpen.value = true
-}
-
-const confirmDelete = async () => {
-    if (idToDelete.value !== null) {
-        try {
-            await mutateAsync(idToDelete.value)
-            console.log('Rekord został pomyślnie usunięty')
-        } catch (error) {
-            console.error('Błąd podczas usuwania:', error)
-        } finally {
-            isModalOpen.value = false
-        }
-    }
-}
 
 const getBackgroundColorClass = (value) => {
     let numValue = Number(value)
@@ -78,8 +53,6 @@ const getBackgroundColorClass = (value) => {
     if (typeof value === 'object' && value !== null) {
         numValue = Number(value.kitrate || value.someOtherNumericProperty || 0)
     }
-
-    console.log('Cell value:', value, 'Converted value:', numValue)
 
     if (isNaN(numValue)) return ''
     if (numValue >= 0 && numValue <= 99) return cls.bgColor0To99
@@ -1030,20 +1003,16 @@ const table = useVueTable({
                             />
                         </template>
                     </td>
-
                     <td :class="cls.bodyValue">
-                        <DeleteButton @click="handleDelete(row.original.id)"
-                            >Usuń</DeleteButton
-                        >
+                        <CompaniesSettings
+                            :leadId="row.original.id"
+                            :leadData="row.original"
+                        />
                     </td>
                 </tr>
             </tbody>
         </table>
-        <ConfirmDeleteModal
-            :isOpen="isModalOpen"
-            @update:isOpen="handleModalUpdate"
-            @confirmDelete="confirmDelete"
-        />
+
         <div
             v-if="!data?.companies?.length && !isLoading"
             :class="cls.noData"
