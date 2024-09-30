@@ -27,6 +27,7 @@ const props = defineProps({
 const toast = useToast()
 const isModalOpen = ref(false)
 const idToDelete = ref<string | null>(null)
+const isDuplicating = ref(false)
 const emit = defineEmits(['delete'])
 const { mutateAsync: deleteCompany } = useDeleteCompanies(() => {
     isModalOpen.value = false
@@ -34,7 +35,13 @@ const { mutateAsync: deleteCompany } = useDeleteCompanies(() => {
 
 const { mutateAsync: addCompany } = useAddCompany(() => {
     toast.success('Pomyślnie zduplikowano firmę!')
+    isDuplicating.value = false
 })
+
+const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+}
 
 const formatNip = (nip: string) => {
     if (!nip) return ''
@@ -75,15 +82,20 @@ const getDuplicatedCompanyData = (leadData: any) => {
         other: rawLeadData.other || 0,
         phone: rawLeadData.phone || '',
         contactPersons: rawLeadData.contactPersons
-            ? rawLeadData.contactPersons.map((person) => ({
-                  id: person.id,
-                  firstName: person.firstName || '',
-                  lastName: person.lastName || '',
-                  role: person.role || '',
-                  phone: person.phone || '',
-                  email: person.email || '',
-              }))
+            ? rawLeadData.contactPersons
+                  .filter(
+                      (person) => person.email && isValidEmail(person.email),
+                  )
+                  .map((person) => ({
+                      id: person.id,
+                      firstName: person.firstName || '',
+                      lastName: person.lastName || '',
+                      role: person.role || '',
+                      phone: person.phone || '',
+                      email: person.email || '',
+                  }))
             : [],
+
         metadata: JSON.parse(JSON.stringify(rawLeadData.metadata || {})),
     }
 
@@ -102,12 +114,14 @@ const handleSelect = async (option: any, leadId: string) => {
         isModalOpen.value = true
     }
 
-    if (leadId && option.id === 'duplicate') {
+    if (leadId && option.id === 'duplicate' && !isDuplicating.value) {
+        isDuplicating.value = true
         try {
             const duplicatedData = getDuplicatedCompanyData(props.leadData)
             await addCompany(duplicatedData)
         } catch (error) {
             toast.error('Błąd podczas duplikowania firmy: ' + error.message)
+            isDuplicating.value = false
         }
     }
 }
