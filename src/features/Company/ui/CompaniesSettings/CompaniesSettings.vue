@@ -40,7 +40,7 @@ const { mutateAsync: addCompany } = useAddCompany(() => {
 
 const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
+    return email ? emailRegex.test(email) : false
 }
 
 const formatNip = (nip: string) => {
@@ -82,20 +82,15 @@ const getDuplicatedCompanyData = (leadData: any) => {
         other: rawLeadData.other || 0,
         phone: rawLeadData.phone || '',
         contactPersons: rawLeadData.contactPersons
-            ? rawLeadData.contactPersons
-                  .filter(
-                      (person) => person.email && isValidEmail(person.email),
-                  )
-                  .map((person) => ({
-                      id: person.id,
-                      firstName: person.firstName || '',
-                      lastName: person.lastName || '',
-                      role: person.role || '',
-                      phone: person.phone || '',
-                      email: person.email || '',
-                  }))
+            ? rawLeadData.contactPersons.map((person) => ({
+                  id: person.id,
+                  firstName: person.firstName || '',
+                  lastName: person.lastName || '',
+                  role: person.role || '',
+                  phone: person.phone || '',
+                  email: isValidEmail(person.email) ? person.email : null,
+              }))
             : [],
-
         metadata: JSON.parse(JSON.stringify(rawLeadData.metadata || {})),
     }
 
