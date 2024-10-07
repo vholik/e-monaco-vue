@@ -50,7 +50,7 @@ const getColorClass = (columnId: string, tableName?: string) => {
             case 'brakKontaktu':
                 return cls.pastelYellowBackground
             case 'dzialalnosc':
-                return cls.pastelYellowBackground 
+                return cls.pastelYellowBackground
             case 'odpada':
                 return cls.pastelYellowBackground
             case 'nieIstnieje':
@@ -239,7 +239,9 @@ const table2 = useVueTable({
 
 <template>
     <div :class="cls.campaignTables">
-        <h2 :class="cls.headerTitle">Kampania: {{ campaign.title }}</h2>
+        <h2 :class="cls.headerTitle">
+            Kampania: {{ campaign.title }} {{ campaign.season }}
+        </h2>
         <table :class="cls.CampaignTable">
             <thead :class="cls.header">
                 <tr>

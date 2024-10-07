@@ -48,7 +48,10 @@ watch(defaultValue!, () => {
             v-model="value"
             :multiple="multiple"
             :options="
-                data.map((it: Campaign) => ({ id: it.id, name: it.title }))
+                data.map((it: Campaign) => ({
+                    id: it.id,
+                    name: it.season ? `${it.title} ${it.season}` : it.title,
+                }))
             "
             :as-input="asInput"
             :label="label"
