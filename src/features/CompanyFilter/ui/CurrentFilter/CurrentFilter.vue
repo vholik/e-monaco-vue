@@ -7,8 +7,9 @@ import { storeToRefs } from 'pinia'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 
 const store = useCompanyFilterStore()
+
 const formatDate = (dateString: string | null) => {
-    if (!dateString) return ''
+    if (!dateString || dateString === 'null') return ''
 
     const date = new Date(dateString)
     const day = date.getDate().toString().padStart(2, '0')
@@ -82,31 +83,10 @@ const sortNameMap: Record<string, string> = {
 <template>
     <div :class="cls.CurrentFilter">
         <div
-            v-if="getOrderBy"
+            v-if="from_next_date === 'null' && to_next_date === 'null'"
             :class="cls.filterBtn"
         >
-            Sortowanie {{ getOrder === 'asc' ? 'rosnąco' : 'malejąco' }}:
-            {{ sortNameMap[getOrderBy] ?? getOrderBy }}
-
-            <Icon
-                :icon="CloseIcon"
-                cursor-pointer
-                @click="
-                    () => {
-                        store.setOrder(null)
-                        store.setOrderBy(null)
-                    }
-                "
-            />
-        </div>
-
-        <div
-            v-if="from_next_date || to_next_date"
-            :class="cls.filterBtn"
-        >
-            Data kontaktu: od {{ formatDate(from_next_date) }}
-            {{ from_next_date && to_next_date ? ' ' : '' }}
-            do {{ formatDate(to_next_date) }}
+            Sortowanie: Brak następnej daty kontaktu
             <Icon
                 :icon="CloseIcon"
                 cursor-pointer
@@ -119,107 +99,146 @@ const sortNameMap: Record<string, string> = {
             />
         </div>
 
-        <div
-            v-if="getOwners?.length"
-            :class="cls.filterBtn"
-        >
-            Ownerzy
-            <Icon
-                :icon="CloseIcon"
-                cursor-pointer
-                @click="
-                    () => {
-                        store.setOwners([])
-                    }
-                "
-            />
-        </div>
-
-        <div
-            v-if="getContactPersons?.length"
-            :class="cls.filterBtn"
-        >
-            Osoby kontaktowe
-            <Icon
-                :icon="CloseIcon"
-                cursor-pointer
-                @click="
-                    () => {
-                        store.setContactPersons([])
-                    }
-                "
-            />
-        </div>
-
-        <div
-            v-if="!!getStatus.length"
-            :class="cls.filterBtn"
-        >
-            Statusy
-            <Icon
-                :icon="CloseIcon"
-                cursor-pointer
-                @click="
-                    () => {
-                        store.setStatus([])
-                    }
-                "
-            />
-        </div>
-
-        <div
-            v-if="getMunicipalities?.length"
-            :class="cls.filterBtn"
-        >
-            Gminy
-            <Icon
-                :icon="CloseIcon"
-                cursor-pointer
-                @click="
-                    () => {
-                        store.setMunicipalities([])
-                    }
-                "
-            />
-        </div>
-
-        <div
-            v-if="campaigns?.length"
-            :class="cls.filterBtn"
-        >
-            Kampanie
-            <Icon
-                :icon="CloseIcon"
-                cursor-pointer
-                @click="
-                    () => {
-                        store.setCampaigns([])
-                    }
-                "
-            />
-        </div>
-
-        <Flex
-            v-for="[key, value] in Object.entries(freeText)"
-            :key="key"
-            align="center"
-            gap="4"
-        >
+        <template v-else>
             <div
-                v-if="value.length"
+                v-if="getOrderBy"
                 :class="cls.filterBtn"
             >
-                {{ sortNameMap[key] ?? key }}: {{ value.join(', ') }}
+                Sortowanie {{ getOrder === 'asc' ? 'rosnąco' : 'malejąco' }}:
+                {{ sortNameMap[getOrderBy] ?? getOrderBy }}
                 <Icon
                     :icon="CloseIcon"
                     cursor-pointer
                     @click="
                         () => {
-                            store.setFreeTextColumn(key, [])
+                            store.setOrder(null)
+                            store.setOrderBy(null)
                         }
                     "
                 />
             </div>
-        </Flex>
+
+            <div
+                v-if="from_next_date || to_next_date"
+                :class="cls.filterBtn"
+            >
+                Data kontaktu: od {{ formatDate(from_next_date) }}
+                {{ from_next_date && to_next_date ? ' ' : '' }}
+                do {{ formatDate(to_next_date) }}
+                <Icon
+                    :icon="CloseIcon"
+                    cursor-pointer
+                    @click="
+                        () => {
+                            store.from_next_date = ''
+                            store.to_next_date = ''
+                        }
+                    "
+                />
+            </div>
+
+            <div
+                v-if="getOwners?.length"
+                :class="cls.filterBtn"
+            >
+                Ownerzy
+                <Icon
+                    :icon="CloseIcon"
+                    cursor-pointer
+                    @click="
+                        () => {
+                            store.setOwners([])
+                        }
+                    "
+                />
+            </div>
+
+            <div
+                v-if="getContactPersons?.length"
+                :class="cls.filterBtn"
+            >
+                Osoby kontaktowe
+                <Icon
+                    :icon="CloseIcon"
+                    cursor-pointer
+                    @click="
+                        () => {
+                            store.setContactPersons([])
+                        }
+                    "
+                />
+            </div>
+
+            <div
+                v-if="!!getStatus.length"
+                :class="cls.filterBtn"
+            >
+                Statusy
+                <Icon
+                    :icon="CloseIcon"
+                    cursor-pointer
+                    @click="
+                        () => {
+                            store.setStatus([])
+                        }
+                    "
+                />
+            </div>
+
+            <div
+                v-if="getMunicipalities?.length"
+                :class="cls.filterBtn"
+            >
+                Gminy
+                <Icon
+                    :icon="CloseIcon"
+                    cursor-pointer
+                    @click="
+                        () => {
+                            store.setMunicipalities([])
+                        }
+                    "
+                />
+            </div>
+
+            <div
+                v-if="campaigns?.length"
+                :class="cls.filterBtn"
+            >
+                Kampanie
+                <Icon
+                    :icon="CloseIcon"
+                    cursor-pointer
+                    @click="
+                        () => {
+                            store.setCampaigns([])
+                        }
+                    "
+                />
+            </div>
+
+            <Flex
+                v-for="[key, value] in Object.entries(freeText)"
+                :key="key"
+                align="center"
+                gap="4"
+            >
+                <div
+                    v-if="value.length"
+                    :class="cls.filterBtn"
+                >
+                    {{ sortNameMap[key] ?? key }}: {{ value.join(', ') }}
+                    <Icon
+                        :icon="CloseIcon"
+                        cursor-pointer
+                        @click="
+                            () => {
+                                store.setFreeTextColumn(key, [])
+                            }
+                        "
+                    />
+                </div>
+            </Flex>
+        </template>
     </div>
 </template>

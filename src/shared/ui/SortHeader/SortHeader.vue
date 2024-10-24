@@ -2,7 +2,6 @@
 import Icon from '@/shared/ui/Icon/Icon.vue'
 import cls from './SortHeader.module.scss'
 import ArrowUpIcon from '@/shared/assets/icons/ArrowUp.vue'
-
 import Text from '@/shared/ui/Text/Text.vue'
 import Flex from '../Flex/Flex.vue'
 import { toRefs, type Component } from 'vue'
