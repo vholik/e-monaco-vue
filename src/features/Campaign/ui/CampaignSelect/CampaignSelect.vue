@@ -7,7 +7,7 @@ import { useCampaigns } from '@/features/Campaign/model/services/useCampaign'
 import type { Campaign } from '@/entities/Campaign/model/types/campaign'
 
 const { data } = useCampaigns()
-console.log(data)
+
 interface Props {
     asInput?: boolean
     label?: string
@@ -18,7 +18,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const emit = defineEmits(['update'])
+const emit = defineEmits(['update', 'update:modelValue'])
 
 const { name, defaultValue, multiple } = toRefs(props)
 
@@ -30,8 +30,10 @@ const { errorMessage, value, handleChange } = useField<string | string[]>(
     },
 )
 
-function onUpdate(value: string | string[]) {
-    emit('update', value)
+function onUpdate(newValue: string | string[]) {
+    handleChange(newValue)
+    emit('update', newValue)
+    emit('update:modelValue', newValue)
 }
 
 watch(defaultValue!, () => {

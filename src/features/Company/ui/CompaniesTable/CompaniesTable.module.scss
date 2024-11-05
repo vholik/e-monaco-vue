@@ -1,3 +1,43 @@
+.checkboxInput {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.checkboxInput:checked {
+    background-color: #6b46fe;
+    border-color: #6b46fee2;
+}
+
+.checkboxInput:checked::after {
+    content: '✔';
+    color: #ffffff;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation: checkmark-pop 0.3s ease;
+}
+
+@keyframes checkmark-pop {
+    from {
+        transform: translate(-50%, -50%) scale(0);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 .tableWrapper {
     width: calc(100vw - var(--sidebar-width) - 2rem);
     overflow-x: scroll;

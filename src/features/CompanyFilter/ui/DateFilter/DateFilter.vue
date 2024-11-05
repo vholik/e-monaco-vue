@@ -8,7 +8,9 @@ import cls from './DateFilter.module.scss'
 import Button from '@/shared/ui/Button/Button.vue'
 
 const filterStore = useCompanyFilterStore()
+
 const { dateRange } = storeToRefs(filterStore)
+
 const localDateRange = ref(filterStore.dateRange)
 
 function onChangeFn(value: string[]) {

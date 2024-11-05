@@ -18,7 +18,7 @@ function onChangeFn(value: string[]) {
         <UserSelect
             as-input
             name="user-select"
-            mutiple
+            multiple
             :default-value="filterStore.getOwners"
             @update="onChangeFn"
         />

@@ -17,9 +17,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const emit = defineEmits(['update'])
-
+const emit = defineEmits(['update', 'update:modelValue'])
 const { name, defaultValue } = toRefs(props)
 
 const { errorMessage, value, handleChange } = useField<
@@ -28,8 +26,13 @@ const { errorMessage, value, handleChange } = useField<
     initialValue: defaultValue?.value || null,
 })
 
-function onUpdate(value: string | string[] | null) {
-    emit('update', value)
+watch(value, (newValue) => {
+    emit('update', newValue)
+    emit('update:modelValue', newValue)
+})
+
+function onUpdate(newValue: string | string[] | null) {
+    handleChange(newValue)
 }
 
 watch(defaultValue!, () => {
