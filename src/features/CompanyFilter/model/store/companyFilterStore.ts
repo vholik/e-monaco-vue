@@ -78,7 +78,7 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
                 this.from_next_date = null
                 this.to_next_date = null
             } else {
-                const from = dateRange[0]
+                this.from_next_date = dateRange[0]
                     ? dayjs
                           .tz(dateRange[0], localTimeZone)
                           .startOf('day')
@@ -86,17 +86,15 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
                           .format()
                     : null
 
-                const to = dateRange[1]
+                this.to_next_date = dateRange[1]
                     ? dayjs
                           .tz(dateRange[1], localTimeZone)
                           .endOf('day')
                           .utc()
                           .format()
                     : null
-
-                this.from_next_date = from
-                this.to_next_date = to
             }
+
             this.page = 1
         },
         setDateNull() {

@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import cls from './DashboardPage.module.scss'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import Breadcrumbs from '@/shared/ui/Breadcrumbs/Breadcrumbs.vue'
 import { breadcrumbs } from '../model/consts/breadcrumbs'
 import { CompaniesFilter, CompaniesTable } from '@/features/Company/index'
+
+const selectionCount = ref<number>(0)
+const selectedCompanies = ref<string[]>([])
+const selectionCountValue = computed(() => selectionCount.value)
 </script>
 
 <template>
@@ -19,8 +24,23 @@ import { CompaniesFilter, CompaniesTable } from '@/features/Company/index'
                 direction="column"
                 align="start"
             >
-                <CompaniesFilter />
-                <CompaniesTable />
+                <CompaniesFilter
+                    :selection-count="selectionCountValue"
+                    :selected-companies="selectedCompanies"
+                />
+
+                <CompaniesTable
+                    @update-selection-count="
+                        (count) => {
+                            selectionCount = count
+                        }
+                    "
+                    @update-selected-companies="
+                        (companies) => {
+                            selectedCompanies = companies
+                        }
+                    "
+                />
             </Flex>
         </Flex>
     </div>

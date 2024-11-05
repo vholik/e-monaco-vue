@@ -17,6 +17,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const { name, defaultValue } = toRefs(props)
+
 const emit = defineEmits(['update'])
 
 const { errorMessage, value, handleChange } = useField<string | string[]>(
@@ -31,6 +32,7 @@ let inputValue = ref('')
 const { data } = useMunicipalities(value, inputValue)
 
 function onUpdate(value: string) {
+    console.log('Selected municipality ID:', value)
     emit('update', value)
 }
 
