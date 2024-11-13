@@ -22,6 +22,7 @@ function setIsModalOpen(value: boolean) {
 const { mutate, isLoading, error } = useUsers(setIsModalOpen)
 
 defineProps<Props>()
+
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = (values: unknown) => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import cls from './CompaniesFilter.module.scss'
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
+import { debounce } from 'lodash'
 import { CurrentFilter, useCompanyFilterStore } from '@/features/CompanyFilter'
 import Button from '@/shared/ui/Button/Button.vue'
 import Icon from '@/shared/ui/Icon/Icon.vue'
@@ -9,13 +9,15 @@ import Input from '@/shared/ui/Input/Input.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
 import AddCompaniesModalVue from '../AddCompaniesModal/AddCompaniesModal.vue'
 import EditCompanyModal from '@/features/EditCompanyModal/EditCompanyModal.vue'
-import { debounce } from 'lodash'
+import ImportDataModal from '@/features/Company/ui/ImportModal/ImportModal.vue'
 import TableSelect from '../TableSelect/TableSelect.vue'
 import { $api } from '@/shared/api/api'
+import cls from './CompaniesFilter.module.scss'
 
 const companyFilterStore = useCompanyFilterStore()
 const modalOpen = ref(false)
 const editModalOpen = ref(false)
+const importModalOpen = ref(false)
 const exportLoading = ref(false)
 
 const props = defineProps<{
@@ -24,13 +26,6 @@ const props = defineProps<{
 }>()
 
 const isBulkEditVisible = computed(() => props.selectionCount > 0)
-
-watch(
-    () => props.selectionCount,
-    (newCount) => {
-        // This can be removed if you don't need it for future debugging
-    },
-)
 
 const changeInputValue = debounce((value: string) => {
     companyFilterStore.setSearchTerm(value)
@@ -79,9 +74,14 @@ function handleBulkEdit() {
         >
             {{ exportLoading ? 'Ładowanie...' : 'Eksportuj' }}
         </Button>
-
+        <Button
+            variant="secondary"
+            :max="false"
+            @click="importModalOpen = true"
+        >
+            Importuj
+        </Button>
         <TableSelect />
-
         <Button
             variant="secondary"
             :max="false"
@@ -113,11 +113,13 @@ function handleBulkEdit() {
             placeholder="Szukaj według słowa kluczowego..."
             @update:modelValue="changeInputValue"
         />
+
         <EditCompanyModal
             v-model:isModalOpen="editModalOpen"
             :selectedCompanyIds="props.selectedCompanies"
         />
-
         <AddCompaniesModalVue v-model:isModalOpen="modalOpen" />
+
+        <ImportDataModal v-model:isModalOpen="importModalOpen" />
     </Flex>
 </template>

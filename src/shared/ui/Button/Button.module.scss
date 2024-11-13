@@ -45,6 +45,15 @@
     }
 }
 
+.danger {
+    background-color: var(--danger-color);
+    color: var(--danger-invert-color);
+
+    &:hover {
+        background-color: var(--danger-hover-color);
+    }
+}
+
 .max {
     width: 100%;
 }

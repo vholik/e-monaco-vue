@@ -4,7 +4,7 @@ import cls from './Button.module.scss'
 
 interface Props {
     size?: 'size_m' | 'size_xl' | 'size_s'
-    variant?: 'primary' | 'secondary'
+    variant?: 'primary' | 'secondary' | 'danger'
     max?: boolean
 }
 
