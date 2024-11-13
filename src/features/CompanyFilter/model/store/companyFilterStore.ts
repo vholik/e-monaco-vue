@@ -97,6 +97,10 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
 
             this.page = 1
         },
+        setTables(tables: string[]) {
+            this.tables = tables
+            localStorage.setItem('company-tables', tables.join(','))
+        },
         setDateNull() {
             this.from_next_date = 'null'
             this.to_next_date = 'null'
