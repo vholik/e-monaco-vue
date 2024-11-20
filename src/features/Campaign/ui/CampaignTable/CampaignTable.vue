@@ -21,7 +21,7 @@ const { isLoading, data } = useCampaignSummary(campaign.id)
 const columnHelper = createColumnHelper<CampaignSummary>()
 const getColorClass = (columnId: string, tableName?: string) => {
     if (columnId === 'suma') {
-        return cls.pastelGreyBackground // For the 'Suma' column
+        return cls.pastelGreyBackground
     }
     if (tableName === 'Użytkownik') {
         return cls.noBackground
@@ -69,9 +69,9 @@ const getColorClass = (columnId: string, tableName?: string) => {
                 return cls.pastelBlueBackground
             case 'lokalnyPatriota':
                 return cls.pastelRedBackground
-            case 'wTrakcieRozmow':
+            case 'rozmowy':
                 return cls.mediumGreenBackground
-            case 'wTrakcieProcesowania':
+            case 'proces':
                 return cls.darkerGreenBackground
 
             default:
@@ -145,15 +145,15 @@ const columns1 = [
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () => h(SortHeader, { name: 'Negat', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.wTrakcieRozmow, {
-        id: 'wTrakcieRozmow',
+    columnHelper.accessor((row) => row.rozmowy, {
+        id: 'rozmowy',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
             h(SortHeader, { name: 'W Trakcie Rozmów', canSort: false }),
     }),
-    columnHelper.accessor((row) => row.wTrakcieProcesowania, {
-        id: 'wTrakcieProcesowania',
+    columnHelper.accessor((row) => row.proces, {
+        id: 'proces',
         cell: (info) =>
             h('span', { class: cls.boldText }, info.getValue() ?? 'N/A'),
         header: () =>
@@ -239,7 +239,9 @@ const table2 = useVueTable({
 
 <template>
     <div :class="cls.campaignTables">
-        <h2 :class="cls.headerTitle">Kampania: {{ campaign.title }}</h2>
+        <h2 :class="cls.headerTitle">
+            Kampania: {{ campaign.title }} {{ campaign.season }}
+        </h2>
         <table :class="cls.CampaignTable">
             <thead :class="cls.header">
                 <tr>

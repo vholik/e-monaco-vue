@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createColumnHelper, getCoreRowModel } from '@tanstack/table-core'
 import { FlexRender, useVueTable } from '@tanstack/vue-table'
-import { h, ref, watch } from 'vue'
+import { h, ref, watch, computed } from 'vue'
 import cls from './CompaniesTable.module.scss'
 import propcls from '@/shared/ui/CommentInput/CommentInput.module.scss'
 import SortHeader from '@/shared/ui/SortHeader/SortHeader.vue'
@@ -42,35 +42,10 @@ import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect
 import EditContactPersonsModal from '@/features/EditContactPersonsModal/EditContactPersonsModal.vue'
 import { useUpdatePersons } from '@/features/ContactPersons/model/services/useUpdatePersons'
 import CampaignFilter from '@/features/CompanyFilter/ui/CampaignFilter/CampaignFilter.vue'
-import DeleteButton from '@/shared/ui/DeleteButton/DeleteButton.vue'
-import { useDeleteCompanies } from '../../model/services/useDeleteCompany.ts'
-import ConfirmDeleteModal from '@/shared/ui/ConfirmDeleteModal/ConfirmDeleteModal.vue'
 import { formatDate } from '@/shared/lib/date'
+import CompaniesSettings from '../CompaniesSettings/CompaniesSettings.vue'
 
 const isModalOpen = ref(false)
-const idToDelete = ref<number | null>(null)
-
-const { mutateAsync } = useDeleteCompanies(() => {
-    isModalOpen.value = false
-})
-
-const handleDelete = (id: number) => {
-    idToDelete.value = id
-    isModalOpen.value = true
-}
-
-const confirmDelete = async () => {
-    if (idToDelete.value !== null) {
-        try {
-            await mutateAsync(idToDelete.value)
-            console.log('Rekord został pomyślnie usunięty')
-        } catch (error) {
-            console.error('Błąd podczas usuwania:', error)
-        } finally {
-            isModalOpen.value = false
-        }
-    }
-}
 
 const getBackgroundColorClass = (value) => {
     let numValue = Number(value)
@@ -78,8 +53,6 @@ const getBackgroundColorClass = (value) => {
     if (typeof value === 'object' && value !== null) {
         numValue = Number(value.kitrate || value.someOtherNumericProperty || 0)
     }
-
-    console.log('Cell value:', value, 'Converted value:', numValue)
 
     if (isNaN(numValue)) return ''
     if (numValue >= 0 && numValue <= 99) return cls.bgColor0To99
@@ -136,11 +109,63 @@ const sidebarStore = useSidebarStore()
 
 const { screwed: screwedSidebar } = storeToRefs(sidebarStore)
 
-const columnHelper = createColumnHelper<Company>()
-
 const isAdmin = ref(loggedInUser.value?.role !== 'user')
 
+const selectedCompanies = ref<Set<string>>(new Set())
+
+const emit = defineEmits([
+    'update-selection-count',
+    'update-selected-companies',
+])
+
+const toggleRowSelection = (id: string) => {
+    if (selectedCompanies.value.has(id)) {
+        selectedCompanies.value.delete(id)
+    } else {
+        selectedCompanies.value.add(id)
+    }
+
+    emit('update-selection-count', selectedCompanies.value.size)
+    emit('update-selected-companies', Array.from(selectedCompanies.value))
+}
+
+const toggleSelectAll = () => {
+    const companies = data.value?.companies || []
+    if (allSelected.value) {
+        selectedCompanies.value.clear()
+    } else {
+        companies.forEach((company) => selectedCompanies.value.add(company.id))
+    }
+
+    emit('update-selection-count', selectedCompanies.value.size)
+    emit('update-selected-companies', Array.from(selectedCompanies.value))
+}
+
+const allSelected = computed(() => {
+    return data.value?.companies
+        ? selectedCompanies.value.size === data.value.companies.length
+        : false
+})
+const columnHelper = createColumnHelper<Company>()
+
 const columns = ref([
+    columnHelper.display({
+        id: 'select',
+        header: () => h('div', 'Select'),
+        cell: ({ row }) =>
+            h('div', {
+                class: cls.checkboxCell,
+                innerHTML: `<input type="checkbox" :class="${
+                    cls.checkboxInput
+                }" ${
+                    selectedCompanies.value.has(row.original.id)
+                        ? 'checked'
+                        : ''
+                } @click.stop="() => toggleRowSelection('${
+                    row.original.id
+                }')" />`,
+            }),
+    }),
     columnHelper.accessor((row) => row.id, {
         id: '#id',
         cell: (info) => {
@@ -171,7 +196,7 @@ const columns = ref([
                 width: '110px',
                 placeholder: 'Wybierz datę',
                 onChange: onDataChange(info.row.original.id, 'nextContactDate'),
-                defaultValue: info.row.original.nextContactDate,
+                defaultValue: info.row.original.nextContactDate || undefined,
             })
         },
         header: () => {
@@ -188,6 +213,7 @@ const columns = ref([
             })
         },
     }),
+
     columnHelper.accessor((row) => row.contactHistories, {
         id: 'contactHistories',
         cell: (info) =>
@@ -392,16 +418,20 @@ const columns = ref([
             })
         },
     }),
-    columnHelper.accessor((row) => row, {
+    columnHelper.accessor((row) => row.kitrate, {
         id: 'kitrate',
-        cell: (info) =>
-            h(
+        cell: (info) => {
+            const kitrateValue =
+                info.row.original.kitrate != null
+                    ? info.row.original.kitrate.toLocaleString('pl-PL')
+                    : 'N/A'
+
+            return h(
                 'span',
                 { className: propcls.largeFont },
-                `${
-                    info.row.original.kitrate.toLocaleString('pl-PL') ?? 'N/A'
-                } zł`,
-            ),
+                `${kitrateValue} zł`,
+            )
+        },
         header: () => {
             return h(SortHeader, {
                 name: 'Zestaw',
@@ -965,7 +995,6 @@ const table = useVueTable({
     getCoreRowModel: getCoreRowModel(),
 })
 </script>
-
 <template>
     <div :class="[cls.tableWrapper, { [cls.screwed]: screwedSidebar }]">
         <CompanyHistoriesModal
@@ -981,9 +1010,19 @@ const table = useVueTable({
                 )?.contactPersons ?? []
             "
         />
+
         <table :class="cls.CompaniesTable">
             <thead :class="cls.header">
                 <tr>
+                    <th :class="cls.headerTitle">
+                        <input
+                            type="checkbox"
+                            @change="toggleSelectAll"
+                            :checked="allSelected"
+                            :class="cls.checkboxInput"
+                        />
+                    </th>
+
                     <th
                         v-for="header in table.getFlatHeaders()"
                         :key="header.id"
@@ -1002,6 +1041,15 @@ const table = useVueTable({
                     :key="row.id"
                     :class="[cls.row, { [cls.marked]: index % 2 === 0 }]"
                 >
+                    <td :class="cls.bodyValue">
+                        <input
+                            type="checkbox"
+                            @change="() => toggleRowSelection(row.original.id)"
+                            :checked="selectedCompanies.has(row.original.id)"
+                            :class="cls.checkboxInput"
+                        />
+                    </td>
+
                     <td
                         v-for="cell in row.getVisibleCells()"
                         :key="cell.id"
@@ -1021,7 +1069,6 @@ const table = useVueTable({
                                 />
                             </div>
                         </template>
-
                         <template v-else>
                             <FlexRender
                                 :key="cell.id"
@@ -1032,24 +1079,22 @@ const table = useVueTable({
                     </td>
 
                     <td :class="cls.bodyValue">
-                        <DeleteButton @click="handleDelete(row.original.id)"
-                            >Usuń</DeleteButton
-                        >
+                        <CompaniesSettings
+                            :leadId="row.original.id"
+                            :leadData="row.original"
+                        />
                     </td>
                 </tr>
             </tbody>
         </table>
-        <ConfirmDeleteModal
-            :isOpen="isModalOpen"
-            @update:isOpen="handleModalUpdate"
-            @confirmDelete="confirmDelete"
-        />
+
         <div
             v-if="!data?.companies?.length && !isLoading"
             :class="cls.noData"
         >
             <Text color="quinary">Nie znaleziono danych</Text>
         </div>
+
         <LoaderContainer :is-loading="isLoading"></LoaderContainer>
         <CompaniesPagination :count="data?.count || 0" />
     </div>

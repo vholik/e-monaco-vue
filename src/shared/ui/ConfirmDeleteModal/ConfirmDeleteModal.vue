@@ -38,26 +38,28 @@ function confirmDelete() {
             <div :class="cls.body">
                 <p>Czy na pewno chcesz usunąć danego leada?</p>
             </div>
-            <div :class="cls.footer">
-                <Flex
-                    gap="8"
-                    direction="row"
-                    align="start"
-                >
-                    <Button
-                        @click="confirmDelete"
-                        variant="secondary"
-                    >
-                        Tak
-                    </Button>
-                    <Button
-                        @click="closeModal"
-                        variant="secondary"
-                    >
-                        Nie
-                    </Button>
-                </Flex>
-            </div>
         </Flex>
+        <div :class="cls.footer">
+            <Flex
+                gap="8"
+                direction="row"
+                align="end"
+                justify="end"
+                :class="cls.wrapper"
+            >
+                <Button
+                    @click="closeModal"
+                    variant="secondary"
+                >
+                    Anuluj
+                </Button>
+                <Button
+                    @click="confirmDelete"
+                    variant="danger"
+                >
+                    Usuń
+                </Button>
+            </Flex>
+        </div>
     </Modal>
 </template>

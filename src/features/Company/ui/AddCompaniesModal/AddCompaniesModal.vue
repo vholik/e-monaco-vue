@@ -14,6 +14,7 @@ import Note from '@/shared/ui/Note/Note.vue'
 import Datepicker from '@/shared/ui/Datepicker/Datepicker.vue'
 import InputNipModal from '@/shared/ui/InputNipModal/InputNipModal.vue'
 import { storeToRefs } from 'pinia'
+import CampaignSelect from '@/features/Campaign/ui/CampaignSelect/CampaignSelect.vue'
 
 interface Props {
     isModalOpen: boolean
@@ -32,10 +33,18 @@ defineProps<Props>()
 const emit = defineEmits(['update:isModalOpen'])
 
 const onSubmit = async (values: any) => {
-    const { firstName, lastName, role, phone, email, ...other } = values
+    console.log('Form values:', values)
+
+    const { firstName, lastName, role, phone, email, campaigns, ...other } =
+        values
+
+    const campaignId = campaigns?.id || null
+    const campaignTitle = campaigns?.title || null
 
     mutate({
         ...other,
+        campaignId,
+        campaignTitle,
         contactPersons: [
             { firstName, lastName, role, phone, email: email || undefined },
         ],
@@ -60,9 +69,10 @@ const onSubmit = async (values: any) => {
                     align="start"
                     :class="cls.wrapper"
                 >
-                    <Note v-if="error">
-                        Nie udało nam się dodać firmę. Spróbuj ponownie później
-                    </Note>
+                    <Note v-if="error"
+                        >Nie udało nam się dodać firmę. Spróbuj ponownie
+                        później</Note
+                    >
                     <Datepicker
                         name="nextContactDate"
                         label="Następna data kontaktu"
@@ -110,6 +120,7 @@ const onSubmit = async (values: any) => {
                         label="Status"
                         as-input
                         name="status"
+                        showAllStatuses
                     />
                     <MunicipalitySelect
                         label="Gmina*"
@@ -163,6 +174,11 @@ const onSubmit = async (values: any) => {
                         label="Telefon"
                         placeholder="Numer telefonu"
                         type="tel"
+                    />
+                    <CampaignSelect
+                        name="campaigns"
+                        label="Kampania"
+                        as-input
                     />
                 </Flex>
                 <div :class="cls.footer">

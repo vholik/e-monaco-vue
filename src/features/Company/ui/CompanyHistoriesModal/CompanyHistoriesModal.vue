@@ -2,11 +2,9 @@
 import cls from './CompanyHistoriesModal.module.scss'
 import Modal from '@/shared/ui/Modal/Modal.vue'
 import Flex from '@/shared/ui/Flex/Flex.vue'
-
 import { Form } from 'vee-validate'
 import { addCompanyValidationSchema } from '../../model/lib/addCompanySchema'
 import { h, toRefs, watch } from 'vue'
-
 import Tabs from '@/shared/ui/Tabs/Tabs.vue'
 import { ref } from 'vue'
 import { ContactHistoryFeed } from '@/entities/ContactHistory'

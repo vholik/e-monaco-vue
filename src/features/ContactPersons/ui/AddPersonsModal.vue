@@ -20,6 +20,7 @@ function setIsModalOpen(value: boolean) {
     emit('update:isModalOpen', value)
 }
 const { data } = useCompanies()
+
 const { mutate, isLoading, error } = usePersons(setIsModalOpen)
 
 const modelValue = ref(false)

@@ -13,29 +13,30 @@ interface Props {
     label?: string
     name: string
     defaultValue?: string | string[]
-    mutiple?: boolean
+    multiple?: boolean
 }
 
 const props = defineProps<Props>()
-
-const emit = defineEmits(['update'])
-
+const emit = defineEmits(['update', 'update:modelValue'])
 const { name, defaultValue } = toRefs(props)
 
-const { errorMessage, value, handleChange } = useField<string | string[]>(
-    name,
-    undefined,
-    {
-        initialValue: defaultValue?.value ?? [],
-    },
-)
+const { errorMessage, value, handleChange } = useField<
+    string | string[] | null
+>(name, undefined, {
+    initialValue: defaultValue?.value || null,
+})
 
-function onUpdate(value: string | string[]) {
-    emit('update', value)
+watch(value, (newValue) => {
+    emit('update', newValue)
+    emit('update:modelValue', newValue)
+})
+
+function onUpdate(newValue: string | string[] | null) {
+    handleChange(newValue)
 }
 
 watch(defaultValue!, () => {
-    handleChange(defaultValue?.value)
+    handleChange(defaultValue?.value || null)
 })
 </script>
 
@@ -46,11 +47,11 @@ watch(defaultValue!, () => {
     >
         <Select
             v-model="value"
-            :multiple="mutiple"
+            :multiple="multiple"
             :options="
                 data.map((it: User) => ({
                     id: it.id,
-                    name: it.firstName,
+                    name: it.firstName + ' ' + it.lastName,
                     role: it.role,
                 }))
             "

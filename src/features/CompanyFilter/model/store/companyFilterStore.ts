@@ -6,6 +6,7 @@ import { companyTableOptions } from '@/features/Company/model/consts/options'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import type { Company } from '@/entities/Company'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -26,9 +27,10 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
             ? localStorage.getItem('company-tables')?.split(',')
             : companyTableOptions.map((option) => option.id),
         dateRange: [] as string[],
-        from_next_date: '' as string,
-        to_next_date: '' as string,
+        from_next_date: null as string | null,
+        to_next_date: null as string | null,
         campaigns: [] as string[],
+        companies: [] as any[],
     }),
     getters: {
         getTables(state) {
@@ -64,41 +66,45 @@ export const useCompanyFilterStore = defineStore('companyFilter', {
         getFreeTextColumn(state) {
             return (column: string) => state.freeText[column] || []
         },
-        getDateRange(state) {
-            return state.dateRange
-        },
         getCampaigns(state) {
             return state.campaigns
         },
     },
     actions: {
-        setDateRange(dateRange: string[]) {
+        setDateRange(dateRange: (string | null)[]) {
             const localTimeZone = dayjs.tz.guess()
 
-            const from = dateRange[0]
-                ? dayjs
-                      .tz(dateRange[0], localTimeZone)
-                      .startOf('day')
-                      .utc()
-                      .format()
-                : dateRange[0]
+            if (!dateRange[0] && !dateRange[1]) {
+                this.from_next_date = null
+                this.to_next_date = null
+            } else {
+                this.from_next_date = dateRange[0]
+                    ? dayjs
+                          .tz(dateRange[0], localTimeZone)
+                          .startOf('day')
+                          .utc()
+                          .format()
+                    : null
 
-            const to = dateRange[1]
-                ? dayjs
-                      .tz(dateRange[1], localTimeZone)
-                      .endOf('day')
-                      .utc()
-                      .format()
-                : dateRange[1]
-
-            this.from_next_date = from
-            this.to_next_date = to
+                this.to_next_date = dateRange[1]
+                    ? dayjs
+                          .tz(dateRange[1], localTimeZone)
+                          .endOf('day')
+                          .utc()
+                          .format()
+                    : null
+            }
 
             this.page = 1
         },
         setTables(tables: string[]) {
             this.tables = tables
             localStorage.setItem('company-tables', tables.join(','))
+        },
+        setDateNull() {
+            this.from_next_date = 'null'
+            this.to_next_date = 'null'
+            this.page = 1
         },
         toPreviousPage() {
             this.page -= 1

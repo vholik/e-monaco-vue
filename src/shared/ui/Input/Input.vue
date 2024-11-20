@@ -58,7 +58,13 @@ watch(
 )
 
 function updateInput(e: Event) {
-    emit('update:modelValue', (e.target as HTMLInputElement).value)
+    let value = (e.target as HTMLInputElement).value
+
+    if (props.type === 'number' && value === '') {
+        value = '0'
+    }
+
+    emit('update:modelValue', value)
     handleChange(e)
 }
 
