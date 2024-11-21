@@ -15,7 +15,7 @@ const emit = defineEmits<{
     (event: 'update:isModalOpen', value: boolean): void
 }>()
 const toast = useToast()
-
+const MAX_SIZE = 5 * 1024 * 1024
 const importLoading = ref(false)
 const file = ref<File | null>(null)
 const fileSize = ref<string | null>(null)
@@ -50,6 +50,14 @@ function closeModal() {
 }
 
 async function handleFileUpload(selectedFile: File) {
+    if (selectedFile.size > MAX_SIZE) {
+        toast.error('Plik jest za duży. Maksymalny rozmiar to 5 MB.')
+        return
+    }
+    if (selectedFile.type !== 'text/csv') {
+        toast.error('Nieprawidłowy format pliku. Oczekiwany CSV.')
+        return
+    }
     file.value = selectedFile
     fileSize.value = (selectedFile.size / 1024).toFixed(2) + ' KB'
     actionsDisabled.value = false
@@ -73,7 +81,7 @@ async function uploadFile() {
         )
 
         const response = await axios.post(
-            'https://seashell-app-kroor.ondigitalocean.app/companies/import',
+            `${import.meta.env.VITE_SERVER_BASE_URL}/companies/import`,
             formData,
             {
                 headers: { 'Content-Type': 'multipart/form-data' },
@@ -91,7 +99,10 @@ async function uploadFile() {
         importCompleted.value = true
         toast.success('Dane zostały pomyślnie zaimportowane!')
     } catch (error) {
-        toast.error('Wystąpił błąd podczas importowania danych.')
+        toast.error(
+            error.response?.data?.message ||
+                'Wystąpił błąd podczas importowania danych.',
+        )
     } finally {
         importLoading.value = false
     }
@@ -105,31 +116,46 @@ async function checkLastImport() {
 
     try {
         const response = await $api.get(
-            `https://seashell-app-kroor.ondigitalocean.app/companies/import/${lastBatchJobId.value}/download`,
+            `${import.meta.env.VITE_SERVER_BASE_URL}/companies/import/${
+                lastBatchJobId.value
+            }/download`,
             { responseType: 'blob' },
         )
 
         const blob = new Blob([response.data], { type: 'text/csv' })
         const reader = new FileReader()
+
         reader.onload = (e) => {
             const csvData = e.target?.result as string
             const workbook = XLSX.read(csvData, { type: 'binary' })
+
             const xlsxData = XLSX.write(workbook, {
                 bookType: 'xlsx',
                 type: 'array',
             })
+
             const xlsxBlob = new Blob([xlsxData], {
                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             })
 
-            const url = window.URL.createObjectURL(xlsxBlob)
             const link = document.createElement('a')
+            const url = window.URL.createObjectURL(xlsxBlob)
+            const today = new Date()
+            const currentTime =
+                today.getDate() +
+                '-' +
+                (today.getMonth() + 1) +
+                '-' +
+                today.getFullYear()
+
             link.href = url
-            link.setAttribute('download', 'last_import.xlsx')
+            link.setAttribute('download', `${currentTime}_last_import.xlsx`)
+
             document.body.appendChild(link)
             link.click()
             document.body.removeChild(link)
         }
+
         reader.readAsBinaryString(blob)
     } catch (error) {
         toast.error(
@@ -148,7 +174,9 @@ async function handleImportAction(action: 'approve' | 'reject') {
 
     try {
         await $api.post(
-            `https://seashell-app-kroor.ondigitalocean.app/companies/import/${lastBatchJobId.value}/${action}`,
+            `${import.meta.env.VITE_SERVER_BASE_URL}/companies/import/${
+                lastBatchJobId.value
+            }/${action}`,
         )
         toast.success(
             `Import został ${
@@ -229,6 +257,7 @@ async function handleImportAction(action: 'approve' | 'reject') {
                         <Button
                             variant="danger"
                             @click.stop="handleFileDelete"
+                            :max="false"
                             >Usuń</Button
                         >
                     </Flex>
