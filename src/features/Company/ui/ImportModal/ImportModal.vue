@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import axios from 'axios'
 import { ref, defineEmits, defineProps, watch } from 'vue'
 import { useToast } from 'vue-toastification'
 import Modal from '@/shared/ui/Modal/Modal.vue'
@@ -15,34 +14,33 @@ const emit = defineEmits<{
     (event: 'update:isModalOpen', value: boolean): void
 }>()
 const toast = useToast()
+
 const MAX_SIZE = 5 * 1024 * 1024
-const importLoading = ref(false)
+
 const file = ref<File | null>(null)
 const fileSize = ref<string | null>(null)
 const progress = ref(0)
 const lastBatchJobId = ref<string | null>(null)
 const importCompleted = ref(false)
 const actionsDisabled = ref(true)
+const importLoading = ref(false)
 
-function openModal() {
-    if (!file.value) resetImportState()
-}
+watch(
+    () => props.isModalOpen,
+    (newVal) => {
+        if (newVal) resetImportState()
+    },
+)
 
 function resetImportState() {
-    lastBatchJobId.value = null
+    file.value = null
     fileSize.value = null
     progress.value = 0
     importLoading.value = false
     actionsDisabled.value = true
     importCompleted.value = false
+    lastBatchJobId.value = null
 }
-
-watch(
-    () => props.isModalOpen,
-    (newVal) => {
-        if (newVal) openModal()
-    },
-)
 
 function closeModal() {
     emit('update:isModalOpen', false)
@@ -50,16 +48,9 @@ function closeModal() {
 }
 
 async function handleFileUpload(selectedFile: File) {
-    if (selectedFile.size > MAX_SIZE) {
-        toast.error('Plik jest za duży. Maksymalny rozmiar to 5 MB.')
-        return
-    }
-    if (selectedFile.type !== 'text/csv') {
-        toast.error('Nieprawidłowy format pliku. Oczekiwany CSV.')
-        return
-    }
+    if (!validateFile(selectedFile)) return
     file.value = selectedFile
-    fileSize.value = (selectedFile.size / 1024).toFixed(2) + ' KB'
+    fileSize.value = `${(selectedFile.size / 1024).toFixed(2)} KB`
     actionsDisabled.value = false
 }
 
@@ -69,31 +60,37 @@ function handleFileDelete() {
     actionsDisabled.value = true
 }
 
+function validateFile(selectedFile: File): boolean {
+    if (selectedFile.size > MAX_SIZE) {
+        toast.error('Plik jest za duży. Maksymalny rozmiar to 5 MB.')
+        return false
+    }
+    if (!selectedFile.name.endsWith('.csv')) {
+        toast.error('Nieprawidłowy format pliku. Oczekiwany CSV.')
+        return false
+    }
+    return true
+}
+
 async function uploadFile() {
+    if (!file.value) return
     importLoading.value = true
     progress.value = 0
+
     try {
         const formData = new FormData()
-        formData.append(
-            'file',
-            file.value as File,
-            file.value?.name || 'import.csv',
-        )
+        formData.append('file', file.value, file.value.name)
 
-        const response = await axios.post(
-            `${import.meta.env.VITE_SERVER_BASE_URL}/companies/import`,
-            formData,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' },
-                onUploadProgress: (progressEvent) => {
-                    if (progressEvent.total) {
-                        progress.value = Math.round(
-                            (progressEvent.loaded / progressEvent.total) * 100,
-                        )
-                    }
-                },
+        const response = await $api.post(`/companies/import`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            onUploadProgress: (progressEvent) => {
+                if (progressEvent.total) {
+                    progress.value = Math.round(
+                        (progressEvent.loaded / progressEvent.total) * 100,
+                    )
+                }
             },
-        )
+        })
 
         lastBatchJobId.value = response.data.batchJobId
         importCompleted.value = true
@@ -116,52 +113,46 @@ async function checkLastImport() {
 
     try {
         const response = await $api.get(
-            `${import.meta.env.VITE_SERVER_BASE_URL}/companies/import/${
-                lastBatchJobId.value
-            }/download`,
+            `/companies/import/${lastBatchJobId.value}/download`,
             { responseType: 'blob' },
         )
 
         const blob = new Blob([response.data], { type: 'text/csv' })
-        const reader = new FileReader()
-
-        reader.onload = (e) => {
-            const csvData = e.target?.result as string
-            const workbook = XLSX.read(csvData, { type: 'binary' })
-
-            const xlsxData = XLSX.write(workbook, {
-                bookType: 'xlsx',
-                type: 'array',
-            })
-
-            const xlsxBlob = new Blob([xlsxData], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            })
-
-            const link = document.createElement('a')
-            const url = window.URL.createObjectURL(xlsxBlob)
-            const today = new Date()
-            const currentTime =
-                today.getDate() +
-                '-' +
-                (today.getMonth() + 1) +
-                '-' +
-                today.getFullYear()
-
-            link.href = url
-            link.setAttribute('download', `${currentTime}_last_import.xlsx`)
-
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-        }
-
-        reader.readAsBinaryString(blob)
+        downloadAsXlsx(blob)
     } catch (error) {
         toast.error(
             'Wystąpił błąd podczas pobierania lub konwersji ostatniego importu.',
         )
     }
+}
+
+function downloadAsXlsx(blob: Blob) {
+    const reader = new FileReader()
+
+    reader.onload = (e) => {
+        const csvData = e.target?.result as string
+        const workbook = XLSX.read(csvData, { type: 'binary' })
+        const xlsxData = XLSX.write(workbook, {
+            bookType: 'xlsx',
+            type: 'array',
+        })
+        const xlsxBlob = new Blob([xlsxData], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        })
+
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(xlsxBlob)
+        link.setAttribute(
+            'download',
+            `${new Date().toLocaleDateString()}_import.xlsx`,
+        )
+
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
+    reader.readAsBinaryString(blob)
 }
 
 async function handleImportAction(action: 'approve' | 'reject') {
@@ -173,19 +164,12 @@ async function handleImportAction(action: 'approve' | 'reject') {
     }
 
     try {
-        await $api.post(
-            `${import.meta.env.VITE_SERVER_BASE_URL}/companies/import/${
-                lastBatchJobId.value
-            }/${action}`,
-        )
+        await $api.post(`/companies/import/${lastBatchJobId.value}/${action}`)
         toast.success(
             `Import został ${
                 action === 'approve' ? 'zatwierdzony' : 'odrzucony'
             }!`,
         )
-
-        file.value = null
-        fileSize.value = null
         closeModal()
     } catch (error) {
         toast.error(
@@ -198,123 +182,116 @@ async function handleImportAction(action: 'approve' | 'reject') {
 </script>
 
 <template>
-    <div :class="cls.ImportModal">
-        <Modal
-            :is-open="props.isModalOpen"
-            title="Importuj dane"
-            @update:isOpen="emit('update:isModalOpen', $event)"
+    <Modal
+        :is-open="props.isModalOpen"
+        title="Importuj dane"
+        @update:isOpen="closeModal"
+    >
+        <Flex
+            direction="column"
+            align="center"
+            gap="8"
+            :class="cls.wrapper"
         >
-            <Flex
-                direction="column"
-                align="center"
-                gap="8"
-                :class="cls.wrapper"
+            <div
+                v-if="!file"
+                :class="cls.dropArea"
+                @drop.prevent="
+                    (e) => handleFileUpload(e.dataTransfer?.files[0])
+                "
+                @dragover.prevent
             >
-                <div
-                    v-if="!file"
-                    :class="cls.dropArea"
-                    @drop.prevent="
-                        (e) => handleFileUpload(e.dataTransfer?.files[0])
-                    "
-                    @dragover.prevent
-                >
-                    <ImportIcon :class="cls.importIcon" />
-                    <input
-                        ref="fileInput"
-                        type="file"
-                        accept=".csv"
-                        @change="(e) => handleFileUpload(e.target.files[0])"
-                        :class="cls.fileInput"
-                    />
-                    <p>
-                        Przeciągnij i upuść plik lub
-                        <span
-                            :class="cls.highlight"
-                            @click="() => $refs.fileInput.click()"
-                            >kliknij tutaj</span
-                        >, aby wyszukać na komputerze
-                    </p>
-                    <p :class="cls.fileTypeInfo">Dozwolone tylko pliki .CSV</p>
-                </div>
-
-                <div
-                    v-if="file"
-                    :class="cls.fileDetails"
-                >
-                    <Flex
-                        direction="row"
-                        align="center"
-                        gap="8"
-                    >
-                        <Flex
-                            direction="column"
-                            align="start"
-                            gap="4"
-                        >
-                            <p>{{ file.name }}</p>
-                            <p :class="cls.fileSize">{{ fileSize }}</p>
-                        </Flex>
-                        <Button
-                            variant="danger"
-                            @click.stop="handleFileDelete"
-                            :max="false"
-                            >Usuń</Button
-                        >
-                    </Flex>
-                </div>
-
-                <div
-                    v-if="importLoading"
-                    :class="cls.progressBarContainer"
-                >
-                    <div
-                        :class="cls.progressBar"
-                        :style="{ width: progress + '%' }"
-                    ></div>
-                    <p>{{ progress }}%</p>
-                </div>
-            </Flex>
-
-            <div :class="cls.footer">
+                <ImportIcon :class="cls.importIcon" />
+                <input
+                    ref="fileInput"
+                    type="file"
+                    accept=".csv"
+                    @change="(e) => handleFileUpload(e.target.files[0])"
+                    :class="cls.fileInput"
+                />
+                <p>
+                    Przeciągnij i upuść plik lub
+                    <span
+                        :class="cls.highlight"
+                        @click="$refs.fileInput.click()"
+                        >kliknij tutaj</span
+                    >, aby wyszukać na komputerze
+                </p>
+                <p :class="cls.fileTypeInfo">Dozwolone tylko pliki .CSV</p>
+            </div>
+            <div
+                v-else
+                :class="cls.fileDetails"
+            >
                 <Flex
-                    gap="8"
                     direction="row"
                     align="center"
-                    justify="center"
-                    :class="cls.wrapper"
+                    gap="8"
                 >
-                    <Button
-                        variant="secondary"
-                        @click="closeModal"
-                        >Anuluj</Button
+                    <Flex
+                        direction="column"
+                        align="start"
+                        gap="4"
                     >
-                    <Button
-                        variant="primary"
-                        :loading="importLoading"
-                        @click="uploadFile"
-                        :disabled="actionsDisabled"
-                        >Zaimportuj</Button
-                    >
-                    <Button
-                        variant="primary"
-                        @click="checkLastImport"
-                        :disabled="!importCompleted"
-                        >Pobierz</Button
-                    >
+                        <p>{{ file.name }}</p>
+                        <p :class="cls.fileSize">{{ fileSize }}</p>
+                    </Flex>
                     <Button
                         variant="danger"
-                        @click="() => handleImportAction('reject')"
-                        :disabled="!importCompleted"
-                        >Odrzuć</Button
-                    >
-                    <Button
-                        variant="primary"
-                        @click="() => handleImportAction('approve')"
-                        :disabled="!importCompleted"
-                        >Zatwierdź</Button
+                        @click="handleFileDelete"
+                        >Usuń</Button
                     >
                 </Flex>
             </div>
-        </Modal>
-    </div>
+            <div
+                v-if="importLoading"
+                :class="cls.progressBarContainer"
+            >
+                <div
+                    :class="cls.progressBar"
+                    :style="{ width: progress + '%' }"
+                ></div>
+                <p>{{ progress }}%</p>
+            </div>
+        </Flex>
+        <div :class="cls.footer">
+            <Flex
+                gap="8"
+                direction="row"
+                align="center"
+                justify="center"
+            >
+                <Button
+                    variant="secondary"
+                    @click="closeModal"
+                    >Anuluj</Button
+                >
+                <Button
+                    variant="primary"
+                    :loading="importLoading"
+                    @click="uploadFile"
+                    :disabled="actionsDisabled"
+                    >Zaimportuj</Button
+                >
+                <Button
+                    variant="primary"
+                    @click="checkLastImport"
+                    :disabled="!importCompleted"
+                    >Pobierz</Button
+                >
+                <Button
+                    variant="danger"
+                    @click="() => handleImportAction('reject')"
+                    :disabled="!importCompleted"
+                    >Odrzuć</Button
+                >
+                <Button
+                    variant="primary"
+                    @click="() => handleImportAction('approve')"
+                    :disabled="!importCompleted"
+                    >Zatwierdź</Button
+                >
+            </Flex>
+        </div>
+    </Modal>
 </template>
