@@ -85,8 +85,11 @@ async function uploadFile() {
         lastBatchJobId.value = response.data.batchJobId
         importCompleted.value = true
         toast.success('Dane zostały pomyślnie zaimportowane!')
-    } catch (error) {
-        toast.error('Wystąpił błąd podczas importowania danych.')
+    } catch (error: any) {
+        toast.error(
+            error?.response?.data?.message ??
+                'Wystąpił błąd podczas importowania danych.',
+        )
     } finally {
         importLoading.value = false
     }
