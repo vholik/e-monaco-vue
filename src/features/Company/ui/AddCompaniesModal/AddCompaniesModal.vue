@@ -79,7 +79,6 @@ const onSubmit = async (values: any) => {
                         placeholder="15/09/2023"
                     />
                     <UserSelect
-                        v-if="user?.role !== 'user'"
                         as-input
                         name="ownerId"
                         label="Owners"

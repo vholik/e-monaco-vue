@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import axios from 'axios'
 import { ref, defineEmits, defineProps, watch } from 'vue'
 import { useToast } from 'vue-toastification'
 import Modal from '@/shared/ui/Modal/Modal.vue'
@@ -72,20 +71,16 @@ async function uploadFile() {
             file.value?.name || 'import.csv',
         )
 
-        const response = await axios.post(
-            'https://seashell-app-kroor.ondigitalocean.app/companies/import',
-            formData,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' },
-                onUploadProgress: (progressEvent) => {
-                    if (progressEvent.total) {
-                        progress.value = Math.round(
-                            (progressEvent.loaded / progressEvent.total) * 100,
-                        )
-                    }
-                },
+        const response = await $api.post('/companies/import', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            onUploadProgress: (progressEvent) => {
+                if (progressEvent.total) {
+                    progress.value = Math.round(
+                        (progressEvent.loaded / progressEvent.total) * 100,
+                    )
+                }
             },
-        )
+        })
 
         lastBatchJobId.value = response.data.batchJobId
         importCompleted.value = true
@@ -105,7 +100,7 @@ async function checkLastImport() {
 
     try {
         const response = await $api.get(
-            `https://seashell-app-kroor.ondigitalocean.app/companies/import/${lastBatchJobId.value}/download`,
+            `/companies/import/${lastBatchJobId.value}/download`,
             { responseType: 'blob' },
         )
 
@@ -147,9 +142,7 @@ async function handleImportAction(action: 'approve' | 'reject') {
     }
 
     try {
-        await $api.post(
-            `https://seashell-app-kroor.ondigitalocean.app/companies/import/${lastBatchJobId.value}/${action}`,
-        )
+        await $api.post(`/companies/import/${lastBatchJobId.value}/${action}`)
         toast.success(
             `Import został ${
                 action === 'approve' ? 'zatwierdzony' : 'odrzucony'
