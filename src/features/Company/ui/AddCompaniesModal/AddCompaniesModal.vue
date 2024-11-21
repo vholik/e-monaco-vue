@@ -38,8 +38,8 @@ const onSubmit = async (values: any) => {
     const { firstName, lastName, role, phone, email, campaigns, ...other } =
         values
 
-    const campaignId = campaigns?.id || null
-    const campaignTitle = campaigns?.title || null
+    const campaignId = campaigns || null
+    const campaignTitle = campaigns ? campaigns.title : null
 
     mutate({
         ...other,
