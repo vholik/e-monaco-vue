@@ -8,7 +8,13 @@ import { CompaniesFilter, CompaniesTable } from '@/features/Company/index'
 
 const selectionCount = ref<number>(0)
 const selectedCompanies = ref<string[]>([])
+
 const selectionCountValue = computed(() => selectionCount.value)
+
+const handleClearSelection = () => {
+    selectedCompanies.value = []
+    selectionCount.value = 0
+}
 </script>
 
 <template>
@@ -27,6 +33,7 @@ const selectionCountValue = computed(() => selectionCount.value)
                 <CompaniesFilter
                     :selection-count="selectionCountValue"
                     :selected-companies="selectedCompanies"
+                    @update-selected-companies="handleClearSelection"
                 />
 
                 <CompaniesTable

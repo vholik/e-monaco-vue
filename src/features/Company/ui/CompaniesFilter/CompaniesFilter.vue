@@ -117,9 +117,10 @@ function handleBulkEdit() {
         <EditCompanyModal
             v-model:isModalOpen="editModalOpen"
             :selectedCompanyIds="props.selectedCompanies"
+            @update-selected-companies="handleClearSelection"
         />
-        <AddCompaniesModalVue v-model:isModalOpen="modalOpen" />
 
+        <AddCompaniesModalVue v-model:isModalOpen="modalOpen" />
         <ImportDataModal v-model:isModalOpen="importModalOpen" />
     </Flex>
 </template>
