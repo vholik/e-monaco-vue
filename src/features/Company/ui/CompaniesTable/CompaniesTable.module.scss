@@ -1,14 +1,56 @@
+.redSquare {
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: #ef4444;
+    border: 0.125rem solid #ef4444;
+    border-radius: 0.375rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition:
+        transform 0.3s ease,
+        background-color 0.3s ease;
+    margin: 0;
+    margin-top: 0.2rem;
+}
+
+.redSquare:hover {
+    background-color: #dc2626;
+}
+
+.redSquare:disabled {
+    background-color: #fca5a5;
+    cursor: not-allowed;
+}
+
+.whiteX {
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
 .checkboxInput {
     appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 0.125rem solid #ccc;
+    border-radius: 0.375rem;
     position: relative;
     cursor: pointer;
     transition:
         background-color 0.3s ease,
         border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkboxInput:disabled {
+    cursor: not-allowed;
+    background-color: #f0f0f0;
+    border-color: #ddd;
 }
 
 .checkboxInput:checked {
@@ -26,17 +68,6 @@
     transform: translate(-50%, -50%) scale(1);
     animation: checkmark-pop 0.3s ease;
 }
-
-@keyframes checkmark-pop {
-    from {
-        transform: translate(-50%, -50%) scale(0);
-    }
-    to {
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 
 .tableWrapper {
     width: calc(100vw - var(--sidebar-width) - 2rem);
@@ -74,11 +105,6 @@
     font: var(--font-s);
     overflow-wrap: break-word;
 }
-.contactPersons {
-    white-space: pre-wrap;
-    font: var(--font-s);
-    line-height: 1.5;
-}
 
 .header {
     border-bottom: 1px solid var(--stroke-color);
@@ -92,11 +118,6 @@
     background-color: var(--primary-variant-bg-marked-color);
     transition: background-color 0.3s ease;
 }
-.contactPersons {
-    white-space: normal;
-    font: var(--font-s);
-    line-height: 1.5;
-}
 
 .noData {
     width: 100%;
@@ -106,24 +127,10 @@
     align-items: center;
 }
 
-.narrowColumn {
-    max-width: 7vh;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.contactPersons {
-    white-space: pre-wrap;
-    font: var(--font-s);
-}
-// backgrounds colors for the table
-
 .kitrateWrapper {
     display: inline-block;
     padding: 0.2rem 0.6rem;
     border-radius: 8px;
-
     min-width: 50px;
     text-align: center;
 }

@@ -129,6 +129,12 @@ const toggleRowSelection = (id: string) => {
     emit('update-selected-companies', Array.from(selectedCompanies.value))
 }
 
+const clearSelectedCompanies = () => {
+    selectedCompanies.value.clear()
+    emit('update-selection-count', selectedCompanies.value.size)
+    emit('update-selected-companies', Array.from(selectedCompanies.value))
+}
+
 const toggleSelectAll = () => {
     const companies = data.value?.companies || []
     if (allSelected.value) {
@@ -146,6 +152,7 @@ const allSelected = computed(() => {
         ? selectedCompanies.value.size === data.value.companies.length
         : false
 })
+
 const columnHelper = createColumnHelper<Company>()
 
 const columns = ref([
@@ -1021,8 +1028,16 @@ const table = useVueTable({
                             :checked="allSelected"
                             :class="cls.checkboxInput"
                         />
+                        <button
+                            v-if="selectedCompanies.size > 0"
+                            :class="cls.redSquare"
+                            type="button"
+                            @click="clearSelectedCompanies"
+                            :disabled="!selectedCompanies.size"
+                        >
+                            <span :class="cls.whiteX">X</span>
+                        </button>
                     </th>
-
                     <th
                         v-for="header in table.getFlatHeaders()"
                         :key="header.id"

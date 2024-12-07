@@ -19,12 +19,17 @@ const props = defineProps<{
     selectedCompanyIds?: string[]
 }>()
 
-const emit = defineEmits(['update:isModalOpen'])
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 const { mutate } = useUpdateCompany()
 
 const isDataLoaded = ref(false)
+
+const emit = defineEmits([
+    'update-selection-count',
+    'update-selected-companies',
+    'update:isModalOpen',
+])
 
 const formValues = ref<Partial<Company>>({
     nextContactDate: '',
@@ -86,6 +91,11 @@ const handleInputChange = (key: keyof Company) => {
     }
 }
 
+const clearSelection = () => {
+    emit('update-selected-companies', [])
+    emit('update-selection-count', 0)
+}
+
 const onSubmit = async () => {
     await nextTick()
 
@@ -115,6 +125,8 @@ const onSubmit = async () => {
         for (const update of companiesUpdates) {
             await mutate(update)
         }
+
+        clearSelection()
     } catch (error) {
         if (error.response) {
             console.error('Error details:', error.response.data)
